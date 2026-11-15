@@ -15,6 +15,9 @@
     "test:unit": "node scripts/upstream-gate.mjs test:unit",
     "test:e2e": "node scripts/upstream-gate.mjs test:e2e",
     "tauri:build": "node scripts/upstream-gate.mjs tauri:build",
-    "test:gate": "node --test tests/*.test.mjs"
+    "test:gate": "node --test tests/*.test.mjs",
+    "vendor:dry": "node scripts/vendorize.mjs --dry-run",
+    "vendor:apply": "node scripts/vendorize.mjs --apply",
+    "vendor:check": "node scripts/vendorize.mjs --check"
   }
 }
