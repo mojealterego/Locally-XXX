@@ -58,4 +58,4 @@ Importer sprawdza SHA-1 obiektów Git, SHA-256 skopiowanych plików, odrzuca dow
 - Do ukończenia migracji potrzebna jest materializacja pełnych plików źródłowych i niezależne porównanie ich SHA-256. Submoduł jest odtwarzalnym, przypiętym punktem startowym, **nie pełną migracją**.
 - Testy deterministyczne nie zastępują sprzętowych testów Android, GPU ani produkcyjnego E2E.
 
-Zobacz [roadmapę](docs/ROADMAP.md) i [macierz weryfikacji](docs/TEST_MATRIX.md).
+Zobacz [roadmapę](docs/ROADMAP.md), [macierz weryfikacji](docs/TEST_MATRIX.md) i [politykę odbioru](docs/VALIDATION_POLICY.md).

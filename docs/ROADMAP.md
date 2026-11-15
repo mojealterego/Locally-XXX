@@ -8,7 +8,7 @@ Data inwentaryzacji: 2026-11-15. Zasada: status `POTWIERDZONE` wymaga wskazania 
 | MIG-002 | Oryginalne autorstwo i AGPL-3.0-only | POTWIERDZONE | README, źródłowe LICENSE i package.json; zachować oznaczenia |
 | MIG-003 | Niezależna pełna kopia 1112 plików upstream | CZĘŚCIOWE | Submoduł i przetestowany importer `vendorize.mjs`; nie ma jeszcze kompletu obiektów w drzewie Locally-XXX; wykonać import i sprawdzić SHA |
 | MIG-004 | OMEGA-X v1–v6 / archiwa i modele | CZĘŚCIOWE | Istnieją artefakty w innym repo; w tym publicznym nie skopiowano ani nie zweryfikowano wszystkich bajtów |
-| SEC-001 | Bramka niezmienności źródeł | POTWIERDZONE LOKALNIE | `npm run test:gate` (13 testów jednostkowych na syntetycznych repozytoriach) |
+| SEC-001 | Bramka niezmienności źródeł | ZAIMPLEMENTOWANE / WYMAGA REWERYFIKACJI | `scripts/upstream-gate.mjs`, `tests/upstream-gate.test.mjs` — brak dowodu aktualnego uruchomienia testów w tym wykonaniu |
 | SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/snapshot-integrity.mjs`, 7 testów; dopiero po wykonaniu `vendor:apply` możliwa walidacja pełnych 1112 plików |
 | SEC-002 | Skan sekretów, licencji i zależności przed publikacją | BRAK | Skan pełnej zawartości i raport SBOM; prywatnych archiwów nie publikować bez przeglądu |
 | RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | BRAK W REPO | Wcześniejsze prace wymagają porównania z kodem i odtworzenia regresji w Locally-XXX |
