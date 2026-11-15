@@ -19,6 +19,7 @@
     "vendor:dry": "node scripts/vendorize.mjs --dry-run",
     "vendor:apply": "node scripts/vendorize.mjs --apply",
     "vendor:check": "node scripts/vendorize.mjs --check",
-    "models:inventory": "node scripts/gguf-inventory.mjs"
+    "models:inventory": "node scripts/gguf-inventory.mjs",
+    "vendor:verify-pinned": "node scripts/snapshot-integrity.mjs"
   }
 }

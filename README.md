@@ -42,7 +42,10 @@ Po zainicjalizowaniu submodułu można wygenerować pełną, bajtowo zweryfikowa
 npm run vendor:dry
 npm run vendor:apply
 npm run vendor:check
+npm run vendor:verify-pinned
 ```
+
+Dodatkowa bramka `vendor:verify-pinned` porównuje manifest kopii ze zaufanym indeksem 1112 plików zapisanym w `docs/UPSTREAM_FILE_INDEX.json`, sprawdza każdy plik ponownie strumieniowo i odrzuca niespodziewane pliki oraz dowiązania symboliczne. Zobacz [SOURCE_INTEGRITY.md](docs/SOURCE_INTEGRITY.md). 
 
 Importer sprawdza SHA-1 obiektów Git, SHA-256 skopiowanych plików, odrzuca dowiązania symboliczne i nie nadpisuje istniejącej zmodyfikowanej kopii. Tworzy manifest `.omega-source-manifest.json`. Dopóki katalog `vendor/` nie został rzeczywiście wygenerowany, dodany do Git i niezależnie sprawdzony, pełna kopia **nie znajduje się w tym repozytorium**. Po materializacji można uruchomić aplikację bez submodułu bezpośrednio z `vendor/locally-uncensored` (po instalacji zależności).
 
