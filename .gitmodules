@@ -1,0 +1,3 @@
+[submodule "upstream/locally-uncensored"]
+	path = upstream/locally-uncensored
+	url = https://github.com/mojealterego/locally-uncensored.git

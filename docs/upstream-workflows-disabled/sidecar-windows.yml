@@ -1,0 +1,95 @@
+name: Windows sidecar build + boot smoke
+
+# Proves the bundled llama.cpp sidecar builds and BOOTS on Windows without
+# waiting for a full release: runs when the build script (or this workflow)
+# changes, weekly against runner-image drift, and on demand. The GGML Vulkan
+# build keeps its CPU backend, so /health comes up on the GPU-less runner.
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'scripts/build-llama.sh'
+      - '.github/workflows/sidecar-windows.yml'
+  pull_request:
+    paths:
+      - 'scripts/build-llama.sh'
+      - '.github/workflows/sidecar-windows.yml'
+  schedule:
+    - cron: '17 4 * * 1' # Mondays 04:17 UTC
+  workflow_dispatch:
+
+env:
+  VULKAN_SDK_VERSION: '1.4.313.2'
+  # Short build root, exactly like the release lane. llama.cpp's Vulkan backend
+  # configures vulkan-shaders-gen as a nested ExternalProject, whose TryCompile
+  # .tlog paths run ~250 chars deep on their own; under the default workspace
+  # path (D:\a\locally-uncensored\locally-uncensored\.llama-build, 52 chars)
+  # they cross MAX_PATH and MSBuild FileTracker dies with FTK1011 — which is
+  # exactly how this lane broke on 2026-07-27 while release.yml (already fixed)
+  # kept building. Keep the two lanes in sync.
+  LLAMA_BUILD_CACHE: 'D:/lb'
+
+jobs:
+  sidecar-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Sidecar build cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: D:/lb
+          key: llama-${{ hashFiles('scripts/build-llama.sh') }}-x86_64-pc-windows-msvc-v1
+
+      - name: Install Vulkan SDK
+        shell: pwsh
+        run: |
+          # LunarG's 1.4.x Windows installer is vulkansdk-windows-X64-<ver>.exe —
+          # the old VulkanSDK-<ver>-Installer.exe name 404s.
+          curl.exe -fL --retry 3 -o "$env:RUNNER_TEMP\VulkanSDK-Installer.exe" `
+            "https://sdk.lunarg.com/sdk/download/${env:VULKAN_SDK_VERSION}/windows/vulkansdk-windows-X64-${env:VULKAN_SDK_VERSION}.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Vulkan SDK download failed" }
+          & "$env:RUNNER_TEMP\VulkanSDK-Installer.exe" --accept-licenses --default-answer --confirm-command install
+          Add-Content $env:GITHUB_ENV "VULKAN_SDK=C:\VulkanSDK\${env:VULKAN_SDK_VERSION}"
+
+      - name: Build llama-server (x86_64-pc-windows-msvc, static Vulkan)
+        shell: bash
+        run: bash scripts/build-llama.sh x86_64-pc-windows-msvc
+
+      - name: Boot smoke — real model load + /health
+        shell: pwsh
+        run: |
+          $bin = "src-tauri\bin\lu-llama-server-x86_64-pc-windows-msvc.exe"
+          if (-not (Test-Path $bin)) { throw "sidecar binary missing" }
+          & $bin --version
+          if ($LASTEXITCODE -ne 0) { throw "llama-server --version exited $LASTEXITCODE" }
+          # Tiny (~1.2 MB) public GGUF so /health proves a real model load,
+          # not just the HTTP layer. Lands in the cached build root, so the
+          # sidecar cache step keeps it across runs.
+          $model = "D:\lb\stories260K.gguf"
+          if (-not (Test-Path $model)) {
+            curl.exe -fsSL --retry 3 -o $model `
+              "https://huggingface.co/ggml-org/models/resolve/main/tinyllamas/stories260K.gguf"
+            if ($LASTEXITCODE -ne 0) { throw "smoke model download failed" }
+          }
+          $proc = Start-Process -FilePath $bin -ArgumentList "--host","127.0.0.1","--port","8129","-m",$model -PassThru -NoNewWindow
+          $ok = $false
+          foreach ($i in 1..40) {
+            Start-Sleep -Milliseconds 400
+            try {
+              Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:8129/health" -TimeoutSec 2 | Out-Null
+              $ok = $true; break
+            } catch { }
+          }
+          Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+          if (-not $ok) { throw "llama-server /health never came up" }
+          Write-Host "OK - sidecar boots, loads a model and answers /health"
+
+      - name: Upload sidecar artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: lu-llama-server-x86_64-pc-windows-msvc
+          path: src-tauri/bin/lu-llama-server-x86_64-pc-windows-msvc.exe
+          retention-days: 14

@@ -1,0 +1,221 @@
+name: Build & Release Desktop App
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.2.1)'
+        required: true
+        default: 'v1.3.0'
+
+permissions:
+  contents: write
+
+# Third-party actions are pinned to a full commit SHA (not a moving tag) so a
+# compromised or retagged upstream release can't run with our signing secrets
+# in scope. This job has TAURI_SIGNING_PRIVATE_KEY in env — pinning matters most
+# here. The trailing comment records the human-readable version.
+#
+# Sidecar: every platform must build the bundled llama.cpp `llama-server`
+# BEFORE tauri-action runs — tauri-build hard-fails on a missing externalBin.
+# The build is cached on (hash of scripts/build-llama.sh × triple); it only
+# recompiles when the script (tag pin or cmake flags) changes.
+env:
+  # Vulkan SDK pin for the GGML_VULKAN sidecar builds: the Windows lane uses
+  # the full installer version, the Linux lane derives the 3-part family for
+  # LunarG's jammy apt repo. Bump together with the llama.cpp tag; LunarG
+  # keeps old versions up.
+  VULKAN_SDK_VERSION: '1.4.313.2'
+
+jobs:
+  build-tauri:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ubuntu-22.04
+            args: ''
+            rust_targets: ''
+            sidecar_triple: x86_64-unknown-linux-gnu
+          - platform: windows-latest
+            args: ''
+            rust_targets: ''
+            sidecar_triple: x86_64-pc-windows-msvc
+          # No macOS lane: LU ships Windows + Linux only (the 2.5.7 mac assets
+          # were unsigned/ad-hoc and pulled post-release). Re-add a macos-14
+          # entry here once Apple Developer ID signing creds land as secrets.
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          # Build from the release's target branch (master) instead of the tag ref.
+          # Prevents shipping a stale snapshot when fixes land after tag creation
+          # but before the release is published.
+          ref: ${{ github.event.release.target_commitish || 'master' }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          targets: ${{ matrix.rust_targets }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        # On 2026-08-15 this step hung for six hours and was killed by the job
+        # limit, so the run produced Windows assets only. The release kept the
+        # previous run's Linux files, which carry the new version number and
+        # none of the new code. A stall here has to fail fast and loudly.
+        timeout-minutes: 20
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libgtk-3-dev \
+            libsoup-3.0-dev \
+            libjavascriptcoregtk-4.1-dev \
+            libxdo-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libssl-dev
+
+      # ── llama.cpp sidecar ────────────────────────────────────────────────
+      - name: Sidecar build cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          # Must match LLAMA_BUILD_CACHE below, or Windows caches an empty
+          # ./.llama-build while the real build sits in D:/lb — every run then
+          # recompiles llama.cpp from scratch (~20 min) on a "cache hit".
+          path: ${{ matrix.platform == 'windows-latest' && 'D:/lb' || '.llama-build' }}
+          key: llama-${{ hashFiles('scripts/build-llama.sh') }}-${{ matrix.sidecar_triple }}-v1
+
+      - name: Install Vulkan SDK (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          # LunarG's 1.4.x Windows installer is vulkansdk-windows-X64-<ver>.exe —
+          # the old VulkanSDK-<ver>-Installer.exe name 404s.
+          curl.exe -fL --retry 3 -o "$env:RUNNER_TEMP\VulkanSDK-Installer.exe" `
+            "https://sdk.lunarg.com/sdk/download/${env:VULKAN_SDK_VERSION}/windows/vulkansdk-windows-X64-${env:VULKAN_SDK_VERSION}.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Vulkan SDK download failed" }
+          & "$env:RUNNER_TEMP\VulkanSDK-Installer.exe" --accept-licenses --default-answer --confirm-command install
+          Add-Content $env:GITHUB_ENV "VULKAN_SDK=C:\VulkanSDK\${env:VULKAN_SDK_VERSION}"
+
+      - name: Install Vulkan toolchain (Linux)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          # Jammy ships no glslc/shaderc binary packages, and ggml's Vulkan
+          # backend hard-requires glslc — install the SDK from LunarG's jammy
+          # repo, pinned to the same family as the Windows lane.
+          family="${VULKAN_SDK_VERSION%.*}"
+          wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc \
+            | sudo tee /etc/apt/trusted.gpg.d/lunarg.asc >/dev/null
+          sudo wget -qO "/etc/apt/sources.list.d/lunarg-vulkan-${family}-jammy.list" \
+            "https://packages.lunarg.com/vulkan/${family}/lunarg-vulkan-${family}-jammy.list"
+          sudo apt-get update
+          sudo apt-get install -y vulkan-sdk
+
+      - name: Build llama-server sidecar
+        shell: bash
+        env:
+          # Cap parallelism: bare `-j` (unlimited) OOM-kills the Linux runner mid
+          # llama.cpp.o compile (SIGTERM 143). 2 fits every hosted runner's RAM.
+          BUILD_JOBS: 2
+          # Windows only: the vulkan-shaders-gen ExternalProject nests build paths
+          # ~250 chars deep under the workspace, tripping MSBuild FileTracker
+          # (FTK1011, MAX_PATH) so the CMake compiler check "is broken". Relocate
+          # the llama build to a short root ('D:/lb') so the deepest TryCompile
+          # .tlog path stays under 260. Empty elsewhere -> the script falls back
+          # to ./.llama-build (which the sidecar cache step handles).
+          LLAMA_BUILD_CACHE: ${{ matrix.platform == 'windows-latest' && 'D:/lb' || '' }}
+        run: bash scripts/build-llama.sh ${{ matrix.sidecar_triple }}
+
+      - name: Assert sidecar exists
+        shell: bash
+        run: |
+          case "${{ matrix.sidecar_triple }}" in
+            *-windows-*) test -f "src-tauri/bin/lu-llama-server-${{ matrix.sidecar_triple }}.exe" ;;
+            *)           test -x "src-tauri/bin/lu-llama-server-${{ matrix.sidecar_triple }}" ;;
+          esac
+          ls -la src-tauri/bin/
+
+      # ── App build ────────────────────────────────────────────────────────
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build and release Tauri app
+        uses: tauri-apps/tauri-action@51a9f1156b33df106d827c3a78f8f894946c5faa # v0.5.25
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: ${{ github.event.release.tag_name || github.event.inputs.tag || 'v1.3.0' }}
+          releaseName: 'LU ${{ github.event.release.tag_name || github.event.inputs.tag }}'
+          releaseBody: |
+            ## Download
+
+            **Windows:** Download the `.exe` installer. During setup, choose "Install for current user only" for a portable/no-install experience. Or use the `.msi` for system-wide installation.
+
+            **Linux:** Download the `.AppImage`, make it executable (`chmod +x`), and run. No installation needed.
+
+            > All versions are portable-friendly, no admin rights required. LU by LU Labs.
+          releaseDraft: false
+          # A build is not a decision. This workflow used to publish straight to
+          # a full release, so the moment CI finished, GitHub's `latest` pointed
+          # at binaries nobody had opened yet, the download routes followed it,
+          # and every installed app's updater offered it. On 2026-08-10 that put
+          # 2.6.4 in front of users for several minutes before a single check
+          # had run, and it had to be pushed back to prerelease by hand.
+          #
+          # Prerelease keeps `releases/latest` on the last verified version.
+          # Flipping to Latest is the separate, deliberate step that happens
+          # after the build is installed and checked on a real machine.
+          #
+          # This input alone is NOT the guarantee. tauri-action passes
+          # draft/prerelease to createRelease only, so on this workflow's own
+          # primary trigger (`on: release: [published]`, where the release by
+          # definition already exists) the action reuses the release untouched
+          # and the input does nothing. The enforce-prerelease job below is what
+          # actually holds the promise.
+          prerelease: true
+          args: ${{ matrix.args }}
+
+  # The promise above, made real for every trigger. Runs after the binaries are
+  # attached, so a release published as a full release is put back before
+  # anyone is offered it, and never touches the release that is already Latest.
+  enforce-prerelease:
+    needs: build-tauri
+    if: always()
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+      - name: Keep the release out of Latest until it is verified
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name || github.event.inputs.tag }}
+        run: node scripts/enforce-prerelease.mjs

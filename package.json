@@ -1,0 +1,20 @@
+{
+  "name": "locally-xxx-omega-x",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "verify:source": "node scripts/upstream-gate.mjs verify",
+    "dev": "node scripts/upstream-gate.mjs dev",
+    "build": "node scripts/upstream-gate.mjs build",
+    "lint": "node scripts/upstream-gate.mjs lint",
+    "test:unit": "node scripts/upstream-gate.mjs test:unit",
+    "test:e2e": "node scripts/upstream-gate.mjs test:e2e",
+    "tauri:build": "node scripts/upstream-gate.mjs tauri:build",
+    "test:gate": "node --test tests/*.test.mjs"
+  }
+}
