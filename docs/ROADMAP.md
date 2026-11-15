@@ -13,6 +13,7 @@ Data inwentaryzacji: 2026-11-15. Zasada: status `POTWIERDZONE` wymaga wskazania 
 | RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | BRAK W REPO | Wcześniejsze prace wymagają porównania z kodem i odtworzenia regresji w Locally-XXX |
 | RUN-001 | Desktop build Tauri/React/Rust | NIEZWERYFIKOWANE | `npm ci`, `npm run build`, `cargo test` i test uruchomienia na docelowym OS |
 | AND-001 | Natywne APK Android / Termux / S24 Ultra | BRAK | Pełny toolchain, binaria ARM64, podpis, instalacja, logcat, E2E na urządzeniu |
+| GGUF-001 | Offline inwentaryzacja GGUF i heurystyka RAM | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/gguf-inventory.mjs` + 9 testów; bez testu sprzętowego i bez pełnej walidacji tensorów |
 | GPU-001 | Lokalna inferencja GGUF / ComfyUI / 8K | NIEZWERYFIKOWANE | Pomiary sprzętowe, integralność wag i odrębne testy każdej ścieżki |
 | CI-001 | Bezpłatna walidacja offline | CZĘŚCIOWE | `node --test` lokalnie; bez automatycznego uruchamiania płatnych runnerów |
 

@@ -24,6 +24,16 @@ git submodule update --init --recursive
 
 Budowanie: `npm run build`. Testy: `npm run test:gate`, `npm run test:unit`, `npm run test:e2e` (wymagają lokalnie zainstalowanych zależności; E2E wymaga przeglądarki Playwright). Kompilacja desktop Tauri: `npm run tauri:build` (wymaga Rust i systemowych zależności). Komendy przekazują argumenty bez użycia powłoki, a bramka weryfikuje SHA źródła, czystość śledzonych plików, wersję i licencję.
 
+## Kontrola modeli GGUF bez GPU (OMEGA-X)
+
+Dostępny jest rzeczywisty inwentaryzator plików GGUF (Node.js >=22), również do uruchomienia lokalnie w Termux:
+
+```bash
+npm run models:inventory -- /sciezka/do/modeli --sha256 --ram-gib 12 --reserve-gib 3
+```
+
+Narzędzie nie wczytuje całej wagi do RAM: odczytuje 24-bajtowy nagłówek, rozpoznaje wersję GGUF v2/v3, liczbę tensorów i pól metadanych, a na żądanie oblicza strumieniowo SHA-256. Odrzuca dowiązania symboliczne, raportuje nieprawidłowe pliki i ogranicza głębokość skanowania. Orientacyjny próg RAM bazuje na rozmiarze pliku, rezerwie systemowej i współczynniku narzutu; **nie stanowi dowodu możliwości inferencji na S24 Ultra**. Szczegóły w [GGUF_INVENTORY.md](docs/GGUF_INVENTORY.md).
+
 ## Niezależna kopia źródeł (materializacja)
 
 Po zainicjalizowaniu submodułu można wygenerować pełną, bajtowo zweryfikowaną kopię wszystkich plików śledzonych w Git w katalogu `vendor/locally-uncensored`:

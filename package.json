@@ -18,6 +18,7 @@
     "test:gate": "node --test tests/*.test.mjs",
     "vendor:dry": "node scripts/vendorize.mjs --dry-run",
     "vendor:apply": "node scripts/vendorize.mjs --apply",
-    "vendor:check": "node scripts/vendorize.mjs --check"
+    "vendor:check": "node scripts/vendorize.mjs --check",
+    "models:inventory": "node scripts/gguf-inventory.mjs"
   }
 }

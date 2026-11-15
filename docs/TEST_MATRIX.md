@@ -4,6 +4,7 @@
 | --- | --- | --- | --- |
 | `node --test tests/*.test.mjs` | Node.js 22.16.0, Git 2.47.3, Linux | **13/13 PASS** | Weryfikacja zachowania bramki na syntetycznych repozytoriach |
 | `npm run vendor:apply` / `npm run vendor:check` | Syntetyczne repozytoria Git | **6/6 PASS** | Kopiowanie, integralność, idempotencja i odmowa przy uszkodzeniach; nie wykonano importu pełnego upstream |
+| `node --test tests/gguf-inventory.test.mjs` | Node.js 22.16.0, Linux, pliki syntetyczne | **9/9 PASS w roboczej kopii** | Nagłówek GGUF, SHA-256, symlinki, limity, CLI; nie weryfikuje rzeczywistych wag ani sprzętu |
 | `npm run verify:source` | Świeży klon z submodułem | NIEURUCHOMIONY | Potrzebny dostęp do pełnego checkoutu źródła |
 | `npm run test:unit` | Node.js 22, zależności upstream | NIEURUCHOMIONY | Pełny pakiet Vitest upstream |
 | `npm run build` | Node.js 22, zależności upstream | NIEURUCHOMIONY | Build Vite/React |
