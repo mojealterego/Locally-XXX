@@ -1,18 +1,28 @@
 {
   "source_commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
-  "target_base": "1657d190938b765ee9a926552eb5b1bb76ac6a8e",
-  "staged_tree": "5f2096bd196636403445b98103d1e117169cebf8",
+  "target_base": "210948c37f15ffa5e4608baa7e71d769a78a4ff5",
+  "staged_tree": "6df55345182f5e22430308468cab11ea03958436",
   "comparison": [
     "fresh upstream Git tree",
     "pinned destination index",
     "staged target Git tree"
   ],
   "files_expected": 1112,
-  "files_copied": 527,
-  "files_verified": 527,
-  "new_files": 281,
-  "bytes_copied": 7841805,
-  "remaining": 585,
+  "files_copied": 832,
+  "files_verified": 832,
+  "new_files": 305,
+  "bytes_copied": 9650587,
+  "remaining": 280,
+  "remaining_groups": {
+    ".github": 9,
+    "docs": 111,
+    "e2e": 16,
+    "logos": 5,
+    "public": 13,
+    "scripts": 12,
+    "src/api": 111,
+    "src/assets": 3
+  },
   "failures": [],
   "groups": {
     "rust": {
@@ -49,7 +59,7 @@
     },
     "lib": {
       "expected": 305,
-      "copied": 0
+      "copied": 305
     }
   },
   "builds": "NOT_RUN",
