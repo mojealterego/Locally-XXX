@@ -6,7 +6,7 @@ Data inwentaryzacji: 2026-11-15. Zasada: status `POTWIERDZONE` wymaga wskazania 
 | --- | --- | --- | --- |
 | MIG-001 | Punkt odniesienia upstream Locally Uncensored 2.6.7 | POTWIERDZONE | Gitlink do SHA `6d96ab92...`, `.gitmodules`, `scripts/upstream-gate.mjs` |
 | MIG-002 | Oryginalne autorstwo i AGPL-3.0-only | POTWIERDZONE | README, źródłowe LICENSE i package.json; zachować oznaczenia |
-| MIG-003 | Niezależna pełna kopia 1112 plików upstream | CZĘŚCIOWE | 93/1112 rzeczywistych plików w `migration/staged/locally-uncensored/`; 64/64 `src-tauri/`; wszystkie zgodne z przypiętym indeksem Git (SHA, rozmiar, tryb). Pozostało 1019. Raport: [MIGRATION_CHECKPOINT.json](MIGRATION_CHECKPOINT.json) |
+| MIG-003 | Niezależna pełna kopia 1112 plików upstream | CZĘŚCIOWE | 246/1112 rzeczywistych plików w `migration/staged/locally-uncensored/`; Rust 64/64, API runtime 72/72, types 11/11, hooks 39/39, testy API 28/115. Zgodność Git: SHA, rozmiar i tryb. Pozostało 866. [Raport](MIGRATION_CHECKPOINT.json) |
 | MIG-004 | OMEGA-X v1–v6 / archiwa i modele | CZĘŚCIOWE | Istnieją artefakty w innym repo; w tym publicznym nie skopiowano ani nie zweryfikowano wszystkich bajtów |
 | SEC-001 | Bramka niezmienności źródeł | ZAIMPLEMENTOWANE / WYMAGA REWERYFIKACJI | `scripts/upstream-gate.mjs`, `tests/upstream-gate.test.mjs` — brak dowodu aktualnego uruchomienia testów w tym wykonaniu |
 | SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/snapshot-integrity.mjs`, 7 testów; dopiero po wykonaniu `vendor:apply` możliwa walidacja pełnych 1112 plików |

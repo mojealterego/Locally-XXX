@@ -1,21 +1,48 @@
 {
   "source_commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
-  "target_base": "bad9458b797e2e26666f616c27ac2af4e6dc1c90",
-  "staged_tree": "bbe79f61a000066a806576621e01c4c535406ac7",
+  "target_base": "0704dfeecbf4c40880a65de0ac9046f109868aee",
+  "staged_tree": "58a009457704182202540c79d595855c922be419",
   "comparison": [
     "fresh upstream Git tree",
     "pinned destination index",
     "staged target Git tree"
   ],
   "files_expected": 1112,
-  "files_copied": 93,
-  "files_verified": 93,
-  "bytes_copied": 3389201,
-  "remaining": 1019,
+  "files_copied": 246,
+  "files_verified": 246,
+  "new_files": 153,
+  "bytes_copied": 5383725,
+  "remaining": 866,
   "failures": [],
-  "source_rust_total": 64,
-  "source_rust_verified": 64,
+  "groups": {
+    "rust": {
+      "expected": 64,
+      "copied": 64
+    },
+    "api_runtime": {
+      "expected": 72,
+      "copied": 72
+    },
+    "api_tests": {
+      "expected": 115,
+      "copied": 28
+    },
+    "types": {
+      "expected": 11,
+      "copied": 11
+    },
+    "hooks": {
+      "expected": 39,
+      "copied": 39
+    },
+    "root": {
+      "expected": 29,
+      "copied": 29
+    }
+  },
   "builds": "NOT_RUN",
+  "tests": "NOT_RUN",
   "independent_audit": "BLOCKED: no separate auditor execution environment",
-  "test_scope": "Git content identity only; no application execution"
+  "test_scope": "Git content identity only; no application execution",
+  "active_workflows": 0
 }
