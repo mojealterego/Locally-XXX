@@ -1,0 +1,21 @@
+{
+  "source_commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
+  "target_base": "bad9458b797e2e26666f616c27ac2af4e6dc1c90",
+  "staged_tree": "bbe79f61a000066a806576621e01c4c535406ac7",
+  "comparison": [
+    "fresh upstream Git tree",
+    "pinned destination index",
+    "staged target Git tree"
+  ],
+  "files_expected": 1112,
+  "files_copied": 93,
+  "files_verified": 93,
+  "bytes_copied": 3389201,
+  "remaining": 1019,
+  "failures": [],
+  "source_rust_total": 64,
+  "source_rust_verified": 64,
+  "builds": "NOT_RUN",
+  "independent_audit": "BLOCKED: no separate auditor execution environment",
+  "test_scope": "Git content identity only; no application execution"
+}

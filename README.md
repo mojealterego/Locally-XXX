@@ -36,6 +36,9 @@ Narzędzie nie wczytuje całej wagi do RAM: odczytuje 24-bajtowy nagłówek, roz
 
 ## Niezależna kopia źródeł (materializacja)
 
+**Checkpoint 2026-11-17:** 93 z 1112 plików znajduje się bezpośrednio w `migration/staged/locally-uncensored/` (w tym kompletny `src-tauri/`). To kopia częściowa, nie samodzielnie budowalna aplikacja. [Raport zgodności Git](docs/MIGRATION_CHECKPOINT.json).
+
+
 Po zainicjalizowaniu submodułu można wygenerować pełną, bajtowo zweryfikowaną kopię wszystkich plików śledzonych w Git w katalogu `vendor/locally-uncensored`:
 
 ```bash
