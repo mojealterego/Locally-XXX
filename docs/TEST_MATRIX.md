@@ -13,3 +13,7 @@
 | E2E na S24 Ultra | Android + Termux + sprzęt | NIEURUCHOMIONY | Nie wolno deklarować kompatybilności urządzeniowej |
 
 W tym wykonaniu przeprowadzono testy nowych komponentów w osobnej przestrzeni roboczej: **16/16 PASS** (9 GGUF i 7 walidacji migrowanego snapshotu), za pomocą `node --test` w środowisku Linux/Node.js 22.16.0. Testów wykonanych na świeżym checkoutcie najnowszego commita GitHub nie potwierdzono. Nie instalowano zależności upstream ani nie wykonywano buildów desktop/APK. Wynik nie dowodzi uruchomienia całej aplikacji ani pełnego OMEGA-X.
+
+## Checkpoint migracji 2026-11-19
+
+Porównano świeże drzewa Git przypiętego upstream oraz przygotowanego snapshotu: **1110/1110 zgodnych plików**, 2 brakujące duże zasoby graficzne dokumentacji, 0 różnic SHA/rozmiaru/trybu/typu, 0 nadmiarowych plików, 0 rozbieżności w poprzednio zapisanych plikach. Bramka integralności metadanych Git dla obecnych plików: PASS; MIG-003 jako całość: CZĘŚCIOWE. Testy aplikacji, build, pełny skan bezpieczeństwa i niezależny audyt nadal NOT_RUN/BLOCKED. Nie aktywowano workflow GitHub Actions.

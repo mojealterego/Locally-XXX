@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locally Uncensored — All-in-One Local AI Studio: Chat, Image, Video, Code</title>
+<meta name="description" content="The all-in-one local AI studio, free on GitHub: uncensored chat, FLUX images, Wan video and a coding agent in one installer. No cloud, no telemetry.">
+<meta name="author" content="PurpleDoubleD">
+<meta name="application-name" content="Locally Uncensored">
+<meta name="apple-mobile-web-app-title" content="Locally Uncensored">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+<meta property="og:title" content="Locally Uncensored — All-in-One Local AI Studio: Chat, Image, Video, Code">
+<meta property="og:description" content="The all-in-one local AI studio for Windows and Linux: uncensored chat with Qwen, DeepSeek and Llama, FLUX images and Wan video via ComfyUI, plus a built-in coding agent — one installer. Auto-detects Ollama, LM Studio, vLLM, llama.cpp, KoboldCpp. No cloud, no telemetry. AGPL-3.0.">
+<meta property="og:image" content="https://raw.githubusercontent.com/PurpleDoubleD/locally-uncensored/master/docs/social-preview.png">
+<meta property="og:image:width" content="2752">
+<meta property="og:image:height" content="1536">
+<meta property="og:image:alt" content="Locally Uncensored desktop app — private local AI for chat, code, image, and video generation">
+<meta property="og:url" content="https://locallyuncensored.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Locally Uncensored">
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Locally Uncensored — All-in-One Local AI Studio: Chat, Image, Video, Code">
+<meta name="twitter:description" content="The all-in-one local AI studio: chat, code, FLUX images and Wan video — all on your own hardware. One installer, no cloud, no telemetry.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PurpleDoubleD/locally-uncensored/master/docs/social-preview.png">
+<meta name="twitter:image:alt" content="Locally Uncensored desktop app — chat, code, image, video, all local">
+
+<link rel="canonical" href="https://locallyuncensored.com/">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="manifest" href="/manifest.json">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","@id":"https://locallyuncensored.com/#software","name":"Locally Uncensored","alternateName":["LU","Locally Uncensored Desktop App"],"publisher":{"@id":"https://locallyuncensored.com/#organization"},"applicationCategory":"DeveloperApplication","applicationSubCategory":"Artificial Intelligence","operatingSystem":"Windows 10, Windows 11, Linux","description":"All-in-one, plug-and-play local AI studio: chat with 20+ providers, generate images and video via ComfyUI, and code with a built-in AI agent, all on your own hardware. One installer, no command line, no Docker. Auto-detects 12 local backends. No cloud, no telemetry.","url":"https://locallyuncensored.com/","downloadUrl":"https://github.com/PurpleDoubleD/locally-uncensored/releases/latest","softwareVersion":"2.6.7","license":"https://www.gnu.org/licenses/agpl-3.0.html","author":{"@type":"Person","name":"PurpleDoubleD","url":"https://github.com/PurpleDoubleD"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"featureList":["Plug & Play Setup with 12 Local Backend Auto-Detection (Ollama, LM Studio, vLLM, KoboldCpp, Jan, llama.cpp, LocalAI, GPT4All, TabbyAPI, Aphrodite, SGLang, TGI)","20+ Provider Presets (local + cloud)","Qwen 3.6 Day-0 Support (35B MoE, Vision, Agentic Coding, 256K context)","GPT-OSS Compatible (120B, 20B via Ollama)","GLM-4.7 Flash Integration","DeepSeek R1 and DeepSeek V3 Support","Llama 4 and Llama 3.3 Ready","Gemma 4 E4B and 27B (Native Vision)","Mistral Small 3 and Phi 4 Support","Qwen 3 Coder and Qwen 2.5 Coder","Abliterated Model Variants","Coding Agent with Live Streaming and Apply-Patch","Claude Code CLI Integration","Agent Mode with 14 Tools, Parallel Execution, MCP, Sub-Agent Delegation","Remote Access from Phone via LAN or Cloudflare Tunnel (6-digit Passcode, QR Setup)","Mobile Web App (Chat, Coding Agent, Tools, Plugins)","Image Generation via ComfyUI (FLUX 2 Klein, FLUX.1, Juggernaut XL, Z-Image Turbo, ERNIE-Image, SDXL, SD 3.5)","Video Generation (Wan 2.1, Wan 2.2, HunyuanVideo 1.5, LTX 2.3, FramePack F1, AnimateDiff, Mochi, Cosmos)","Image-to-Image with Denoise Control","Image-to-Video (FramePack F1, SVD)","Local Create Lanes for Talking Character, Music, Extend Video and Motion Control (own GPU, core ComfyUI nodes)","Per-Lane Frame, Resolution and Step Controls","Surgical file_edit Tool in the Coding Agent","Remote Access to Non-Ollama Backends (LM Studio, Lemonade, llama.cpp) with Streaming, Tool Calls, Vision and Reasoning","Granular Permission System (7 Tool Categories)","File Upload with Vision Support","Thinking Mode with Universal Tag Stripping","A/B Model Compare","Local Benchmark","Memory System and Document RAG","Voice (STT / TTS)","Auto-Update over Signed NSIS Channel","75+ One-Click Model Downloads","Hardware-Aware Model Recommendations","100% Offline and Private (No Telemetry)","AGPL-3.0 Open Source"],"screenshot":"https://raw.githubusercontent.com/PurpleDoubleD/locally-uncensored/master/docs/social-preview.png","softwareRequirements":"Any OpenAI-compatible local backend (Ollama, LM Studio, vLLM, KoboldCpp, etc.) or cloud API key","memoryRequirements":"8 GB RAM minimum; 8-16 GB VRAM for image/video generation","storageRequirements":"6 GB for default model"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","@id":"https://locallyuncensored.com/#organization","name":"PurpleDoubleD","url":"https://github.com/PurpleDoubleD","logo":"https://locallyuncensored.com/logos/LU-monogram-bw-transparent.png","founder":{"@id":"https://locallyuncensored.com/#founder"},"sameAs":["https://github.com/PurpleDoubleD","https://github.com/PurpleDoubleD/locally-uncensored","https://reddit.com/user/GroundbreakingMall54","https://locallyuncensored.com"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","@id":"https://locallyuncensored.com/#founder","name":"David Drobnitza","alternateName":"PurpleDoubleD","url":"https://locallyuncensored.com/","jobTitle":"Founder","worksFor":{"@id":"https://locallyuncensored.com/#organization"},"sameAs":["https://www.linkedin.com/in/david-drobnitza-locallyuncensored/","https://github.com/PurpleDoubleD"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","@id":"https://locallyuncensored.com/#website","name":"Locally Uncensored","alternateName":"LU","url":"https://locallyuncensored.com/","publisher":{"@id":"https://locallyuncensored.com/#organization"},"description":"All-in-one local AI studio: chat, image and video generation, and a coding agent in one app. Runs locally on Windows and Linux. Open source under AGPL-3.0."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to install and run Locally Uncensored","description":"Install the desktop app and start running local AI in under five minutes.","totalTime":"PT5M","tool":[{"@type":"HowToTool","name":"Windows 10/11 or Linux"},{"@type":"HowToTool","name":"NVIDIA GPU (recommended for image and video generation)"}],"step":[{"@type":"HowToStep","position":1,"name":"Download and install","text":"Download the signed installer for Windows or Linux from GitHub Releases. One-click install — no Docker, no terminal, no config files.","url":"https://github.com/PurpleDoubleD/locally-uncensored/releases/latest"},{"@type":"HowToStep","position":2,"name":"Auto-detect local backends","text":"On first launch, the setup wizard scans for 12 local AI backends (Ollama, LM Studio, vLLM, KoboldCpp, Jan, and others) and offers one-click install links if none are running."},{"@type":"HowToStep","position":3,"name":"Chat, code, create","text":"Pick a model from the Model Manager and start chatting. Switch to the Coding Agent for coding tasks, or open Create to generate images and video. Add cloud providers (OpenAI, Anthropic, OpenRouter) in Settings if you want to mix local and cloud."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ItemList","name":"AI Models supported in Locally Uncensored","description":"Seventy-five-plus AI models for chat, coding, image generation, and video generation — all runnable locally via one-click download.","numberOfItems":22,"itemListElement":[{"@type":"ListItem","position":1,"name":"Qwen 3.6","description":"35B MoE with vision, agentic coding and thinking preservation. 256K context. Day-0 integration."},{"@type":"ListItem","position":2,"name":"Qwen 3.5","description":"Strongest reasoning and coding. 9B, 27B, 35B MoE. Abliterated variants available."},{"@type":"ListItem","position":3,"name":"Qwen 3 Coder","description":"Native tool calling, specialised for coding."},{"@type":"ListItem","position":4,"name":"GPT-OSS-120B","description":"OpenAI open-weight release, runs via Ollama."},{"@type":"ListItem","position":5,"name":"GPT-OSS-20B","description":"Smaller GPT-OSS variant for faster inference."},{"@type":"ListItem","position":6,"name":"GLM-4.7 Flash","description":"Zhipu AI fast chat model."},{"@type":"ListItem","position":7,"name":"DeepSeek R1","description":"Reasoning model with thinking chains."},{"@type":"ListItem","position":8,"name":"Llama 4","description":"Meta flagship with vision and long context."},{"@type":"ListItem","position":9,"name":"Llama 3.3","description":"Stable instruction-tuned Meta model."},{"@type":"ListItem","position":10,"name":"Gemma 4","description":"Google flagship. Native tools, vision. E4B (4 GB) and 27B (16 GB)."},{"@type":"ListItem","position":11,"name":"Mistral Small 3","description":"Compact performant Mistral model."},{"@type":"ListItem","position":12,"name":"Phi 4","description":"Microsoft Phi series."},{"@type":"ListItem","position":13,"name":"FLUX 2 Klein","description":"Next-gen FLUX image model. 8-10 GB VRAM. T2I and I2I."},{"@type":"ListItem","position":14,"name":"Juggernaut XL","description":"Popular SDXL finetune. Photorealism. 8-10 GB VRAM."},{"@type":"ListItem","position":15,"name":"Z-Image Turbo","description":"Explicitly uncensored image generation. 10-16 GB VRAM."},{"@type":"ListItem","position":16,"name":"ERNIE-Image","description":"Baidu image generation (Turbo 8-step and Base 50-step)."},{"@type":"ListItem","position":17,"name":"SDXL and SD 3.5","description":"Stable Diffusion baseline models."},{"@type":"ListItem","position":18,"name":"Wan 2.1","description":"Text-to-video. Wan 1.3B (8 GB) or 14B (12+ GB)."},{"@type":"ListItem","position":19,"name":"HunyuanVideo 1.5","description":"Text-to-video model for consistency."},{"@type":"ListItem","position":20,"name":"LTX 2.3","description":"Lightricks LTX-Video. Fast text-to-video on modest hardware."},{"@type":"ListItem","position":21,"name":"FramePack F1","description":"Image-to-video on just 6 GB VRAM. Next-frame prediction."},{"@type":"ListItem","position":22,"name":"AnimateDiff","description":"Animation for SD-based models."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Locally Uncensored?","acceptedAnswer":{"@type":"Answer","text":"A free, open-source local AI studio for the desktop. Install it like any normal app and you're chatting, generating images, and making videos in minutes — no command line, no Docker, no cloud. It combines chat (20+ provider presets), a coding agent, image generation via ComfyUI (FLUX 2, Juggernaut XL, Z-Image, SDXL), and video generation (Wan 2.1, HunyuanVideo, LTX 2.3, FramePack F1) in one interface. AGPL-3.0 licensed."}},{"@type":"Question","name":"Does Locally Uncensored support Qwen 3.6?","acceptedAnswer":{"@type":"Answer","text":"Yes. Qwen 3.6 (35B MoE) has day-0 integration — vision, agentic coding, thinking preservation, 256K context. One-click download via the Model Manager."}},{"@type":"Question","name":"Does it support GPT-OSS?","acceptedAnswer":{"@type":"Answer","text":"Yes. GPT-OSS-120B and GPT-OSS-20B run via Ollama, which is one of the twelve auto-detected local backends."}},{"@type":"Question","name":"Does it support GLM-4.7?","acceptedAnswer":{"@type":"Answer","text":"Yes — GLM-4.7 Flash is supported through Ollama and other compatible backends. Eleven variants are available for one-click download."}},{"@type":"Question","name":"Does it support DeepSeek R1 and Llama 4?","acceptedAnswer":{"@type":"Answer","text":"Yes. DeepSeek R1, DeepSeek V3, Llama 4, Llama 3.3, Gemma 4, Mistral Small 3, Phi 4 and more are all supported through any of the twelve auto-detected backends."}},{"@type":"Question","name":"Is it really free and offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. After initial setup and model download, no internet is needed for the local stack. No accounts, no telemetry, no usage limits. Cloud providers (OpenAI, Anthropic, OpenRouter, Groq) are optional."}},{"@type":"Question","name":"How is this different from Open WebUI, LM Studio, Jan or Msty?","acceptedAnswer":{"@type":"Answer","text":"Those tools handle text chat. Locally Uncensored adds a coding agent with 14 MCP tools, ComfyUI image generation (FLUX, Juggernaut, Z-Image, SDXL), video generation (Wan 2.1, HunyuanVideo, LTX 2.3, FramePack), mobile remote access via LAN or Cloudflare Tunnel, A/B model compare, local benchmarking, granular permissions, file upload with vision, and thinking mode. All in one app."}},{"@type":"Question","name":"What hardware do I need?","acceptedAnswer":{"@type":"Answer","text":"Text chat: 8 GB RAM. Image generation: NVIDIA GPU with 8+ GB VRAM (FLUX, Juggernaut, Z-Image). Video generation: 10-12 GB VRAM (Wan 1.3B, HunyuanVideo, LTX 2.3). Image-to-video with FramePack F1 runs on just 6 GB. Windows 10/11 and Linux supported."}},{"@type":"Question","name":"What does uncensored mean?","acceptedAnswer":{"@type":"Answer","text":"Abliterated AI models with artificial refusal behaviour removed. The AI responds honestly without disclaimers. Combined with fully local execution, your conversations stay private."}},{"@type":"Question","name":"Can I use it as a ChatGPT or Claude alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes. Locally Uncensored is a ChatGPT and Claude alternative that runs on your own hardware. Use Qwen 3.6, GPT-OSS, GLM-4.7, DeepSeek R1, Llama 4 or Gemma 4 instead — or add cloud providers if you want them alongside the local stack."}},{"@type":"Question","name":"Does remote access leak data?","acceptedAnswer":{"@type":"Answer","text":"Only if you explicitly dispatch a chat via LAN or Cloudflare Tunnel. Remote access is opt-in, gated behind a 6-digit passcode, with visible device connection status. No background uploads, no telemetry."}},{"@type":"Question","name":"Can I run it on macOS?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Windows 10/11 and Linux for now. macOS is on the roadmap but not promised. The source is AGPL-3.0 — build for your platform if needed."}},{"@type":"Question","name":"Is there a mobile app?","acceptedAnswer":{"@type":"Answer","text":"Yes. The desktop app hosts a full mobile web app over LAN or Cloudflare Tunnel. Chat, Coding Agent, 14 agent tools, plugins, personas — all from your phone."}}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/lu.css">
+<script defer src="/assets/lu.js"></script>
+  <script data-goatcounter="https://lu-uncensored.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav class="lu-nav">
+  <a class="lu-nav-brand" href="#" aria-label="Locally Uncensored">
+    <span class="lu-mono" data-mono="nav" data-size="44" aria-hidden="true"></span>
+    <span class="lu-nav-word">Locally <span class="accent">Uncensored</span></span>
+  </a>
+  <div class="lu-nav-links" id="lu-nav-links">
+    <a class="lu-nav-link" href="#things">What</a>
+    <a class="lu-nav-link" href="#models">Models</a>
+    <a class="lu-nav-link" href="#how">Setup</a>
+    <a class="lu-nav-link" href="#blog">Blog</a>
+    <a class="lu-nav-link" href="#faq">FAQ</a>
+  </div>
+  <div class="lu-nav-right">
+    <a class="lu-nav-icon" href="https://github.com/PurpleDoubleD/locally-uncensored" title="GitHub" aria-label="GitHub"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg><span class="lu-nav-badge">1400+&#8202;⭐</span></a>
+    <a class="lu-nav-icon discord" href="https://locallyuncensored.com/discord" target="_blank" rel="noopener" title="Discord" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.45 3c-.2.36-.44.85-.6 1.23a18.3 18.3 0 0 0-5.7 0c-.16-.38-.4-.87-.6-1.23a19.7 19.7 0 0 0-4.87 1.37C.55 8.9-.32 13.3.11 17.63a19.9 19.9 0 0 0 6 3.03c.48-.66.9-1.36 1.27-2.1-.7-.26-1.36-.58-1.99-.96.17-.12.33-.25.49-.38a14.2 14.2 0 0 0 12.24 0c.16.13.32.26.49.38-.63.38-1.3.7-2 .96.37.74.8 1.44 1.27 2.1a19.8 19.8 0 0 0 6-3.03c.5-5.03-.85-9.39-3.55-13.26ZM8.02 15c-1.18 0-2.15-1.09-2.15-2.42 0-1.34.95-2.43 2.15-2.43 1.2 0 2.17 1.09 2.15 2.43 0 1.33-.95 2.42-2.15 2.42Zm7.96 0c-1.18 0-2.15-1.09-2.15-2.42 0-1.34.95-2.43 2.15-2.43 1.2 0 2.17 1.09 2.15 2.43 0 1.33-.94 2.42-2.15 2.42Z"/></svg><span class="lu-nav-badge">700+&#8202;<span style="font-size:0.715em">🟢</span></span></a>
+    <a class="he-cta" href="https://lu-labs.ai/pricing" target="_blank" rel="nofollow noopener" aria-label="LU Labs Cloud — see plans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>Cloud</a>
+    <span class="lu-nav-sep"></span>
+    <div class="switch" id="theme-switch" role="button" aria-label="Toggle theme"></div>
+    <a class="lu-nav-dl" href="https://lu-labs.ai/api/download/windows" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Download</a>
+    <button type="button" class="lu-nav-toggle" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="lu-hero">
+  <span class="lu-mono lu-hero-mono" data-mono="hero" data-size="164" aria-hidden="true"></span>
+  <h1 class="mast-title">Locally&nbsp;<span class="accent">Uncensored</span></h1>
+  <p class="mast-kicker"><span>The plug-and-play local AI studio</span><span class="k-dot">·</span><span>Chat · Code · Image · Video · Remote</span></p>
+</header>
+
+<!-- ── HERO (just the download banner, directly under masthead) ─ -->
+<section class="hero">
+  <div class="container">
+    <div class="dl-card">
+      <div class="dl-info">
+        <h3>Locally Uncensored <em>&middot; 2.6.7</em></h3>
+        <p>WINDOWS &middot; ~14 MB installer &middot; AGPL-3.0</p>
+      </div>
+      <a class="dl-btn" href="https://lu-labs.ai/api/download/windows" download>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .exe
+      </a>
+    </div>
+    <div class="dl-alts">
+      <a href="#whats-new">New in 2.6.7</a>
+      <a href="https://locallyuncensored.com/discord" target="_blank" rel="noopener">Join Discord</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/releases">All releases</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored">Source on GitHub</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/discussions">Discussions</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/blob/master/SECURITY.md#antivirus--browser-false-positives">Antivirus warning?</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCROLL ZONE (clickable arrow, between banner and content) ── -->
+<section class="scroll-zone">
+  <a href="#content-start" class="scroll-arrow" aria-label="Scroll to content">
+    <span class="arrow-line" aria-hidden="true"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    <span class="arrow-label">Explore</span>
+  </a>
+</section>
+
+<!-- ── TAGLINE (above first screenshot) ───────────────────── -->
+<section class="tagline" id="content-start">
+  <div class="container">
+    <h2>Generate Anything.<span class="t-sub">Locally. <span class="t-accent">Uncensored.</span></span></h2>
+    <p class="tagline-sub">Real AI on your own computer. One installer, no command line, no Docker &mdash; private, free, and yours. In local mode: no account, no cloud, nobody watching.</p>
+  </div>
+</section>
+
+<!-- ── SHOWCASE 1 ─────────────────────────────────────────── -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <img src="screenshots/chat_generate_dark.webp" alt="Chat view drawing an image from a request, right in the conversation" class="showcase-img" loading="lazy">
+    <div class="showcase-cap">
+      <span>Everything you'd do in ChatGPT &mdash; ask anything, write, brainstorm, work with your own files and photos. Ask for a picture and it <em>draws one right in the chat</em>. Except in local mode it all stays on your computer: nothing sent to a company, nothing logged. The app even picks the right free AI for your PC, so you don't have to.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUR THINGS ────────────────────────────────────────── -->
+<section class="things" id="things">
+  <div class="container">
+    <p class="eyebrow">What you can do</p>
+    <h2>Not a chat app. <em>The whole studio.</em></h2>
+    <div class="things-list">
+      <article class="thing">
+        <span class="thing-num">01</span>
+        <h3 class="thing-head"><em>Chat</em> &mdash; like ChatGPT, but yours.</h3>
+        <p>Ask anything. No limits, no sign-up, no one reading along. Show it a photo, drop in a PDF, and it remembers what matters across chats. You don't pick the tech &mdash; the app finds and installs the right free AI for you. You just type.</p>
+        <div class="thing-tags"><span>Qwen 3.6</span><span>GPT-OSS</span><span>GLM-4.7</span><span>DeepSeek R1</span></div>
+      </article>
+      <article class="thing">
+        <span class="thing-num">02</span>
+        <h3 class="thing-head"><em>Code</em> &mdash; it writes and fixes code for you.</h3>
+        <p>Tell it what you want in plain words. It opens your files, makes the changes, runs the steps, and shows its work as it goes. Great for small fixes, quick scripts, and &ldquo;why is this broken?&rdquo; &mdash; no separate coding app needed.</p>
+        <div class="thing-tags"><span>Coding Agent</span><span>Claude Code</span><span>14 tools</span><span>MCP</span></div>
+      </article>
+      <article class="thing">
+        <span class="thing-num">03</span>
+        <h3 class="thing-head"><em>Create</em> &mdash; images and videos from a sentence.</h3>
+        <p>Type what you imagine and get a picture. Turn a photo into a short video. It's all built in &mdash; no plugins to wire up, no confusing setup. The app installs each tool for you with one click.</p>
+        <div class="thing-tags"><span>FLUX 2</span><span>Juggernaut XL</span><span>LTX 2.3</span><span>Wan 2.1</span></div>
+      </article>
+      <article class="thing">
+        <span class="thing-num">04</span>
+        <h3 class="thing-head"><em>Use it from your phone.</em></h3>
+        <p>Your PC does the heavy lifting; your phone is just the remote. Scan a QR code, type a 6-digit code, and the whole thing &mdash; chat, coding, tools &mdash; is in your pocket, from anywhere.</p>
+        <div class="thing-tags"><span>LAN</span><span>tunnel</span><span>QR</span><span>mobile</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT'S NEW (release highlights) ────────────────────── -->
+<section class="models" id="whats-new">
+  <div class="container">
+    <p class="eyebrow">New in 2.6.7</p>
+    <h2>The <em>seventeen rounds</em> release.</h2>
+    <p class="section-lead">Every fix went back to a fresh tester who did not know what had been changed, driving the real installed build, and whatever they broke went into the next round. That loop ran seventeen times. Out now for Windows and Linux, free as always, and the app updates itself.</p>
+    <div class="model-grid">
+      <article class="model-card">
+        <span class="model-type">CREATE</span>
+        <h3>The render says what it is really doing</h3>
+        <p>The first render after starting the app kept its loading texts to itself, sampling was announced forty seconds before it began, and a still picture claimed it was decoding frames. All three now match the run.</p>
+        <span class="model-meta">Honest phase labels, from the first render on</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">CREATE</span>
+        <h3>A dead ComfyUI restarts itself</h3>
+        <p>If the renderer dies while the app is running, the app brings it back and finishes your render. An idle app notices the outage within about half a minute instead of sitting silent, and says whether it can fix it.</p>
+        <span class="model-meta">Three attempts, then an honest sentence</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">MODELS</span>
+        <h3>Installed means installed</h3>
+        <p>A card said Installed because a neighbouring bundle had brought one shared file along. Every file is checked now, the Installed list covers every ComfyUI folder instead of two, and your own file stops vanishing behind a catalogue size.</p>
+        <span class="model-meta">GitHub 113</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">BACKENDS</span>
+        <h3>No dead ends in Settings</h3>
+        <p>The built-in engine starts on a fresh install and says why if it cannot. Adding a provider no longer erases its card, Disable keeps an Enable button, a provider you added can be removed, and the LM Studio button sets the provider up.</p>
+        <span class="model-meta">GitHub 118</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">HARDWARE</span>
+        <h3>AMD cards are seen again on Windows</h3>
+        <p>Detection ran through wmic, which Windows removed in August 2026, so a current system reported no AMD card at all. It reads the registry now, RDNA3 and newer get AMD's own ROCm wheels, and the Linux package stopped fighting llama.cpp over a file name.</p>
+        <span class="model-meta">GitHub 120 &middot; ROCm channel researched, not proven</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">FIXED</span>
+        <h3>Chats survive the update</h3>
+        <p>The app waits for open chat writes before handing over to the installer, saves a fresh copy at that moment and keeps three rotating backups. Thinking reaches the engine on every path, and closing the window gives the video memory back.</p>
+        <span class="model-meta">Update recommended</span>
+      </article>
+    </div>
+    <p class="blog-all"><a href="https://github.com/PurpleDoubleD/locally-uncensored/blob/master/CHANGELOG.md">Read the full 2.6.7 changelog &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ── SHOWCASE 2 ─────────────────────────────────────────── -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <img src="screenshots/create_gallery_dark.webp" alt="Create view making an image, with a gallery of past generations below" class="showcase-img" loading="lazy">
+    <div class="showcase-cap">
+      <span>The Create tab keeps it simple: pick a look, pick a size, hit go. <em>Make images, turn them into video</em> &mdash; and every piece you generate lands in your own gallery. It only offers the tools your computer can actually handle, and installs each one with a single click.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── MANIFESTO ──────────────────────────────────────────── -->
+<section class="manifesto">
+  <div class="narrow">
+    <p class="eyebrow">Why</p>
+    <h2>Made for people who want <em>their</em> AI on <em>their</em> machine.</h2>
+    <p>In local mode your chats never leave your computer. No subscription, no tracking, no limits &mdash; and no company reading along. Most local-AI apps stop at text chat; this one gives you <em>chat, code, images, and video</em> in one place, and your phone can run it from anywhere.</p>
+    <p>It's <strong>free</strong> and <strong>open source</strong> &mdash; anyone can check the code. Local wins for privacy and unlimited use; when you want a cloud model for the really hard stuff, you can plug your own in. Tested with <strong>2,200+ automated checks</strong> so it just works.</p>
+  </div>
+</section>
+
+<!-- ── SHOWCASE 3 ─────────────────────────────────────────── -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <img src="screenshots/coding_review_dark.webp" alt="Coding Agent reviewing a file and pointing out a real bug" class="showcase-img" loading="lazy">
+    <div class="showcase-cap">
+      <span>Flip to the <em>Coding Agent</em> and point it at your project. Ask it to review, fix, or build &mdash; here it caught a real bug (a temperature formula off by 0.15) and explained the fix in plain words. It even runs on small, light models most PCs can handle.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHOWCASE 4 ─────────────────────────────────────────── -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <img src="screenshots/agent_mode_dark.webp" alt="Agent Mode writing files on its own to build a website" class="showcase-img" loading="lazy">
+    <div class="showcase-cap">
+      <span>Turn on <em>Agent Mode</em> and it stops just talking and starts doing. Ask for a website and it writes the files, runs each step, and shows its work as it goes &mdash; safely, in a sandbox on your own machine.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ──────────────────────────────────────── -->
+<section class="how" id="how">
+  <div class="container">
+    <p class="eyebrow">Setup</p>
+    <h2>Running in under <em>five minutes.</em></h2>
+    <p class="section-lead">No tech skills needed. No command line, no setup files &mdash; just install it like any normal app and you're chatting in minutes.</p>
+    <div class="steps">
+      <article class="step">
+        <span class="step-num">01 &middot; Install</span>
+        <h3>Download &amp; install.</h3>
+        <p>One file. Click it and install like any app. It keeps itself up to date. Free, forever.</p>
+      </article>
+      <article class="step">
+        <span class="step-num">02 &middot; Detect</span>
+        <h3>Wizard finds everything.</h3>
+        <p>On first start it checks what you've already got and sets it up for you. Nothing installed yet? It grabs the free AI engine for you in one click.</p>
+      </article>
+      <article class="step">
+        <span class="step-num">03 &middot; Run</span>
+        <h3>Chat. Code. Create.</h3>
+        <p>Pick an AI and start typing. Flip to coding, or to images and video, whenever you like. Want to add a cloud account later? One setting.</p>
+      </article>
+    </div>
+    <p class="guide-link"><a href="https://locallyuncensored.com/guide/">Full getting-started guide with screenshots &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ── MODELS ────────────────────────────────────────────── -->
+<section class="models" id="models">
+  <div class="container">
+    <p class="eyebrow">Models</p>
+    <h2>The best <em>free AI</em>, for every job.</h2>
+    <p class="section-lead">Whatever you want to do &mdash; chat, make art, make videos &mdash; there's a free AI for it. The app installs them for you and only suggests the ones your computer can run. The big names are all here: <strong>Qwen</strong>, <strong>GPT-OSS</strong>, <strong>Llama 4</strong>, <strong>Gemma 4</strong>, <strong>DeepSeek</strong> and more.</p>
+    <div class="model-grid">
+      <article class="model-card">
+        <span class="model-type">CHAT &middot; VISION</span>
+        <h3>Gemma 4</h3>
+        <p>Google's free chat AI. It can read your pictures too, and the small version runs on a basic PC.</p>
+        <span class="model-meta">E4B &middot; 27B</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">CHAT &middot; REASONING</span>
+        <h3>Qwen 3.6 &middot; GPT-OSS &middot; GLM-4.7</h3>
+        <p>The smart ones &mdash; best for thinking through tough questions and writing code. Uncensored versions included that just answer, no lectures.</p>
+        <span class="model-meta">Uncensored versions &middot; gaming PC</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">IMAGE</span>
+        <h3>Juggernaut XL</h3>
+        <p>A crowd favourite for photo-real images. Make a picture from words, or remix one you already have.</p>
+        <span class="model-meta">Photo-real &middot; gaming PC</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">IMAGE &middot; UNCENSORED</span>
+        <h3>Z-Image Turbo</h3>
+        <p>Truly uncensored, no filters &mdash; about 10 seconds per image.</p>
+        <span class="model-meta">Needs a strong graphics card</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">VIDEO &middot; TEXT-TO-VIDEO</span>
+        <h3>LTX 2.3</h3>
+        <p>Turn a sentence into a video clip. Quick, and works on regular hardware.</p>
+        <span class="model-meta">Text to video &middot; gaming PC</span>
+      </article>
+      <article class="model-card">
+        <span class="model-type">VIDEO &middot; IMAGE-TO-VIDEO</span>
+        <h3>FramePack F1</h3>
+        <p>Got a picture? Turn it into a moving video. Runs on most laptops with a graphics card.</p>
+        <span class="model-meta">Photo to video &middot; most laptops</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── BLOG ──────────────────────────────────────────────── -->
+<section class="blog" id="blog">
+  <div class="container">
+    <p class="eyebrow">Writing</p>
+    <h2>Guides, comparisons, release notes.</h2>
+    <p class="section-lead">Plain-English guides to running AI on your own PC &mdash; what to install, what runs on your machine, and how it compares to the rest.</p>
+    <div class="post-list">
+      <a class="post" href="https://locallyuncensored.com/blog/how-to-run-ai-locally.html">
+        <span class="post-cat">Beginner</span>
+        <h3>How to Run AI Locally &mdash; 5-Minute Beginner Guide</h3>
+        <p>No command line, no Docker. One installer, one-click models, honest hardware requirements.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/lm-studio-alternatives.html">
+        <span class="post-cat">Comparison</span>
+        <h3>7 Best LM Studio Alternatives in 2026</h3>
+        <p>Locally Uncensored, Jan, Ollama, Open WebUI, GPT4All, Msty, KoboldCpp &mdash; compared honestly.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/easiest-local-ai-image-generator.html">
+        <span class="post-cat">Beginner</span>
+        <h3>The Easiest Local AI Image Generator</h3>
+        <p>FLUX and SDXL quality on your GPU without touching a ComfyUI node graph.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/local-ai-on-your-phone.html">
+        <span class="post-cat">Guide</span>
+        <h3>Local AI on Your Phone</h3>
+        <p>Your PC runs the model, your phone is the remote. Private, free, no APK needed.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/how-to-run-qwen-3-6-locally.html">
+        <span class="post-cat">Guide</span>
+        <h3>How to Run Qwen 3.6 Locally</h3>
+        <p>27B dense, 35B MoE, NVFP4, BF16. Hardware picks, GGUF links, one-click install.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/abliterated-models-guide.html">
+        <span class="post-cat">Guide</span>
+        <h3>Abliterated Models Guide</h3>
+        <p>Qwen 3.6, Gemma 4 Heretic, Llama 3.1, Hermes 3. What abliteration is, where to download.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/locally-uncensored-v2-4-0-release.html">
+        <span class="post-cat">Release</span>
+        <h3>v2.4.0 &mdash; Settings Polish + Linux Drag Fix</h3>
+        <p>Single-instance lock, configurable HuggingFace path, in-app Privacy section, Linux drag fix.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/gemma-4-local-guide.html">
+        <span class="post-cat">Guide</span>
+        <h3>Google Gemma 4 &mdash; Run It Locally</h3>
+        <p>All sizes from E4B to 27B. Native tools, vision, uncensored variants.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/image-to-image-local-ai.html">
+        <span class="post-cat">Guide</span>
+        <h3>Image-to-Image with Local AI</h3>
+        <p>Upload a photo and turn it into something new. Powered by FLUX, Z-Image, SDXL.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/best-local-ai-apps-2026.html">
+        <span class="post-cat">Comparison</span>
+        <h3>Best Local AI Apps in 2026</h3>
+        <p>Complete comparison of GPT4All, Open WebUI, LM Studio, Jan, and more.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/run-uncensored-ai-locally.html">
+        <span class="post-cat">Guide</span>
+        <h3>How to Run Uncensored AI Locally</h3>
+        <p>Setup guide. Models, hardware, and why local beats cloud.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/locally-uncensored-vs-open-webui.html">
+        <span class="post-cat">Versus</span>
+        <h3>LU vs Open WebUI</h3>
+        <p>Both open source. Only one does chat + code + images + video.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/locally-uncensored-vs-lm-studio.html">
+        <span class="post-cat">Versus</span>
+        <h3>LU vs LM Studio</h3>
+        <p>Open source all-in-one vs polished closed-source chat client.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/comfyui-beginners-guide.html">
+        <span class="post-cat">Guide</span>
+        <h3>ComfyUI for Beginners</h3>
+        <p>How LU handles ComfyUI setup, models, and workflows automatically.</p>
+      </a>
+      <a class="post" href="https://locallyuncensored.com/blog/how-to-generate-ai-videos-locally.html">
+        <span class="post-cat">Guide</span>
+        <h3>Generating AI Videos Locally</h3>
+        <p>Wan 2.1, HunyuanVideo, LTX, FramePack. Hardware requirements, model picks.</p>
+      </a>
+    </div>
+    <p class="blog-all"><a href="https://locallyuncensored.com/blog/">View all posts &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ── FAQ ───────────────────────────────────────────────── -->
+<section class="faq" id="faq">
+  <div class="container narrow">
+    <p class="eyebrow">Questions</p>
+    <h2>Common questions.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>What is Locally Uncensored?</h3>
+        <p>A free, open-source local AI studio for your desktop. Install it like any normal app and you're chatting, generating images, and making videos in minutes &mdash; no command line, no Docker, no cloud. Under the hood: chat with 20+ provider presets, a coding agent, image generation via ComfyUI (FLUX 2, Juggernaut XL, Z-Image, SDXL), and video generation (Wan 2.1, HunyuanVideo, LTX 2.3, FramePack F1) in one interface. AGPL-3.0 licensed.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does it support Qwen 3.6, GPT-OSS and GLM-4.7?</h3>
+        <p>Yes. <strong>Qwen 3.6</strong> has day-0 integration (35B MoE, vision, agentic coding, 256K context). <strong>GPT-OSS-120B</strong> and <strong>GPT-OSS-20B</strong> run via Ollama. <strong>GLM-4.7 Flash</strong> supported through Ollama. Also Day-0 ready: <strong>DeepSeek R1</strong>, <strong>Llama 4</strong>, <strong>Gemma 4</strong>, <strong>Mistral Small 3</strong>, <strong>Phi 4</strong>.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I use it as a ChatGPT or Claude alternative?</h3>
+        <p>Yes. Locally Uncensored works as a ChatGPT and Claude alternative that runs on your own hardware. Use Qwen 3.6, GPT-OSS, GLM-4.7, DeepSeek R1, Llama 4 or Gemma 4 instead &mdash; or add cloud providers (OpenAI, Anthropic, OpenRouter, Groq) alongside the local stack.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it really free and offline?</h3>
+        <p>Yes. After setup and model download, no internet is needed for the local providers. No accounts, no telemetry, no usage limits. Cloud providers are optional &mdash; the core runs one-hundred percent on your hardware.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is this different from Open WebUI or LM Studio?</h3>
+        <p>Those tools handle text chat. Locally Uncensored adds a coding agent with fourteen MCP tools, image generation, video creation, A/B model comparison, local benchmarking, granular permissions, file upload with vision, and thinking mode &mdash; all in one app.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What hardware do I need?</h3>
+        <p>Text chat: 8&nbsp;GB RAM. Image generation: NVIDIA GPU with 8+&nbsp;GB VRAM. Video generation: 10-12&nbsp;GB VRAM. The app auto-detects hardware and recommends models. Windows 10/11 and Linux supported.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does &ldquo;uncensored&rdquo; mean?</h3>
+        <p>Abliterated models with artificial restrictions removed. The AI responds honestly without refusing or adding disclaimers. Combined with local execution, your conversations stay private.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does remote access leak data?</h3>
+        <p>Only if you explicitly dispatch a chat over LAN or Cloudflare Tunnel. Remote is opt-in, gated behind a six-digit passcode, and you see exactly when a device is connected. No background uploads. No telemetry.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I use this on macOS?</h3>
+        <p>Not yet. Windows and Linux for now. macOS support is on the roadmap but not promised. The source is AGPL-3.0 if you want to build for your platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GET IT (banner only, no heading) ──────────────────── -->
+<section class="get" id="get">
+  <div class="narrow">
+    <div class="dl-card">
+      <div class="dl-info">
+        <h3>Locally Uncensored <em>&middot; 2.6.7</em></h3>
+        <p>WINDOWS &middot; ~14 MB installer &middot; AGPL-3.0 &middot; 100% open source</p>
+      </div>
+      <a class="dl-btn" href="https://lu-labs.ai/api/download/windows" download>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .exe
+      </a>
+    </div>
+    <div class="dl-alts">
+      <a href="https://locallyuncensored.com/discord" target="_blank" rel="noopener">Join Discord</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/releases">All releases</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored">Source on GitHub</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/discussions">Discussions</a>
+      <a href="https://github.com/PurpleDoubleD/locally-uncensored/blob/master/SECURITY.md#antivirus--browser-false-positives">Is it safe? Why Windows may warn you &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-row footer-meta">
+    <span>&copy; 2026 &middot; Locally Uncensored &middot; AGPL-3.0</span>
+  </div>
+  <div class="footer-row footer-links">
+    <a href="https://locallyuncensored.com/blog/">Blog</a>
+    <a href="https://locallyuncensored.com/guide/">Guide</a>
+    <a href="https://locallyuncensored.com/remote-access/">Remote access</a>
+    <a href="https://locallyuncensored.com/discord" target="_blank" rel="noopener">Discord</a>
+    <a href="https://github.com/PurpleDoubleD/locally-uncensored">GitHub</a>
+    <a href="https://github.com/PurpleDoubleD/locally-uncensored/discussions">Discussions</a>
+    <a href="https://github.com/PurpleDoubleD/locally-uncensored/issues">Issues</a>
+    <a href="https://reddit.com/user/GroundbreakingMall54">Reddit</a>
+    <a href="https://www.linkedin.com/in/david-drobnitza-locallyuncensored/" rel="me noopener" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  // Always start at top on fresh load (strip lingering hash)
+  if (location.hash) {
+    history.replaceState(null, '', location.pathname);
+    window.scrollTo(0, 0);
+  }
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
+
+</body>
+</html>

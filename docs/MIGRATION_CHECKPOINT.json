@@ -1,27 +1,20 @@
 {
   "source_commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
-  "target_base": "210948c37f15ffa5e4608baa7e71d769a78a4ff5",
-  "staged_tree": "6df55345182f5e22430308468cab11ea03958436",
+  "target_base": "b704fa85b5675bed0747bce434e46630a56f9c74",
+  "staged_tree": "423b030ab1573c6a0705a75e5db7b1b73d6db05e",
   "comparison": [
     "fresh upstream Git tree",
     "pinned destination index",
     "staged target Git tree"
   ],
   "files_expected": 1112,
-  "files_copied": 832,
-  "files_verified": 832,
-  "new_files": 305,
-  "bytes_copied": 9650587,
-  "remaining": 280,
+  "files_copied": 1110,
+  "files_verified": 1110,
+  "new_files": 278,
+  "bytes_copied": 13393184,
+  "remaining": 2,
   "remaining_groups": {
-    ".github": 9,
-    "docs": 111,
-    "e2e": 16,
-    "logos": 5,
-    "public": 13,
-    "scripts": 12,
-    "src/api": 111,
-    "src/assets": 3
+    "docs": 2
   },
   "failures": [],
   "groups": {
@@ -35,7 +28,7 @@
     },
     "api_all": {
       "expected": 224,
-      "copied": 113
+      "copied": 224
     },
     "types": {
       "expected": 11,
@@ -60,11 +53,55 @@
     "lib": {
       "expected": 305,
       "copied": 305
+    },
+    "e2e": {
+      "expected": 16,
+      "copied": 16
+    },
+    "docs": {
+      "expected": 111,
+      "copied": 109
+    },
+    "scripts": {
+      "expected": 12,
+      "copied": 12
+    },
+    "public": {
+      "expected": 13,
+      "copied": 13
+    },
+    "assets": {
+      "expected": 3,
+      "copied": 3
     }
   },
   "builds": "NOT_RUN",
   "tests": "NOT_RUN",
   "independent_audit": "BLOCKED: no separate auditor execution environment",
   "test_scope": "Git content identity only; no application execution",
-  "active_workflows": 0
+  "active_workflows": 0,
+  "missing_files": [
+    {
+      "path": "docs/demo.gif",
+      "sha": "63969303798256bdedb9e4443e793b7f9d0ae989",
+      "size": 1782428
+    },
+    {
+      "path": "docs/social-preview.png",
+      "sha": "4575fa740cfa53d1679c690afcec0f8db39cf773",
+      "size": 4724490
+    }
+  ],
+  "migration_blocker": "GitHub connector rejects binary blob reads and returns empty base64 for these large assets; no placeholder created.",
+  "verification": {
+    "date": "2026-11-19",
+    "candidate_tree": "2bea5cfe05369997e6101e51528674e433d1780d",
+    "expected_files": 1112,
+    "verified_files": 1110,
+    "mismatched": 0,
+    "unexpected": 0,
+    "previous_file_drift": 0,
+    "active_workflows": 0,
+    "scope": "Authoritative remote Git tree comparison: blob SHA, size, mode and type; not a fresh build, byte download, security audit or independent auditor."
+  }
 }

@@ -36,7 +36,7 @@ Narzędzie nie wczytuje całej wagi do RAM: odczytuje 24-bajtowy nagłówek, roz
 
 ## Niezależna kopia źródeł (materializacja)
 
-**Checkpoint 2026-11-17:** 832 z 1112 plików znajduje się bezpośrednio w `migration/staged/locally-uncensored/`, w tym kompletny `src-tauri/`, implementacja API (bez kompletu testów), `src/types/`, `src/hooks/`, `src/components/`, `src/stores/` i `src/lib/`. To kopia częściowa, nie samodzielnie budowalna aplikacja. [Raport zgodności Git](docs/MIGRATION_CHECKPOINT.json).
+**Checkpoint 2026-11-19:** 1110 z 1112 plików znajduje się bezpośrednio w `migration/staged/locally-uncensored/`, w tym kompletne `src-tauri/`, `src/api/` (wraz z testami), `src/types/`, `src/hooks/`, `src/components/`, `src/stores/`, `src/lib/`, `e2e/` i `scripts/`. Brakuje wyłącznie dwóch binarnych zasobów dokumentacji: `docs/demo.gif` i `docs/social-preview.png`. Zgodność Git 1110/1110; pełny build nie został uruchomiony. Zagnieżdżone workflow upstream nie uruchamiają GitHub Actions w repozytorium docelowym. [Raport zgodności Git](docs/MIGRATION_CHECKPOINT.json).
 
 
 Po zainicjalizowaniu submodułu można wygenerować pełną, bajtowo zweryfikowaną kopię wszystkich plików śledzonych w Git w katalogu `vendor/locally-uncensored`:
