@@ -3,8 +3,8 @@ import {constants,openSync,closeSync,fstatSync,readSync,lstatSync,readdirSync,re
 import {join,resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {PINNED_UPSTREAM_SHA} from './upstream-gate.mjs';
+import {resolveIndexDigest,assertIndexBytes} from './index-trust.mjs';
 const ROOT=resolve(fileURLToPath(new URL('..',import.meta.url)));
-const PINNED_INDEX_SHA256='63ceddf8e29aac9a80a2245f263dd464ec5eb21b3de7516cc728313d90eba0ee';
 const DOCS=new Set(['docs/demo.gif','docs/social-preview.png']);
 const MAX_FILES=20000, MAX_BYTES=2*1024**3, MAX_FILE=64*1024**2;
 function safePath(path){
@@ -28,11 +28,8 @@ function readBounded(path,limit,entry){
   }finally{closeSync(fd);}
 }
 function loadIndex(root,expectedSha,expectedIndexSha256){
-  if(typeof expectedSha!=='string'||!/^[a-f0-9]{40}$/.test(expectedSha))throw Error('Invalid expected SHA');
-  if(typeof expectedIndexSha256!=='string'||!/^[a-f0-9]{64}$/.test(expectedIndexSha256))throw Error('Missing or invalid trusted index digest');
-  if(expectedSha===PINNED_UPSTREAM_SHA&&expectedIndexSha256!==PINNED_INDEX_SHA256)throw Error('Cannot override production index digest');
   const bytes=readBounded(join(beneath(root,['docs']),'UPSTREAM_FILE_INDEX.json'),8*1024**2);
-  if(createHash('sha256').update(bytes).digest('hex')!==expectedIndexSha256)throw Error('Source index digest mismatch');
+  assertIndexBytes(bytes,expectedIndexSha256);
   const data=JSON.parse(bytes.toString('utf8'));
   if(data.schema!==1||data.source_commit!==expectedSha||!Array.isArray(data.files)||data.file_count!==data.files.length||!data.files.length||data.files.length>MAX_FILES)throw Error('Invalid source index');
   const map=new Map();let total=0;
@@ -53,7 +50,8 @@ function scan(stage,index){
   }return seen;
 }
 function readEntry(stage,e){const parts=e.path.split('/');const name=parts.pop();return readBounded(join(beneath(stage,parts),name),MAX_FILE,e);}
-export function prepareStage({root=ROOT,expectedSha=PINNED_UPSTREAM_SHA,expectedIndexSha256=expectedSha===PINNED_UPSTREAM_SHA?PINNED_INDEX_SHA256:undefined,allowMissingDocs=false,apply=false}={}){
+export function prepareStage({root=ROOT,expectedSha=PINNED_UPSTREAM_SHA,expectedIndexSha256,allowMissingDocs=false,apply=false}={}){
+  expectedIndexSha256=resolveIndexDigest(expectedSha,expectedIndexSha256);
   const project=realDir(realpathSync(resolve(root)));const stage=beneath(project,['migration','staged','locally-uncensored']);const index=loadIndex(project,expectedSha,expectedIndexSha256);const seen=scan(stage,index);
   const missing=[...index.keys()].filter(p=>!seen.has(p)).sort();
   if(missing.some(p=>!allowMissingDocs||!DOCS.has(p)))throw Error('Missing indexed files: '+missing.join(', '));

@@ -77,3 +77,9 @@ npm run stage:prepare -- --allow-missing-doc-assets
 ### Kotwica integralności indeksu
 
 `stage:check` i `stage:prepare` wymagają zgodności pliku `docs/UPSTREAM_FILE_INDEX.json` z SHA-256 `63ceddf8e29aac9a80a2245f263dd464ec5eb21b3de7516cc728313d90eba0ee` przed parsowaniem. Produkcyjnej kotwicy nie można nadpisać opcją API. Testy innych snapshotów wymagają jawnego, zaufanego digestu. Ochrona zakłada zaufany kod bramki; nie broni przed podmianą samego skryptu przez proces o tych samych uprawnieniach. Zmiana upstream wymaga świadomego odświeżenia kotwicy po weryfikacji pochodzenia indeksu.
+
+## Wspólna bramka integralności SEC-003
+
+`vendor:check` oraz `vendor:verify-pinned` używają tej samej kotwicy SHA-256 i weryfikatora pełnego snapshotu. `verifyVendor()` jako API synchroniczne wymaga teraz zweryfikowanego checkoutu upstream (opcjonalny `source`); porównuje go z istniejącą kopią. Importer kontroluje komplet plików i tryby, odrzuca dodatkowe pliki i symlinki, a przed publikacją weryfikuje cały katalog tymczasowy. Nie ufa samemu manifestowi vendor. Limit pojedynczego pliku importu: 64 MiB, metadanych: 8 MiB, całego importu: 2 GiB. Te ograniczenia dotyczą kodu źródłowego, nie wag GGUF. Używać na zaufanym lokalnym filesystemie; nie stanowi ochrony przed procesem o identycznych uprawnieniach modyfikującym wszystkie pliki w trakcie operacji.
+
+Pełny zestaw bramek `npm run test:gate` (6 plików testowych): 68/68 PASS w odtworzonym środowisku o zgodnych Git blob SHA; pełna kompilacja, uruchomienie aplikacji i testy sprzętowe pozostają niepotwierdzone.

@@ -29,3 +29,7 @@ Porównano świeże drzewa Git przypiętego upstream oraz przygotowanego snapsho
 ## RUN-002 — zakotwiczenie indeksu (2026-11-19)
 
 RED: 5/5 nowych regresji wykazało błąd; GREEN: 18/18 testów staged-runtime. Regresja 3 dostępnych plików testowych SEC-001 i RUN-002: 33/33 PASS, 0 FAIL, 0 SKIP (Linux / Node 22.16.0). Indeks 1112/1112 zgodny z przypiętym drzewem upstream; SHA-256 indeksu przypięty w kodzie. Pełny checkout, testy wszystkich sześciu plików testowych, build i Android NOT_RUN. Starszy weryfikator vendor pozostaje osobną ścieżką do utwardzenia. Dowód: `docs/evidence/RUN-002-index-anchor.json`.
+
+## SEC-003 / CI-001 — 2026-11-19
+
+Pełny root gate `npm run test:gate`: 68/68 PASS, 0 FAIL, 0 SKIP, exit 0. Wszystkie 6 plików testowych, 6 skryptów i package.json o zgodnych Git blob SHA z kandydatem. RED: 5 regresji indeksu, 8 snapshotu, 5 importera (każdy zestaw exit 1); GREEN: 18/18, 15/15 i 11/11. Linux x86_64 / Node v22.16.0 / Git 2.47.3. Pełny checkout aplikacji oraz build i hardware NOT_RUN. Dowód: `docs/evidence/SEC-003-CI-001.json` (SHA-256 logów w pakiecie dowodowym).

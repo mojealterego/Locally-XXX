@@ -1,0 +1,90 @@
+{
+  "base_commit": "6b62dd89751a04c7b140671d8e7d35ab9ee87281",
+  "scope": "Complete root gate suite (six test files) in reconstructed byte-identical local gate workspace; NOT full application checkout",
+  "environment": {
+    "node": "v22.16.0",
+    "git": "2.47.3",
+    "os": "Linux x86_64"
+  },
+  "tested_git_blobs": {
+    "package.json": "fd9b0a73e896b9a3f1c5c5930000f5342234350b",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49"
+  },
+  "logs_sha256": {
+    "INDEX-RED.log": "4bea630163d0461f8b432bd0d8a3633ff2cc30a0d2c5e53fe624b5402db5781b",
+    "INDEX-GREEN.log": "f4420abcacc49610eddd887a3868a8e76ad9ebb71262741c7f4664791641498b",
+    "VENDOR-RED.log": "a96ab04f9d259f45b1760fde7312e7754954cce3d70d0740fc3ad662b37ae9cf",
+    "VENDOR-GREEN.log": "c350c510cd9ae4f53df212d3c36ac551adcdd0b47e0ab42d4aacf1f55ffefc59",
+    "IMPORT-RED.log": "bd3b70a48bac89c061fc4f1eeab26b6c3d80976551b715073db1561381012676",
+    "IMPORT-GREEN.log": "9ec0c8929b9d6da613cced24167098f9cf4d3e66f6e809a33179d5a3e94627c7",
+    "NPM-FULL-GATE.log": "1aa4ae7b404c814d65fc8c20f252f1eae0f5215e1c70ec287b5599a36de085a8"
+  },
+  "index": {
+    "commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
+    "sha256": "63ceddf8e29aac9a80a2245f263dd464ec5eb21b3de7516cc728313d90eba0ee",
+    "count": 1112,
+    "tree_differences": 0
+  },
+  "red": [
+    {
+      "scope": "stage index anchor",
+      "pass": 13,
+      "fail": 5,
+      "exit": 1
+    },
+    {
+      "scope": "snapshot verifier",
+      "pass": 7,
+      "fail": 8,
+      "exit": 1
+    },
+    {
+      "scope": "vendor import",
+      "pass": 6,
+      "fail": 5,
+      "exit": 1
+    }
+  ],
+  "green": [
+    {
+      "scope": "stage",
+      "pass": 18,
+      "fail": 0
+    },
+    {
+      "scope": "snapshot",
+      "pass": 15,
+      "fail": 0
+    },
+    {
+      "scope": "vendor",
+      "pass": 11,
+      "fail": 0
+    }
+  ],
+  "gate": {
+    "command": "npm run test:gate",
+    "test_files": 6,
+    "tests": 68,
+    "pass": 68,
+    "fail": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "syntax": "PASS: node --check all 12 scripts/test .mjs",
+  "full_source_checkout": "BLOCKED: git ls-remote DNS resolution failure; no complete local snapshot",
+  "build": "NOT_RUN",
+  "android": "NOT_RUN",
+  "security_scope": "Integrity checks on trusted local directory; no claim against concurrent same-UID compromise, complete app security audit or SBOM."
+}

@@ -9,7 +9,7 @@ Data aktualizacji: 2026-11-19. Zasada: status `POTWIERDZONE` wymaga wskazania ko
 | MIG-003 | Niezależna pełna kopia 1112 plików upstream | CZĘŚCIOWE | 1110/1112 rzeczywistych plików w `migration/staged/locally-uncensored/`; Rust 64/64, API 224/224, UI 177/177, stores 91/91, hooks 39/39, types 11/11, lib 305/305, E2E 16/16. Zgodność Git: SHA, rozmiar i tryb. Pozostały `docs/demo.gif` i `docs/social-preview.png` (BLOCKED: interfejs nie udostępnia binarnej zawartości >1 MB). Build i niezależny audyt nadal niepotwierdzone. [Raport](MIGRATION_CHECKPOINT.json) |
 | MIG-004 | OMEGA-X v1–v6 / archiwa i modele | CZĘŚCIOWE | Istnieją artefakty w innym repo; w tym publicznym nie skopiowano ani nie zweryfikowano wszystkich bajtów |
 | SEC-001 | Bramka niezmienności źródeł | TESTOWANE LOKALNIE | `scripts/upstream-gate.mjs`, `tests/upstream-gate-security.test.mjs` — 15/15 PASS w lokalnym środowisku Node 22.16.0, Git 2.47.3, Linux; pełne testy aplikacji osobno |
-| SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/snapshot-integrity.mjs`, 7 testów; dopiero po wykonaniu `vendor:apply` możliwa walidacja pełnych 1112 plików |
+| SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/index-trust.mjs`, `scripts/snapshot-integrity.mjs`, `scripts/vendorize.mjs` — 15/15 testów snapshotu i 11/11 importera; wspólna kotwica SHA-256, ścisła kontrola manifestu i trybów, weryfikacja przed publikacją. Pełna rzeczywista materializacja pozostaje otwarta |
 | SEC-002 | Skan sekretów, licencji i zależności przed publikacją | BRAK | Skan pełnej zawartości i raport SBOM; prywatnych archiwów nie publikować bez przeglądu |
 | RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | BRAK W REPO | Wcześniejsze prace wymagają porównania z kodem i odtworzenia regresji w Locally-XXX |
 | RUN-002 | Przygotowanie zweryfikowanego katalogu roboczego bez submodułu | TESTOWANE LOKALNIE | `scripts/staged-runtime.mjs`, 18/18 testów; zakotwiczenie SHA-256 indeksu, jawne odstępstwo tylko dla 2 zasobów dokumentacji. Porównano indeks 1112/1112 z drzewem upstream. Build i rzeczywisty snapshot lokalnie nieuruchomione. |
@@ -17,7 +17,7 @@ Data aktualizacji: 2026-11-19. Zasada: status `POTWIERDZONE` wymaga wskazania ko
 | AND-001 | Natywne APK Android / Termux / S24 Ultra | BRAK | Pełny toolchain, binaria ARM64, podpis, instalacja, logcat, E2E na urządzeniu |
 | GGUF-001 | Offline inwentaryzacja GGUF i heurystyka RAM | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/gguf-inventory.mjs` + 9 testów; bez testu sprzętowego i bez pełnej walidacji tensorów |
 | GPU-001 | Lokalna inferencja GGUF / ComfyUI / 8K | NIEZWERYFIKOWANE | Pomiary sprzętowe, integralność wag i odrębne testy każdej ścieżki |
-| CI-001 | Bezpłatna walidacja offline | CZĘŚCIOWE | `node --test` lokalnie; bez automatycznego uruchamiania płatnych runnerów |
+| CI-001 | Bezpłatna walidacja offline | TESTOWANE LOKALNIE (BRAMKI) | `npm run test:gate`: 68/68 PASS na wszystkich 6 plikach testowych z identycznymi blob SHA. Pełne testy aplikacji i build nadal NOT_RUN; bez płatnych runnerów. |
 
 ## Kolejność domknięcia
 

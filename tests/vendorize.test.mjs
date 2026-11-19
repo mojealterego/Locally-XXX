@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync, symlinkSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync, symlinkSync, chmodSync } from 'node:fs';
 import { tmpdir } from 'node:os';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { vendorize, verifyVendor, safeGitPath } from '../scripts/vendorize.mjs';
 
@@ -79,4 +80,36 @@ test('path traversal and absolute paths are rejected', () => {
     assert.throws(() => safeGitPath(path), /Invalid Git path/);
   }
   assert.equal(safeGitPath('src/zażółć.ts'), 'src/zażółć.ts');
+});
+
+function installed(t) {
+  const f = fixture(t); vendorize({ root: f.root, source: f.source, expectedSha: f.sha, apply: true });
+  const dest = join(f.root, 'vendor', 'locally-uncensored');
+  const manifestPath = join(dest, '.omega-source-manifest.json');
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  return { ...f, dest, manifest, save: () => writeFileSync(manifestPath, JSON.stringify(manifest)), manifestPath };
+}
+
+test('VENDOR-07 rejects a self-consistent forged manifest and file on reimport', t => {
+  const f = installed(t); const bytes = Buffer.from('tampered'); writeFileSync(join(f.dest, 'README.md'), bytes);
+  const entry = f.manifest.files.find(x => x.path === 'README.md');
+  Object.assign(entry, { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), git_sha1: createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex') }); f.save();
+  assert.equal(verifyVendor({ root: f.root, expectedSha: f.sha }).ok, false);
+  assert.throws(() => vendorize({ root: f.root, source: f.source, expectedSha: f.sha, apply: true }), /does not match/);
+});
+test('VENDOR-08 rejects deleted file and corresponding missing manifest record', t => {
+  const f = installed(t); rmSync(join(f.dest, 'README.md')); f.manifest.files = f.manifest.files.filter(x => x.path !== 'README.md'); f.save();
+  assert.equal(verifyVendor({ root: f.root, expectedSha: f.sha }).ok, false);
+});
+test('VENDOR-09 rejects unexpected unindexed files', t => {
+  const f = installed(t); writeFileSync(join(f.dest, 'injected.js'), 'evil');
+  assert.equal(verifyVendor({ root: f.root, expectedSha: f.sha }).ok, false);
+});
+test('VENDOR-10 rejects changed executable mode on POSIX', {skip: process.platform === 'win32'}, t => {
+  const f = installed(t); chmodSync(join(f.dest, 'README.md'), 0o755);
+  assert.equal(verifyVendor({ root: f.root, expectedSha: f.sha }).ok, false);
+});
+test('VENDOR-11 rejects symlinked manifest even when bytes match', t => {
+  const f = installed(t); const alternate = join(f.root, 'manifest.json'); writeFileSync(alternate, readFileSync(f.manifestPath)); rmSync(f.manifestPath); symlinkSync(alternate, f.manifestPath);
+  assert.equal(verifyVendor({ root: f.root, expectedSha: f.sha }).ok, false);
 });
