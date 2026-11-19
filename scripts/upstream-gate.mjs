@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, lstatSync, realpathSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,7 +16,7 @@ const COMMANDS = Object.freeze({
 
 function git(source, args) {
   const result = spawnSync('git', ['-C', source, ...args], {
-    encoding: 'utf8', timeout: 10_000, shell: false,
+    encoding: 'utf8', timeout: 10_000, shell: false, maxBuffer: 16 * 1024 * 1024,
   });
   if (result.error || result.status !== 0) {
     throw new Error(`Git ${args[0]} failed: ${result.error?.message ?? result.stderr?.trim() ?? 'unknown error'}`);
@@ -37,11 +37,22 @@ export function verifyUpstream({
     return { ok: false, source: location, expectedSha, actualSha, errors };
   }
   try {
+    if (lstatSync(location).isSymbolicLink()) throw new Error('Symbolic source root is forbidden');
     if (!statSync(location).isDirectory()) throw new Error('Not a directory');
+    const worktreeRoot = git(location, ['rev-parse', '--show-toplevel']);
+    if (realpathSync(worktreeRoot) !== realpathSync(location)) {
+      throw new Error('Source is not the Git worktree root');
+    }
     actualSha = git(location, ['rev-parse', 'HEAD']);
     if (actualSha !== expectedSha) errors.push(`Commit mismatch: ${actualSha}`);
-    if (git(location, ['status', '--porcelain', '--untracked-files=no'])) {
-      errors.push('Upstream tracked files have local modifications');
+    const flags = git(location, ['ls-files', '-v', '-z']).split('\0').filter(Boolean);
+    if (flags.some(entry => !entry.startsWith('H '))) {
+      errors.push('Unexpected Git index flags (assume-unchanged, skip-worktree or nonstandard index state)');
+    }
+    const tracked = git(location, ['status', '--porcelain', '--untracked-files=no']);
+    if (tracked) errors.push('Upstream tracked files have local modifications');
+    if (git(location, ['ls-files', '--others', '--exclude-standard', '-z'])) {
+      errors.push('Upstream has untracked non-ignored files');
     }
   } catch (error) {
     errors.push(error.message);
