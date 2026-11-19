@@ -110,3 +110,7 @@ npm run test:omega
 `models:layout` rozszerza dotychczasowy skan nagłówka GGUF o kontrolę metadanych i układu tensorów v2/v3 little-endian. Obsługiwane są wybrane typy GGML, m.in. Q4_K, Q5_K, Q6_K, F16/F32 i Q8_0. Nieobsługiwane kwantyzacje nie są uznawane za poprawne. Nie weryfikuje wartości tensorów ani zgodności z architekturą konkretnego modelu. Specyfikacja: https://github.com/ggml-org/ggml/blob/master/docs/gguf.md.
 
 Testy: 24/24 offline Python i 72/72 regresji Node. Rzeczywiste zdalne bajty jednego prywatnego archiwum potwierdzono przez dekodowanie części i porównanie SHA-256 w pamięci, oddzielnie od lokalnych testów importera. Nie przeniesiono prywatnych materiałów do publicznego repozytorium. Szczegóły: `docs/evidence/SEC002-MIG004-GGUF001.json`.
+
+## Polityka odbioru bez niezależnej infrastruktury
+
+[VALIDATION_POLICY v2.0](docs/VALIDATION_POLICY.md) ustanawia deterministyczne testy inżynieryjne z symulowanymi granicami niedostępnej infrastruktury jako podstawę odbioru modelowalnych kryteriów. Zewnętrzny audyt i płatne CI nie są wymagane. [Macierz testów RUN/AND/GPU](docs/SIMULATION_MATRIX.md) rozdziela ENGINEERING (w tym SIM-PASS) od PHYSICAL. Symulacja nie zastępuje implementacji ani faktycznego buildu, instalacji lub pomiaru, jeśli są one deklarowane jako wykonane.

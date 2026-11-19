@@ -41,3 +41,7 @@ Pełny root gate `npm run test:gate`: 68/68 PASS, 0 FAIL, 0 SKIP, exit 0. Wszyst
 ## SEC-002 / MIG-004 / GGUF-001 — 2026-11-19
 
 `npm run test:omega`: 24/24 PASS (9 SEC, 6 MIG, 9 GGUF); `npm run test:gate`: 72/72 PASS. RED: brak modułów; dodatkowe regresje SRI/SBOM przed poprawką (2 błędy), GREEN po poprawce. Python 3.13.5, Node 22.16.0, Git 2.47.3; py_compile PASS. Rzeczywiste bajty siedmiu części jednego prywatnego archiwum oraz końcowe SHA-256 zgodne (4 211 392 B). Test importera z fixture ZIP, a nie z prywatnym pakietem na dysku. Skan pełnego źródła, audyt CVE/licencji, integracja runtime i sprzęt NOT_RUN. `docs/evidence/SEC002-MIG004-GGUF001.json`.
+
+## Polityka odbioru v2.0 — 2026-11-19
+
+Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycznymi testami symulacyjnymi według [VALIDATION_POLICY](VALIDATION_POLICY.md). Nowe kryteria/wyniki mają odrębną oś ENGINEERING i PHYSICAL. [SIMULATION_MATRIX](SIMULATION_MATRIX.md) definiuje dziewięć scenariuszy RUN/AND/GPU ze statusem SIM_REQUIRED; w tej zmianie nie uruchomiono nowych testów. Dotychczasowe wyniki pozostają historycznymi dowodami, nie są automatycznie przeliczane na SIM-PASS.
