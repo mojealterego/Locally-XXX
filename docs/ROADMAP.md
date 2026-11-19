@@ -11,13 +11,13 @@ Data aktualizacji: 2026-11-19. Zasada: status `POTWIERDZONE` wymaga wskazania ko
 | SEC-001 | Bramka niezmienności źródeł | TESTOWANE LOKALNIE | `scripts/upstream-gate.mjs`, `tests/upstream-gate-security.test.mjs` — 15/15 PASS w lokalnym środowisku Node 22.16.0, Git 2.47.3, Linux; pełne testy aplikacji osobno |
 | SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/index-trust.mjs`, `scripts/snapshot-integrity.mjs`, `scripts/vendorize.mjs` — 15/15 testów snapshotu i 11/11 importera; wspólna kotwica SHA-256, ścisła kontrola manifestu i trybów, weryfikacja przed publikacją. Pełna rzeczywista materializacja pozostaje otwarta |
 | SEC-002 | Skan sekretów, licencji i zależności przed publikacją | BRAK | Skan pełnej zawartości i raport SBOM; prywatnych archiwów nie publikować bez przeglądu |
-| RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | BRAK W REPO | Wcześniejsze prace wymagają porównania z kodem i odtworzenia regresji w Locally-XXX |
+| RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | NAKŁADKA ZAIMPLEMENTOWANA / TESTY MODUŁU PASS | `overlays/rag/`, `npm run rag:prepare`: parser XLSX, polska tokenizacja, limity ZIP/tekst/PDF i embeddingów. Chromium 23/23 i 4 testy nakładki; 16 kotwic w 4 plikach upstream zgodnych z przypiętym SHA. Pełne uruchomienie aplikacji, test PDF.js/Mammoth w aplikacji i rzeczywisty model niezweryfikowane. |
 | RUN-002 | Przygotowanie zweryfikowanego katalogu roboczego bez submodułu | TESTOWANE LOKALNIE | `scripts/staged-runtime.mjs`, 18/18 testów; zakotwiczenie SHA-256 indeksu, jawne odstępstwo tylko dla 2 zasobów dokumentacji. Porównano indeks 1112/1112 z drzewem upstream. Build i rzeczywisty snapshot lokalnie nieuruchomione. |
 | RUN-001 | Desktop build Tauri/React/Rust | NIEZWERYFIKOWANE | `npm ci`, `npm run build`, `cargo test` i test uruchomienia na docelowym OS |
 | AND-001 | Natywne APK Android / Termux / S24 Ultra | BRAK | Pełny toolchain, binaria ARM64, podpis, instalacja, logcat, E2E na urządzeniu |
 | GGUF-001 | Offline inwentaryzacja GGUF i heurystyka RAM | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/gguf-inventory.mjs` + 9 testów; bez testu sprzętowego i bez pełnej walidacji tensorów |
 | GPU-001 | Lokalna inferencja GGUF / ComfyUI / 8K | NIEZWERYFIKOWANE | Pomiary sprzętowe, integralność wag i odrębne testy każdej ścieżki |
-| CI-001 | Bezpłatna walidacja offline | TESTOWANE LOKALNIE (BRAMKI) | `npm run test:gate`: 68/68 PASS na wszystkich 6 plikach testowych z identycznymi blob SHA. Pełne testy aplikacji i build nadal NOT_RUN; bez płatnych runnerów. |
+| CI-001 | Bezpłatna walidacja offline | TESTOWANE LOKALNIE (BRAMKI) | `npm run test:gate`: 72/72 PASS na wszystkich 7 plikach testowych z identycznymi blob SHA. Pełne testy aplikacji i build nadal NOT_RUN; bez płatnych runnerów. |
 
 ## Kolejność domknięcia
 

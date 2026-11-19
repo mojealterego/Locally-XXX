@@ -22,6 +22,8 @@
     "models:inventory": "node scripts/gguf-inventory.mjs",
     "vendor:verify-pinned": "node scripts/snapshot-integrity.mjs",
     "stage:check": "node scripts/staged-runtime.mjs check",
-    "stage:prepare": "node scripts/staged-runtime.mjs prepare"
+    "stage:prepare": "node scripts/staged-runtime.mjs prepare",
+    "rag:prepare": "node scripts/rag-overlay.mjs",
+    "test:rag-browser": "python3 tests/rag-browser.py"
   }
 }

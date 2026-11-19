@@ -1,0 +1,86 @@
+{
+  "src/api/rag.ts": {
+    "git_sha1": "7162a9537efed45f4867671ce3c90344127da24d",
+    "replacements": [
+      {
+        "old": "import { v4 as uuid } from \"uuid\"",
+        "new": "import { v4 as uuid } from \"uuid\"\nimport { LIMITS, documentType, boundedText, extractPlainText, extractXlsx, validateOffice, searchTokens, embedBatches } from \"./rag-documents\""
+      },
+      {
+        "old": "  const ext = file.name.split(\".\").pop()?.toLowerCase()\n  try {\n    if (ext === \"pdf\") return await extractTextFromPDF(file)\n    if (ext === \"docx\") return await extractTextFromDOCX(file)\n    return await file.text()",
+        "new": "  try {\n    const ext = documentType(file)\n    if (ext === \"pdf\") return await extractTextFromPDF(file)\n    if (ext === \"docx\") return await extractTextFromDOCX(file)\n    if (ext === \"xlsx\") return await extractXlsx(file)\n    return await extractPlainText(file)"
+      },
+      {
+        "old": "  const doc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise\n  const pages: string[] = []\n  for (let i = 1; i <= doc.numPages; i++) {\n    const page = await doc.getPage(i)\n    const textContent = await page.getTextContent()\n    pages.push(textContent.items.map((item: any) => item.str).join(\" \"))\n  }\n  return pages.join(\"\\n\\n\")",
+        "new": "  const task = pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false })\n  try {\n    const doc = await task.promise\n    if (doc.numPages > LIMITS.pages) throw Error('PDF page limit exceeded')\n    const pages: string[] = []\n    let length = 0\n    for (let i = 1; i <= doc.numPages; i++) {\n      const page = await doc.getPage(i)\n      try {\n        const textContent = await page.getTextContent()\n        const parts: string[] = []\n        for (const item of textContent.items) if ('str' in item) {\n          length += item.str.length + 1\n          if (length > LIMITS.textChars) throw Error('Extracted PDF text limit exceeded')\n          parts.push(item.str)\n        }\n        pages.push(parts.join(' '))\n        length += 2\n      } finally { page.cleanup() }\n    }\n    return boundedText(pages.join('\\n\\n'))\n  } finally { await task.destroy() }"
+      },
+      {
+        "old": "  const mammoth = await import(\"mammoth\")",
+        "new": "  await validateOffice(file)\n  const mammoth = await import(\"mammoth\")"
+      },
+      {
+        "old": "  return result.value",
+        "new": "  return boundedText(result.value)"
+      },
+      {
+        "old": "  const queryTerms = query.toLowerCase().split(/\\s+/)\n  const docTerms = document.toLowerCase().split(/\\s+/)",
+        "new": "  const queryTerms = [...new Set(searchTokens(query))]\n  const docTerms = searchTokens(document)"
+      },
+      {
+        "old": "  const avgDl = allDocs.reduce((sum, d) => sum + d.split(/\\s+/).length, 0) / numDocs || 200",
+        "new": "  const tokens = allDocs.map(searchTokens)\n  const avgDl = tokens.reduce((sum, d) => sum + d.length, 0) / numDocs || 200"
+      },
+      {
+        "old": "    const docsWithTerm = allDocs.filter(d => d.toLowerCase().includes(term)).length",
+        "new": "    const docsWithTerm = tokens.filter(d => d.includes(term)).length"
+      },
+      {
+        "old": "  const embeddings = await generateEmbeddings(rawChunks, embeddingModel)",
+        "new": "  const embeddings = await embedBatches(rawChunks, batch => generateEmbeddings(batch, embeddingModel))"
+      },
+      {
+        "old": "    type: file.name.split(\".\").pop()?.toLowerCase() as \"pdf\" | \"docx\" | \"txt\",",
+        "new": "    type: documentType(file),"
+      }
+    ]
+  },
+  "src/hooks/useRAG.ts": {
+    "git_sha1": "8748034f847d429b74cfb70b948e3822367da775",
+    "replacements": [
+      {
+        "old": "import { indexDocument, retrieveContext } from \"../api/rag\"",
+        "new": "import { indexDocument, retrieveContext } from \"../api/rag\"\nimport { documentType } from \"../api/rag-documents\""
+      },
+      {
+        "old": "      if (!conversationId) return null\n\n      const {\n        embeddingModel,",
+        "new": "      if (!conversationId) return null\n      documentType(file)\n\n      const {\n        embeddingModel,"
+      }
+    ]
+  },
+  "src/components/chat/RAGPanel.tsx": {
+    "git_sha1": "73a6a9a5254e42e149fc49c132461ff86568dcbe",
+    "replacements": [
+      {
+        "old": "const ACCEPT = '.pdf,.docx,.txt'",
+        "new": "const ACCEPT = '.pdf,.docx,.txt,.xlsx'"
+      },
+      {
+        "old": "['pdf', 'docx', 'txt'].includes(ext)",
+        "new": "['pdf', 'docx', 'txt', 'xlsx'].includes(ext)"
+      },
+      {
+        "old": "PDF, DOCX, TXT",
+        "new": "PDF, DOCX, TXT, XLSX"
+      }
+    ]
+  },
+  "src/types/rag.ts": {
+    "git_sha1": "cdb615bb34b8d6c2e16351bbda849ec360ddc30a",
+    "replacements": [
+      {
+        "old": "type: 'pdf' | 'docx' | 'txt'",
+        "new": "type: 'pdf' | 'docx' | 'txt' | 'xlsx'"
+      }
+    ]
+  }
+}

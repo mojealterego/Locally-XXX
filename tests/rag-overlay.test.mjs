@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {patchText} from '../scripts/rag-overlay.mjs';
+const gitHash = s => createHash('sha1').update('blob '+Buffer.byteLength(s)+'\0').update(s).digest('hex');
+const input='import base\nold line\n';
+const entry={git_sha1:gitHash(input),replacements:[{old:'old line',new:'new line'}]};
+test('RAG-PATCH-01 exact pinned bytes transform without modifying input',()=>assert.equal(patchText(input,entry),'import base\nnew line\n'));
+test('RAG-PATCH-02 base divergence fails closed',()=>assert.throws(()=>patchText(input+'x',entry),/SHA/));
+test('RAG-PATCH-03 missing anchor rejected',()=>assert.throws(()=>patchText(input,{...entry,replacements:[{old:'absent',new:'y'}]}),/anchor/));
+test('RAG-PATCH-04 ambiguous anchor rejected',()=>{const s='a a';assert.throws(()=>patchText(s,{git_sha1:gitHash(s),replacements:[{old:'a',new:'b'}]}),/anchor/)});

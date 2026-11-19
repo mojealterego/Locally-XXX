@@ -1,0 +1,105 @@
+{
+  "base_commit": "a9c3605425cc30dc182863a13f2fd7f218e7424a",
+  "scope": "RAG-001 overlay; actual Chromium module tests, deterministic Node patch tests, metadata/anchor checks on remote source. Not full app integration.",
+  "environment": {
+    "node": "v22.16.0",
+    "typescript": "5.8.3",
+    "python": "3.13.5",
+    "playwright": "1.57.0",
+    "openpyxl": "3.1.5",
+    "chromium": "144.0.7559.96",
+    "os": "Linux x86_64"
+  },
+  "tested_git_blobs": {
+    "package.json": "8d1f4f453d593fd43ed4d3a40069f89717ffb881",
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49"
+  },
+  "upstream_anchor_verification": {
+    "files": {
+      "src/api/rag.ts": "7162a9537efed45f4867671ce3c90344127da24d",
+      "src/hooks/useRAG.ts": "8748034f847d429b74cfb70b948e3822367da775",
+      "src/components/chat/RAGPanel.tsx": "73a6a9a5254e42e149fc49c132461ff86568dcbe",
+      "src/types/rag.ts": "cdb615bb34b8d6c2e16351bbda849ec360ddc30a"
+    },
+    "anchors": 16,
+    "all_unique": true
+  },
+  "test_results": {
+    "baseline": {
+      "command": "npm run test:gate",
+      "pass": 68,
+      "fail": 0
+    },
+    "red": {
+      "overlay": "module absent; test command failed",
+      "browser": "TypeScript source absent; compilation failed"
+    },
+    "gate": {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0
+    },
+    "browser": {
+      "command": "npm run test:rag-browser",
+      "pass": 23,
+      "fail": 0,
+      "exit": 0
+    },
+    "patch_unit": {
+      "command": "node --test tests/rag-overlay.test.mjs",
+      "pass": 4,
+      "fail": 0,
+      "exit": 0
+    }
+  },
+  "log_sha256": {
+    "BASELINE.log": "97beaeae8721e6e90523a0d5289897b3cc496dee71e801a4a75eef71003b1879",
+    "FULL-GATE.log": "cba82e6333a91f3f87f963675834e710d4733e2c25c9558717c84c85359485df",
+    "OVERLAY-GREEN.log": "d094bb3642eb28dffabcddde3b685eb2b7114ec0ac3e5ae7e1bf901f23e95c46",
+    "OVERLAY-RED.log": "0d405258c329f9b6c9dfbc73c82816dfd607707a39780373dbdeaac9079b58f6",
+    "RAG-GREEN.log": "20f3a7f1b1938d75c986c4c4ac0c2a8730fc6de64a6229f86e77adecb38efc98",
+    "RAG-RED.log": "2e143b011edda0d742afa3e189cbbd21c9438318bc08e4fd62ae274664fee22d"
+  },
+  "limits": {
+    "file_MiB": 25,
+    "office_expanded_MiB": 64,
+    "office_entry_MiB": 16,
+    "entries": 2048,
+    "extracted_utf16_units": 1000000,
+    "pdf_pages": 500,
+    "xlsx_cells": 100000,
+    "xlsx_sheets": 128,
+    "embedding_batch": 16,
+    "embedding_chunks": 4096,
+    "vector_dimensions": 4096
+  },
+  "blockers": [
+    "Full checkout/build unavailable: network/DNS blocked in local environment",
+    "PDF.js/Mammoth actual runtime integration not executed",
+    "Full RAG retrieval with actual embedding model, Android WebView and hardware not executed",
+    "Original staged tree intentionally remains immutable; RAG uses explicit rag:prepare"
+  ],
+  "scope_notes": [
+    "XLSX cached values, not formula calculation or spreadsheet formatting",
+    "Strict ZIP subset and modern DecompressionStream('deflate-raw') browser support required",
+    "Limits do not establish absolute memory/CPU protection against hostile PDF decoding; no OCR"
+  ]
+}

@@ -33,3 +33,7 @@ RED: 5/5 nowych regresji wykazało błąd; GREEN: 18/18 testów staged-runtime. 
 ## SEC-003 / CI-001 — 2026-11-19
 
 Pełny root gate `npm run test:gate`: 68/68 PASS, 0 FAIL, 0 SKIP, exit 0. Wszystkie 6 plików testowych, 6 skryptów i package.json o zgodnych Git blob SHA z kandydatem. RED: 5 regresji indeksu, 8 snapshotu, 5 importera (każdy zestaw exit 1); GREEN: 18/18, 15/15 i 11/11. Linux x86_64 / Node v22.16.0 / Git 2.47.3. Pełny checkout aplikacji oraz build i hardware NOT_RUN. Dowód: `docs/evidence/SEC-003-CI-001.json` (SHA-256 logów w pakiecie dowodowym).
+
+## RAG-001 — 2026-11-19
+
+`npm run test:gate`: 72/72 PASS, w tym 4 testy nakładki, 0 FAIL, 0 SKIP. `npm run test:rag-browser`: 23/23 PASS, rzeczywisty Chromium, ścisła kompilacja TypeScript; kontrolowane pliki XLSX/DOCX, TXT oraz syntetyczna odpowiedź embeddingów. Zweryfikowano 16 unikatowych kotwic 4 plików rzeczywistego upstream według przypiętych blob SHA. Pełny checkout, materializacja nakładki na całym drzewie, build i backend modelu NOT_RUN. `docs/evidence/RAG-001.json`.
