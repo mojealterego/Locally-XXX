@@ -1,0 +1,101 @@
+{
+  "base_commit": "6b30e8919f3efe7860066488f74e145626f05438",
+  "date": "2026-11-19",
+  "environment": {
+    "python": "3.13.5",
+    "node": "22.16.0",
+    "git": "2.47.3",
+    "os": "Linux x86_64"
+  },
+  "tested_git_blobs": {
+    "package.json": "103b13d28da3de297b76579bf33bdc738323622f",
+    "scripts/security_scan.py": "5398fd483ce6c6f4ce18feb12870e1915f9a4a48",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49"
+  },
+  "tests": {
+    "new": {
+      "command": "npm run test:omega",
+      "pass": 24,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0,
+      "by_module": {
+        "SEC002": 9,
+        "MIG004": 6,
+        "GGUF001": 9
+      }
+    },
+    "regression": {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0
+    },
+    "red": "Initial missing modules; refinement 2 failed tests (invalid SRI accepted, missing SBOM) before fix",
+    "syntax": "Python py_compile PASS"
+  },
+  "logs_sha256": {
+    "THREE-RED.log": "9d05c21bfe289fbed909df96ea186e740674347984c2cff3b9f782e19e505dc3",
+    "THREE-REFINE-RED.log": "28310a5d70f3dabdcaa83ed70b63a7b63a85f98ca77b124235592b11333e2cf1",
+    "THREE-FINAL.log": "2fa3c72eed7da8d72eca53b55b4258fea4fd49ed4e89a0c109f3cc5aa14ab15e",
+    "THREE-REGRESSION.log": "40f7042e52850ae6290ee10f2d867d7bc74d6779a5e86346ab7c9ea3ecf085c4"
+  },
+  "SEC002": {
+    "local_script_subset": {
+      "entries": 10,
+      "bytes": 58261,
+      "findings": 1,
+      "review_ready": false,
+      "reason": "no license declaration inside scripts-only subset"
+    },
+    "upstream_metadata": {
+      "npm_entries": 506,
+      "npm_sri_format_matches": 506,
+      "cargo_entries": 681,
+      "cargo_external": 680,
+      "cargo_checksum_format_matches": 680,
+      "files_with_four_secret_patterns": 0,
+      "scope": "four manifests/lockfiles; not actual dependency bytes, full source scan or CVE audit",
+      "source_blobs": [
+        "8d343977bda5a66b9c1832a966145b24f9d762af",
+        "a8c0a7894dcaba4fa48b490353cdff5a08e68858",
+        "da73307d56f7288d09362af44040023bf882a303",
+        "1831334cec4a872d8a5e4c84b7aee62d699e5247"
+      ]
+    },
+    "blocker": "Full checkout unavailable; complete license approval, binary review and vulnerability database verification pending"
+  },
+  "MIG004": {
+    "actual_verified_archive": {
+      "groups": 1,
+      "parts": 7,
+      "bytes": 4211392,
+      "part_sha256_match": 7,
+      "whole_sha256_match": true,
+      "scope": "Decoded actual remote bytes in memory against pinned manifest, no private artifact or private manifest details published"
+    },
+    "blocker": "All other private archives, actual local restore with private bytes, content safety review and runtime integration pending"
+  },
+  "GGUF001": {
+    "scope": "Little-endian v2/v3 supported GGML layouts; synthetic fixtures only; unsupported types rejected; actual weights and hardware inference NOT_RUN"
+  },
+  "network": "git ls-remote blocked by DNS; no full application build",
+  "paid_ci": 0
+}

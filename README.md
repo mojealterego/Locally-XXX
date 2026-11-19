@@ -91,3 +91,22 @@ Nakładka AGPL-3.0-only zachowuje przypięty snapshot upstream i modyfikuje wył
 Obsługiwane: XLSX z adresami komórek i nazwami arkuszy, shared/inline strings, zapisane wyniki formuł bez przeliczania; TXT UTF-8 i UTF-16 z BOM; zachowanie znaków i wyszukiwanie tokenów bez polskich diakrytyków. PDF/DOCX używają istniejących już zależności PDF.js/Mammoth z kontrolami wejścia, PDF sprząta zadanie i strony, DOCX przechodzi kontrolę ZIP/XML. Limit wejścia 25 MiB, ZIP 64 MiB, wpis 16 MiB, 2048 wpisów, tekst 1 mln jednostek UTF-16, 500 stron, 100 tys. komórek, 128 arkuszy, 4096 fragmentów, batch embeddingów 16. Niezaufane relacje arkuszy, ścieżki ZIP, DTD i niepoprawne CRC są odrzucane. Nie obsługuje ZIP64, szyfrowania, XLSM ani obliczania formuł. Wymaga nowoczesnego WebView z `DecompressionStream('deflate-raw')`; nie potwierdzono urządzeń Android. Limity nie są pełną izolacją pamięci i CPU złośliwych PDF.
 
 Test modułu: `npm run test:rag-browser` — Python 3, Playwright 1.57.0, openpyxl 3.1.5, Chromium (zmienna CHROMIUM), TypeScript 5.8.3. Testy nie pobierają modelu i nie wymagają sieci. `npm run test:gate`: 72/72 PASS; Chromium: 23/23 PASS. Pełny build, faktyczny PDF.js/Mammoth i embedding backend nadal niezweryfikowane. Raport: `docs/evidence/RAG-001.json`.
+
+## SEC-002 / MIG-004 / GGUF-001 — kontrola offline OMEGA-X
+
+Wymagane Python 3.11+ i system POSIX (O_NOFOLLOW). Komendy z katalogu głównego:
+
+```bash
+npm run security:scan -- /sciezka/do/kopii
+npm run omega:restore -- /prywatny/katalog/chunks SHA256_Z_ZAUFANEGO_ZRODLA /prywatny/katalog/output.zip
+npm run models:layout -- /sciezka/model.gguf
+npm run test:omega
+```
+
+`security:scan` zwraca JSON z heurystycznymi wykryciami (bez wartości dopasowanych sekretów), deklaracjami licencji, inwentarzem npm/Cargo i osadzonym SBOM CycloneDX 1.5. Exit 0 oznacza wyłącznie brak zdefiniowanych wykryć i braku deklaracji w skanowanym katalogu, 2 oznacza potrzebę przeglądu, 1 błąd. Nie jest to decyzja prawna, skan wszystkich formatów binarnych ani audyt aktualnych CVE. SRI to kontrola formatu sum lockfile, a nie sprawdzenie pobranych paczek. SBOM jest generowany w formacie CycloneDX; walidacja oficjalnym schematem nie została wykonana.
+
+`omega:restore` odtwarza lokalnie prywatny pakiet `omega-chunks-v1`; kotwica SHA-256 manifestu musi pochodzić z niezależnie zaufanego źródła. Sprawdza każdą część i cały plik, ZIP z limitami rozpakowania, ścieżkami, typami i CRC; nie rozpakowuje na dysk, nie wykonuje zawartości i nie nadpisuje istniejącego celu. Nie przyznaje zgody na publikację. Limit całego pliku 20 GiB, części 64 MiB; ZIP 2 GiB po rozpakowaniu, pojedynczy wpis 256 MiB. Katalog roboczy musi być zaufany i prywatny; brak ochrony przed równoległym procesem o identycznych uprawnieniach.
+
+`models:layout` rozszerza dotychczasowy skan nagłówka GGUF o kontrolę metadanych i układu tensorów v2/v3 little-endian. Obsługiwane są wybrane typy GGML, m.in. Q4_K, Q5_K, Q6_K, F16/F32 i Q8_0. Nieobsługiwane kwantyzacje nie są uznawane za poprawne. Nie weryfikuje wartości tensorów ani zgodności z architekturą konkretnego modelu. Specyfikacja: https://github.com/ggml-org/ggml/blob/master/docs/gguf.md.
+
+Testy: 24/24 offline Python i 72/72 regresji Node. Rzeczywiste zdalne bajty jednego prywatnego archiwum potwierdzono przez dekodowanie części i porównanie SHA-256 w pamięci, oddzielnie od lokalnych testów importera. Nie przeniesiono prywatnych materiałów do publicznego repozytorium. Szczegóły: `docs/evidence/SEC002-MIG004-GGUF001.json`.
