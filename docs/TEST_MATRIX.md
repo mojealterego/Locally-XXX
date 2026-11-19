@@ -25,3 +25,7 @@ Porównano świeże drzewa Git przypiętego upstream oraz przygotowanego snapsho
 ## RUN-002 — 2026-11-19
 
 `node --test tests/staged-runtime.test.mjs`: 13/13 PASS. Regresja 3 lokalnych plików testowych SEC-001 i RUN-002: 28/28 PASS, 0 FAIL, 0 SKIP (Linux / Node.js 22.16.0). RED przed implementacją: brak modułu. Pełny zestaw testów repozytorium, rzeczywisty checkout snapshotu, pełny build i Android pozostają NOT_RUN. Dowód: `docs/evidence/RUN-002.json`.
+
+## RUN-002 — zakotwiczenie indeksu (2026-11-19)
+
+RED: 5/5 nowych regresji wykazało błąd; GREEN: 18/18 testów staged-runtime. Regresja 3 dostępnych plików testowych SEC-001 i RUN-002: 33/33 PASS, 0 FAIL, 0 SKIP (Linux / Node 22.16.0). Indeks 1112/1112 zgodny z przypiętym drzewem upstream; SHA-256 indeksu przypięty w kodzie. Pełny checkout, testy wszystkich sześciu plików testowych, build i Android NOT_RUN. Starszy weryfikator vendor pozostaje osobną ścieżką do utwardzenia. Dowód: `docs/evidence/RUN-002-index-anchor.json`.

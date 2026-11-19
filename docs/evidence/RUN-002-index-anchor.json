@@ -1,0 +1,52 @@
+{
+  "base_commit": "f69615fd5c438f8a9407a074ebc5215cdd4966d4",
+  "upstream_commit": "6d96ab92e827e0471586c6291c78067b495ef44a",
+  "index_git_blob": "e524648a7c7c3312cf2786ec5f198b8fe44110ab",
+  "index_sha256": "63ceddf8e29aac9a80a2245f263dd464ec5eb21b3de7516cc728313d90eba0ee",
+  "index_metadata": {
+    "expected": 1112,
+    "matched": 1112,
+    "mismatches": 0
+  },
+  "source_git_blob": "1ea219b61574637b03f95a1323d5ead805765252",
+  "test_git_blob": "1c637bb56647623de73570f942c47c54e434fb5f",
+  "source_sha256": "b87b59bacd86df69a20eac622c31c6eff70182f72061590f0a33aa4dd3ff9205",
+  "test_sha256": "167c6a366916b85004f9641bd32838bd59d3f15ccc52e2ebca346b6a6f90884f",
+  "environment": {
+    "node": "v22.16.0",
+    "git": "2.47.3",
+    "os": "Linux"
+  },
+  "tests": {
+    "baseline": {
+      "pass": 28,
+      "fail": 0
+    },
+    "red": {
+      "command": "node --test tests/staged-runtime.test.mjs",
+      "pass": 13,
+      "fail": 5,
+      "exit": 1
+    },
+    "green": {
+      "command": "node --test tests/staged-runtime.test.mjs",
+      "pass": 18,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0
+    },
+    "regression": {
+      "command": "node --test tests/*.test.mjs",
+      "scope": "3 locally available test files, not full remote suite",
+      "pass": 33,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0
+    }
+  },
+  "full_checkout": "BLOCKED: DNS resolution for github.com unavailable",
+  "full_gate_suite": "NOT_RUN",
+  "build": "NOT_RUN",
+  "missing_docs": "BLOCKED: binary retrieval unavailable",
+  "legacy_vendor_verifier": "unchanged; separate hardening remains open"
+}

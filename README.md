@@ -73,3 +73,7 @@ npm run stage:prepare -- --allow-missing-doc-assets
 ```
 
 `stage:prepare` tworzy nowy prywatny katalog `runtime/locally-uncensored-*`, ponownie weryfikuje zawartość i zwraca ścieżkę w polu JSON `output`. Nie wykonuje skopiowanego kodu, nie instaluje zależności i nie nadpisuje wcześniejszego katalogu. Po przeglądzie zależności można w tym katalogu wykonać `npm ci`, `npm run build` i `npm run test:e2e`. Nie są to dotychczas zweryfikowane wyniki pełnego buildu. Indeks i checkout projektu są granicą zaufania; narzędzie przeznaczone jest do prywatnego katalogu roboczego, nie do obrony przed równoległym procesem o tych samych uprawnieniach. Walidacja lokalna: Linux, Node.js 22; Windows i Android niezweryfikowane.
+
+### Kotwica integralności indeksu
+
+`stage:check` i `stage:prepare` wymagają zgodności pliku `docs/UPSTREAM_FILE_INDEX.json` z SHA-256 `63ceddf8e29aac9a80a2245f263dd464ec5eb21b3de7516cc728313d90eba0ee` przed parsowaniem. Produkcyjnej kotwicy nie można nadpisać opcją API. Testy innych snapshotów wymagają jawnego, zaufanego digestu. Ochrona zakłada zaufany kod bramki; nie broni przed podmianą samego skryptu przez proces o tych samych uprawnieniach. Zmiana upstream wymaga świadomego odświeżenia kotwicy po weryfikacji pochodzenia indeksu.
