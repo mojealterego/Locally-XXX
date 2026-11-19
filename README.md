@@ -62,3 +62,14 @@ Importer sprawdza SHA-1 obiektów Git, SHA-256 skopiowanych plików, odrzuca dow
 - Testy deterministyczne nie zastępują sprzętowych testów Android, GPU ani produkcyjnego E2E.
 
 Zobacz [roadmapę](docs/ROADMAP.md), [macierz weryfikacji](docs/TEST_MATRIX.md) i [politykę odbioru](docs/VALIDATION_POLICY.md).
+
+## Przygotowanie lokalnego katalogu roboczego bez submodułu
+
+Node.js 22+. Bramka porównuje bajty z przypiętym indeksem `docs/UPSTREAM_FILE_INDEX.json`, odrzuca dodatkowe pliki, niedozwolone ścieżki, symlinki i niezgodny tryb wykonywalności (POSIX). Domyślna ścieżka wymaga wszystkich 1112 plików. Na obecnym checkpoincie można jawnie dopuścić wyłącznie brak `docs/demo.gif` i `docs/social-preview.png`:
+
+```bash
+npm run stage:check -- --allow-missing-doc-assets
+npm run stage:prepare -- --allow-missing-doc-assets
+```
+
+`stage:prepare` tworzy nowy prywatny katalog `runtime/locally-uncensored-*`, ponownie weryfikuje zawartość i zwraca ścieżkę w polu JSON `output`. Nie wykonuje skopiowanego kodu, nie instaluje zależności i nie nadpisuje wcześniejszego katalogu. Po przeglądzie zależności można w tym katalogu wykonać `npm ci`, `npm run build` i `npm run test:e2e`. Nie są to dotychczas zweryfikowane wyniki pełnego buildu. Indeks i checkout projektu są granicą zaufania; narzędzie przeznaczone jest do prywatnego katalogu roboczego, nie do obrony przed równoległym procesem o tych samych uprawnieniach. Walidacja lokalna: Linux, Node.js 22; Windows i Android niezweryfikowane.

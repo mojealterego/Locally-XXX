@@ -21,3 +21,7 @@ Porównano świeże drzewa Git przypiętego upstream oraz przygotowanego snapsho
 ## SEC-001 — 2026-11-19
 
 `node --test tests/upstream-gate.test.mjs tests/upstream-gate-security.test.mjs`: 15/15 PASS, 0 FAIL, 0 SKIP; lokalny Linux, Node.js 22.16.0, Git 2.47.3. Pliki z poprzedniego patcha zweryfikowane SHA-256 i ponownie uruchomione; Git blob kodu `84659f81e5aba30dd145e483d05f807aec0059de`, testów `5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a`. Nie jest to pełny zestaw testów aplikacji ani niezależny audyt. Odbiór w zakresie testowanej logiki zgodnie z VALIDATION_POLICY.md.
+
+## RUN-002 — 2026-11-19
+
+`node --test tests/staged-runtime.test.mjs`: 13/13 PASS. Regresja 3 lokalnych plików testowych SEC-001 i RUN-002: 28/28 PASS, 0 FAIL, 0 SKIP (Linux / Node.js 22.16.0). RED przed implementacją: brak modułu. Pełny zestaw testów repozytorium, rzeczywisty checkout snapshotu, pełny build i Android pozostają NOT_RUN. Dowód: `docs/evidence/RUN-002.json`.

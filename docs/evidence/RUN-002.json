@@ -1,0 +1,29 @@
+{
+  "base_commit": "39a08bbcda129f5d012fe0ec4a97419e0d2e761f",
+  "node": "v22.16.0",
+  "git": "2.47.3",
+  "os": "Linux",
+  "source_blob": "21420fa949133a35cedb69f5b0f633258ded8454",
+  "test_blob": "d4d4d94b6874fa013205cd4c8b0f1d0b9c8a69c2",
+  "red": {
+    "command": "node --test tests/staged-runtime.test.mjs",
+    "exit": 1,
+    "reason": "module absent before implementation"
+  },
+  "green": {
+    "command": "node --test tests/staged-runtime.test.mjs",
+    "pass": 13,
+    "fail": 0,
+    "skip": 0
+  },
+  "regression": {
+    "command": "node --test tests/*.test.mjs",
+    "scope": "three local test files in increment (SEC-001 + RUN-002)",
+    "pass": 28,
+    "fail": 0,
+    "skip": 0
+  },
+  "full_gate_suite": "NOT_RUN",
+  "full_snapshot_execution": "NOT_RUN",
+  "hardware": "NOT_RUN"
+}
