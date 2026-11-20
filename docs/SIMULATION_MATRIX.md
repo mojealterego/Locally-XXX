@@ -1,6 +1,6 @@
 # Macierz deterministycznych testów symulacyjnych
 
-Aktualizacja 2026-11-20. Po 47 testach kontrolera/brokera/recovery wykonano 20 nowych testów tiled upscale. SIM-PASS obejmuje modelowalny zakres kryterium; PARTIAL oznacza brak pokrycia lub kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
+Aktualizacja 2026-11-20. Wykonano 16 dalszych testów managed GPU, 202 unikatowe testy regresji. SIM-PASS obejmuje modelowalny zakres kryterium; PARTIAL oznacza brak pokrycia/kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
 
 | ID | Punkt | Symulowana granica | Asercja odbiorowa | ENGINEERING | PHYSICAL |
 | --- | --- | --- | --- | --- | --- |
@@ -29,9 +29,11 @@ Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VAL
 - **SIM-AND-02 — PARTIAL**: rzeczywisty proces POSIX zakończony SIGKILL, identyfikacja PID/starttime, osierocona rezerwacja w kwarantannie, recovery tylko po potwierdzeniu bezczynności backendu. Pozostały Activity/service Android oraz natywny permission lifecycle.
 - **SIM-AND-03 — SIM-PASS (kontrola dopuszczenia)**: trwała kolejka FIFO, transakcje SQLite, monitor jednego właściciela, rezerwa 1024 MiB, histereza 43/39.5 C, ważność próbki 10 s, kontrola deadline i zwolnienie/recovery. Nie przerywa działającego GPU; rzeczywisty sensor i pamięć urządzenia NOT_RUN.
 - **SIM-GPU-01 — SIM-PASS**: Actual loopback HTTP transport to fixture; llama-server route and simulated ComfyUI prompt/history/view contract, content validation. Pozostało: Trusted local backend/workflow required; no real model execution.
-- **SIM-GPU-02 — PARTIAL**: trwały dziennik zadania, ograniczone ponowienia GET, brak retry POST przy nieznanym wyniku, wznowienie znanego prompt_id, atomowy odbiór i recovery po przerwaniu. Brak scoped cancellation, automatycznego recovery samego backendu i pomiarów VRAM.
+- **SIM-GPU-02 — PARTIAL**: trwały dziennik, ograniczone retry GET, managed GPU z rewalidacją aktywnej rezerwacji i minimalnego wolnego VRAM przed POST, PAUSED i wznowienie z potwierdzonymi kaflami, scoped usuwanie oczekującego prompt_id przez /queue. Kwarantanna przy nieznanym POST i niepewnym anulowaniu. Bez globalnego interrupt, bez wymuszania bezczynności backendu. Pozostało bezpieczne przerwanie aktywnego GPU i automatyczny restart backendu; fizyczna telemetria NOT_RUN.
 - **SIM-GPU-03 — SIM-PASS (upscaling referencyjny i strumieniowe scalanie)**: produkcyjny planer o ograniczonej liczbie kafli, adaptacja rdzenia do oszacowania buforów, nakładki z całkowitoliczbowym featheringiem, rzeczywisty RGB PNG 7680×4320 z 40 kafli, atomowy zapis, recovery po przerwaniu i odmowa zmienionego wejścia. Backend ComfyUI symulowany (najbliższy sąsiad/fixtures); rzeczywiste wagi, generacja dyfuzyjna, VRAM i Android NOT_RUN. Estymata buforów nie jest limitem całkowitego RSS.
 
 Przyrost: `npm run test:broker` 13/13, `npm run test:recovery` 11/11; razem 166 testów regresji. [Dowody](evidence/AND001-GPU001-RECOVERY.json).
 
 Przyrost tiled upscale: `npm run test:tiled` 20/20, pełna regresja 186/186. Dwa pomiary rzeczywistego scalania na Linux dały identyczne SHA-256. [Dowody](evidence/GPU001-TILED-8K.json).
+
+Przyrost managed GPU: `npm run test:managed-gpu` (16 testów; równoważne polecenie unittest wykonane lokalnie). Pełna regresja 202/202. [Dowody](evidence/GPU001-MANAGED.json).

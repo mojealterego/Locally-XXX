@@ -115,7 +115,8 @@ class TiledJob:
         if os.path.lexists(stage):
             s=stage.lstat();require(stat.S_ISDIR(s.st_mode) and s.st_uid==os.getuid() and not s.st_mode&0o077,'STATE','Unsafe staging directory');shutil.rmtree(stage)
         state.pop('staging',None)
-    def run(self,source,model,output,scale,core,halo,budget):
+    def run(self,source,model,output,scale,core,halo,budget,*,admission=None,before_submit=None,checkpoint=None):
+        require(admission is None or (isinstance(admission,dict) and callable(before_submit) and callable(checkpoint)),'ADMISSION','Managed job requires admission callbacks')
         source,model,output=(Path(p).absolute() for p in (source,model,output))
         require(source.is_file() and not source.is_symlink() and source.stat().st_size<=64*MIB and model.is_file() and not model.is_symlink() and 0<model.stat().st_size<=16*1024**3,'INPUT','Trusted local source and model required')
         require(output.suffix.lower()=='.png' and output.parent.is_dir() and not output.parent.is_symlink() and not output.is_relative_to(self.root),'OUTPUT','Unsafe output path')
@@ -123,9 +124,10 @@ class TiledJob:
             require(im.format=='PNG' and im.mode=='RGB' and im.width*im.height<=16_777_216 and not im.getexif(),'INPUT','Source must be RGB PNG without EXIF');width,height=im.size
         p=choose_plan(width*scale,height*scale,scale,core,halo,budget);require(source.stat().st_size*3+4*MIB<=budget*MIB,'OOM','Source verification exceeds client budget');workflow(p['tiles'][0],scale,source.name,model.name)
         config={'source':str(source),'source_sha256':checksum(source),'model':str(model),'model_sha256':checksum(model),'output':str(output),'port':self.backend.port,'requested_core':core,'plan':p}
+        if admission is not None:config['admission']=admission
         with self.journal.locked():
             if os.path.lexists(self.journal.path):
-                state=self.journal.load();require(all(state.get(k)==v for k,v in config.items()),'STATE','Tiled job configuration changed')
+                state=self.journal.load();require(state.get('admission')==admission and all(state.get(k)==v for k,v in config.items()),'STATE','Tiled job configuration changed')
             else:
                 require(not os.path.lexists(output),'OUTPUT','Output exists');state={**config,'state':'RUNNING'};self.journal.save(state)
             if os.path.lexists(output):
@@ -139,16 +141,22 @@ class TiledJob:
                 require(stale.is_dir() and not stale.is_symlink(),'STATE','Unsafe scratch entry');shutil.rmtree(stale)
             require(shutil.disk_usage(self.root).free>=sum(max(MIB,t['w']*t['h']*19) for t in p['tiles'])+MIB,'DISK','Insufficient tile and scratch space')
             paths=[]
-            for t in p['tiles']:
+            for i,t in enumerate(p['tiles']):
                 tile_path=self.root/(t['id']+'.png');job=RenderJob(self.root/t['id'],self.backend);graph=workflow(t,scale,source.name,model.name)
                 tile_budget=max(1,(t['w']*t['h']*16+MIB-1)//MIB)
                 if job.path.exists():
                     old=job.status();expected=hashlib.sha256(json.dumps(graph,sort_keys=True,allow_nan=False).encode()).hexdigest()
-                    require((old['workflow_sha256'],old['output'],old['width'],old['height'],old['budget_mib'])==(expected,str(tile_path),t['w'],t['h'],tile_budget),'STATE','Tile journal mismatch');job.resume()
-                else:job.start(graph,tile_path,t['w'],t['h'],tile_budget)
+                    require((old['workflow_sha256'],old['output'],old['width'],old['height'],old['budget_mib'])==(expected,str(tile_path),t['w'],t['h'],tile_budget),'STATE','Tile journal mismatch');
+                    if checkpoint is not None and old['state'] not in ('READY','DONE'):checkpoint(False)
+                    job.resume()
+                else:
+                    require(not any(os.path.lexists(self.root/later['id']/'state.json') or os.path.lexists(self.root/(later['id']+'.png')) for later in p['tiles'][i+1:]),'STATE','Noncontiguous tile journal')
+                    if before_submit is not None:before_submit()
+                    job.start(graph,tile_path,t['w'],t['h'],tile_budget)
                 paths.append(tile_path)
             require(checksum(source)==config['source_sha256'] and checksum(model)==config['model_sha256'],'STATE','Source or model changed during execution')
             self.check_source(source,config['source_sha256'])
+            if checkpoint is not None:checkpoint(True)
             stage=Path(tempfile.mkdtemp(prefix='omega-output-',dir=output.parent));temp=stage/'result.png'
             state['staging']=str(stage)
             try:

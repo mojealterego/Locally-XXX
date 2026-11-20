@@ -1,0 +1,191 @@
+{
+  "base_commit": "7c0744ac91118762af85210ad34cf797b88e247c",
+  "date": "2026-11-20",
+  "scope": "Managed tiled upscaling, per-tile resource revalidation, safe pause/resume, scoped pending queue cancellation",
+  "environment": {
+    "node": "22.16.0",
+    "python": "3.13.5",
+    "git": "2.47.3",
+    "os": "Linux x86_64",
+    "browser": "Chromium via existing RAG test harness"
+  },
+  "tested_git_blobs": {
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb",
+    "package.json": "0d6649db2aa50b8915307feee5e0b7e4d3f5d306",
+    "requirements-upscale.txt": "e7cc6c178b542946a555ad07fa55b5dde3fca566",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/recoverable_render.py": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+    "scripts/resource_broker.py": "3fcaefc282036a87dcba55620845fedc6d160d55",
+    "scripts/runtime_control.py": "9463dd19e803ebb96ddbcfb3399698c57f5f2be5",
+    "scripts/security_scan.py": "5398fd483ce6c6f4ce18feb12870e1915f9a4a48",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/tiled_upscale.py": "0f164c8c768d24fc72c3db05914a83ef70171f27",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/measure_tiled_memory.py": "600620e6fd61c596076efab4b1ae3f1ec0a77fd3",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "tests/test_recoverable_render.py": "cf8151276dd5c76dde9f598a6d3d99d52b10bb4a",
+    "tests/test_resource_broker.py": "5ea417ffb0857c4b8483b3d65442a204224c148f",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "tests/test_tiled_upscale.py": "12bf2ebc4d1ceafd57f16ba2009d8a270907def4",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49",
+    "scripts/managed_gpu.py": "3e536d703506857580c06e354ca1973166435e8e",
+    "tests/test_managed_gpu.py": "9b9c6cafd2ffa1b15e1863121d0ea750dece22d8"
+  },
+  "source_sha256": {
+    "package.json": "2000ce4c2a7af255c10fb41cc0bcd5fc6c814a9e47ec22812d2076c5e248d826",
+    "scripts/runtime_control.py": "c1a0e388c44dfad6fc493285e657aa06538b9e28d32b671043ecf2775d43e337",
+    "scripts/resource_broker.py": "ddbb5014de2650825e4e1dcc6b5a8a168af50f5ffaf9668e1018243b409f8766",
+    "scripts/tiled_upscale.py": "f32fbc78f4095fe41195fed640fa30f596ed9f530a9f64960aa72c8164434d1b",
+    "scripts/managed_gpu.py": "f510528188aa1ae56186190dbd8e4d9f861b51b29654798c66af6e970df96354",
+    "tests/test_managed_gpu.py": "a974afea0276948ee6cce79be5d2728d0a3bf77dedbb681c2ed863b033736b20"
+  },
+  "logs_sha256": {
+    "MANAGED-FINAL.log": "2b93a3dfa526fb5c9c692661be82a179d482d3bb79f7e542e83a7fe744d021fa",
+    "MANAGED-RAG.log": "662565d5d4cc6a99c741cc9f3edc8dea2277a4186ec1bafae1d81cc604ccf7b8",
+    "MANAGED-PYTHON.log": "5bcbd5d2a46fbcf75bbfeea53d6ce30bff439d354d131918c6a42669b3937b71",
+    "MANAGED-RED.log": "0067f8695051a8c291f279589cd8a24d92406b56a53be399e6d5e89b6c4d0169",
+    "MANAGED-NODE.log": "17aee47d82b55260b7b9d74353619cf31d8f6cfdc453cc73ce3668f233ed39db",
+    "MANAGED-REFINE-RED.log": "12149b9b2db460e4bcc6294aeab225c36db826ba3992aebb6eadafec2a5399cb",
+    "MANAGED-GREEN.log": "5b02aa24471a2fb8742caf8b7e113f9040291544c227621af2f15929b4e788fd"
+  },
+  "commands": [
+    {
+      "command": "python -m unittest discover -s tests -p test_managed_gpu.py -v",
+      "pass": 16,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "MANAGED-FINAL.log"
+    },
+    {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "MANAGED-NODE.log"
+    },
+    {
+      "command": "npm run test:python",
+      "pass": 107,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "MANAGED-PYTHON.log"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "MANAGED-RAG.log"
+    }
+  ],
+  "red": [
+    {
+      "reason": "New module missing",
+      "exit_code": 1,
+      "log": "MANAGED-RED.log"
+    },
+    {
+      "reason": "Safe thermal/VRAM/stop pause did not yet release known quiescent lease",
+      "errors": 4,
+      "exit_code": 1,
+      "log": "MANAGED-REFINE-RED.log"
+    }
+  ],
+  "intermediate_green": {
+    "pass": 12,
+    "log": "MANAGED-GREEN.log"
+  },
+  "unique_tests": 202,
+  "scenarios": [
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-03",
+      "result": "SIM-PASS",
+      "scope": "cooperative admission only",
+      "source_sha": "3fcaefc282036a87dcba55620845fedc6d160d55",
+      "fixture_sha256": "a974afea0276948ee6cce79be5d2728d0a3bf77dedbb681c2ed863b033736b20",
+      "config": "private SQLite, deterministic clock and thermal samples; synthetic local backend",
+      "command": "python -m unittest discover -s tests -p test_managed_gpu.py -v",
+      "seed": null,
+      "exit_code": 0,
+      "log_sha256": "2b93a3dfa526fb5c9c692661be82a179d482d3bb79f7e542e83a7fe744d021fa",
+      "assertions": [
+        "Existing lease revalidated at tile boundaries",
+        "Thermal/VRAM denial pauses before a new POST",
+        "Resume after safe pause without duplicate submissions",
+        "Ambiguous POST keeps orphaned reservation"
+      ]
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-02",
+      "result": "PARTIAL",
+      "scope": "scoped pending-only queue deletion and GPU admission",
+      "source_sha": "3e536d703506857580c06e354ca1973166435e8e",
+      "fixture_sha256": "a974afea0276948ee6cce79be5d2728d0a3bf77dedbb681c2ed863b033736b20",
+      "config": "Deterministic ComfyUI transport fixtures, actual HTTP server emits empty 200 response, local SQLite and filesystem",
+      "command": "python -m unittest discover -s tests -p test_managed_gpu.py -v",
+      "seed": null,
+      "exit_code": 0,
+      "log_sha256": "2b93a3dfa526fb5c9c692661be82a179d482d3bb79f7e542e83a7fe744d021fa",
+      "assertions": [
+        "Only job journal prompt ID used in deletion",
+        "Running/foreign/malformed queue denied",
+        "No global interrupt and no ambiguous POST replay",
+        "Race to running remains unknown",
+        "Cancellation state journaled before POST",
+        "VRAM response bounds checked and no silent fallback",
+        "Managed job cannot resume via unmanaged CLI"
+      ]
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-03",
+      "result": "SIM-PASS",
+      "scope": "existing reference upscaling plus broker integration",
+      "source_sha": "0f164c8c768d24fc72c3db05914a83ef70171f27",
+      "fixture_sha256": "a974afea0276948ee6cce79be5d2728d0a3bf77dedbb681c2ed863b033736b20",
+      "config": "96x64 RGB synthetic reference upscaled x4 with 128 core and 16 halo; existing 8K regression retained",
+      "command": "npm run test:python",
+      "seed": null,
+      "exit_code": 0,
+      "log_sha256": "5bcbd5d2a46fbcf75bbfeea53d6ce30bff439d354d131918c6a42669b3937b71",
+      "assertions": [
+        "Real tiled client, per-tile checkpoint and correct output",
+        "Persistent managed policy binding",
+        "Resume from verified tile journal"
+      ]
+    }
+  ],
+  "limitations": [
+    "ComfyUI /system_stats reports free VRAM; not a hard reservation, device selection or real hardware measurement. Requires a trusted backend and matching device index. RAM check deliberately conservative.",
+    "No forcibly interrupting already running GPU jobs; pending deletion absence is not proof of cancellation or backend idle. Cancellation races remain explicitly unknown.",
+    "Operator reconciliation still required for orphaned leases and unknown POST. No unsafe automatic backend process restart.",
+    "Stop is cooperative at tile boundaries, not guaranteed to abort an in-flight tile or already-started stitch.",
+    "Managed runtime remains CLI; no native UI or APK integration or physical GPU verification.",
+    "No full application checkout/build; git direct network DNS blocked. Publication via GitHub connector."
+  ],
+  "physical": "NOT_RUN",
+  "references": [
+    "https://github.com/Comfy-Org/ComfyUI/blob/master/server.py",
+    "https://github.com/Comfy-Org/docs/blob/main/development/comfyui-server/comms_routes.mdx"
+  ]
+}

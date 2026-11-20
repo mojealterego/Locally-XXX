@@ -211,6 +211,7 @@ class LocalBackend:
                 if not b:break
                 size+=len(b);require(size<=limit,'LIMIT','Backend response too large');parts.append(b)
             raw=b''.join(parts)
+            if method=='POST' and path=='/queue' and raw==b'':return None
             return raw if path.startswith('/view?') else json.loads(raw)
         except (OSError,http.client.HTTPException,ValueError) as e:raise RuntimeErrorCode('TRANSPORT','Backend request failed') from e
         finally:conn.close()

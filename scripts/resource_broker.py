@@ -87,6 +87,15 @@ class Broker:
             reserved=c.execute("SELECT coalesce(sum(mib),0) FROM jobs WHERE state IN ('ACTIVE','ORPHANED')").fetchone()[0]
             if c.execute("SELECT 1 FROM jobs WHERE state='ORPHANED' LIMIT 1").fetchone() or first['ticket']!=ticket or not sample or sample['boot']!=self.boot() or sample['hot'] or not 0<=self.clock()-sample['stamp']<=10 or reserved+r['mib']+1024>sample['available']:return False
             c.execute("UPDATE jobs SET state='ACTIVE' WHERE ticket=?",(ticket,));return True
+    def check_active(self,ticket,owner):
+        """Revalidate an existing lease before submitting another backend task."""
+        with self.tx() as c:
+            self.sweep(c);r=self.owned(c,ticket,owner)
+            sample=c.execute('SELECT * FROM sample WHERE id=1').fetchone()
+            reserved=c.execute("SELECT coalesce(sum(mib),0) FROM jobs WHERE state IN ('ACTIVE','ORPHANED')").fetchone()[0]
+            orphan=c.execute("SELECT 1 FROM jobs WHERE state='ORPHANED' LIMIT 1").fetchone()
+            valid=r['state']=='ACTIVE' and not orphan and sample and sample['boot']==self.boot() and not sample['hot'] and 0<=self.clock()-sample['stamp']<=10 and reserved+1024<=sample['available']
+        require(valid,'ADMISSION','Lease no longer admissible: stale sample, heat, RAM or quarantine')
     def finish(self,ticket,owner,known_terminal):
         require(type(known_terminal) is bool,'STATE','Terminal evidence required')
         with self.tx() as c:
@@ -111,7 +120,7 @@ class Broker:
             return {'jobs':rows,'reserved_mib':sum(r['mib'] for r in rows if r['state'] in ('ACTIVE','ORPHANED')),'sample':dict(sample) if sample else None}
 
 
-def guarded(broker,mib,action,wait=60,clock=time.monotonic,sleep=time.sleep,owner=None):
+def guarded(broker,mib,action,wait=60,clock=time.monotonic,sleep=time.sleep,owner=None,with_check=False):
     require(type(wait) is int and 1<=wait<=3600,'QUEUE','Invalid wait deadline')
     owner=owner or process_identity();ticket=broker.enqueue(mib,owner);deadline=clock()+wait;active=False
     try:
@@ -119,7 +128,7 @@ def guarded(broker,mib,action,wait=60,clock=time.monotonic,sleep=time.sleep,owne
             if broker.admit(ticket,owner):active=True;break
             sleep(min(0.25,max(0,deadline-clock())))
         require(active,'QUEUE','Admission deadline expired')
-        result=action();broker.finish(ticket,owner,True);return result
+        result=action(lambda:broker.check_active(ticket,owner)) if with_check else action();broker.finish(ticket,owner,True);return result
     except BaseException:
         if active:broker.finish(ticket,owner,False)
         else:broker.cancel(ticket,owner)

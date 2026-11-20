@@ -40,6 +40,8 @@
     "test:broker": "python3 -m unittest discover -s tests -p test_resource_broker.py -v",
     "test:recovery": "python3 -m unittest discover -s tests -p test_recoverable_render.py -v",
     "runtime:tiled-upscale": "python3 -m scripts.tiled_upscale",
-    "test:tiled": "python3 -m unittest discover -s tests -p test_tiled_upscale.py -v"
+    "test:tiled": "python3 -m unittest discover -s tests -p test_tiled_upscale.py -v",
+    "runtime:managed-gpu": "python3 -m scripts.managed_gpu",
+    "test:managed-gpu": "python3 -m unittest discover -s tests -p test_managed_gpu.py -v"
   }
 }

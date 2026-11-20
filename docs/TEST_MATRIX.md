@@ -57,3 +57,7 @@ Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycz
 ## GPU-001 — tiled reference upscale 2026-11-20
 
 20/20 nowych testów, 72/72 Node, 91/91 Python, 23/23 Chromium — 186/186 unikatowych testów. RED: brak modułu, odmowa zmienionego źródła, kolizja staging i brak adaptacji rdzenia; GREEN po poprawkach. Rzeczywiste 8K RGB PNG z 40 kafli, 100 układów z seed 3108, recovery i integralność. SIM-GPU-03 PASS w zakresie kontraktu referencyjnego upscalingu i scalania. ComfyUI symulowane, rzeczywista inferencja GPU, Android i produkt NOT_RUN. [Raport](evidence/GPU001-TILED-8K.json).
+
+## GPU-001 — managed GPU 2026-11-20
+
+16/16 nowych testów; 72/72 Node, 107/107 Python, 23/23 Chromium — 202/202 unikatowe. RED: moduł nie istniał, potem 4 błędy wymagania PAUSED; GREEN po poprawce. Zintegrowano istniejący broker i TiledJob, rewalidacja przed POST, trwały stop, scoped usuwanie oczekującego promptu, odpowiedź HTTP 200 bez treści. Nie potwierdzono przerwania aktywnego GPU, twardej rezerwacji VRAM, samego restartu backendu ani integracji UI. SIM-GPU-02 pozostaje PARTIAL. [Dowody](evidence/GPU001-MANAGED.json).
