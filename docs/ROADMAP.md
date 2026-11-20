@@ -12,6 +12,7 @@ Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v3.0](VALIDATION_P
 | SEC-003 | Niezależna walidacja materializacji źródeł względem przypiętego indeksu | ZAIMPLEMENTOWANE / TESTOWANE LOKALNIE | `scripts/index-trust.mjs`, `scripts/snapshot-integrity.mjs`, `scripts/vendorize.mjs` — 15/15 testów snapshotu i 11/11 importera; wspólna kotwica SHA-256, ścisła kontrola manifestu i trybów, weryfikacja przed publikacją. Pełna rzeczywista materializacja pozostaje otwarta |
 | SEC-002 | Skan sekretów, licencji i zależności przed publikacją | IMPLEMENTED PARTIAL | Skan offline + przypięty OSV i 8 nowych testów lockfile. Ścisły JSON, zgodność bezpośrednich zależności/root i dokładnych wersji, kontrola deklarowanego źródła npm. Realne metadane 506 pakietów: brak rozbieżności w sprawdzonym zakresie. Pełny skan, kompletna baza OSV, licencje i weryfikacja bajtów zależności pozostają otwarte. |
 | RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | NAKŁADKA ZAIMPLEMENTOWANA / TESTY MODUŁU PASS | `overlays/rag/`: 23 kotwice w czterech źródłach, 23 testy Chromium i 6 nowych TypeScript/Node. Jednoprzebiegowe BM25 exact-token, limity korpusu i wektorów, walidacja indeksów embeddingów, wybór rodziny backendu raz na operację. Pozostaje pełne uruchomienie nakładki w aplikacji, PDF.js/Mammoth i tożsamość modelu/backendu przy zmianie konfiguracji. |
+| PL-001 | Morfologia domenowa i dowód relewancji pamięci PL | IMPLEMENTED / PARTIAL VERIFIED | 27 rodzin, wspólna tokenizacja, 9 nowych kotwic, 16 nowych testów + 6 regresji PASS; scorer z przypiętego źródła, fallback store zintegrowany statycznie. Pełna aplikacja i generalizacja językowa otwarte. [Dowody](OMEGA_V4_PL_EVIDENCE.md) |
 | RUN-002 | Przygotowanie zweryfikowanego katalogu roboczego bez submodułu | TESTOWANE LOKALNIE | `scripts/staged-runtime.mjs`, 18/18 testów; zakotwiczenie SHA-256 indeksu, jawne odstępstwo tylko dla 2 zasobów dokumentacji. Porównano indeks 1112/1112 z drzewem upstream. Build i rzeczywisty snapshot lokalnie nieuruchomione. |
 | RUN-001 | Desktop build Tauri/React/Rust | SIM-PASS (orkiestracja) / PHYSICAL NOT_RUN | Produkcyjny kontroler procesów `scripts/runtime_control.py`: 6/6 testów, SIM-RUN-01..03. Lokalny proces/timeout, symulowany toolchain, bezpieczny restart. Faktyczny build i binarium aplikacji niepotwierdzone. |
 | AND-001 | Natywne APK Android / Termux / S24 Ultra | IMPLEMENTED PARTIAL | SIM-AND-03 SIM-PASS; rozszerzenie rzeczywistego MainActivity Tauri 2.10.1 (`overlays/android/`, `runtime:build --native-lifecycle`), 8 testów Python + 8 Kotlin/JVM z modelowanym SDK; prywatny checkpoint, fencing Activity, wykrycie zmiany procesu, ARM64, backup false, przypięty podpis/pakiet. SIM-AND-01/02 pozostają PARTIAL: Rust mobile entrypoint, WebView IPC i odtworzenie sesji/zadań GPU. Fizyczne powtórzenie zaliczonych kontraktów niewymagane. |
@@ -29,3 +30,21 @@ Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v3.0](VALIDATION_P
 6. Testy generacji i awarii z kontrolowanymi adapterami (`GPU-001`). Weryfikacja fizyczna i rzeczywiste wydanie są odrębnie rejestrowane, bez obowiązku powtarzania zaliczonych kryteriów symulacyjnych. Nie blokują zamknięcia inżynieryjnego.
 
 Brak zielonego testu w tej tabeli nie jest równoznaczny z awarią; oznacza brak potwierdzonego dowodu w docelowym repozytorium.
+
+## OMEGA-X v4 — przekazana specyfikacja rozszerzeń
+
+Baza nadal 2.6.7 (nie 3.0.10). Wymagania muszą zostać zweryfikowane względem dostępnego drzewa, bez przyjmowania zgodności numerów plików lub zgłoszeń upstream.
+
+| ID | Zakres | Stan |
+|---|---|---|
+| V4-I18N | UI, katalog, onboarding, persony PL/EN | OPEN |
+| V4-ANDROID | Nazwa, zasoby PL, opcjonalne package ID oraz spójność release | OPEN |
+| V4-RAG | Natywna ingestia, SQLite-vec, embedding wielojęzyczny | OPEN; PL-001 częściowo pokrywa leksykę |
+| V4-VOICE | PL STT/TTS, segmentacja skrótów, zdalny voice z bramką | OPEN |
+| V4-IPC | Zdarzenia postępu i telemetria zamiast pollingu | OPEN |
+| V4-GPU | KV-slot handoff, kompatybilna kwantyzacja, kontekst i narzędzia | OPEN |
+| V4-SEC | Izolacja procesów na poziomie OS, PL sensitive patterns | OPEN |
+| V4-AST | Natywny indeks AST | OPEN |
+| V4-THERMAL | Android thermal listener | OPEN |
+| V4-MODELS | Lokalny katalog polskich modeli i neutralna ewaluacja PL/EN jakości | OPEN |
+| V4-RELEASE | Kompilacja i testy całej aplikacji, APK | OPEN |

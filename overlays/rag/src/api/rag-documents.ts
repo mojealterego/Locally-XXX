@@ -14,8 +14,83 @@ export function boundedText(text: string): string {
   if (normalized.length > LIMITS.textChars) throw Error('Normalized text limit exceeded')
   return normalized
 }
+/** Conservative, offline domain morphology. Explicit forms avoid corrupting English/code tokens.
+ * Canonical ASCII keys retain the existing accent-insensitive search contract.
+ * Not a general Polish morphological analyzer; unknown words remain exact tokens.
+ */
+const LEXICAL_FAMILIES = [
+  'karta karty karcie karte karta kart kartom kartami kartach',
+  'graficzny graficzna graficzne graficznego graficznej graficznemu graficzna graficznym graficznych graficznymi',
+  'budzet budzetu budzetowi budzetem budzecie budzety budzetow budzetom budzetami budzetach',
+  'projekt projektu projektowi projektem projekcie projekty projektow projektom projektami projektach',
+  'projektowy projektowa projektowe projektowego projektowej projektowemu projektowym projektowych projektowymi',
+  'pamiec pamieci pamiecia pamieciom pamieciami pamieciach',
+  'model modele modelu modelowi modelem modelom modeli modelami modelach',
+  'plik pliku plikowi plikiem pliki plikow plikom plikami plikach',
+  'dokument dokumentu dokumentowi dokumentem dokumencie dokumenty dokumentow dokumentom dokumentami dokumentach',
+  'zdjecie zdjecia zdjeciu zdjeciem zdjec zdjeciom zdjeciami zdjeciach',
+  'obraz obrazu obrazowi obrazem obrazie obrazy obrazow obrazom obrazami obrazach',
+  'rozmowa rozmowy rozmowie rozmowe rozmowa rozmow rozmowom rozmowami rozmowach',
+  'zadanie zadania zadaniu zadaniem zadan zadaniom zadaniami zadaniach',
+  'narzedzie narzedzia narzedziu narzedziem narzedzi narzedziom narzedziami narzedziach',
+  'uzytkownik uzytkownika uzytkownikowi uzytkownikiem uzytkowniku uzytkownicy uzytkownikow uzytkownikom uzytkownikami uzytkownikach',
+  'urzadzenie urzadzenia urzadzeniu urzadzeniem urzadzen urzadzeniom urzadzeniami urzadzeniach',
+  'serwer serwera serwerowi serwerem serwerze serwery serwerow serwerom serwerami serwerach',
+  'procesor procesora procesorowi procesorem procesorze procesory procesorow procesorom procesorami procesorach',
+  'proces procesu procesowi procesem procesie procesy procesow procesom procesami procesach',
+  'repozytorium repozytoria repozytoriow repozytoriom repozytoriami repozytoriach',
+  'aplikacja aplikacji aplikacje aplikacja aplikacjom aplikacjami aplikacjach',
+  'dysk dysku dyskowi dyskiem dyski dyskow dyskom dyskami dyskach',
+  'system systemu systemowi systemem systemie systemy systemow systemom systemami systemach',
+  'kontekst kontekstu kontekstowi kontekstem kontekscie konteksty kontekstow kontekstom kontekstami kontekstach',
+  'test testu testowi testem tescie testy testow testom testami testach',
+  'wektor wektora wektorowi wektorem wektorze wektory wektorow wektorom wektorami wektorach',
+  'jezyk jezyka jezykowi jezykiem jezyku jezyki jezykow jezykom jezykami jezykach',
+] as const
+const LEXICAL_FORMS = new Map<string, string>()
+for (const family of LEXICAL_FAMILIES) {
+  const [lemma, ...forms] = family.split(' ')
+  for (const form of [lemma, ...forms]) {
+    const previous = LEXICAL_FORMS.get(form)
+    if (previous && previous !== lemma) throw Error('Ambiguous lexical form: '+form)
+    LEXICAL_FORMS.set(form, lemma)
+  }
+}
+// Exclude only distinctive Polish function words, retaining negation and mixed-language tokens.
+const POLISH_STOP = new Set(['oraz','przez','ktory','ktora','ktore','ktorego','ktorej','ktorym','ktorych','ktorymi'])
 export function searchTokens(text: string): string[] {
-  return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/ł/g, 'l').match(/[\p{L}\p{N}]+/gu) ?? []
+  const words = text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/ł/g, 'l').match(/[\p{L}\p{N}]+/gu) ?? []
+  return words.filter(word => !POLISH_STOP.has(word)).map(word => LEXICAL_FORMS.get(word) ?? word)
+}
+/** Distinct, bounded lexical query shared by blended and offline memory retrieval. */
+export function memoryQueryTokens(query: string): string[] | null {
+  if (query.length > 8192) return null
+  const tokens = [...new Set(searchTokens(query).filter(word => word.length > 2 || /^\d+$/.test(word)))]
+  return tokens.length <= 256 ? tokens : null
+}
+export interface MemoryLexicalFields {
+  title: string
+  description: string
+  content: string
+  tags: readonly string[]
+}
+/** Field weights match the existing offline scorer without substring collisions. */
+export function memoryKeywordEvidence(memory: MemoryLexicalFields, terms: readonly string[]): number {
+  if (!terms.length) return 0
+  const title = new Set(searchTokens(memory.title)), description = new Set(searchTokens(memory.description))
+  const content = new Set(searchTokens(memory.content)), tags = new Set(memory.tags.flatMap(searchTokens))
+  let score = 0
+  for (const term of new Set(terms)) {
+    if (title.has(term)) score += 4
+    if (description.has(term)) score += 3
+    if (tags.has(term)) score += 3
+    if (content.has(term)) score += 1
+  }
+  return score
+}
+/** Evidence must precede normalization, recency and type boosts. Empty query is preview-only. */
+export function hasMemoryEvidence(emptyQuery: boolean, keyword: number, cosine: number): boolean {
+  return emptyQuery || (Number.isFinite(keyword) && keyword > 0) || (Number.isFinite(cosine) && cosine >= 0.5)
 }
 export async function extractPlainText(file: File): Promise<string> {
   documentType(file)

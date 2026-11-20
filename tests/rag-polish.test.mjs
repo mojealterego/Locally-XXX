@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
+const dir=mkdtempSync(join(tmpdir(),'rag-polish-'));
+let mod;
+try {execFileSync('tsc',['--strict','--target','ES2022','--module','ES2022','--lib','ES2022,DOM','--outDir',dir,'overlays/rag/src/api/rag-documents.ts']);mod=await import(pathToFileURL(join(dir,'rag-documents.js')).href)} finally {rmSync(dir,{recursive:true,force:true})}
+test('PL-01 inflection and alternation across cases',()=>assert.deepEqual(mod.searchTokens('KARTA GRAFICZNA, karcie graficznej, kartami graficznymi'),['karta','graficzny','karta','graficzny','karta','graficzny']));
+test('PL-02 ranked inflected Polish document over unrelated text',()=>{const s=mod.bm25Scores('budżet projektu',['zarządzanie budżetem projektowym','przepis na zupę','projektant']);assert.ok(s[0]>0);assert.equal(s[1],0);assert.equal(s[2],0)});
+test('PL-03 ASCII and decomposed Unicode equivalent without duplicate tokens',()=>{assert.deepEqual(mod.searchTokens('PAMIĘCI, Pamiecia, pamięcią'.normalize('NFD')),['pamiec','pamiec','pamiec']);assert.deepEqual(mod.searchTokens('ŁÓDŹ, zażółć gęślą jaźń!'),['lodz','zazolc','gesla','jazn'])});
+test('PL-04 no generic suffix stripping for English and unrelated Polish words',()=>assert.deepEqual(mod.searchTokens('DATA documents images apple string lodzianin karton projektant karate'),['data','documents','images','apple','string','lodzianin','karton','projektant','karate']));
+test('PL-05 keep negation, numbers, unknown words, remove unambiguous Polish stopwords',()=>assert.deepEqual(mod.searchTokens('oraz przez nie 4096 XYZ'),['nie','4096','xyz']));
+test('PL-06 set of query variants does not amplify BM25',()=>assert.deepEqual(mod.bm25Scores('karta karcie kartami',['kartą','karton']),mod.bm25Scores('karta',['kartą','karton'])));
+test('PL-07 no false substring matches and bounded retrieval',()=>{assert.equal(mod.bm25Scores('kartą',['karton'])[0],0);assert.throws(()=>mod.bm25Scores('karta'.repeat(2000),['kartą']),/limit/i)});
+test('PL-08 idempotence of canonical forms',()=>{const tokens=mod.searchTokens('zdjęciami modelami dokumentów plikach kartą pamięci zadań zdjęcia');assert.deepEqual(mod.searchTokens(tokens.join(' ')),tokens)});
+test('MEM-01 canonical query is bounded and distinct',()=>{assert.deepEqual(mod.memoryQueryTokens('Karta karcie oraz AI 7'),['karta','7']);assert.equal(mod.memoryQueryTokens('x'.repeat(8193)),null);assert.equal(mod.memoryQueryTokens(Array.from({length:257},(_,i)=>'key'+i).join(' ')),null)});
+test('MEM-02 fallback weighted evidence is exact and inflection-aware',()=>{const fields={title:'O karcie graficznej',description:'Kartami',content:'karta',tags:['graficznych']};assert.equal(mod.memoryKeywordEvidence(fields,['karta','graficzny']),15);assert.equal(mod.memoryKeywordEvidence({title:'karton',description:'',content:'',tags:[]},['karta']),0)});
+test('MEM-03 gate uses raw evidence not relative ranking',()=>{assert.equal(mod.hasMemoryEvidence(false,0,0.49),false);assert.equal(mod.hasMemoryEvidence(false,0,0.5),true);assert.equal(mod.hasMemoryEvidence(false,0.1,0),true);assert.equal(mod.hasMemoryEvidence(false,NaN,Infinity),false);assert.equal(mod.hasMemoryEvidence(true,0,0),true)});

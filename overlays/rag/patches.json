@@ -110,5 +110,51 @@
         "new": "type: 'pdf' | 'docx' | 'txt' | 'xlsx'"
       }
     ]
+  },
+  "src/lib/memory-retrieval.ts": {
+    "git_sha1": "4cd2a9f25f8656a6db552dccb3b1416f2ee3633f",
+    "replacements": [
+      {
+        "old": "import { cosineSimilarity, bm25Score } from \"../api/rag\"",
+        "new": "import { cosineSimilarity } from \"../api/rag\"\nimport { bm25Scores, memoryQueryTokens, hasMemoryEvidence } from \"../api/rag-documents\""
+      },
+      {
+        "old": "  if (pool.length === 0) return []",
+        "new": "  if (pool.length === 0 || pool.length > 8192) return []\n  const words = memoryQueryTokens(query)\n  if (words === null) return []"
+      },
+      {
+        "old": "`${c.memory.title} ${c.memory.description} ${c.memory.content}`",
+        "new": "`${c.memory.title} ${c.memory.description} ${c.memory.content} ${c.memory.tags.join(\" \")}`"
+      },
+      {
+        "old": "  const rawKeyword = pool.map((_, i) => bm25Score(query, docTexts[i], docTexts))",
+        "new": "  const rawKeyword = bm25Scores(words.join(\" \"), docTexts)"
+      },
+      {
+        "old": "    .filter((s) => s.score >= RETRIEVAL_FLOOR)",
+        "new": "    .filter((s, i) => hasMemoryEvidence(!query.trim(), rawKeyword[i], rawSemantic[i]) && Number.isFinite(s.score) && s.score >= RETRIEVAL_FLOOR)"
+      }
+    ]
+  },
+  "src/stores/memoryStore.ts": {
+    "git_sha1": "ad829e738a364b0f9d67914cb34eb4809e4b6f70",
+    "replacements": [
+      {
+        "old": "import { generateEmbeddings } from '../api/rag'",
+        "new": "import { generateEmbeddings } from '../api/rag'\nimport { memoryQueryTokens, memoryKeywordEvidence } from '../api/rag-documents'"
+      },
+      {
+        "old": "function scoreMemory(memory: MemoryFile, queryWords: string[]): number {\n  if (queryWords.length === 0) return 1\n\n  const titleLower = memory.title.toLowerCase()\n  const descLower = memory.description.toLowerCase()\n  const contentLower = memory.content.toLowerCase()\n  const tagsLower = memory.tags.map(t => t.toLowerCase())\n\n  let score = 0\n  for (const w of queryWords) {\n    if (titleLower.includes(w)) score += 4\n    if (descLower.includes(w)) score += 3\n    if (tagsLower.some(t => t.includes(w))) score += 3\n    if (contentLower.includes(w)) score += 1\n  }",
+        "new": "function scoreMemory(memory: MemoryFile, queryWords: string[], exact = false): number {\n  if (queryWords.length === 0) return exact ? 0 : 1\n\n  let score = exact ? memoryKeywordEvidence(memory, queryWords) : 0\n  if (!exact) {\n    const titleLower = memory.title.toLowerCase()\n    const descLower = memory.description.toLowerCase()\n    const contentLower = memory.content.toLowerCase()\n    const tagsLower = memory.tags.map(t => t.toLowerCase())\n    for (const w of queryWords) {\n      if (titleLower.includes(w)) score += 4\n      if (descLower.includes(w)) score += 3\n      if (tagsLower.some(t => t.includes(w))) score += 3\n      if (contentLower.includes(w)) score += 1\n    }\n  }"
+      },
+      {
+        "old": "        const words = query.toLowerCase().split(/\\s+/).filter(w => w.length > 2)\n        let candidates = get().entries.filter(e => !isStale(e))",
+        "new": "        const words = memoryQueryTokens(query)\n        if (!words || !words.length) return ''\n        let candidates = get().entries.filter(e => !isStale(e))"
+      },
+      {
+        "old": "        const ordered = candidates\n          .map((entry) => ({ entry, score: scoreMemory(entry, words) }))",
+        "new": "        if (candidates.length > 8192) return ''\n        let corpusChars = 0\n        for (const entry of candidates) {\n          corpusChars += entry.title.length + entry.description.length + entry.content.length\n          for (const tag of entry.tags) corpusChars += tag.length + 1\n          if (corpusChars > 8_000_000) return ''\n        }\n        const ordered = candidates\n          .map((entry) => ({ entry, score: scoreMemory(entry, words, true) }))"
+      }
+    ]
   }
 }

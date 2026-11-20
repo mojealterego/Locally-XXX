@@ -4,7 +4,7 @@ import {join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {prepareStage} from './staged-runtime.mjs';
 const ROOT=resolve(fileURLToPath(new URL('..',import.meta.url)));
-const PATHS=['src/api/rag.ts','src/hooks/useRAG.ts','src/components/chat/RAGPanel.tsx','src/types/rag.ts'];
+const PATHS=['src/api/rag.ts','src/hooks/useRAG.ts','src/components/chat/RAGPanel.tsx','src/types/rag.ts','src/lib/memory-retrieval.ts','src/stores/memoryStore.ts'];
 const MODULE='src/api/rag-documents.ts';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 export function patchText(input,entry){
