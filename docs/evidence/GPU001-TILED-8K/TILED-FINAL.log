@@ -1,0 +1,29 @@
+
+> locally-xxx-omega-x@0.1.0 test:tiled
+> python3 -m unittest discover -s tests -p test_tiled_upscale.py -v
+
+test_ambiguous_tile_never_reposted (test_tiled_upscale.TiledTests.test_ambiguous_tile_never_reposted) ... ok
+test_auto_smaller_tile (test_tiled_upscale.TiledTests.test_auto_smaller_tile) ... ok
+test_bad_tile_cleans_scratch (test_tiled_upscale.TiledTests.test_bad_tile_cleans_scratch) ... ok
+test_budget_rejected (test_tiled_upscale.TiledTests.test_budget_rejected) ... ok
+test_crash_after_publish (test_tiled_upscale.TiledTests.test_crash_after_publish) ... ok
+test_deterministic_layout_properties (test_tiled_upscale.TiledTests.test_deterministic_layout_properties) ... ok
+test_end_to_end_and_idempotence (test_tiled_upscale.TiledTests.test_end_to_end_and_idempotence) ... ok
+test_existing_unrelated_temp_is_preserved (test_tiled_upscale.TiledTests.test_existing_unrelated_temp_is_preserved) ... ok
+test_full_8k_controller_reference_coordinates (test_tiled_upscale.TiledTests.test_full_8k_controller_reference_coordinates) ... ok
+test_input_change_refused (test_tiled_upscale.TiledTests.test_input_change_refused) ... ok
+test_invalid_geometry (test_tiled_upscale.TiledTests.test_invalid_geometry) ... ok
+test_no_overwrite (test_tiled_upscale.TiledTests.test_no_overwrite) ... ok
+test_plan_full_8k_and_bounded (test_tiled_upscale.TiledTests.test_plan_full_8k_and_bounded) ... ok
+test_real_8k_stitch_and_overlap (test_tiled_upscale.TiledTests.test_real_8k_stitch_and_overlap) ... ok
+test_remote_source_mismatch_denied_before_submit (test_tiled_upscale.TiledTests.test_remote_source_mismatch_denied_before_submit) ... ok
+test_resume_no_duplicate_posts (test_tiled_upscale.TiledTests.test_resume_no_duplicate_posts) ... ok
+test_unsafe_backend_filename (test_tiled_upscale.TiledTests.test_unsafe_backend_filename) ... ok
+test_vertical_seam_and_uneven_tiles (test_tiled_upscale.TiledTests.test_vertical_seam_and_uneven_tiles) ... ok
+test_workflow_coordinates (test_tiled_upscale.TiledTests.test_workflow_coordinates) ... ok
+test_wrong_model_scale_rejected (test_tiled_upscale.TiledTests.test_wrong_model_scale_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 11.440s
+
+OK

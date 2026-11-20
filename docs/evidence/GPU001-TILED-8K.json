@@ -1,0 +1,197 @@
+{
+  "base_commit": "f259b890a4c9de151f84ef84a02ca301bc062fea",
+  "requirement_id": "GPU-001",
+  "test_id": "SIM-GPU-03",
+  "date": "2026-11-20",
+  "result": "SIM-PASS (bounded tiled reference upscaling and stitching contract)",
+  "physical": "NOT_RUN",
+  "environment": {
+    "python": "3.13.5",
+    "os": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "pillow": "12.3.0",
+    "node": "v22.16.0",
+    "git": "git version 2.47.3",
+    "chromium": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+    "typescript": "Version 5.8.3"
+  },
+  "source_git_blob": "873a9364d11a51852b612c7d777a1210d1e29ac0",
+  "fixture_git_blob": "12bf2ebc4d1ceafd57f16ba2009d8a270907def4",
+  "source_sha256": "fe8ae0f313acac81368e1a2872ac2298c7878ab30d3ca7a113b513a366c7e315",
+  "fixture_sha256": "8eea49fb4bff20c0522ee0677ad44655df18c12db9359b3d28863958e7430853",
+  "seed": 3108,
+  "config": {
+    "max_canvas": [
+      8192,
+      8192
+    ],
+    "8k_target": [
+      7680,
+      4320
+    ],
+    "reference": [
+      1920,
+      1080
+    ],
+    "scale": 4,
+    "requested_core": 1024,
+    "halo": 64,
+    "buffer_budget_mib": 64,
+    "max_tiles": 256,
+    "scope": "actual production controller, RGB PNG operations, immutable fixtures and injected ComfyUI responses; nearest-neighbour simulated model output"
+  },
+  "commands": [
+    {
+      "command": "npm run test:tiled",
+      "pass": 20,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "TILED-FINAL.log"
+    },
+    {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "TILED-NODE.log"
+    },
+    {
+      "command": "npm run test:python",
+      "pass": 91,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "TILED-PYTHON.log"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "TILED-RAG.log"
+    },
+    {
+      "command": "PYTHONPATH=. python3 tests/measure_tiled_memory.py (two runs)",
+      "exit_code": 0,
+      "log": [
+        "TILED-MEASURE-1.json",
+        "TILED-MEASURE-2.json"
+      ]
+    }
+  ],
+  "red": [
+    {
+      "log": "TILED-RED.log",
+      "exit_code": 1,
+      "cause": "module did not exist"
+    },
+    {
+      "log": "TILED-REFINE-RED.log",
+      "exit_code": 1,
+      "tests": 17,
+      "failures": 1,
+      "errors": 2,
+      "cause": "backend source mismatch not denied, unrelated deterministic temp removed, missing adaptive plan"
+    }
+  ],
+  "assertions": [
+    "Geometry coverage and at most two overlapping intervals per axis: 100 seeded layouts",
+    "Automatic core reduction for client buffer budget; reject unsupported geometry",
+    "Source digest compared with actual /view?type=input bytes via fixture, locally hashed source and model",
+    "40 unique tile submissions for full 8K workflow; exact reference coordinates at pixel boundary",
+    "Horizontal and vertical integer feathering, actual 8K PNG output",
+    "Known prompt_id resume, unknown POST never replayed, output digest idempotence, wrong scale and corrupt tile rejected",
+    "Unique recorded temporary output and staging cleanup; existing unrelated file preserved",
+    "Two identical result hashes in independent deterministic client stitch measurements"
+  ],
+  "log_sha256": {
+    "TILED-PYTHON.log": "1302ffdd418a03c5d65d6d87bd4dbbc4fb6189677886bb8e0698440f6ea6b05a",
+    "TILED-REFINE-RED.log": "7db9e96d4b353592eae8556ac1cfc5bd1660eae2407c7df64430cc4ed30f33a3",
+    "TILED-RED.log": "c2fe11032e6f1a6db2547e6ee184da602c9f853a92ed730a9d044343f236ca57",
+    "TILED-NODE.log": "1c5901b65487ed045b742135e452d6cfd4a955b0625300ffe118834e1cb027c5",
+    "TILED-FINAL.log": "1acbd9ebcc85f741f7bbb131c7a20d903a5424a39115339eaac057b97eac34fa",
+    "TILED-GREEN.log": "60739ee7f06f249b769e324f3c959704ff81682466b87582e042ec063cdba101",
+    "TILED-MEASURE-2.json": "d3a7bc8eb904b1ec2793176e09b03ca6bd0225b6e93cf0ffe45982456802b0f7",
+    "TILED-MEASURE-1.json": "7bb2615323795367ca3a0d337c6bcbdd961ab38bf6b222a4fb95fb784b65b13a",
+    "TILED-RAG.log": "153a445e5b6a014b2f755c9630c2372fadb89e130d4583606f904ef9a73d5874"
+  },
+  "tested_git_blobs": {
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb",
+    "package.json": "6682338f6d436a85ac3902288bcac542d547dc93",
+    "requirements-upscale.txt": "e7cc6c178b542946a555ad07fa55b5dde3fca566",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/recoverable_render.py": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+    "scripts/resource_broker.py": "4c6bc4668bd9e6039dc54d0f82a9ca9773d3b7ff",
+    "scripts/runtime_control.py": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+    "scripts/security_scan.py": "5398fd483ce6c6f4ce18feb12870e1915f9a4a48",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/tiled_upscale.py": "873a9364d11a51852b612c7d777a1210d1e29ac0",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/measure_tiled_memory.py": "600620e6fd61c596076efab4b1ae3f1ec0a77fd3",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "tests/test_recoverable_render.py": "cf8151276dd5c76dde9f598a6d3d99d52b10bb4a",
+    "tests/test_resource_broker.py": "5ea417ffb0857c4b8483b3d65442a204224c148f",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "tests/test_tiled_upscale.py": "12bf2ebc4d1ceafd57f16ba2009d8a270907def4",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49"
+  },
+  "unique_tests": 186,
+  "measurements": [
+    {
+      "baseline_peak_rss_kib": 95760,
+      "elapsed_seconds": 4.022,
+      "estimated_client_bytes": 39223296,
+      "height": 4320,
+      "max_tile_pixels": 1079296,
+      "output_bytes": 261299,
+      "peak_process_rss_kib": 111712,
+      "scope": "Linux client PNG stitch; synthetic solid-colour tiles; not GPU or model benchmark",
+      "sha256": "da74d8701c807067e17f4e638a1004643a1cff21efd58a7b03120a18c2b75e58",
+      "tiles": 40,
+      "width": 7680
+    },
+    {
+      "baseline_peak_rss_kib": 95760,
+      "elapsed_seconds": 3.982,
+      "estimated_client_bytes": 39223296,
+      "height": 4320,
+      "max_tile_pixels": 1079296,
+      "output_bytes": 261299,
+      "peak_process_rss_kib": 111692,
+      "scope": "Linux client PNG stitch; synthetic solid-colour tiles; not GPU or model benchmark",
+      "sha256": "da74d8701c807067e17f4e638a1004643a1cff21efd58a7b03120a18c2b75e58",
+      "tiles": 40,
+      "width": 7680
+    }
+  ],
+  "limitations": [
+    "No actual inference, GPU VRAM or image-quality benchmark; test backend uses nearest-neighbour fixtures",
+    "Source and installed model file must be trusted and immutable in the same ComfyUI environment; local model hash is not proof of server model selection",
+    "Buffer estimate is not total process RSS or model memory ceiling. PNG output RGB 8-bit, no ICC/EXIF preservation",
+    "Scale 2x/4x must match native upscale model. No text-to-image tile diffusion, no tiling of arbitrary existing workflows",
+    "POSIX hardlink and private state directory; Pillow pinned, no Android wheel or installation validated",
+    "Standalone CLI; UI and broker integration not implemented for this module",
+    "Full application build and actual Android hardware NOT_RUN"
+  ],
+  "external_contracts": [
+    "https://docs.comfy.org/built-in-nodes/ImageCrop",
+    "https://docs.comfy.org/built-in-nodes/ImageUpscaleWithModel",
+    "https://github.com/Comfy-Org/ComfyUI/blob/master/server.py"
+  ]
+}

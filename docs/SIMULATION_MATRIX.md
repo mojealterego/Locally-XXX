@@ -1,6 +1,6 @@
 # Macierz deterministycznych testów symulacyjnych
 
-Aktualizacja 2026-11-20. Po kontrolerze runtime (23 testy) wykonano dalsze 24 testy brokera/recovery. SIM-PASS obejmuje modelowalne kryterium; PARTIAL oznacza brak pokrycia lub kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
+Aktualizacja 2026-11-20. Po 47 testach kontrolera/brokera/recovery wykonano 20 nowych testów tiled upscale. SIM-PASS obejmuje modelowalny zakres kryterium; PARTIAL oznacza brak pokrycia lub kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
 
 | ID | Punkt | Symulowana granica | Asercja odbiorowa | ENGINEERING | PHYSICAL |
 | --- | --- | --- | --- | --- | --- |
@@ -12,7 +12,7 @@ Aktualizacja 2026-11-20. Po kontrolerze runtime (23 testy) wykonano dalsze 24 te
 | SIM-AND-03 | AND-001 | Model RAM / termika | Ograniczenie zasobów, kolejki, hysteresis, kontrolowane zwalnianie pamięci i backpressure | SIM-PASS | NOT_RUN |
 | SIM-GPU-01 | GPU-001 | Adapter inferencji GGUF / ComfyUI | Poprawny routing, walidacja odpowiedzi, brak fałszywego wyniku przy błędzie | SIM-PASS | NOT_RUN |
 | SIM-GPU-02 | GPU-001 | OOM, GPU unavailable, timeout | Kontrolowana odmowa lub jawny fallback, limity retry, recovery | PARTIAL | NOT_RUN |
-| SIM-GPU-03 | GPU-001 | Model pamięci generacji 8K | Budżet zasobów, bezpieczny podział pracy, czyszczenie niekompletnego wyniku | PARTIAL | NOT_RUN |
+| SIM-GPU-03 | GPU-001 | Model pamięci generacji 8K | Budżet zasobów, bezpieczny podział pracy, czyszczenie niekompletnego wyniku | SIM-PASS | NOT_RUN |
 
 W przypadku każdego etapu lokalna kompilacja i test rzeczywistego kodu są preferowane, jeśli dostępne. Nieudostępnienie narzędzi lub wag nie jest zaliczeniem testu. Symulacja nie tworzy faktycznego APK, binarium desktop, obrazu 8K ani benchmarku sprzętu. Raport dowodowy powinien zawierać: requirement_id, test_id, source_sha, config, fixture_sha256, seed (jeżeli dotyczy), command, environment, exit_code, assertions, result, log_sha256, limitations. Kryterium nieadekwatne do rzeczywistego zakresu wymaga jawnego uzasadnienia NOT_APPLICABLE.
 
@@ -30,6 +30,8 @@ Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VAL
 - **SIM-AND-03 — SIM-PASS (kontrola dopuszczenia)**: trwała kolejka FIFO, transakcje SQLite, monitor jednego właściciela, rezerwa 1024 MiB, histereza 43/39.5 C, ważność próbki 10 s, kontrola deadline i zwolnienie/recovery. Nie przerywa działającego GPU; rzeczywisty sensor i pamięć urządzenia NOT_RUN.
 - **SIM-GPU-01 — SIM-PASS**: Actual loopback HTTP transport to fixture; llama-server route and simulated ComfyUI prompt/history/view contract, content validation. Pozostało: Trusted local backend/workflow required; no real model execution.
 - **SIM-GPU-02 — PARTIAL**: trwały dziennik zadania, ograniczone ponowienia GET, brak retry POST przy nieznanym wyniku, wznowienie znanego prompt_id, atomowy odbiór i recovery po przerwaniu. Brak scoped cancellation, automatycznego recovery samego backendu i pomiarów VRAM.
-- **SIM-GPU-03 — PARTIAL**: 8K UHD valid deterministic RGB PNG fixture, CRC/size validation and atomic no-overwrite output; 16 B/px heuristic. Pozostało: No automatic tiling/stitching, model VRAM measurement, or actual AI 8K generation.
+- **SIM-GPU-03 — SIM-PASS (upscaling referencyjny i strumieniowe scalanie)**: produkcyjny planer o ograniczonej liczbie kafli, adaptacja rdzenia do oszacowania buforów, nakładki z całkowitoliczbowym featheringiem, rzeczywisty RGB PNG 7680×4320 z 40 kafli, atomowy zapis, recovery po przerwaniu i odmowa zmienionego wejścia. Backend ComfyUI symulowany (najbliższy sąsiad/fixtures); rzeczywiste wagi, generacja dyfuzyjna, VRAM i Android NOT_RUN. Estymata buforów nie jest limitem całkowitego RSS.
 
 Przyrost: `npm run test:broker` 13/13, `npm run test:recovery` 11/11; razem 166 testów regresji. [Dowody](evidence/AND001-GPU001-RECOVERY.json).
+
+Przyrost tiled upscale: `npm run test:tiled` 20/20, pełna regresja 186/186. Dwa pomiary rzeczywistego scalania na Linux dały identyczne SHA-256. [Dowody](evidence/GPU001-TILED-8K.json).

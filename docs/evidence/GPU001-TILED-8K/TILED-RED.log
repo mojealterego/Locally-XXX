@@ -1,0 +1,21 @@
+test_tiled_upscale (unittest.loader._FailedTest.test_tiled_upscale) ... ERROR
+
+======================================================================
+ERROR: test_tiled_upscale (unittest.loader._FailedTest.test_tiled_upscale)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_tiled_upscale
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/mnt/data/locally-tiled/tests/test_tiled_upscale.py", line 9, in <module>
+    from scripts.tiled_upscale import plan, workflow, stitch, TiledJob
+ModuleNotFoundError: No module named 'scripts.tiled_upscale'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

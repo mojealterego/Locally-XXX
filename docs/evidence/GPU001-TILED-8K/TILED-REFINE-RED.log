@@ -1,0 +1,54 @@
+test_ambiguous_tile_never_reposted (test_tiled_upscale.TiledTests.test_ambiguous_tile_never_reposted) ... ok
+test_auto_smaller_tile (test_tiled_upscale.TiledTests.test_auto_smaller_tile) ... ERROR
+test_bad_tile_cleans_scratch (test_tiled_upscale.TiledTests.test_bad_tile_cleans_scratch) ... ok
+test_budget_rejected (test_tiled_upscale.TiledTests.test_budget_rejected) ... ok
+test_crash_after_publish (test_tiled_upscale.TiledTests.test_crash_after_publish) ... ok
+test_end_to_end_and_idempotence (test_tiled_upscale.TiledTests.test_end_to_end_and_idempotence) ... ok
+test_existing_unrelated_temp_is_preserved (test_tiled_upscale.TiledTests.test_existing_unrelated_temp_is_preserved) ... ERROR
+test_input_change_refused (test_tiled_upscale.TiledTests.test_input_change_refused) ... ok
+test_invalid_geometry (test_tiled_upscale.TiledTests.test_invalid_geometry) ... ok
+test_no_overwrite (test_tiled_upscale.TiledTests.test_no_overwrite) ... ok
+test_plan_full_8k_and_bounded (test_tiled_upscale.TiledTests.test_plan_full_8k_and_bounded) ... ok
+test_real_8k_stitch_and_overlap (test_tiled_upscale.TiledTests.test_real_8k_stitch_and_overlap) ... ok
+test_remote_source_mismatch_denied_before_submit (test_tiled_upscale.TiledTests.test_remote_source_mismatch_denied_before_submit) ... FAIL
+test_resume_no_duplicate_posts (test_tiled_upscale.TiledTests.test_resume_no_duplicate_posts) ... ok
+test_unsafe_backend_filename (test_tiled_upscale.TiledTests.test_unsafe_backend_filename) ... ok
+test_vertical_seam_and_uneven_tiles (test_tiled_upscale.TiledTests.test_vertical_seam_and_uneven_tiles) ... ok
+test_workflow_coordinates (test_tiled_upscale.TiledTests.test_workflow_coordinates) ... ok
+
+======================================================================
+ERROR: test_auto_smaller_tile (test_tiled_upscale.TiledTests.test_auto_smaller_tile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-tiled/tests/test_tiled_upscale.py", line 98, in test_auto_smaller_tile
+    from scripts.tiled_upscale import choose_plan
+ImportError: cannot import name 'choose_plan' from 'scripts.tiled_upscale' (/mnt/data/locally-tiled/scripts/tiled_upscale.py)
+
+======================================================================
+ERROR: test_existing_unrelated_temp_is_preserved (test_tiled_upscale.TiledTests.test_existing_unrelated_temp_is_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-tiled/tests/test_tiled_upscale.py", line 96, in test_existing_unrelated_temp_is_preserved
+    self.run_job();self.assertEqual(temp.read_bytes(),b'keep')
+                                    ~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 539, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpbd7pj292/.omega-d28ace5048623c87329b741f7a609d04047e6e753df0b26372a055944d053fdc.tmp'
+
+======================================================================
+FAIL: test_remote_source_mismatch_denied_before_submit (test_tiled_upscale.TiledTests.test_remote_source_mismatch_denied_before_submit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-tiled/tests/test_tiled_upscale.py", line 92, in test_remote_source_mismatch_denied_before_submit
+    with self.assertRaises(RuntimeErrorCode):self.run_job()
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeErrorCode not raised
+
+----------------------------------------------------------------------
+Ran 17 tests in 5.044s
+
+FAILED (failures=1, errors=2)

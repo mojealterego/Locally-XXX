@@ -1,0 +1,32 @@
+
+> locally-xxx-omega-x@0.1.0 test:rag-browser
+> python3 tests/rag-browser.py
+
+test_01_polish_shared_inline_cached (__main__.RAG.test_01_polish_shared_inline_cached) ... ok
+test_02_zip_traversal (__main__.RAG.test_02_zip_traversal) ... ok
+test_03_external_sheet (__main__.RAG.test_03_external_sheet) ... ok
+test_04_xml_entities (__main__.RAG.test_04_xml_entities) ... ok
+test_05_missing_shared_string (__main__.RAG.test_05_missing_shared_string) ... ok
+test_06_malformed_zip (__main__.RAG.test_06_malformed_zip) ... ok
+test_07_invalid_utf8 (__main__.RAG.test_07_invalid_utf8) ... ok
+test_08_utf16_polish (__main__.RAG.test_08_utf16_polish) ... ok
+test_09_type_rejects (__main__.RAG.test_09_type_rejects) ... ok
+test_10_size_budget (__main__.RAG.test_10_size_budget) ... ok
+test_11_text_budget (__main__.RAG.test_11_text_budget) ... ok
+test_12_search_polish (__main__.RAG.test_12_search_polish) ... ok
+test_13_office_crc (__main__.RAG.test_13_office_crc) ... ok
+test_14_missing_sheet (__main__.RAG.test_14_missing_sheet) ... ok
+test_15_duplicate_names (__main__.RAG.test_15_duplicate_names) ... ok
+test_16_cell_coordinates (__main__.RAG.test_16_cell_coordinates) ... ok
+test_17_office_expansion_limit (__main__.RAG.test_17_office_expansion_limit) ... ok
+test_18_docx_preflight (__main__.RAG.test_18_docx_preflight) ... ok
+test_19_docx_external_entity (__main__.RAG.test_19_docx_external_entity) ... ok
+test_20_real_workbook (__main__.RAG.test_20_real_workbook) ... ok
+test_21_embedding_batch (__main__.RAG.test_21_embedding_batch) ... ok
+test_22_embedding_count (__main__.RAG.test_22_embedding_count) ... ok
+test_23_embedding_finite (__main__.RAG.test_23_embedding_finite) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 2.608s
+
+OK

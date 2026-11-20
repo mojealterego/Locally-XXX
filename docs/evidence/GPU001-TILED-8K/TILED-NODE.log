@@ -1,0 +1,454 @@
+
+> locally-xxx-omega-x@0.1.0 test:gate
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: parses GGUF v2/v3 64-bit header
+ok 1 - parses GGUF v2/v3 64-bit header
+  ---
+  duration_ms: 2.254768
+  type: 'test'
+  ...
+# Subtest: rejects invalid header and excessive count
+ok 2 - rejects invalid header and excessive count
+  ---
+  duration_ms: 0.847788
+  type: 'test'
+  ...
+# Subtest: streams model SHA-256 instead of buffering the full model
+ok 3 - streams model SHA-256 instead of buffering the full model
+  ---
+  duration_ms: 15.801314
+  type: 'test'
+  ...
+# Subtest: reports invalid header without claiming actual inference
+ok 4 - reports invalid header without claiming actual inference
+  ---
+  duration_ms: 21.792092
+  type: 'test'
+  ...
+# Subtest: does not traverse symlink directories or model files
+ok 5 - does not traverse symlink directories or model files
+  ---
+  duration_ms: 8.755374
+  type: 'test'
+  ...
+# Subtest: rejects symlink root
+ok 6 - rejects symlink root
+  ---
+  duration_ms: 2.843936
+  type: 'test'
+  ...
+# Subtest: caps recursive traversal and reports the excluded directory
+ok 7 - caps recursive traversal and reports the excluded directory
+  ---
+  duration_ms: 4.184426
+  type: 'test'
+  ...
+# Subtest: memory pressure estimate validates resource assumptions
+ok 8 - memory pressure estimate validates resource assumptions
+  ---
+  duration_ms: 0.686214
+  type: 'test'
+  ...
+# Subtest: CLI emits JSON and rejects unsupported flags
+ok 9 - CLI emits JSON and rejects unsupported flags
+  ---
+  duration_ms: 154.175988
+  type: 'test'
+  ...
+# Subtest: RAG-PATCH-01 exact pinned bytes transform without modifying input
+ok 10 - RAG-PATCH-01 exact pinned bytes transform without modifying input
+  ---
+  duration_ms: 1.249483
+  type: 'test'
+  ...
+# Subtest: RAG-PATCH-02 base divergence fails closed
+ok 11 - RAG-PATCH-02 base divergence fails closed
+  ---
+  duration_ms: 0.49116
+  type: 'test'
+  ...
+# Subtest: RAG-PATCH-03 missing anchor rejected
+ok 12 - RAG-PATCH-03 missing anchor rejected
+  ---
+  duration_ms: 0.287233
+  type: 'test'
+  ...
+# Subtest: RAG-PATCH-04 ambiguous anchor rejected
+ok 13 - RAG-PATCH-04 ambiguous anchor rejected
+  ---
+  duration_ms: 0.296347
+  type: 'test'
+  ...
+# Subtest: accepts a complete byte-identical pinned snapshot
+ok 14 - accepts a complete byte-identical pinned snapshot
+  ---
+  duration_ms: 24.254498
+  type: 'test'
+  ...
+# Subtest: rejects a fake manifest that removes trusted indexed file
+ok 15 - rejects a fake manifest that removes trusted indexed file
+  ---
+  duration_ms: 12.436773
+  type: 'test'
+  ...
+# Subtest: rejects malicious rewrite of both bytes and the local self-manifest
+ok 16 - rejects malicious rewrite of both bytes and the local self-manifest
+  ---
+  duration_ms: 12.019715
+  type: 'test'
+  ...
+# Subtest: detects extra unindexed files rather than silently accepting them
+ok 17 - detects extra unindexed files rather than silently accepting them
+  ---
+  duration_ms: 11.665971
+  type: 'test'
+  ...
+# Subtest: detects symlink escape within vendor tree
+ok 18 - detects symlink escape within vendor tree
+  ---
+  duration_ms: 16.44891
+  type: 'test'
+  ...
+# Subtest: rejects altered authoritative file index and commit mismatch
+ok 19 - rejects altered authoritative file index and commit mismatch
+  ---
+  duration_ms: 7.23217
+  type: 'test'
+  ...
+# Subtest: rejects path traversal and control characters
+ok 20 - rejects path traversal and control characters
+  ---
+  duration_ms: 0.985485
+  type: 'test'
+  ...
+# Subtest: SEC003-08 rejects synchronized rewrite of index, manifest and source
+ok 21 - SEC003-08 rejects synchronized rewrite of index, manifest and source
+  ---
+  duration_ms: 13.705625
+  type: 'test'
+  ...
+# Subtest: SEC003-09 rejects missing custom trust digest
+ok 22 - SEC003-09 rejects missing custom trust digest
+  ---
+  duration_ms: 4.439606
+  type: 'test'
+  ...
+# Subtest: SEC003-10 rejects forged production index even with caller-supplied digest
+ok 23 - SEC003-10 rejects forged production index even with caller-supplied digest
+  ---
+  duration_ms: 4.081982
+  type: 'test'
+  ...
+# Subtest: SEC003-11 rejects modified executable mode on POSIX
+ok 24 - SEC003-11 rejects modified executable mode on POSIX
+  ---
+  duration_ms: 3.8557
+  type: 'test'
+  ...
+# Subtest: SEC003-12 rejects symlink in vendor parent
+ok 25 - SEC003-12 rejects symlink in vendor parent
+  ---
+  duration_ms: 3.254955
+  type: 'test'
+  ...
+# Subtest: SEC003-13 rejects symlinked index despite byte equality
+ok 26 - SEC003-13 rejects symlinked index despite byte equality
+  ---
+  duration_ms: 5.583073
+  type: 'test'
+  ...
+# Subtest: SEC003-14 rejects a matching but empty inventory
+ok 27 - SEC003-14 rejects a matching but empty inventory
+  ---
+  duration_ms: 3.82812
+  type: 'test'
+  ...
+# Subtest: SEC003-15 bounds manifest size before parsing JSON
+ok 28 - SEC003-15 bounds manifest size before parsing JSON
+  ---
+  duration_ms: 13.063138
+  type: 'test'
+  ...
+# Subtest: STAGE-01 verifies complete staged bytes without writing runtime
+ok 29 - STAGE-01 verifies complete staged bytes without writing runtime
+  ---
+  duration_ms: 11.693673
+  type: 'test'
+  ...
+# Subtest: STAGE-02 missing documentation denied by default
+ok 30 - STAGE-02 missing documentation denied by default
+  ---
+  duration_ms: 3.936913
+  type: 'test'
+  ...
+# Subtest: STAGE-03 explicit opt-in permits only two known documentation assets
+ok 31 - STAGE-03 explicit opt-in permits only two known documentation assets
+  ---
+  duration_ms: 2.499718
+  type: 'test'
+  ...
+# Subtest: STAGE-04 missing runtime source cannot be waived
+ok 32 - STAGE-04 missing runtime source cannot be waived
+  ---
+  duration_ms: 1.422354
+  type: 'test'
+  ...
+# Subtest: STAGE-05 modified same-length source is rejected before copying
+ok 33 - STAGE-05 modified same-length source is rejected before copying
+  ---
+  duration_ms: 2.604195
+  type: 'test'
+  ...
+# Subtest: STAGE-06 extra file rejected
+ok 34 - STAGE-06 extra file rejected
+  ---
+  duration_ms: 2.735152
+  type: 'test'
+  ...
+# Subtest: STAGE-07 symlink to source rejected
+ok 35 - STAGE-07 symlink to source rejected
+  ---
+  duration_ms: 1.878921
+  type: 'test'
+  ...
+# Subtest: STAGE-08 malformed index path and duplicate rejected
+ok 36 - STAGE-08 malformed index path and duplicate rejected
+  ---
+  duration_ms: 2.300577
+  type: 'test'
+  ...
+# Subtest: STAGE-09 stage parent symlink rejected
+ok 37 - STAGE-09 stage parent symlink rejected
+  ---
+  duration_ms: 1.730308
+  type: 'test'
+  ...
+# Subtest: STAGE-10 materialization creates new isolated directories and preserves bytes
+ok 38 - STAGE-10 materialization creates new isolated directories and preserves bytes
+  ---
+  duration_ms: 6.145441
+  type: 'test'
+  ...
+# Subtest: STAGE-11 executable mode mutation denied
+ok 39 - STAGE-11 executable mode mutation denied
+  ---
+  duration_ms: 2.745027
+  type: 'test'
+  ...
+# Subtest: STAGE-12 symlink output parent denied
+ok 40 - STAGE-12 symlink output parent denied
+  ---
+  duration_ms: 2.42822
+  type: 'test'
+  ...
+# Subtest: STAGE-13 invalid CLI flags rejected
+ok 41 - STAGE-13 invalid CLI flags rejected
+  ---
+  duration_ms: 71.481277
+  type: 'test'
+  ...
+# Subtest: STAGE-14 rejects coordinated source and index rewrite against trusted digest
+ok 42 - STAGE-14 rejects coordinated source and index rewrite against trusted digest
+  ---
+  duration_ms: 2.333697
+  type: 'test'
+  ...
+# Subtest: STAGE-15 custom source SHA must supply trusted index digest
+ok 43 - STAGE-15 custom source SHA must supply trusted index digest
+  ---
+  duration_ms: 1.485709
+  type: 'test'
+  ...
+# Subtest: STAGE-16 production source SHA rejects substituted index
+ok 44 - STAGE-16 production source SHA rejects substituted index
+  ---
+  duration_ms: 2.355099
+  type: 'test'
+  ...
+# Subtest: STAGE-17 cannot override production index digest
+ok 45 - STAGE-17 cannot override production index digest
+  ---
+  duration_ms: 2.277141
+  type: 'test'
+  ...
+# Subtest: STAGE-18 invalid trusted digest is rejected
+ok 46 - STAGE-18 invalid trusted digest is rejected
+  ---
+  duration_ms: 1.519069
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-01 clean exact worktree accepted
+ok 47 - SEC-GATE-01 clean exact worktree accepted
+  ---
+  duration_ms: 51.636509
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-02 ancestor Git checkout is rejected even with matching HEAD
+ok 48 - SEC-GATE-02 ancestor Git checkout is rejected even with matching HEAD
+  ---
+  duration_ms: 30.724469
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-03 untracked source is rejected
+ok 49 - SEC-GATE-03 untracked source is rejected
+  ---
+  duration_ms: 39.624316
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-04 ignored installed dependencies are allowed
+ok 50 - SEC-GATE-04 ignored installed dependencies are allowed
+  ---
+  duration_ms: 39.388531
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-05 assume-unchanged flags cannot suppress source modification detection
+ok 51 - SEC-GATE-05 assume-unchanged flags cannot suppress source modification detection
+  ---
+  duration_ms: 38.529191
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-06 skip-worktree flags are rejected
+ok 52 - SEC-GATE-06 skip-worktree flags are rejected
+  ---
+  duration_ms: 38.592782
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-07 symbolic source root is rejected
+ok 53 - SEC-GATE-07 symbolic source root is rejected
+  ---
+  duration_ms: 23.684244
+  type: 'test'
+  ...
+# Subtest: SEC-GATE-08 real initialized submodule with .git file is accepted
+ok 54 - SEC-GATE-08 real initialized submodule with .git file is accepted
+  ---
+  duration_ms: 94.344553
+  type: 'test'
+  ...
+# {
+#   "ok": true,
+#   "source": "/tmp/locally-gate-zwN3Wo/upstream/locally-uncensored",
+#   "expectedSha": "71512466177fcf15b17a452da84c743c5acdeb89",
+#   "actualSha": "71512466177fcf15b17a452da84c743c5acdeb89",
+#   "errors": []
+# }
+# Unknown command: unrecognized
+# Subtest: valid pinned clean source is accepted
+ok 55 - valid pinned clean source is accepted
+  ---
+  duration_ms: 72.67028
+  type: 'test'
+  ...
+# Subtest: missing submodule is rejected with recovery instructions
+ok 56 - missing submodule is rejected with recovery instructions
+  ---
+  duration_ms: 31.727805
+  type: 'test'
+  ...
+# Subtest: different pinned commit fails closed
+ok 57 - different pinned commit fails closed
+  ---
+  duration_ms: 36.887562
+  type: 'test'
+  ...
+# Subtest: tracked source modifications are rejected
+ok 58 - tracked source modifications are rejected
+  ---
+  duration_ms: 35.914701
+  type: 'test'
+  ...
+# Subtest: missing application entrypoint is rejected
+ok 59 - missing application entrypoint is rejected
+  ---
+  duration_ms: 33.904477
+  type: 'test'
+  ...
+# Subtest: invalid license is rejected
+ok 60 - invalid license is rejected
+  ---
+  duration_ms: 29.431956
+  type: 'test'
+  ...
+# Subtest: unknown action never executes npm
+ok 61 - unknown action never executes npm
+  ---
+  duration_ms: 30.833258
+  type: 'test'
+  ...
+# Subtest: dry run inventories tracked files without writing vendor tree
+ok 62 - dry run inventories tracked files without writing vendor tree
+  ---
+  duration_ms: 47.725791
+  type: 'test'
+  ...
+# Subtest: apply produces verified deterministic bytes and idempotent repeat
+ok 63 - apply produces verified deterministic bytes and idempotent repeat
+  ---
+  duration_ms: 73.161424
+  type: 'test'
+  ...
+# Subtest: modified vendor file fails verification and refuses overwrite
+ok 64 - modified vendor file fails verification and refuses overwrite
+  ---
+  duration_ms: 70.033545
+  type: 'test'
+  ...
+# Subtest: source changed after git commit is rejected
+ok 65 - source changed after git commit is rejected
+  ---
+  duration_ms: 33.276189
+  type: 'test'
+  ...
+# Subtest: source symlink is rejected
+ok 66 - source symlink is rejected
+  ---
+  duration_ms: 47.684634
+  type: 'test'
+  ...
+# Subtest: path traversal and absolute paths are rejected
+ok 67 - path traversal and absolute paths are rejected
+  ---
+  duration_ms: 0.413984
+  type: 'test'
+  ...
+# Subtest: VENDOR-07 rejects a self-consistent forged manifest and file on reimport
+ok 68 - VENDOR-07 rejects a self-consistent forged manifest and file on reimport
+  ---
+  duration_ms: 65.131212
+  type: 'test'
+  ...
+# Subtest: VENDOR-08 rejects deleted file and corresponding missing manifest record
+ok 69 - VENDOR-08 rejects deleted file and corresponding missing manifest record
+  ---
+  duration_ms: 47.776202
+  type: 'test'
+  ...
+# Subtest: VENDOR-09 rejects unexpected unindexed files
+ok 70 - VENDOR-09 rejects unexpected unindexed files
+  ---
+  duration_ms: 46.815624
+  type: 'test'
+  ...
+# Subtest: VENDOR-10 rejects changed executable mode on POSIX
+ok 71 - VENDOR-10 rejects changed executable mode on POSIX
+  ---
+  duration_ms: 46.89858
+  type: 'test'
+  ...
+# Subtest: VENDOR-11 rejects symlinked manifest even when bytes match
+ok 72 - VENDOR-11 rejects symlinked manifest even when bytes match
+  ---
+  duration_ms: 42.52884
+  type: 'test'
+  ...
+1..72
+# tests 72
+# suites 0
+# pass 72
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 906.593681

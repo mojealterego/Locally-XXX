@@ -53,3 +53,7 @@ Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycz
 ## AND-001 / GPU-001 — broker i recovery 2026-11-20
 
 13/13 testów brokera, 11/11 recovery, łącznie 24 nowe. 72/72 Node, 71/71 Python, 23/23 Chromium — 166/166 unikatowych testów. RED: brak modułów, niepełna kwarantanna osieroconego zadania oraz konkurencyjny monitor; GREEN po poprawkach. SIM-AND-03 PASS w zakresie admission; SIM-AND-02 i SIM-GPU-02 częściowe. Rzeczywiste Linux/SQLite/SIGKILL/flock, symulowane sensory i odpowiedzi ComfyUI. Pełny produkt i hardware NOT_RUN. `docs/evidence/AND001-GPU001-RECOVERY.json`.
+
+## GPU-001 — tiled reference upscale 2026-11-20
+
+20/20 nowych testów, 72/72 Node, 91/91 Python, 23/23 Chromium — 186/186 unikatowych testów. RED: brak modułu, odmowa zmienionego źródła, kolizja staging i brak adaptacji rdzenia; GREEN po poprawkach. Rzeczywiste 8K RGB PNG z 40 kafli, 100 układów z seed 3108, recovery i integralność. SIM-GPU-03 PASS w zakresie kontraktu referencyjnego upscalingu i scalania. ComfyUI symulowane, rzeczywista inferencja GPU, Android i produkt NOT_RUN. [Raport](evidence/GPU001-TILED-8K.json).

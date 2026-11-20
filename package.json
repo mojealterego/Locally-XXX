@@ -38,6 +38,8 @@
     "runtime:broker": "python3 -m scripts.resource_broker",
     "runtime:recoverable-render": "python3 -m scripts.recoverable_render",
     "test:broker": "python3 -m unittest discover -s tests -p test_resource_broker.py -v",
-    "test:recovery": "python3 -m unittest discover -s tests -p test_recoverable_render.py -v"
+    "test:recovery": "python3 -m unittest discover -s tests -p test_recoverable_render.py -v",
+    "runtime:tiled-upscale": "python3 -m scripts.tiled_upscale",
+    "test:tiled": "python3 -m unittest discover -s tests -p test_tiled_upscale.py -v"
   }
 }
