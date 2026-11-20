@@ -1,0 +1,202 @@
+{
+  "base_commit": "256310507e51d692a4783dad8bf47783a2d69c14",
+  "date": "2026-11-20",
+  "scope": "Production POSIX broker and recoverable render CLI; Android sensors and ComfyUI simulated, actual Linux process kill, SQLite transactions, advisory locks and artifact filesystem operations",
+  "environment": {
+    "node": "22.16.0",
+    "python": "3.13.5",
+    "git": "2.47.3",
+    "os": "Linux x86_64",
+    "chromium": "144.0.7559.96",
+    "openpyxl": "3.1.5"
+  },
+  "tested_git_blobs": {
+    "package.json": "d33b54bd8ed4c8b7b920603326639e812576eefb",
+    "scripts/resource_broker.py": "4c6bc4668bd9e6039dc54d0f82a9ca9773d3b7ff",
+    "scripts/recoverable_render.py": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+    "tests/test_resource_broker.py": "5ea417ffb0857c4b8483b3d65442a204224c148f",
+    "tests/test_recoverable_render.py": "cf8151276dd5c76dde9f598a6d3d99d52b10bb4a",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/runtime_control.py": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+    "scripts/security_scan.py": "5398fd483ce6c6f4ce18feb12870e1915f9a4a48",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb"
+  },
+  "source_sha256": {
+    "scripts/resource_broker.py": "60ff1885794cfacf374d161a9411ede90d240f754ad9eecff4785d0ab803a370",
+    "scripts/recoverable_render.py": "7c43b10f966ebdeb957c93e807b016e155e9b7e5d2f46b45200e193c0671f299",
+    "tests/test_resource_broker.py": "d114bbcee11a70a964a8af4a5646bda8e36491623bd7273fd4246f3e3062ab89",
+    "tests/test_recoverable_render.py": "ed5930750f45f1ff2adc553000b59d5b5874a42ce294ff7007c2dc31b3239b57"
+  },
+  "logs_sha256": {
+    "BROKER-RED.log": "41cc8b19daa824e17dc0e1e3ff652a397ca2827408d95ff302196e37da73f2e5",
+    "BROKER-ORPHAN-RED.log": "1a5e4552411a6d8ecc607745846727121d79a409a2cfd30e3b848e3d7ad6f003",
+    "BROKER-MONITOR-RED.log": "77cd96e76ec9e1016200b7381db929f1be8f7762660998e164e7d0d8bea609d8",
+    "BROKER-GREEN.log": "6861bdeb78dc5ba68e316a1d3700e25e770ec580f5c124a572e127d25aa3f7d7",
+    "BROKER-NODE.log": "f853aec38c72a12b2956e54a3470447126ee6be2dc66c1653742eb8dbc7c1d59",
+    "BROKER-PYTHON.log": "6a96e09d4172bd38580dd0eee2f7027f31f6660bebbc715a8522fa53b49ca524",
+    "BROKER-RAG.log": "145d813466f55e5279a1d88dfab0cf2488e8a9f78785f5f6f722ad0c6d8d65ce",
+    "RECOVERY-RED.log": "69c97b31a1ca867c4e25f42863483ad024491498d231faf09e669d5205440d57",
+    "RECOVERY-GREEN.log": "74cc604675ff0ef1c20e7daa54924841b8d67cfa1efe8c644885c2565d4c715a"
+  },
+  "commands": [
+    {
+      "command": "python -m unittest discover -s tests -p test_resource_broker.py -v",
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "BROKER-GREEN.log"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_recoverable_render.py -v",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "RECOVERY-GREEN.log"
+    },
+    {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "BROKER-NODE.log"
+    },
+    {
+      "command": "npm run test:python",
+      "pass": 71,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "BROKER-PYTHON.log"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log": "BROKER-RAG.log"
+    }
+  ],
+  "red": [
+    {
+      "log": "BROKER-RED.log",
+      "cause": "Missing module",
+      "exit_code": 1
+    },
+    {
+      "log": "BROKER-ORPHAN-RED.log",
+      "cause": "Orphan did not block all new admissions",
+      "exit_code": 1
+    },
+    {
+      "log": "BROKER-MONITOR-RED.log",
+      "cause": "Second monitor could run and invalidate current sample",
+      "exit_code": 1
+    },
+    {
+      "log": "RECOVERY-RED.log",
+      "cause": "Missing recovery module",
+      "exit_code": 1
+    }
+  ],
+  "unique_tests": 166,
+  "scenarios": [
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-02",
+      "result": "PARTIAL",
+      "source_sha": "4c6bc4668bd9e6039dc54d0f82a9ca9773d3b7ff",
+      "fixture_sha256": "d114bbcee11a70a964a8af4a5646bda8e36491623bd7273fd4246f3e3062ab89",
+      "config": "Actual spawned process with SIGKILL, persistent SQLite, boot identity mocked for reboot scenario",
+      "seed": null,
+      "command": "npm run test:broker",
+      "assertions": [
+        "Dead process leases quarantine rather than release",
+        "Manual verified-idle reconciliation",
+        "Foreign ticket denied",
+        "Queue timeout cancels pending task"
+      ],
+      "exit_code": 0,
+      "log_sha256": "6861bdeb78dc5ba68e316a1d3700e25e770ec580f5c124a572e127d25aa3f7d7",
+      "limitations": "Android Activity/service and permission lifecycle not implemented; operator reconciles backend externally"
+    },
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-03",
+      "result": "SIM-PASS",
+      "source_sha": "4c6bc4668bd9e6039dc54d0f82a9ca9773d3b7ff",
+      "fixture_sha256": "d114bbcee11a70a964a8af4a5646bda8e36491623bd7273fd4246f3e3062ab89",
+      "config": "SQLite FIFO, controlled clock/boot identity, fixed thermal samples and probe errors, real monitor file lock",
+      "seed": null,
+      "command": "npm run test:broker",
+      "assertions": [
+        "1024 MiB reserve and FIFO",
+        "43 C closes and 39.5 C reopens",
+        "Stale/reboot sample denied",
+        "Duplicate monitor rejected",
+        "Job success releases; unknown failure retains reservation"
+      ],
+      "exit_code": 0,
+      "log_sha256": "6861bdeb78dc5ba68e316a1d3700e25e770ec580f5c124a572e127d25aa3f7d7",
+      "limitations": "Admission control only, no automatic termination of already running hot workload; cooperative process sharing; actual device sensor access NOT_RUN"
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-02",
+      "result": "PARTIAL",
+      "source_sha": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+      "fixture_sha256": "ed5930750f45f1ff2adc553000b59d5b5874a42ce294ff7007c2dc31b3239b57",
+      "config": "Fixed HTTP fixture replies, actual fsync and atomic link, injected failures, deterministic no-op sleep",
+      "seed": null,
+      "command": "npm run test:recovery",
+      "assertions": [
+        "GET retry <=3 with 0.25/0.5s backoff",
+        "Never repeat ambiguous POST",
+        "Known prompt resumes without POST",
+        "READY recovers after link",
+        "Existing or corrupt output rejected",
+        "Concurrent process lock"
+      ],
+      "exit_code": 0,
+      "log_sha256": "74cc604675ff0ef1c20e7daa54924841b8d67cfa1efe8c644885c2565d4c715a",
+      "limitations": "No real backend reset, scoped cancellation, VRAM telemetry or GPU inference; resume reads artifact separately; orphan lease reconciled manually"
+    }
+  ],
+  "physical": "NOT_RUN",
+  "new_code_decisions": [
+    "Store state in private POSIX filesystem; trusted same UID and cooperating processes only",
+    "Unknown completion blocks all new broker admissions until operator independently verifies backend idle; no unsafe automatic unlock",
+    "Monitor fails closed on inaccessible sensor; no automatic forced cancellation",
+    "Recoverable rendering is an opt-in CLI route, not default UI integration; GET recovery only"
+  ],
+  "remaining": [
+    "Native Android project/bridge and lifecycle",
+    "Continuous enforcement for running tasks and sensor access validation on Android",
+    "Automatic tiled 8K generation and stitching",
+    "Live GPU measurements, actual model inference, full app build"
+  ]
+}

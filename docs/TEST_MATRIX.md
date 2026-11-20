@@ -49,3 +49,7 @@ Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycz
 ## RUN-001 / AND-001 / GPU-001 — 2026-11-20
 
 `npm run test:runtime`: 23/23 PASS (RUN 6, AND 8, GPU 9). RED przed wdrożeniem modułu, dodatkowy RED dla brakującej bramki Android oraz rzeczywistego układu apk/arm64/release; GREEN po poprawkach. `npm run test:gate` 72/72, `npm run test:python` 47/47, `npm run test:rag-browser` 23/23; 142 unikatowe testy łącznie. SIM-RUN-01..03 i SIM-GPU-01 PASS w zakresie modelowanych kontraktów. Pozostałe 5 scenariuszy częściowe (patrz macierz). Lokalny rzeczywisty test procesu z timeoutem i HTTP loopback, symulowany toolchain, system urządzenia i ComfyUI; nie wykonano pełnego buildu, APK i modelu. Raport: `docs/evidence/RUN001-AND001-GPU001.json`.
+
+## AND-001 / GPU-001 — broker i recovery 2026-11-20
+
+13/13 testów brokera, 11/11 recovery, łącznie 24 nowe. 72/72 Node, 71/71 Python, 23/23 Chromium — 166/166 unikatowych testów. RED: brak modułów, niepełna kwarantanna osieroconego zadania oraz konkurencyjny monitor; GREEN po poprawkach. SIM-AND-03 PASS w zakresie admission; SIM-AND-02 i SIM-GPU-02 częściowe. Rzeczywiste Linux/SQLite/SIGKILL/flock, symulowane sensory i odpowiedzi ComfyUI. Pełny produkt i hardware NOT_RUN. `docs/evidence/AND001-GPU001-RECOVERY.json`.

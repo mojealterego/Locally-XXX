@@ -34,6 +34,10 @@
     "runtime:chat": "python3 -m scripts.runtime_control chat",
     "runtime:render": "python3 -m scripts.runtime_control render",
     "test:runtime": "python3 -m unittest discover -s tests -p test_runtime_control.py -v",
-    "test:python": "python3 -m unittest discover -s tests -p test_*.py -v"
+    "test:python": "python3 -m unittest discover -s tests -p test_*.py -v",
+    "runtime:broker": "python3 -m scripts.resource_broker",
+    "runtime:recoverable-render": "python3 -m scripts.recoverable_render",
+    "test:broker": "python3 -m unittest discover -s tests -p test_resource_broker.py -v",
+    "test:recovery": "python3 -m unittest discover -s tests -p test_recoverable_render.py -v"
   }
 }

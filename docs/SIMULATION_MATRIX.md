@@ -1,6 +1,6 @@
 # Macierz deterministycznych testów symulacyjnych
 
-Aktualizacja 2026-11-20. Wykonano 23 testy produkcyjnego kontrolera. SIM-PASS dotyczy zakresu ujętego w asercji i dowodach; PARTIAL oznacza brak implementacji lub pokrycia części kryterium. PHYSICAL NOT_RUN pozostaje niezależne.
+Aktualizacja 2026-11-20. Po kontrolerze runtime (23 testy) wykonano dalsze 24 testy brokera/recovery. SIM-PASS obejmuje modelowalne kryterium; PARTIAL oznacza brak pokrycia lub kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
 
 | ID | Punkt | Symulowana granica | Asercja odbiorowa | ENGINEERING | PHYSICAL |
 | --- | --- | --- | --- | --- | --- |
@@ -9,7 +9,7 @@ Aktualizacja 2026-11-20. Wykonano 23 testy produkcyjnego kontrolera. SIM-PASS do
 | SIM-RUN-03 | RUN-001 | Przerwany build | Powtarzalne wznowienie lub bezpieczny restart bez nadpisania zweryfikowanego artefaktu | SIM-PASS | NOT_RUN |
 | SIM-AND-01 | AND-001 | Android ARM64 / WebView | Egzekwowanie ABI, walidacja ścieżek i kontraktów natywnych, odmowa niezgodnej konfiguracji | PARTIAL | NOT_RUN |
 | SIM-AND-02 | AND-001 | System Android i uprawnienia | Odmowa bez uprawnień, kontrola cyklu życia, recovery po zabiciu procesu | PARTIAL | NOT_RUN |
-| SIM-AND-03 | AND-001 | Model RAM / termika | Ograniczenie zasobów, kolejki, hysteresis, kontrolowane zwalnianie pamięci i backpressure | PARTIAL | NOT_RUN |
+| SIM-AND-03 | AND-001 | Model RAM / termika | Ograniczenie zasobów, kolejki, hysteresis, kontrolowane zwalnianie pamięci i backpressure | SIM-PASS | NOT_RUN |
 | SIM-GPU-01 | GPU-001 | Adapter inferencji GGUF / ComfyUI | Poprawny routing, walidacja odpowiedzi, brak fałszywego wyniku przy błędzie | SIM-PASS | NOT_RUN |
 | SIM-GPU-02 | GPU-001 | OOM, GPU unavailable, timeout | Kontrolowana odmowa lub jawny fallback, limity retry, recovery | PARTIAL | NOT_RUN |
 | SIM-GPU-03 | GPU-001 | Model pamięci generacji 8K | Budżet zasobów, bezpieczny podział pracy, czyszczenie niekompletnego wyniku | PARTIAL | NOT_RUN |
@@ -26,8 +26,10 @@ Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VAL
 - **SIM-RUN-02 — SIM-PASS**: Real POSIX subprocess and timeout; simulated missing dependency/failure; evidence retained. Pozostało: No full toolchain installation.
 - **SIM-RUN-03 — SIM-PASS**: Safe restart after early failure, preserved original failure log, rejection of stale dist. Pozostało: Hard kill leaving lock needs inspection; late failure needs fresh workspace.
 - **SIM-AND-01 — PARTIAL**: Production APK ABI/ELF check; simulated Gradle/signature command and real flavor output layout; missing Android project denied. Pozostało: Native project, WebView, bridge, real signer identity and device compatibility remain open.
-- **SIM-AND-02 — PARTIAL**: Capability and permission refusal; recovery from backend exception and release of process-local lease. Pozostało: Android system lifecycle, native permission handling and process-kill recovery not implemented/tested.
-- **SIM-AND-03 — PARTIAL**: Process-local RAM reservation, stale sample denial, 43/39.5 C hysteresis, fail-closed backpressure and release. Pozostało: No continuous sensor monitoring, persistent cross-process broker or queue.
+- **SIM-AND-02 — PARTIAL**: rzeczywisty proces POSIX zakończony SIGKILL, identyfikacja PID/starttime, osierocona rezerwacja w kwarantannie, recovery tylko po potwierdzeniu bezczynności backendu. Pozostały Activity/service Android oraz natywny permission lifecycle.
+- **SIM-AND-03 — SIM-PASS (kontrola dopuszczenia)**: trwała kolejka FIFO, transakcje SQLite, monitor jednego właściciela, rezerwa 1024 MiB, histereza 43/39.5 C, ważność próbki 10 s, kontrola deadline i zwolnienie/recovery. Nie przerywa działającego GPU; rzeczywisty sensor i pamięć urządzenia NOT_RUN.
 - **SIM-GPU-01 — SIM-PASS**: Actual loopback HTTP transport to fixture; llama-server route and simulated ComfyUI prompt/history/view contract, content validation. Pozostało: Trusted local backend/workflow required; no real model execution.
-- **SIM-GPU-02 — PARTIAL**: Output budget refusal, bounded polling and no duplicate POST; no partial output published. Pozostało: No server-side cancellation, dynamic GPU memory admission, backend recovery/retry controller.
+- **SIM-GPU-02 — PARTIAL**: trwały dziennik zadania, ograniczone ponowienia GET, brak retry POST przy nieznanym wyniku, wznowienie znanego prompt_id, atomowy odbiór i recovery po przerwaniu. Brak scoped cancellation, automatycznego recovery samego backendu i pomiarów VRAM.
 - **SIM-GPU-03 — PARTIAL**: 8K UHD valid deterministic RGB PNG fixture, CRC/size validation and atomic no-overwrite output; 16 B/px heuristic. Pozostało: No automatic tiling/stitching, model VRAM measurement, or actual AI 8K generation.
+
+Przyrost: `npm run test:broker` 13/13, `npm run test:recovery` 11/11; razem 166 testów regresji. [Dowody](evidence/AND001-GPU001-RECOVERY.json).

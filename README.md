@@ -136,3 +136,26 @@ Opcjonalne flagi Termux dla chat/render: `--android-lease-mib` i `--temperature-
 Chat korzysta z rzeczywistego HTTP do 127.0.0.1 oraz /v1/chat/completions; rendering z /prompt, /history i /view. Brak ponownego POST przy nieznanym wyniku operacji. Ograniczona liczba odpytań i rozmiary odpowiedzi. Wymagany zaufany lokalny ComfyUI workflow zwracający dokładnie jeden PNG. Sprawdza CRC, wymiary, rozmiar rozpakowanych danych w obsługiwanym podzbiorze PNG (RGB/RGBA 8-bit bez przeplotu), zapisuje atomowo bez nadpisania. Heurystyka 16 B/px dotyczy buforów obrazu, nie VRAM modelu. Nie implementuje automatycznego tilingu, sklejania, anulowania zadania po stronie serwera ani doboru checkpointu.
 
 Wynik: 23/23 nowy kontroler; 72/72 Node, 47/47 Python (zawiera 23 nowego kontrolera), 23/23 Chromium, razem 142 unikatowe testy. Testy procesów i transportu HTTP wykonano lokalnie; Android, toolchain aplikacji oraz backend modeli zastąpiono kontrolowanymi fixtures. 8K testowe PNG jest deterministyczną bitmapą, nie wynikiem modelu. Brak pełnego checkoutu, buildu produktu, podpisanego APK oraz pracy sprzętowej. Macierz: `docs/SIMULATION_MATRIX.md`, raport: `docs/evidence/RUN001-AND001-GPU001.json`.
+
+## AND-001 / GPU-001 — trwały broker zasobów i recovery
+
+Wymagania: Python 3.11+, POSIX/Linux/Termux, prywatny katalog na lokalnym filesystemie obsługującym SQLite, flock, hardlink oraz fsync. Nie używać współdzielonego Android storage dla dzienników. Ścieżkę sensora wybiera operator; musi zwracać zaufaną wartość w milistopniach C (np. odpowiedni thermal_zone/temp, zależny od urządzenia). Jeżeli sensor/getprop/proc jest niedostępny, admission pozostaje zamknięte. CLI działa niezależnie od UI; nie jest jeszcze domyślnym adapterem aplikacji.
+
+Broker: w osobnym procesie uruchom monitor; wszystkie kooperujące zadania korzystają z tego samego prywatnego katalogu. FIFO jest ścisłe; istniejące rezerwacje są uwzględniane w budżecie, próbka wygasa po 10 s. Błąd klienta lub śmierć procesu nie oznacza zakończenia obliczeń serwera: ORPHANED zatrzymuje nowe przydziały do czasu uzgodnienia stanu. Monitor nie zabija działających zadań po wzroście temperatury. Limit 128 oczekujących/aktywnych/osieroconych wpisów, 10 000 wpisów dziennika (wymaga archiwizacji offline po osiągnięciu limitu).
+
+```bash
+npm run runtime:broker -- "$HOME/omega-broker" monitor /trusted/thermal/temp
+npm run runtime:broker -- "$HOME/omega-broker" status
+npm run runtime:broker -- "$HOME/omega-broker" chat 8127 model "Tekst" 2048
+```
+
+Odzyskiwalny render (oddzielny prywatny katalog na każde zadanie, ścieżka wyjścia nie może istnieć):
+```bash
+npm run runtime:recoverable-render -- "$HOME/omega-job-001" 8188 start workflow.json output.png 7680 4320 1024 --broker-dir "$HOME/omega-broker" --lease-mib 4096
+npm run runtime:recoverable-render -- "$HOME/omega-job-001" 8188 status
+npm run runtime:recoverable-render -- "$HOME/omega-job-001" 8188 resume
+```
+
+GET history/view: maksymalnie 3 próby dla TIMEOUT/TRANSPORT, backoff 0.25/0.5 s, maksymalnie 120 iteracji polling na wywołanie. Nie ma automatycznego ponawiania POST. SUBMITTING/UNKNOWN wymagają ręcznego wyjaśnienia, ACCEPTED pozwala wznowić pobranie po znanym prompt_id. READY weryfikuje SHA-256 przed zatwierdzeniem DONE. Resume nie wykonuje nowej generacji ani nie zwalnia osieroconej rezerwacji. Po niezależnym sprawdzeniu, że wszystkie powiązane obliczenia naprawdę zakończono, operator może użyć `runtime:broker -- DIR reconcile TICKET --backend-idle-confirmed`. Flaga jest oświadczeniem operatora, nie pomiarem backendu. Nie stosować przy niepewnym stanie. Brak izolacji między niezaufanymi procesami tego samego UID, brak automatycznego anulowania GPU i aktualnego pomiaru VRAM.
+
+Testy nowego kodu: 13 broker + 11 recovery = 24; pełna regresja 166/166. Zbadano rzeczywiste SIGKILL lokalnego procesu, SQLite, flock, fsync i odzyskanie atomowego wyniku; sensory Androida i odpowiedzi ComfyUI były symulowane. Pełny build, realny model, APK i urządzenie NOT_RUN. Raport: `docs/evidence/AND001-GPU001-RECOVERY.json`.
