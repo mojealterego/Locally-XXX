@@ -1,0 +1,308 @@
+{
+  "base_commit": "817831e1a55b9e972e28c85c044503ab0655a630",
+  "date": "2026-11-20",
+  "policy": "VALIDATION_POLICY v2.0",
+  "environment": {
+    "node": "22.16.0",
+    "python": "3.13.5",
+    "git": "2.47.3",
+    "chromium": "144.0.7559.96",
+    "typescript": "5.8.3",
+    "playwright": "1.57.0",
+    "openpyxl": "3.1.5",
+    "os": "Debian GNU/Linux 13 x86_64"
+  },
+  "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+  "test_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+  "source_sha256": "342d58559ddb494f869438dae48f41da41c115df6fbbd601e1923d67512441fc",
+  "test_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+  "tested_git_blobs": {
+    "package.json": "0386d4c9a8259bdf78569928ec21993845d07345",
+    "scripts/runtime_control.py": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/security_scan.py": "5398fd483ce6c6f4ce18feb12870e1915f9a4a48",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb",
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68"
+  },
+  "command_results": [
+    {
+      "command": "npm run test:runtime",
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2"
+    },
+    {
+      "command": "npm run test:gate",
+      "pass": 72,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log_sha256": "03b4ec6396dc1c5013cf59d73633530cf5ff59a78f115475a81205613d2715f5"
+    },
+    {
+      "command": "npm run test:python",
+      "pass": 47,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log_sha256": "eb993bb8343ada6b00f3e97b93f4cc1665642e37abf2c0d00bcc9061b94781d4"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0,
+      "log_sha256": "1dc7722fcfb2cae3d8581112f24070b5d2db736db6fdb616ae75d41ead53bcff"
+    }
+  ],
+  "unique_tests": 142,
+  "by_new_requirement": {
+    "RUN001": 6,
+    "AND001": 8,
+    "GPU001": 9
+  },
+  "red": [
+    {
+      "cause": "Module absent before implementation",
+      "exit": 1,
+      "log": "f0f1575eb8b44445fae3755640f6bdd7972a9a04c4b96dbf7fcf95e4f1ced406"
+    },
+    {
+      "cause": "android_execute absent before refinement",
+      "exit": 1,
+      "log": "a0f73934896de456dae507eaa1ceccacc318d055cd127a2c364acb8ff4f7ef37"
+    },
+    {
+      "cause": "Regression: actual Android arm64/release layout not recognized",
+      "exit": 1,
+      "fail": 1,
+      "log": "e37f76fe950da2c8113da1832478352b2b60a8354b47db7f44528928b486d6d3"
+    }
+  ],
+  "scenarios": [
+    {
+      "requirement_id": "RUN-001",
+      "test_id": "SIM-RUN-01",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_run_01_build_sequence",
+        "test_run_02_short_circuit",
+        "test_run_05_missing_artifact"
+      ],
+      "assertions": "Build step ordering, first failure abort, missing output rejected. Process runner injected for application toolchain.",
+      "result": "SIM-PASS",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "No actual Tauri/React/Rust executable produced"
+    },
+    {
+      "requirement_id": "RUN-001",
+      "test_id": "SIM-RUN-02",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_run_04_actual_process_and_timeout",
+        "test_run_02_short_circuit"
+      ],
+      "assertions": "Real POSIX subprocess and timeout; simulated missing dependency/failure; evidence retained.",
+      "result": "SIM-PASS",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "No full toolchain installation"
+    },
+    {
+      "requirement_id": "RUN-001",
+      "test_id": "SIM-RUN-03",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_run_03_no_stale_artifact",
+        "test_run_06_restart_preserves_failure_evidence"
+      ],
+      "assertions": "Safe restart after early failure, preserved original failure log, rejection of stale dist.",
+      "result": "SIM-PASS",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "Hard kill leaving lock needs inspection; late failure needs fresh workspace"
+    },
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-01",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_and_01_arm64_build_and_signature_contract",
+        "test_and_02_wrong_abi",
+        "test_and_03_wrong_directory_abi",
+        "test_and_04_android_project_missing"
+      ],
+      "assertions": "Production APK ABI/ELF check; simulated Gradle/signature command and real flavor output layout; missing Android project denied.",
+      "result": "PARTIAL",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "Native project, WebView, bridge, real signer identity and device compatibility remain open"
+    },
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-02",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_and_05_probe_permissions_and_abi",
+        "test_and_08_guarded_backend_refusal_and_recovery"
+      ],
+      "assertions": "Capability and permission refusal; recovery from backend exception and release of process-local lease.",
+      "result": "PARTIAL",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "Android system lifecycle, native permission handling and process-kill recovery not implemented/tested"
+    },
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-03",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_and_06_resource_hysteresis_and_release",
+        "test_and_07_stale_resource_probe",
+        "test_and_08_guarded_backend_refusal_and_recovery"
+      ],
+      "assertions": "Process-local RAM reservation, stale sample denial, 43/39.5 C hysteresis, fail-closed backpressure and release.",
+      "result": "PARTIAL",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "No continuous sensor monitoring, persistent cross-process broker or queue"
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-01",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_gpu_01_text_route",
+        "test_gpu_03_8k_contract_and_atomic_output",
+        "test_gpu_06_real_loopback_http",
+        "test_gpu_07_malformed_response",
+        "test_gpu_08_unsafe_output_path"
+      ],
+      "assertions": "Actual loopback HTTP transport to fixture; llama-server route and simulated ComfyUI prompt/history/view contract, content validation.",
+      "result": "SIM-PASS",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "Trusted local backend/workflow required; no real model execution"
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-02",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_gpu_02_no_implicit_retry_of_submit",
+        "test_gpu_04_bad_image_and_budget",
+        "test_gpu_05_bounded_poll"
+      ],
+      "assertions": "Output budget refusal, bounded polling and no duplicate POST; no partial output published.",
+      "result": "PARTIAL",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "No server-side cancellation, dynamic GPU memory admission, backend recovery/retry controller"
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-03",
+      "source_git_blob": "0c84edc4aeeaa01d7963c83568d8b14f517eb5e7",
+      "fixture_source_git_blob": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+      "fixture_source_sha256": "b674737235ab630451d8d84377f9dcbe63b1c1105ca24edbb699fa1b0cbc431c",
+      "seed": null,
+      "config": "Unittest temporary files, explicit fake runner and HTTP replies; real local process/loopback tests; fixed 8K RGB zero-scanline fixture; controlled clock for stale sample",
+      "command": "npm run test:runtime",
+      "tests": [
+        "test_gpu_03_8k_contract_and_atomic_output",
+        "test_gpu_04_bad_image_and_budget",
+        "test_gpu_09_crc_rejection"
+      ],
+      "assertions": "8K UHD valid deterministic RGB PNG fixture, CRC/size validation and atomic no-overwrite output; 16 B/px heuristic.",
+      "result": "PARTIAL",
+      "physical": "NOT_RUN",
+      "exit_code": 0,
+      "log_sha256": "7ed103a6c3c9ad627d5128ee2d078647eb28c9cde28e72b903fb4c72576b9ac2",
+      "limitations": "No automatic tiling/stitching, model VRAM measurement, or actual AI 8K generation"
+    }
+  ],
+  "physical": {
+    "desktop_build": "NOT_RUN",
+    "android_apk": "NOT_RUN",
+    "real_models": "NOT_RUN",
+    "production": "NOT_RUN"
+  },
+  "limitations": [
+    "Standalone POSIX runtime CLI; not wired to UI by default",
+    "Requires explicitly trusted workspace/workflow and local backend; no tenant isolation",
+    "Android requires initialized native project, SDK/NDK/JDK and signing config; apksigner checks structural signature validity only, not expected publisher identity",
+    "Resource gate process-local and admission-only, caller supplies trusted temperature, no continuous monitoring or model memory measurement",
+    "Image buffer estimate not total memory demand; PNG supported subset RGB/RGBA 8-bit non-interlaced, fixture not AI generation",
+    "Full checkout and actual application toolchain unavailable; no CI workflows started"
+  ]
+}

@@ -28,6 +28,12 @@
     "security:scan": "python3 -m scripts.security_scan",
     "omega:restore": "python3 -m scripts.omega_import",
     "models:layout": "python3 -m scripts.gguf_layout",
-    "test:omega": "python3 -m unittest discover -s tests -p test_omega_three.py -v"
+    "test:omega": "python3 -m unittest discover -s tests -p test_omega_three.py -v",
+    "runtime:build": "python3 -m scripts.runtime_control build",
+    "runtime:android-probe": "python3 -m scripts.runtime_control android-probe",
+    "runtime:chat": "python3 -m scripts.runtime_control chat",
+    "runtime:render": "python3 -m scripts.runtime_control render",
+    "test:runtime": "python3 -m unittest discover -s tests -p test_runtime_control.py -v",
+    "test:python": "python3 -m unittest discover -s tests -p test_*.py -v"
   }
 }

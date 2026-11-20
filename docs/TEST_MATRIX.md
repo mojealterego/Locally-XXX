@@ -45,3 +45,7 @@ Pełny root gate `npm run test:gate`: 68/68 PASS, 0 FAIL, 0 SKIP, exit 0. Wszyst
 ## Polityka odbioru v2.0 — 2026-11-19
 
 Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycznymi testami symulacyjnymi według [VALIDATION_POLICY](VALIDATION_POLICY.md). Nowe kryteria/wyniki mają odrębną oś ENGINEERING i PHYSICAL. [SIMULATION_MATRIX](SIMULATION_MATRIX.md) definiuje dziewięć scenariuszy RUN/AND/GPU ze statusem SIM_REQUIRED; w tej zmianie nie uruchomiono nowych testów. Dotychczasowe wyniki pozostają historycznymi dowodami, nie są automatycznie przeliczane na SIM-PASS.
+
+## RUN-001 / AND-001 / GPU-001 — 2026-11-20
+
+`npm run test:runtime`: 23/23 PASS (RUN 6, AND 8, GPU 9). RED przed wdrożeniem modułu, dodatkowy RED dla brakującej bramki Android oraz rzeczywistego układu apk/arm64/release; GREEN po poprawkach. `npm run test:gate` 72/72, `npm run test:python` 47/47, `npm run test:rag-browser` 23/23; 142 unikatowe testy łącznie. SIM-RUN-01..03 i SIM-GPU-01 PASS w zakresie modelowanych kontraktów. Pozostałe 5 scenariuszy częściowe (patrz macierz). Lokalny rzeczywisty test procesu z timeoutem i HTTP loopback, symulowany toolchain, system urządzenia i ComfyUI; nie wykonano pełnego buildu, APK i modelu. Raport: `docs/evidence/RUN001-AND001-GPU001.json`.

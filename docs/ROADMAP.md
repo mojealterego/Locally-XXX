@@ -1,6 +1,6 @@
 # OMEGA-X / Locally-XXX — Roadmapa i rejestr stanu
 
-Data aktualizacji: 2026-11-19. Obowiązuje [VALIDATION_POLICY v2.0](VALIDATION_POLICY.md): niedostępną infrastrukturę zastępujemy deterministycznymi testami symulacyjnymi. SIM-PASS zamyka przebadane kryterium inżynieryjne; PHYSICAL pozostaje niezależnym wymiarem. Zasada: status `POTWIERDZONE` wymaga wskazania konkretnego dowodu, `CZĘŚCIOWE` oznacza brak przynajmniej jednego kryterium odbioru, `BRAK` oznacza brak kodu/dowodu w docelowym repozytorium.
+Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v2.0](VALIDATION_POLICY.md): niedostępną infrastrukturę zastępujemy deterministycznymi testami symulacyjnymi. SIM-PASS zamyka przebadane kryterium inżynieryjne; PHYSICAL pozostaje niezależnym wymiarem. Zasada: status `POTWIERDZONE` wymaga wskazania konkretnego dowodu, `CZĘŚCIOWE` oznacza brak przynajmniej jednego kryterium odbioru, `BRAK` oznacza brak kodu/dowodu w docelowym repozytorium.
 
 | ID | Obszar | Status | Dowód / warunek domknięcia |
 | --- | --- | --- | --- |
@@ -13,11 +13,11 @@ Data aktualizacji: 2026-11-19. Obowiązuje [VALIDATION_POLICY v2.0](VALIDATION_P
 | SEC-002 | Skan sekretów, licencji i zależności przed publikacją | IMPLEMENTED / PARTIALLY VERIFIED | `scripts/security_scan.py`: heurystyczny skaner offline, metadane npm/Cargo, SBOM CycloneDX 1.5, 9/9 testów. Kontrola 506 wpisów npm i 681 Cargo; pełny skan/licencje/CVE pozostają otwarte. |
 | RAG-001 | RAG: XLSX, polskie znaki, limity PDF/DOCX/XLSX | NAKŁADKA ZAIMPLEMENTOWANA / TESTY MODUŁU PASS | `overlays/rag/`, `npm run rag:prepare`: parser XLSX, polska tokenizacja, limity ZIP/tekst/PDF i embeddingów. Chromium 23/23 i 4 testy nakładki; 16 kotwic w 4 plikach upstream zgodnych z przypiętym SHA. Pełne uruchomienie aplikacji, test PDF.js/Mammoth w aplikacji i rzeczywisty model niezweryfikowane. |
 | RUN-002 | Przygotowanie zweryfikowanego katalogu roboczego bez submodułu | TESTOWANE LOKALNIE | `scripts/staged-runtime.mjs`, 18/18 testów; zakotwiczenie SHA-256 indeksu, jawne odstępstwo tylko dla 2 zasobów dokumentacji. Porównano indeks 1112/1112 z drzewem upstream. Build i rzeczywisty snapshot lokalnie nieuruchomione. |
-| RUN-001 | Desktop build Tauri/React/Rust | SIM_REQUIRED / PHYSICAL NOT_RUN | Rzeczywisty build tam, gdzie dostępny; dla niedostępnego toolchain/runnera testy SIM-RUN-01..03. Brak dowodu binarnego pozostaje oznaczony osobno. |
-| AND-001 | Natywne APK Android / Termux / S24 Ultra | SIM_REQUIRED / PHYSICAL NOT_RUN | Nadal wymagany kod produkcyjny. Testy SIM-AND-01..03 zastępują niedostępne urządzenie dla modelowalnych kryteriów; APK, podpis i instalacja osobno. |
+| RUN-001 | Desktop build Tauri/React/Rust | SIM-PASS (orkiestracja) / PHYSICAL NOT_RUN | Produkcyjny kontroler procesów `scripts/runtime_control.py`: 6/6 testów, SIM-RUN-01..03. Lokalny proces/timeout, symulowany toolchain, bezpieczny restart. Faktyczny build i binarium aplikacji niepotwierdzone. |
+| AND-001 | Natywne APK Android / Termux / S24 Ultra | IMPLEMENTED PARTIAL / PHYSICAL NOT_RUN | 8/8 testów kontrolera: ARM64/ELF, kontrakt komendy apksigner, profil RAM i bramka termiczna. SIM-AND-01..03 częściowe; inicjalizacja i integracja natywna, WebView i pełny lifecycle, ciągły nadzór zasobów pozostają otwarte. |
 | GGUF-001 | Offline inwentaryzacja GGUF i heurystyka RAM | IMPLEMENTED / TESTED (STRUKTURA) | `scripts/gguf-inventory.mjs` (9 testów) i `scripts/gguf_layout.py` (9 testów): kontrola wymiarów, bloków, offsetów, wyrównania, kolizji i granic pliku; nieznane typy odrzucane. Bez rzeczywistych wag ani inferencji. |
-| GPU-001 | Lokalna inferencja GGUF / ComfyUI / 8K | SIM_REQUIRED / PHYSICAL NOT_RUN | Testy SIM-GPU-01..03 z rzeczywistym kodem i symulowanym backendem. Integralność realnych wag, generacja i pomiary sprzętowe osobno. |
-| CI-001 | Bezpłatna walidacja offline | TESTOWANE LOKALNIE (BRAMKI) | `npm run test:gate`: 72/72 PASS na wszystkich 7 plikach testowych z identycznymi blob SHA. Pełne testy aplikacji i build nadal NOT_RUN; bez płatnych runnerów. |
+| GPU-001 | Lokalna inferencja GGUF / ComfyUI / 8K | IMPLEMENTED PARTIAL / PHYSICAL NOT_RUN | 9/9 testów adaptera loopback, SIM-GPU-01 PASS, SIM-GPU-02..03 częściowe. Walidacja PNG 7680×4320, budżet bufora, brak nadpisania; recovery backendu, tiling/stitching i rzeczywiste modele otwarte. |
+| CI-001 | Bezpłatna walidacja offline | TESTOWANE LOKALNIE (BRAMKI) | `npm run test:gate`: 72/72 Node, 47/47 Python, 23/23 Chromium — 142 unikatowe testy PASS; zgodne blob SHA. Pełne testy aplikacji i build nadal NOT_RUN; bez płatnych runnerów. |
 
 ## Kolejność domknięcia
 

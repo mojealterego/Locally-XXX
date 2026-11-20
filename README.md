@@ -114,3 +114,25 @@ Testy: 24/24 offline Python i 72/72 regresji Node. Rzeczywiste zdalne bajty jedn
 ## Polityka odbioru bez niezależnej infrastruktury
 
 [VALIDATION_POLICY v2.0](docs/VALIDATION_POLICY.md) ustanawia deterministyczne testy inżynieryjne z symulowanymi granicami niedostępnej infrastruktury jako podstawę odbioru modelowalnych kryteriów. Zewnętrzny audyt i płatne CI nie są wymagane. [Macierz testów RUN/AND/GPU](docs/SIMULATION_MATRIX.md) rozdziela ENGINEERING (w tym SIM-PASS) od PHYSICAL. Symulacja nie zastępuje implementacji ani faktycznego buildu, instalacji lub pomiaru, jeśli są one deklarowane jako wykonane.
+
+## RUN-001 / AND-001 / GPU-001 — kontroler lokalnego wykonania
+
+Nowy moduł `scripts/runtime_control.py` to samodzielny adapter Python 3.11+ / POSIX. Nie zastępuje istniejących adapterów UI ani silników inferencji. Uruchamia rzeczywiste procesy (bez shell), zapisuje logi i ich SHA-256, blokuje współbieżny build w tym samym katalogu oraz odrzuca brakujące lub stare produkty buildu. Przygotuj świeży zaufany katalog np. `npm run rag:prepare -- --allow-missing-doc-assets`. Instalacja zależności npm i Cargo działa w trybie offline; inne narzędzia, np. Gradle, mogą wymagać cache lub sieci. Uruchamiaj tylko zaufany kod i workflow. Katalog raportów musi istnieć.
+
+```bash
+npm run runtime:build -- desktop /trusted/workspace /private/build-reports
+npm run runtime:build -- android /initialized/android-workspace /private/build-reports
+npm run runtime:android-probe
+npm run runtime:chat -- 8127 local-model "Tekst"
+npm run runtime:render -- 8188 /trusted/workflow.json output.png 7680 4320 1024
+npm run test:runtime
+npm run test:python
+```
+
+Desktop: npm ci, build frontend, cargo test --locked, Tauri build --no-bundle. Ścieżka kontrolera dotyczy binarium POSIX o nazwie locally-uncensored; build nie jest uniwersalnym dystrybutorem. Android wymaga wcześniej utworzonego i zintegrowanego projektu natywnego, SDK/NDK/JDK i skonfigurowanego podpisu. Kontroler wybiera pojedyncze APK release w strukturze Gradle, sprawdza biblioteki AArch64 ELF oraz wywołuje apksigner verify. Nie sprawdza oczekiwanego odcisku certyfikatu wydawcy, nie podpisuje i nie instaluje APK. Dokumentacja: https://v2.tauri.app/reference/cli/ i https://v2.tauri.app/distribute/google-play/.
+
+Opcjonalne flagi Termux dla chat/render: `--android-lease-mib` i `--temperature-mc` muszą wystąpić razem. Temperatura w tysięcznych stopnia C ze źródła zaufanego przez wywołującego. Kontroler sprawdza ABI przez getprop i RAM przez /proc/meminfo; rezerwa 1024 MiB, progi 43/39.5 C, ważność próbki 10 s. Histereza i rezerwacje dotyczą życia pojedynczego obiektu ResourceGate. To kontrola dopuszczenia, nie ciągłe monitorowanie temperatury ani broker między procesami.
+
+Chat korzysta z rzeczywistego HTTP do 127.0.0.1 oraz /v1/chat/completions; rendering z /prompt, /history i /view. Brak ponownego POST przy nieznanym wyniku operacji. Ograniczona liczba odpytań i rozmiary odpowiedzi. Wymagany zaufany lokalny ComfyUI workflow zwracający dokładnie jeden PNG. Sprawdza CRC, wymiary, rozmiar rozpakowanych danych w obsługiwanym podzbiorze PNG (RGB/RGBA 8-bit bez przeplotu), zapisuje atomowo bez nadpisania. Heurystyka 16 B/px dotyczy buforów obrazu, nie VRAM modelu. Nie implementuje automatycznego tilingu, sklejania, anulowania zadania po stronie serwera ani doboru checkpointu.
+
+Wynik: 23/23 nowy kontroler; 72/72 Node, 47/47 Python (zawiera 23 nowego kontrolera), 23/23 Chromium, razem 142 unikatowe testy. Testy procesów i transportu HTTP wykonano lokalnie; Android, toolchain aplikacji oraz backend modeli zastąpiono kontrolowanymi fixtures. 8K testowe PNG jest deterministyczną bitmapą, nie wynikiem modelu. Brak pełnego checkoutu, buildu produktu, podpisanego APK oraz pracy sprzętowej. Macierz: `docs/SIMULATION_MATRIX.md`, raport: `docs/evidence/RUN001-AND001-GPU001.json`.
