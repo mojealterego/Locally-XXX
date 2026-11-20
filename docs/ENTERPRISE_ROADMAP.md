@@ -40,7 +40,7 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 
 | ID | Wymaganie | Zależności | Stan |
 |---|---|---|---|
-| ENT-18 | Integrated App shell: kafelki, nawigacja, rejestr modułów, dostępność, wspólna tożsamość i ustawienia | ENT-01, ENT-14 | PARTIAL: pierwszy web shell PL/EN, 18 kafelków, trzy dostępne interfejsy (IDE, agent reviews, settings), pozostałe jawnie niedostępne; build i HTTP PASS. Browser E2E zablokowane polityką środowiska, runtime health, natywne osadzenie, pełne SSO i moduły OPEN |
+| ENT-18 | Integrated App shell: kafelki, nawigacja, rejestr modułów, dostępność, wspólna tożsamość i ustawienia | ENT-01, ENT-14 | PARTIAL: pierwszy web shell PL/EN, 22 kafelki, 8 dostępnych interfejsów (IDE, agent reviews, settings, App Builder, konwerter, JSON, baza wiedzy, stawki), 14 jawnie niedostępnych; build i HTTP PASS. Browser E2E zablokowane polityką środowiska, runtime health, natywne osadzenie, pełne SSO i moduły OPEN |
 | ENT-19 | Wbudowany agent Android, Rust/UniFFI, prywatny stan, OCAF OMAs/OMAt | ENT-07, ENT-18 | PARTIAL: panel w istniejącym Tauri MainActivity, jednorazowa zgoda na wyłącznie device_status (RAM, thermal, battery, admission), test Kotlin/JVM PASS i installer overlay rozszerzony. Android SDK build, rzeczywiste UI, Rust/UniFFI/Zenoh, ADB i operacje uprzywilejowane OPEN |
 | ENT-20 | Codespace: repozytoria, terminal, bezpieczny zdalny IDE i Actions | ENT-11, ENT-13, ENT-18 | PARTIAL: lokalny przypięty Git SHA, odczyt tylko plików UTF-8 z kontrolą OID, bez symlinków i command execution, CLI list/read/bundle, import w IDE po walidacji SHA-256; 6/6 testów PASS. Zdalny GitHub Codespaces, push, środowisko wykonawcze, Actions i repo write OPEN |
 | ENT-21 | LLM Training Studio: import/wersjonowanie danych i wag, LoRA/QLoRA, SFT, ewaluacja modeli lokalnych, trening i eksport GGUF z kontrolą zasobów i pochodzenia danych | ENT-12, ENT-18, V4-MODELS | PARTIAL: walidacja i deterministyczny podział JSONL (train/eval), deduplikacja, źródła/licencje deklarowane przez operatora, SHA-256, niezmienny zapis, CLI oraz offline PEFT SFT/LoRA/QLoRA runner z jawnym --execute. Testy lokalne PASS; rzeczywisty trening, benchmark jakości, licencje potwierdzone, GPU, mobile i GGUF export OPEN |
@@ -87,3 +87,14 @@ ENT-13/14/18: [dowody pierwszego web shell](OMEGA_ENT_UI_EVIDENCE.md) — 9 loka
 
 ## Przyrost ENT-21/22/23 — 2026-11-21
 [Dowody testów i kontrakty](OMEGA_ENT_TRAINING_MINING_TELECOM_EVIDENCE.md). 13/13 testów lokalnych PASS w izolowanym zakresie, syntaktyka Node i Python PASS. Brak uruchomionego HF training (TRL/PEFT nieobecne), żadnego prawdziwego mining endpoint, numeru Twilio, telefonu ani transakcji. Status PARTIAL; globalne GATE-09 OPEN.
+
+## Integracje PurpleDoubleD — nowy zakres 2026-11-21
+
+| ID | Wymaganie | Zależności | Stan |
+|---|---|---|---|
+| ENT-37 | Prywatny konwerter JPG/PNG/WebP, docelowo PDF/HEIC/SVG, intake do RAG | ENT-18, ENT-10 | PARTIAL: browser Canvas JPG/PNG/WebP, magic bytes, limit 25 MiB i 24 MP. PDF/HEIC/SVG i browser E2E OPEN |
+| ENT-38 | JSON toolkit z CLI i walidacją IDE | ENT-13, ENT-18 | PARTIAL: JSON pretty/minify/YAML/ENV, limit 1 MiB, testy. Automatyczny AST hook i browser E2E OPEN |
+| ENT-39 | Pinned offline knowledge awesome-local-llm oraz RAG pgvector | ENT-15, ENT-18 | PARTIAL: README+LICENSE MIT z SHA upstream, wyszukiwanie słów, deterministyczne fragmenty z cytowaniem, adaptacja Ollama /api/embed (768) i transakcja pgvector. Rzeczywisty embedding i DB E2E OPEN |
+| ENT-40 | Kalkulator stawek i serwer MCP dla Agenta Biznesowego | ENT-14, ENT-18 | PARTIAL: lokalny kalkulator i MCP stdio 2025-11-25 (tools/list, tools/call), test subprocess. Integracja OMAt, fiskalna i zewnętrzne systemy OPEN |
+
+[Dowody, licencje i ograniczenia](OMEGA_ENT_EXTERNAL_INTEGRATIONS.md). 16/16 lokalnych testów PASS. GATE-09 wszystkich czterech punktów OPEN.

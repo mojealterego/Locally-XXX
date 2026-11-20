@@ -14,6 +14,10 @@
     "start:web": "node apps/web/serve.mjs",
     "test:phase3": "node --test test/visual.test.mjs test/codespace.test.mjs",
     "training": "node backend/scripts/training.mjs",
-    "test:operations": "node --test backend/test/enterprise-services.test.mjs"
+    "test:operations": "node --test backend/test/enterprise-services.test.mjs",
+    "test:integrations": "node --test integrations/test/integrations.test.mjs",
+    "business:mcp": "node integrations/bin/business-mcp.mjs",
+    "knowledge": "node integrations/bin/knowledge-cli.mjs",
+    "json:format": "node integrations/bin/json-fmt.mjs"
   }
 }
