@@ -68,3 +68,5 @@ ENT-09/10/11: kontrolowany DAG runner, per-tool gate, adaptery search i gVisor; 
 ENT-12/15/16: ResourceArbiter, gradient context scheduler, AES-GCM SQLite checkpoints; 15 nowych + 17 regresji PASS, rzeczywisty SIGKILL po commit. [Dowody](OMEGA_ENT_RESOURCE_EVIDENCE.md). Nowe ENT-33..36: [media, remote access i licencje](ENTERPRISE_MEDIA_REMOTE_SPEC.md).
 
 ENT-13/14/18: pierwszy lokalny web shell, 18 kafelków, workspace, AST inspector, typowany SDK/CLI i HTTP proxy; 9/9 lokalnych testów PASS, TS strict PASS, browser E2E BLOCKED. [Dowody](OMEGA_ENT_UI_EVIDENCE.md).
+
+ENT-19/20/30: Kotlin mobile read-only, lokalny Codespace Git z weryfikacją SHA-256 i TypeScript AST App Builder; 11/11 testów Node PASS i Kotlin/JVM policy PASS. [Dowody](OMEGA_ENT_MOBILE_CODESPACE_BUILDER_EVIDENCE.md). Globalny GATE-09 niezaliczony.

@@ -11,6 +11,7 @@ class MainActivity : TauriActivity() {
     companion object { private val processToken = UUID.randomUUID().toString() }
     private lateinit var lifecycleCheckpoint: OmegaLifecycle
     private lateinit var thermalMonitor: OmegaThermalMonitor
+    private lateinit var agentPanel: OmegaAgentStatusPanel
     fun canStartHeavyWork(): Boolean = ::thermalMonitor.isInitialized && thermalMonitor.canAdmit()
     override fun onCreate(savedInstanceState: Bundle?) {
         check(Build.SUPPORTED_ABIS.firstOrNull() == "arm64-v8a") { "ARM64 required" }
@@ -26,6 +27,8 @@ class MainActivity : TauriActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         thermalMonitor = OmegaThermalMonitor(getSystemService(PowerManager::class.java), getSystemService(ActivityManager::class.java))
+        agentPanel = OmegaAgentStatusPanel(this) { thermalMonitor.canAdmit() }
+        agentPanel.attach()
     }
     override fun onStart() {
         super.onStart()
@@ -36,6 +39,6 @@ class MainActivity : TauriActivity() {
         try { thermalMonitor.stop(); lifecycleCheckpoint.transition("BACKGROUND") } finally { super.onStop() }
     }
     override fun onDestroy() {
-        try { if (::thermalMonitor.isInitialized) thermalMonitor.stop(); if (::lifecycleCheckpoint.isInitialized) lifecycleCheckpoint.transition("DETACHED") } finally { super.onDestroy() }
+        try { if (::agentPanel.isInitialized) agentPanel.detach(); if (::thermalMonitor.isInitialized) thermalMonitor.stop(); if (::lifecycleCheckpoint.isInitialized) lifecycleCheckpoint.transition("DETACHED") } finally { super.onDestroy() }
     }
 }

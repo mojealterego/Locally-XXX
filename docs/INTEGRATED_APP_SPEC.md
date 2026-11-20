@@ -56,3 +56,8 @@ Market: Personal/Professional/Commercial/Enterprise/OEM/Subscription/Lifetime/Cu
 - Multi-GPU: kontrola zarezerwowanego i wolnego VRAM, arbitraż i własność backendów, brak dowolnego backendUrl od klienta, rzeczywista integracja Ollama/LM Studio/ComfyUI.
 - App Builder: React Flow, schemat węzłów i krawędzi, AST factory i printer, izolowane ścieżki projektów (nie nadpisywać współdzielonego GeneratedApp.tsx), target desktop/web/mobile/www, spawn argv z allowlist i weryfikacja artefaktów; rozmiar APK/instalatora dopiero po buildzie.
 - SDK/CLI: walidacja konfiguracji, realne połączenie z gateway/MCP, bez arbitrary exec i bez wypisywania sekretów; doctor weryfikuje realny stan usług.
+
+## Przyrost ENT-19/20/30
+- Android: w istniejącym Tauri MainActivity natywny panel po potwierdzeniu użytkownika wyświetla status pamięci RAM, baterii, temperatury i dopuszczalności obciążenia. Nie tworzy drugiego APK. Nie jest to jeszcze Rust/UniFFI/Zenoh; brak shell/SAF/remote control.
+- Codespace: tylko wybrane lokalne repozytorium Git, pełny SHA commita, odczyt kontrolowany i eksport omega-codespace-v1 ze skrótami SHA-256. Import IDE w sesji wymaga weryfikacji i potwierdzenia zastąpienia plików.
+- App Builder: frontendowy edytor deklaratywnego grafu z podglądem DOM i eksportem JSON; CLI generuje AST React/TypeScript oraz SHA-256 bez wykonywania niezaufanych wstawek.

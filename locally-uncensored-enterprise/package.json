@@ -1,1 +1,17 @@
-{"name":"locally-uncensored-enterprise","version":"0.1.0","private":true,"packageManager":"pnpm@10.11.0","engines":{"node":">=22"},"scripts":{"build":"pnpm -r build","test":"pnpm -r test && pnpm run test:ui","test:ui":"node --test test/ui.test.mjs","build:web":"node apps/web/build.mjs","start:web":"node apps/web/serve.mjs"}}
+{
+  "name": "locally-uncensored-enterprise",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test && pnpm run test:ui",
+    "test:ui": "node --test test/*.test.mjs",
+    "build:web": "node apps/web/build.mjs",
+    "start:web": "node apps/web/serve.mjs",
+    "test:phase3": "node --test test/visual.test.mjs test/codespace.test.mjs"
+  }
+}
