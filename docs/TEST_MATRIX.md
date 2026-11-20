@@ -65,3 +65,7 @@ Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycz
 ## Dyrektywa v3.0 — 2026-11-20
 
 Odbiór wewnętrzny NATIVE / DETERMINISTIC-SIMULATION / HYBRID; brak zewnętrznego audytu i certyfikacji oraz obowiązkowego powtórzenia na sprzęcie. Zachowano wszystkie wymagania funkcjonalne i bezpieczeństwa. Dotychczasowe dowody są historyczne; sama zmiana procedury nie zalicza nowego testu.
+
+## v3.0 — AND-001 / GPU-001 / SEC-002
+
+14/14 native acceptance, 12/12 advisory; 72/72 Node, 133/133 Python, 23/23 Chromium — 228 unikatowych testów, 0 FAIL/SKIP. Rzeczywisty proces Linux, lokalny HTTP testbed, SIGKILL i restart znanego kafla; symulowane Android toolchain/ADB i OSV fixtures. Pełny build aplikacji pozostaje NOT_RUN. SIM-GPU-02 HYBRID SIM-PASS, SIM-AND-01/02 PARTIAL z uwagi na niezaimplementowany port natywny, SEC-002 PARTIAL ze względu na niepełne dane/skan. [Raport](evidence/V3-ACCEPTANCE.json).

@@ -1,0 +1,29 @@
+
+> locally-xxx-omega-x@0.1.0 test:advisories
+> python3 -m unittest discover -s tests -p test_security_advisories.py -v
+
+test_affected_fixed_and_exact_versions (test_security_advisories.AdvisoryTests.test_affected_fixed_and_exact_versions) ... ok
+test_cargo_checksum_report (test_security_advisories.AdvisoryTests.test_cargo_checksum_report) ... ok
+test_hash_anchor_and_duplicate (test_security_advisories.AdvisoryTests.test_hash_anchor_and_duplicate) ... ok
+test_last_affected_and_reintroduced (test_security_advisories.AdvisoryTests.test_last_affected_and_reintroduced) ... ok
+test_malformed_rejects_and_withdrawn_is_reviewed (test_security_advisories.AdvisoryTests.test_malformed_rejects_and_withdrawn_is_reviewed) ... ok
+test_secret_in_metadata_and_filename_redacted (test_security_advisories.AdvisoryTests.test_secret_in_metadata_and_filename_redacted) ... ok
+test_total_advisory_work_budget (test_security_advisories.AdvisoryTests.test_total_advisory_work_budget) ... FAIL
+test_unknown_range_fails_closed (test_security_advisories.AdvisoryTests.test_unknown_range_fails_closed) ... ok
+test_unsupported_limit_and_nonascending_range_review (test_security_advisories.AdvisoryTests.test_unsupported_limit_and_nonascending_range_review) ... ok
+test_version_precedence (test_security_advisories.AdvisoryTests.test_version_precedence) ... ok
+test_without_snapshot_is_explicit_not_run (test_security_advisories.AdvisoryTests.test_without_snapshot_is_explicit_not_run) ... ok
+
+======================================================================
+FAIL: test_total_advisory_work_budget (test_security_advisories.AdvisoryTests.test_total_advisory_work_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-v3/tests/test_security_advisories.py", line 57, in test_total_advisory_work_budget
+    with self.assertRaises(ValueError):match_snapshot(p,d,[{'ecosystem':'npm','name':'demo','version':'1.2.3'}])
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.029s
+
+FAILED (failures=1)

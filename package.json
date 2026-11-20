@@ -42,6 +42,9 @@
     "runtime:tiled-upscale": "python3 -m scripts.tiled_upscale",
     "test:tiled": "python3 -m unittest discover -s tests -p test_tiled_upscale.py -v",
     "runtime:managed-gpu": "python3 -m scripts.managed_gpu",
-    "test:managed-gpu": "python3 -m unittest discover -s tests -p test_managed_gpu.py -v"
+    "test:managed-gpu": "python3 -m unittest discover -s tests -p test_managed_gpu.py -v",
+    "runtime:android-lifecycle": "python3 -m scripts.native_acceptance",
+    "test:native-acceptance": "python3 -m unittest discover -s tests -p test_native_acceptance.py -v",
+    "test:advisories": "python3 -m unittest discover -s tests -p test_security_advisories.py -v"
   }
 }

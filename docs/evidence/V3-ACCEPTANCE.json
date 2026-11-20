@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "date": "2026-11-20",
+  "policy": "AUTONOMOUS_ENGINEERING_DIRECTIVE v3.0",
+  "base_commit": "a66377425aeb293608f778e43bd6088a876deb60",
+  "tested_git_blobs": {
+    "overlays/rag/patches.json": "8a3dcf23c59ea7e23fd91ec08b581ac6cc8ccaa8",
+    "overlays/rag/src/api/rag-documents.ts": "8ccf11128d65e0809a184ee1f2ae7e980d43f5bb",
+    "package.json": "c6831e9c69ac5db22fc57f614191611c346a6e87",
+    "requirements-upscale.txt": "e7cc6c178b542946a555ad07fa55b5dde3fca566",
+    "scripts/backend_supervisor.py": "9daaa1005c5e12cb7fe1d1c120da3584dab0e87d",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/managed_gpu.py": "5e5206e933d28828c1c06a510ff19462841344bd",
+    "scripts/native_acceptance.py": "cb689bcb422eff064f87467ea9ccadc2d985a2ea",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/osv_offline.py": "8159292a4920d77ef532129b5c16ecfe53915d24",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/recoverable_render.py": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+    "scripts/resource_broker.py": "3fcaefc282036a87dcba55620845fedc6d160d55",
+    "scripts/runtime_control.py": "f2afd75be74316714a96be218bf2d136b727351a",
+    "scripts/security_scan.py": "cf8a574f843dc4041993b5e1eab10dde7d378192",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/tiled_upscale.py": "0f164c8c768d24fc72c3db05914a83ef70171f27",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/measure_tiled_memory.py": "600620e6fd61c596076efab4b1ae3f1ec0a77fd3",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/test_managed_gpu.py": "9b9c6cafd2ffa1b15e1863121d0ea750dece22d8",
+    "tests/test_native_acceptance.py": "584c9f705adda57386c8b7ffd721e74bbaada523",
+    "tests/test_omega_three.py": "de1cdbfa66a06edea4513e77c186b5d537059523",
+    "tests/test_recoverable_render.py": "cf8151276dd5c76dde9f598a6d3d99d52b10bb4a",
+    "tests/test_resource_broker.py": "5ea417ffb0857c4b8483b3d65442a204224c148f",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "tests/test_security_advisories.py": "1df05591faf4e650ddd936db403040957a03a51c",
+    "tests/test_tiled_upscale.py": "12bf2ebc4d1ceafd57f16ba2009d8a270907def4",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49"
+  },
+  "changed_source_sha256": {
+    "scripts/native_acceptance.py": "1361f8a4fa344e9c9a82bc9938373fcdf20066e874e599f10cafc49c5c846ff1",
+    "scripts/backend_supervisor.py": "4f2a475d55db752a6e0fdabf8fe36f38c05921b45a29f5f75404b1ca624ecddd",
+    "scripts/osv_offline.py": "366a868abe291246537f3aca9b806b090b519e625b7989a896d7c65eb42d3ef1",
+    "scripts/managed_gpu.py": "7a22e5c078dd67087595d3ec569b7e73d5646928e6bddfc5d4a3a68768545bf0",
+    "scripts/runtime_control.py": "dc1d0faec7d03afe8b952b1fb76d7e8249d892b5e9b235a33691f8013f3294ad",
+    "scripts/security_scan.py": "2d69145d8b8c60052b44907e307aff34838c6aea7f54be3d9d1091eaff605084",
+    "tests/test_native_acceptance.py": "561a17c11610a602040ea86aac95ee4f7055db287ba7920a030f36b744a50345",
+    "tests/test_security_advisories.py": "d555931ddd3aa0655483dda4cc946f06a3d121094a1674421cf6df98da01a87c",
+    "package.json": "502414c92fbda1e40cc9849f26c7a4f1af73cd2ef79fd8ba741e619af336f864"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "git": "git version 2.47.3",
+    "chromium": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+    "typescript": "Version 5.8.3",
+    "os": "Linux-6.18.57-x86_64-with-glibc2.41"
+  },
+  "test_commands": [
+    {
+      "command": "npm run test:native-acceptance",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "V3-NATIVE-FINAL.log",
+      "sha256": "1bff22aa2205db93da060ce03f7739ce9b4391a1f953bb05920918ba6608993a"
+    },
+    {
+      "command": "npm run test:advisories",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "V3-SEC-FINAL.log",
+      "sha256": "655747fb3c3f056508d08434e9d18b04a5acd268696b0c507fc48fb941e0bda9"
+    },
+    {
+      "command": "npm run test:gate",
+      "passed": 72,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "V3-NODE.log",
+      "sha256": "9eb35b0fc902ec86a328d3ca0807120266e7f96b158c011d495946905a1d446d"
+    },
+    {
+      "command": "npm run test:python",
+      "passed": 133,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "V3-PYTHON.log",
+      "sha256": "c68ecad05621c9f0a22e9fafa7cd41a43bd6de58bba980eb84e6f91b0b8c296f"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "V3-RAG.log",
+      "sha256": "aa904fa513ce856765ab4c44f8e8d285a0ca2cc3d50c3562814a39d1c9709b2a"
+    }
+  ],
+  "unique_tests": 228,
+  "new_tests": 26,
+  "compile": {
+    "command": "python -m py_compile scripts/*.py tests/test_native_acceptance.py tests/test_security_advisories.py",
+    "exit_code": 0
+  },
+  "red_log_sha256": {
+    "V3-INTEGRATION-RED.log": "f0626e287fd785a5709f6fafe6225bee212b22d4c99ea57196f7ead18937dc8a",
+    "V3-RED.log": "474c1e45fd015108b55340347bc840ef0694d5e9d38a4c69f1ccd79eb1b613c7",
+    "V3-SEC-BUDGET-RED.log": "295763c58ff22703e504e6df64ea2853929a324bde0a11a5f1f9d63b815986bf",
+    "V3-SEC-RED.log": "4c80f37f8b97fce15268ed9f9c8b0f25e8b8f47409ea4d9cc7361348e5ade318"
+  },
+  "logs_sha256": {
+    "V3-FIRST.log": "b434c356f1d81e7ceb351b6bc4cf6f8559d6db1f017936ba1e80e70393833e54",
+    "V3-INTEGRATION-FIRST.log": "455c2db8b1a4b1340f967260de236378071b3c5f4817cd941ea98195d05ea8ad",
+    "V3-INTEGRATION-RED.log": "f0626e287fd785a5709f6fafe6225bee212b22d4c99ea57196f7ead18937dc8a",
+    "V3-NATIVE-FINAL.log": "1bff22aa2205db93da060ce03f7739ce9b4391a1f953bb05920918ba6608993a",
+    "V3-NODE.log": "9eb35b0fc902ec86a328d3ca0807120266e7f96b158c011d495946905a1d446d",
+    "V3-PYTHON.log": "c68ecad05621c9f0a22e9fafa7cd41a43bd6de58bba980eb84e6f91b0b8c296f",
+    "V3-RAG.log": "aa904fa513ce856765ab4c44f8e8d285a0ca2cc3d50c3562814a39d1c9709b2a",
+    "V3-RED.log": "474c1e45fd015108b55340347bc840ef0694d5e9d38a4c69f1ccd79eb1b613c7",
+    "V3-SEC-BUDGET-RED.log": "295763c58ff22703e504e6df64ea2853929a324bde0a11a5f1f9d63b815986bf",
+    "V3-SEC-FINAL.log": "655747fb3c3f056508d08434e9d18b04a5acd268696b0c507fc48fb941e0bda9",
+    "V3-SEC-FIRST.log": "cc7d975e365c764e87bd817683cfe62a142faf26cfe374ac47d6a5f8e2d0a9ab",
+    "V3-SEC-RED.log": "4c80f37f8b97fce15268ed9f9c8b0f25e8b8f47409ea4d9cc7361348e5ade318"
+  },
+  "acceptance": [
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-01",
+      "mode": "HYBRID",
+      "status": "PARTIAL",
+      "source": [
+        "scripts/runtime_control.py",
+        "scripts/native_acceptance.py"
+      ],
+      "fixture": "tests/test_native_acceptance.py",
+      "configuration": "controlled Tauri init/build runner, APK ZIP fixture, apksigner and apkanalyzer output; exact publisher and application identity",
+      "assertions": [
+        "Offline android init only if requested and fresh",
+        "Pinned single signer SHA-256",
+        "Manifest package/launcher, forbidden privileges, debug/test APK and exported components",
+        "AArch64 existing gate retained"
+      ],
+      "command": "npm run test:native-acceptance",
+      "log": "V3-NATIVE-FINAL.log",
+      "limits": "Android library entrypoint and mobile compatibility of desktop Rust modules, WebView integration and native permission contract not implemented; SDK, real APK not run. Physical rerun not a condition for modeled contracts.",
+      "source_git_blobs": {
+        "scripts/runtime_control.py": "f2afd75be74316714a96be218bf2d136b727351a",
+        "scripts/native_acceptance.py": "cb689bcb422eff064f87467ea9ccadc2d985a2ea"
+      },
+      "fixture_sha256": "561a17c11610a602040ea86aac95ee4f7055db287ba7920a030f36b744a50345",
+      "log_sha256": "1bff22aa2205db93da060ce03f7739ce9b4391a1f953bb05920918ba6608993a",
+      "exit_code": 0,
+      "seed": null
+    },
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-02",
+      "mode": "DETERMINISTIC-SIMULATION",
+      "status": "PARTIAL",
+      "source": [
+        "scripts/native_acceptance.py"
+      ],
+      "fixture": "tests/test_native_acceptance.py",
+      "configuration": "explicit device ABI, deterministic adb replies, launch/force-stop/relaunch process identity; trusted APK comparison built into actual CLI",
+      "assertions": [
+        "Invalid ABI refusal",
+        "Pinned package-only lifecycle operations",
+        "Failed launch and absent PID refusal",
+        "2 launch/force-stop cycles with bounded polling"
+      ],
+      "command": "npm run test:native-acceptance",
+      "log": "V3-NATIVE-FINAL.log",
+      "limits": "Adapter tests exercise lifecycle smoke only; native Activity/service state restoration and permission handling remain unimplemented. Actual ADB and installed APK validation not run.",
+      "source_git_blobs": {
+        "scripts/native_acceptance.py": "cb689bcb422eff064f87467ea9ccadc2d985a2ea"
+      },
+      "fixture_sha256": "561a17c11610a602040ea86aac95ee4f7055db287ba7920a030f36b744a50345",
+      "log_sha256": "1bff22aa2205db93da060ce03f7739ce9b4391a1f953bb05920918ba6608993a",
+      "exit_code": 0,
+      "seed": null
+    },
+    {
+      "requirement_id": "GPU-001",
+      "test_id": "SIM-GPU-02",
+      "mode": "HYBRID",
+      "status": "SIM-PASS",
+      "scope": "Dedicated owned backend and fail-closed shared backend policy; bounded restart, refusal of ambiguous replay, safe owned process cancellation and recovery",
+      "source": [
+        "scripts/backend_supervisor.py",
+        "scripts/managed_gpu.py",
+        "scripts/resource_broker.py"
+      ],
+      "fixture": "tests/test_native_acceptance.py",
+      "configuration": "actual Linux process group, loopback socket ownership, exclusive lock, real HTTP fixture with synthetic RGB tile output, SIGKILL after collected tile, separate stop marker before history GET",
+      "assertions": [
+        "Foreign listener not touched",
+        "Owned backend restart after known completed tile with exactly six POSTs for six tiles",
+        "No restart with unresolved tile journal",
+        "Restart budget",
+        "Active stop terminates only owned child and leaves orphan lease",
+        "Retain existing VRAM/RAM/thermal checks and shared pending-only cancel"
+      ],
+      "command": "npm run test:native-acceptance",
+      "log": "V3-NATIVE-FINAL.log",
+      "limits": "Trusted dedicated ComfyUI root/port and host required; no globally interrupting shared backend. procfs ownership denied on restricted hosts. Stop observed before next HTTP request, not instantly during blocked request. Real model/physical GPU not verified and not a prerequisite for modeled acceptance.",
+      "source_git_blobs": {
+        "scripts/backend_supervisor.py": "9daaa1005c5e12cb7fe1d1c120da3584dab0e87d",
+        "scripts/managed_gpu.py": "5e5206e933d28828c1c06a510ff19462841344bd",
+        "scripts/resource_broker.py": "3fcaefc282036a87dcba55620845fedc6d160d55"
+      },
+      "fixture_sha256": "561a17c11610a602040ea86aac95ee4f7055db287ba7920a030f36b744a50345",
+      "log_sha256": "1bff22aa2205db93da060ce03f7739ce9b4391a1f953bb05920918ba6608993a",
+      "exit_code": 0,
+      "seed": null
+    },
+    {
+      "requirement_id": "SEC-002",
+      "test_id": "SEC-002-OSV",
+      "mode": "HYBRID",
+      "status": "PARTIAL",
+      "source": [
+        "scripts/security_scan.py",
+        "scripts/osv_offline.py"
+      ],
+      "fixture": "tests/test_security_advisories.py",
+      "configuration": "bounded pinned synthetic OSV array, strict semantic-version precedence, malformed ranges and hash anchor, fixed credentials fixture redacted, npm/Cargo metadata checks",
+      "assertions": [
+        "Advisory snapshot SHA-256 and duplicate keys/ID rejection",
+        "SEMVER interval boundaries and explicit versions",
+        "Unknown/malformed/withdrawn records REVIEW",
+        "Work budget and empty snapshot rejection",
+        "Redaction of matched secret in metadata and path",
+        "Cargo registry checksum format and npm SRI format"
+      ],
+      "command": "npm run test:advisories",
+      "log": "V3-SEC-FINAL.log",
+      "limits": "No complete trusted live OSV snapshot or full application scan supplied to this run; declared licenses not legal approval, integrity metadata is not downloaded package verification, no claim of vulnerability absence.",
+      "source_git_blobs": {
+        "scripts/security_scan.py": "cf8a574f843dc4041993b5e1eab10dde7d378192",
+        "scripts/osv_offline.py": "8159292a4920d77ef532129b5c16ecfe53915d24"
+      },
+      "fixture_sha256": "d555931ddd3aa0655483dda4cc946f06a3d121094a1674421cf6df98da01a87c",
+      "log_sha256": "655747fb3c3f056508d08434e9d18b04a5acd268696b0c507fc48fb941e0bda9",
+      "exit_code": 0,
+      "seed": null
+    }
+  ],
+  "physical": {
+    "desktop_product_build": "NOT_RUN",
+    "android_device": "NOT_RUN",
+    "real_gpu_model": "NOT_RUN"
+  },
+  "notes": [
+    "Policy commit published separately; all previous 14 requirement IDs retained.",
+    "Real code and logs are included. New tests ran in Linux; Android SDK/adb/apksigner unavailable.",
+    "No repository upstream materialization or private source publication. No paid CI."
+  ]
+}

@@ -1,0 +1,19 @@
+test_active_stop_owned_process_and_quarantine (test_native_acceptance.ManagedOwnedTests.test_active_stop_owned_process_and_quarantine) ... ok
+test_integrated_restart_after_collected_tile (test_native_acceptance.ManagedOwnedTests.test_integrated_restart_after_collected_tile) ... ok
+test_unresolved_journal_never_starts_backend (test_native_acceptance.ManagedOwnedTests.test_unresolved_journal_never_starts_backend) ... ok
+test_android_init_and_signature_integrate_existing_builder (test_native_acceptance.NativeAcceptance.test_android_init_and_signature_integrate_existing_builder) ... ok
+test_lifecycle_kills_only_target_then_restarts (test_native_acceptance.NativeAcceptance.test_lifecycle_kills_only_target_then_restarts) ... ok
+test_lifecycle_refuses_foreign_or_failed_launch (test_native_acceptance.NativeAcceptance.test_lifecycle_refuses_foreign_or_failed_launch) ... ok
+test_manifest_pinned_component (test_native_acceptance.NativeAcceptance.test_manifest_pinned_component) ... ok
+test_manifest_unsafe (test_native_acceptance.NativeAcceptance.test_manifest_unsafe) ... ok
+test_signer_matches_only_pinned_cert (test_native_acceptance.NativeAcceptance.test_signer_matches_only_pinned_cert) ... ok
+test_bad_health_and_cleanup (test_native_acceptance.SupervisorTests.test_bad_health_and_cleanup) ... ok
+test_exclusive_lock (test_native_acceptance.SupervisorTests.test_exclusive_lock) ... ok
+test_foreign_listener_never_touched (test_native_acceptance.SupervisorTests.test_foreign_listener_never_touched) ... ok
+test_real_backend_owned_restart_and_cleanup (test_native_acceptance.SupervisorTests.test_real_backend_owned_restart_and_cleanup) ... ok
+test_restart_limit_and_ambiguous_submission (test_native_acceptance.SupervisorTests.test_restart_limit_and_ambiguous_submission) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 5.537s
+
+OK

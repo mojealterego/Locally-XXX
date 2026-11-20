@@ -1,5 +1,7 @@
 """Broker-managed ComfyUI tiling, conservative scoped cancellation, VRAM admission."""
 import argparse
+from contextlib import nullcontext
+import sys
 import json
 import os
 from pathlib import Path
@@ -7,7 +9,7 @@ import re
 import stat
 import time
 from scripts.resource_broker import Broker, guarded
-from scripts.runtime_control import LocalBackend, RuntimeErrorCode, MIB, require
+from scripts.runtime_control import LocalBackend, RuntimeErrorCode, MIB, require, checksum
 from scripts.recoverable_render import RenderJob
 from scripts.tiled_upscale import TiledJob
 
@@ -40,9 +42,12 @@ def request_stop(root,backend):
     with os.fdopen(fd,'wb') as f:f.write(b'stop\n');f.flush();os.fsync(f.fileno())
     journal.sync(journal.root);return {'state':'STOP_REQUESTED'}
 
-def managed_tiled(job,broker,lease_mib,kind,index,vram_mib,source,model,output,scale,core,halo,budget,*,wait=60,clock=time.monotonic,sleep=time.sleep,owner=None):
+def managed_tiled(job,broker,lease_mib,kind,index,vram_mib,source,model,output,scale,core,halo,budget,*,wait=60,clock=time.monotonic,sleep=time.sleep,owner=None,supervisor=None):
     gpu=GpuAdmission(job.backend,kind,index,vram_mib)
     admission={'broker':str(broker.root),'lease_mib':lease_mib,'device_type':kind,'device_index':index,'min_vram_mib':vram_mib}
+    if supervisor is not None:
+        require(supervisor.port==job.backend.port,'PORT','Supervisor/backend port mismatch')
+        admission['owned_backend']=supervisor.policy
     def stop_check():require(not os.path.lexists(job.root/'stop.request'),'STOPPED','Tiled job stopped; no new work')
     stop_check()
     def action(check):
@@ -53,11 +58,35 @@ def managed_tiled(job,broker,lease_mib,kind,index,vram_mib,source,model,output,s
                 raise
         def before_submit():
             checkpoint(True)
-            try:gpu.check()
+            try:
+                if supervisor is not None:
+                    supervisor.ensure_ready(quiescent=True)
+                    job.check_source(Path(source),job.journal.load()['source_sha256'])
+                gpu.check()
             except RuntimeErrorCode as e:raise QuiescentPause(e.code,str(e)) from e
             checkpoint(True)
-        try:return job.run(source,model,output,scale,core,halo,budget,admission=admission,before_submit=before_submit,checkpoint=checkpoint)
-        except QuiescentPause as e:return {'state':'PAUSED','reason':e.code,'message':str(e)}
+        with supervisor if supervisor is not None else nullcontext():
+            original=job.backend.request
+            try:
+                if supervisor is not None:
+                    # On a fresh owned server, previous volatile history is gone. Never replay an unresolved tile.
+                    with job.journal.locked():
+                        if job.journal.path.exists():require(job.journal.load().get('admission')==admission,'STATE','Different owned backend policy')
+                        for path in job.root.glob('tile-*'):
+                            if path.suffix=='.png':continue
+                            require(path.is_dir() and not path.is_symlink() and re.fullmatch(r'tile-[0-9]{3}-[0-9]{3}',path.name),'STATE','Invalid tile directory')
+                            state_path=path/'state.json'
+                            if not os.path.lexists(state_path):continue
+                            tile=RenderJob(path,job.backend).status();artifact=job.root/(path.name+'.png')
+                            require(tile.get('state')=='DONE' and artifact.is_file() and checksum(artifact)==tile.get('sha256'),'UNKNOWN','Unresolved tile: owned backend startup denied')
+                    supervisor.ensure_ready(quiescent=True)
+                    def guarded_request(method,path,*a,**kw):
+                        stop_check();require(supervisor.owns_listener(),'UNAVAILABLE','Owned backend connection lost')
+                        return original(method,path,*a,**kw)
+                    job.backend.request=guarded_request
+                return job.run(source,model,output,scale,core,halo,budget,admission=admission,before_submit=before_submit,checkpoint=checkpoint)
+            except QuiescentPause as e:return {'state':'PAUSED','reason':e.code,'message':str(e)}
+            finally:job.backend.request=original
     return guarded(broker,lease_mib,action,wait,clock,sleep,owner,with_check=True)
 
 def queue_ids(reply):
@@ -94,13 +123,22 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='command',required=True)
     for name in ('stop','cancel-pending'):
         c=sub.add_parser(name);c.add_argument('directory');c.add_argument('port',type=int)
-    r=sub.add_parser('tiled');r.add_argument('directory');r.add_argument('port',type=int);r.add_argument('broker_dir');r.add_argument('source');r.add_argument('model');r.add_argument('output');r.add_argument('--lease-mib',type=int,required=True);r.add_argument('--device-type',required=True);r.add_argument('--device-index',type=int,required=True);r.add_argument('--min-vram-mib',type=int,required=True);r.add_argument('--scale',type=int,default=4);r.add_argument('--core',type=int,default=1024);r.add_argument('--halo',type=int,default=64);r.add_argument('--budget-mib',type=int,default=128);r.add_argument('--wait',type=int,default=60)
+    r=sub.add_parser('tiled');r.add_argument('directory');r.add_argument('port',type=int);r.add_argument('broker_dir');r.add_argument('source');r.add_argument('model');r.add_argument('output');r.add_argument('--lease-mib',type=int,required=True);r.add_argument('--device-type',required=True);r.add_argument('--device-index',type=int,required=True);r.add_argument('--min-vram-mib',type=int,required=True);r.add_argument('--scale',type=int,default=4);r.add_argument('--core',type=int,default=1024);r.add_argument('--halo',type=int,default=64);r.add_argument('--budget-mib',type=int,default=128);r.add_argument('--wait',type=int,default=60);r.add_argument('--owned-comfy-root');r.add_argument('--owned-state');r.add_argument('--backend-restarts',type=int,default=1);r.add_argument('--startup-deadline',type=int,default=120)
     a=p.parse_args()
     try:
         b=LocalBackend(a.port)
         if a.command=='stop':result=request_stop(a.directory,b)
         elif a.command=='cancel-pending':result=cancel_queued(RenderJob(a.directory,b))
-        else:result=managed_tiled(TiledJob(a.directory,b),Broker(a.broker_dir),a.lease_mib,a.device_type,a.device_index,a.min_vram_mib,a.source,a.model,a.output,a.scale,a.core,a.halo,a.budget_mib,wait=a.wait)
+        else:
+            require((a.owned_comfy_root is None)==(a.owned_state is None),'POLICY','Owned backend root and private state required together')
+            supervisor=None
+            if a.owned_comfy_root is not None:
+                from scripts.backend_supervisor import OwnedBackend
+                root=Path(a.owned_comfy_root).resolve(strict=True);entry=root/'main.py'
+                require(entry.is_file() and not entry.is_symlink(),'INPUT','Trusted ComfyUI main.py required')
+                require(Path(a.source).resolve(strict=True).parent==root/'input' and Path(a.model).resolve(strict=True).parent==root/'models/upscale_models','INPUT','Owned backend source/model must be in dedicated ComfyUI directories')
+                supervisor=OwnedBackend(a.owned_state,a.port,[sys.executable,str(entry),'--listen','127.0.0.1','--port',str(a.port),'--disable-auto-launch'],root,deadline=a.startup_deadline,restarts=a.backend_restarts)
+            result=managed_tiled(TiledJob(a.directory,b),Broker(a.broker_dir),a.lease_mib,a.device_type,a.device_index,a.min_vram_mib,a.source,a.model,a.output,a.scale,a.core,a.halo,a.budget_mib,wait=a.wait,supervisor=supervisor)
         print(json.dumps(result,indent=2));return 2 if result.get('state')=='PAUSED' else 0
     except (RuntimeErrorCode,OSError,ValueError) as e:p.exit(1,str(e)+'\n')
 if __name__=='__main__':raise SystemExit(main())

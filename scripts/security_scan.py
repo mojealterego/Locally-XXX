@@ -40,7 +40,8 @@ def make_sbom(components):
         result.append(item)
     return {'bomFormat':'CycloneDX','specVersion':'1.5','version':1,'components':result}
 
-def scan_tree(root):
+def scan_tree(root,*,advisory_path=None,advisory_sha256=None):
+    if (advisory_path is None)!=(advisory_sha256 is None):raise ValueError('Both advisory snapshot and trusted digest required')
     root=Path(os.path.abspath(root)); findings=[]; components=[]; texts={}; total=0; entries=0
     def finding(code,path,**info): findings.append({'code':code,'path':str(path),**info})
     if root.is_symlink() or not root.is_dir(): raise ValueError('invalid root')
@@ -52,6 +53,7 @@ def scan_tree(root):
             entries+=1
             if entries>MAX_ENTRIES: raise ValueError('entry budget exceeded')
             rel=p.relative_to(root).as_posix(); s=p.lstat()
+            if any(pattern.search(rel) for _,pattern in PATTERNS):finding('potential-secret',rel,rule='path',line=0)
             if stat.S_ISLNK(s.st_mode): finding('symlink',rel); continue
             if stat.S_ISDIR(s.st_mode): stack.append(p); continue
             if not stat.S_ISREG(s.st_mode): finding('unsupported-entry',rel); continue
@@ -79,7 +81,8 @@ def scan_tree(root):
                     if not key: continue
                     if not isinstance(v,dict) or not isinstance(v.get('version'),str) or v.get('link'): finding('dependency-review',path); continue
                     lic=v.get('license'); integrity=v.get('integrity'); dep=v.get('name') or key.rsplit('node_modules/',1)[-1]
-                    components.append({'ecosystem':'npm','name':dep,'version':v['version'],'license':lic if isinstance(lic,str) and lic in LICENSES else 'REVIEW','lock':path})
+                    if not isinstance(dep,str) or not dep:raise ValueError('Invalid npm package')
+                    components.append({'ecosystem':'npm','name':dep,'version':v['version'],'license':lic if isinstance(lic,str) and lic in LICENSES else 'REVIEW','lock':path,'integrity_declared':valid_sri(integrity)})
                     if lic not in LICENSES or not valid_sri(integrity): finding('dependency-review',path,dependency=dep)
             elif name=='Cargo.toml':
                 doc=tomllib.loads(body); lic=doc.get('package',{}).get('license'); licenses.append({'path':path,'declared':lic if isinstance(lic,str) and lic in LICENSES else 'REVIEW'})
@@ -88,13 +91,28 @@ def scan_tree(root):
             elif name=='Cargo.lock':
                 for pkg in tomllib.loads(body).get('package',[]):
                     if not pkg.get('source'): continue
-                    components.append({'ecosystem':'cargo','name':pkg['name'],'version':pkg['version'],'license':'REVIEW','lock':path}); finding('dependency-review',path,dependency=pkg['name'])
+                    source=pkg.get('source');digest=pkg.get('checksum');valid=isinstance(source,str) and source.startswith('registry+') and isinstance(digest,str) and re.fullmatch(r'[a-f0-9]{64}',digest) is not None
+                    if not isinstance(pkg.get('name'),str) or not isinstance(pkg.get('version'),str):raise ValueError('Invalid Cargo package')
+                    components.append({'ecosystem':'cargo','name':pkg['name'],'version':pkg['version'],'license':'REVIEW','lock':path,'integrity_declared':valid}); finding('dependency-review',path,dependency=pkg['name'])
+                    if not valid:finding('dependency-integrity-review',path,dependency=pkg['name'])
         except (ValueError,TypeError,KeyError,AttributeError): finding('malformed-metadata',path)
     if not licenses: finding('no-license-declaration','.')
-    return {'schema':1,'scope':'heuristic offline review; not legal approval, vulnerability audit or publication authorization','entries':entries,'bytes':total,'licenses':licenses,'components':components,'sbom':make_sbom(components),'findings':findings,'review_ready':bool(licenses) and not findings}
+    # Redact any complete report field containing a matched secret, including path and lock metadata.
+    def redact(value):
+        if isinstance(value,str):return '[REDACTED]' if any(pattern.search(value) for _,pattern in PATTERNS) else value
+        if isinstance(value,list):return [redact(v) for v in value]
+        if isinstance(value,dict):return {k:redact(v) for k,v in value.items()}
+        return value
+    advisory={'status':'NOT_RUN','coverage':'No trusted advisory snapshot supplied'}
+    if advisory_path is not None:
+        from scripts.osv_offline import match_snapshot
+        advisory=match_snapshot(advisory_path,advisory_sha256,components)
+        for result,code in ((advisory['matches'],'known-advisory'),(advisory['reviews'],'advisory-review')):
+            for row in result:finding(code,'.',ecosystem=row['ecosystem'],dependency=row['name'],version=row['version'],advisory_id=row['id'])
+    return redact({'schema':1,'scope':'heuristic offline review; not legal approval, exhaustive vulnerability audit or publication authorization','entries':entries,'bytes':total,'licenses':licenses,'components':components,'sbom':make_sbom(components),'findings':findings,'review_ready':bool(licenses) and not findings,'advisories':advisory})
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument('directory'); a=p.parse_args()
-    try: r=scan_tree(a.directory); print(json.dumps(r,ensure_ascii=False,indent=2)); return 0 if r['review_ready'] else 2
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument('directory'); p.add_argument('--osv-snapshot'); p.add_argument('--osv-sha256'); a=p.parse_args()
+    try: r=scan_tree(a.directory,advisory_path=a.osv_snapshot,advisory_sha256=a.osv_sha256); print(json.dumps(r,ensure_ascii=False,indent=2)); return 0 if r['review_ready'] else 2
     except (ValueError,OSError) as e: p.exit(1,str(e)+'\n')
 if __name__=='__main__': raise SystemExit(main())

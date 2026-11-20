@@ -1,0 +1,21 @@
+test_native_acceptance (unittest.loader._FailedTest.test_native_acceptance) ... ERROR
+
+======================================================================
+ERROR: test_native_acceptance (unittest.loader._FailedTest.test_native_acceptance)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_native_acceptance
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 7, in <module>
+    from scripts.native_acceptance import verify_signer, validate_manifest, lifecycle_check
+ModuleNotFoundError: No module named 'scripts.native_acceptance'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

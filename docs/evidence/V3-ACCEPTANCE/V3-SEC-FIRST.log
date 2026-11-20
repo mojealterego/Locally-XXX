@@ -1,0 +1,14 @@
+test_affected_fixed_and_exact_versions (test_security_advisories.AdvisoryTests.test_affected_fixed_and_exact_versions) ... ok
+test_cargo_checksum_report (test_security_advisories.AdvisoryTests.test_cargo_checksum_report) ... ok
+test_hash_anchor_and_duplicate (test_security_advisories.AdvisoryTests.test_hash_anchor_and_duplicate) ... ok
+test_last_affected_and_reintroduced (test_security_advisories.AdvisoryTests.test_last_affected_and_reintroduced) ... ok
+test_malformed_rejects_and_withdrawn_is_reviewed (test_security_advisories.AdvisoryTests.test_malformed_rejects_and_withdrawn_is_reviewed) ... ok
+test_secret_in_metadata_and_filename_redacted (test_security_advisories.AdvisoryTests.test_secret_in_metadata_and_filename_redacted) ... ok
+test_unknown_range_fails_closed (test_security_advisories.AdvisoryTests.test_unknown_range_fails_closed) ... ok
+test_version_precedence (test_security_advisories.AdvisoryTests.test_version_precedence) ... ok
+test_without_snapshot_is_explicit_not_run (test_security_advisories.AdvisoryTests.test_without_snapshot_is_explicit_not_run) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.010s
+
+OK

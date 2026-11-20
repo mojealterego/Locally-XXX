@@ -1,0 +1,52 @@
+test_active_stop_owned_process_and_quarantine (test_native_acceptance.ManagedOwnedTests.test_active_stop_owned_process_and_quarantine) ... ERROR
+test_integrated_restart_after_collected_tile (test_native_acceptance.ManagedOwnedTests.test_integrated_restart_after_collected_tile) ... ERROR
+test_unresolved_journal_never_starts_backend (test_native_acceptance.ManagedOwnedTests.test_unresolved_journal_never_starts_backend) ... ERROR
+test_android_init_and_signature_integrate_existing_builder (test_native_acceptance.NativeAcceptance.test_android_init_and_signature_integrate_existing_builder) ... ok
+test_lifecycle_kills_only_target_then_restarts (test_native_acceptance.NativeAcceptance.test_lifecycle_kills_only_target_then_restarts) ... ok
+test_lifecycle_refuses_foreign_or_failed_launch (test_native_acceptance.NativeAcceptance.test_lifecycle_refuses_foreign_or_failed_launch) ... ok
+test_manifest_pinned_component (test_native_acceptance.NativeAcceptance.test_manifest_pinned_component) ... ok
+test_manifest_unsafe (test_native_acceptance.NativeAcceptance.test_manifest_unsafe) ... ok
+test_signer_matches_only_pinned_cert (test_native_acceptance.NativeAcceptance.test_signer_matches_only_pinned_cert) ... ok
+test_bad_health_and_cleanup (test_native_acceptance.SupervisorTests.test_bad_health_and_cleanup) ... ok
+test_exclusive_lock (test_native_acceptance.SupervisorTests.test_exclusive_lock) ... ok
+test_foreign_listener_never_touched (test_native_acceptance.SupervisorTests.test_foreign_listener_never_touched) ... ok
+test_real_backend_owned_restart_and_cleanup (test_native_acceptance.SupervisorTests.test_real_backend_owned_restart_and_cleanup) ... ok
+test_restart_limit_and_ambiguous_submission (test_native_acceptance.SupervisorTests.test_restart_limit_and_ambiguous_submission) ... ok
+
+======================================================================
+ERROR: test_active_stop_owned_process_and_quarantine (test_native_acceptance.ManagedOwnedTests.test_active_stop_owned_process_and_quarantine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 152, in test_active_stop_owned_process_and_quarantine
+    with self.assertRaises(RuntimeErrorCode):self.run_job()
+                                             ~~~~~~~~~~~~^^
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 133, in run_job
+    return managed_tiled(self.job,self.broker,2048,'cuda',0,1024,self.source,self.model,self.output,4,128,16,64,supervisor=self.supervisor,wait=3)
+TypeError: managed_tiled() got an unexpected keyword argument 'supervisor'
+
+======================================================================
+ERROR: test_integrated_restart_after_collected_tile (test_native_acceptance.ManagedOwnedTests.test_integrated_restart_after_collected_tile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 142, in test_integrated_restart_after_collected_tile
+    self.assertEqual(self.run_job()['state'],'DONE');self.assertEqual(self.supervisor.restarts_used,1);self.assertEqual(len((self.root/'posts.log').read_text().splitlines()),6);self.assertEqual(self.broker.status()['reserved_mib'],0)
+                     ~~~~~~~~~~~~^^
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 133, in run_job
+    return managed_tiled(self.job,self.broker,2048,'cuda',0,1024,self.source,self.model,self.output,4,128,16,64,supervisor=self.supervisor,wait=3)
+TypeError: managed_tiled() got an unexpected keyword argument 'supervisor'
+
+======================================================================
+ERROR: test_unresolved_journal_never_starts_backend (test_native_acceptance.ManagedOwnedTests.test_unresolved_journal_never_starts_backend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 157, in test_unresolved_journal_never_starts_backend
+    with self.assertRaises(RuntimeErrorCode):self.run_job()
+                                             ~~~~~~~~~~~~^^
+  File "/mnt/data/locally-v3/tests/test_native_acceptance.py", line 133, in run_job
+    return managed_tiled(self.job,self.broker,2048,'cuda',0,1024,self.source,self.model,self.output,4,128,16,64,supervisor=self.supervisor,wait=3)
+TypeError: managed_tiled() got an unexpected keyword argument 'supervisor'
+
+----------------------------------------------------------------------
+Ran 14 tests in 3.588s
+
+FAILED (errors=3)

@@ -195,3 +195,28 @@ Przykład cuda dotyczy kompatybilnego backendu, nie potwierdza CUDA na Androidzi
 Stop tworzy trwały marker stop.request; blokuje nowe kafle i rozpoczęcie końcowego scalania na najbliższym checkpoint. Nie jest gwarancją przerwania aktywnego kafla lub już rozpoczętego scalania. Wznowienie po intencjonalnym stopie wymaga nowego zadania (marker nie jest automatycznie usuwany). Cancel-pending, uruchomione na prywatnym journalu konkretnego zadania po zwolnieniu jego blokady, sprawdza /queue i wysyła wyłącznie POST /queue z delete zawierającym jeden zapisany prompt_id. Nie wysyła globalnego interrupt ani clear. Samo zniknięcie wpisu z kolejki nie dowodzi anulowania; CANCEL_UNCONFIRMED/CANCEL_UNKNOWN nie zwalniają osieroconego lease. Przy CANCELLING po awarii nie ma ponowienia POST. CANCEL_TERMINAL oznacza znaleziony terminalny status backendu, nie gwarancję skutecznego anulowania. Rzeczywisty kontrakt: https://github.com/Comfy-Org/ComfyUI/blob/master/server.py.
 
 Testy: 16/16 managed GPU, 72/72 Node, 107/107 Python, 23/23 Chromium; 202 unikatowe testy. Testy ComfyUI i sensorów są deterministyczne, HTTP 200 bez treści dla /queue sprawdzono na lokalnym serwerze. Pełny build, aktywny model, fizyczne GPU, Android/UI NOT_RUN. Raport: `docs/evidence/GPU001-MANAGED.json`; logi RED/GREEN i SHA-256 w pakiecie przyrostu.
+
+## v3.0 — odbiór inżynieryjny i integracja Android/GPU/SEC
+
+**Android:** istniejący kontroler `runtime:build` wymaga dla Androida przypiętej tożsamości podpisu SHA-256 i identyfikatora pakietu. Opcja inicjalizacji korzysta z Tauri CLI; nie tworzy niezależnego projektu aplikacji ani nie pobiera samoczynnie brakującego toolchainu. Wersja z flagą inicjalizacji jest testowana z deterministycznym runnerem. Nie naprawia desktopowego entrypoint Rust i pozostałych zależności Android. Przykładowe polecenie z rzeczywistymi wartościami operatora:
+
+```bash
+npm run runtime:build -- android /trusted/workspace /private/reports --initialize-android --signer-sha256 "$APK_SIGNER_SHA256" --package-id "$APP_PACKAGE_ID"
+npm run runtime:android-lifecycle -- "$DEVICE_SERIAL" /trusted/app.apk "$APP_PACKAGE_ID" "$APK_SIGNER_SHA256" --confirm-force-stop
+```
+
+Lifecycle sprawdza zainstalowany pojedynczy base.apk względem lokalnego artefaktu, podpis/pakiet, ARM64 i dwa cykle start/force-stop. Nie instaluje APK i wymaga jawnej zgody na force-stop. Nie jest E2E odzyskania danych aplikacji. Symulowane ADB, apksigner, apkanalyzer, init/build; faktyczny Android NOT_RUN.
+
+**GPU:** `scripts/backend_supervisor.py` rozszerza istniejące `runtime:managed-gpu` przez opcjonalne `--owned-comfy-root` i `--owned-state`, `--backend-restarts`, `--startup-deadline`. Do tego samego polecenia tiled z wcześniejszej sekcji dodaj prywatny, dedykowany katalog zaufanego ComfyUI i katalog stanu. Start w czasie lease, kontrola lokalnego portu i socketu z procfs, ograniczony restart przed nowym POST, weryfikacja źródła po restarcie, zatrzymanie własnego backendu przed zwolnieniem lease. Nie przejmuje obcych procesów i nie wysyła globalnego interrupt do współdzielonego backendu. Niepewny stan pozostaje kwarantanną; nierozstrzygnięty dziennik kafla blokuje start świeżego backendu. Zaufana lokalna instalacja i kooperujące procesy są warunkiem stosowania; brak izolacji wobec złośliwego użytkownika tego samego UID, możliwość odmowy procfs na Androidzie. Stop podczas aktywnego zadania obserwowany przed kolejnym żądaniem HTTP; nie jest pomiarem czasu reakcji GPU ani gwarancją natychmiastowego przerwania blokującego żądania.
+
+**SEC-002:** `npm run security:scan -- DIR --osv-snapshot /trusted/records.json --osv-sha256 "$TRUSTED_SHA256"`. Snapshot jest tablicą rekordów OSV, maks. 32 MiB, wymagany przypięty zaufany digest. Obsługiwane dokładne wersje i ścisłe SEMVER: introduced/fixed/last_affected; niewspierane zakresy (np. GIT/ECOSYSTEM/limit), wycofane rekordy i nieprawidłowa wersja wymagają przeglądu. Duplikaty kluczy/ID, pusty snapshot i przekroczenie budżetu odrzucane. Brak snapshotu oznacza advisory NOT_RUN, nie weryfikację braku CVE. Cargo/npm sprawdzają deklarowane sumy, nie pobrane paczki. Format: https://ossf.github.io/osv-schema/. Skan heurystyczny i wynik review_ready nie są zgodą publikacyjną ani dowodem kompletności bazy/licencji.
+
+```bash
+npm run test:native-acceptance
+npm run test:advisories
+npm run test:gate
+npm run test:python
+npm run test:rag-browser
+```
+
+26 nowych testów; regresja 228/228, 39 testowanych blob SHA. SIM-GPU-02 odebrana w zakresie dedykowanego backendu i bezpiecznej odmowy przy współdzielonym; pozostałe dwa scenariusze Android PARTIAL z powodu brakującego kodu mobilnego. Wszystkie tryby zgodne z dyrektywą v3.0; brak automatycznego zaliczenia pełnego produktu. Raport i 12 surowych logów: `docs/evidence/V3-ACCEPTANCE.json` oraz `docs/evidence/V3-ACCEPTANCE/`.
