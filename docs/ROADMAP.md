@@ -64,3 +64,5 @@ Przyrost ENT-05/06/07: lokalnie testowana warstwa JWT/JWKS + HTTP PDP + AIM, 12/
 Przyrost ENT-03/04/08: repozytorium pgvector, review_tasks, FlowProducer i worker Temporal; 16 nowych testów + 12 regresji PASS; rzeczywiste SDK/klaster NOT_RUN. [Dowody](OMEGA_ENT_EXECUTION_EVIDENCE.md), [nowe kontrakty architektury](ENTERPRISE_ARCHITECTURE_INCREMENT.md).
 
 ENT-09/10/11: kontrolowany DAG runner, per-tool gate, adaptery search i gVisor; 17/17 testów nowego zestawu PASS, pełne integracje NOT_RUN. [Dowody](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md). Rozszerzenie ustawień i ComfyUI: [specyfikacja](SETTINGS_OPTIMIZATION_SPEC.md), ENT-31/32.
+
+ENT-12/15/16: ResourceArbiter, gradient context scheduler, AES-GCM SQLite checkpoints; 15 nowych + 17 regresji PASS, rzeczywisty SIGKILL po commit. [Dowody](OMEGA_ENT_RESOURCE_EVIDENCE.md). Nowe ENT-33..36: [media, remote access i licencje](ENTERPRISE_MEDIA_REMOTE_SPEC.md).

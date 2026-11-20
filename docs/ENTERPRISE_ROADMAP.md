@@ -15,11 +15,11 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 | ENT-09 | Orkiestrator wieloagentowy, supervisor/planner/executor/verifier, HITL i anulowanie | ENT-08 | PARTIAL: wykonawca DAG z walidacją topologii, limitem czasu i wyniku, zaufany rejestr handlerów oraz bramka AIM + osobna decyzja tool policy; testy lokalne PASS. Trwały runtime, planner/supervisor, równoległość, faktyczna autoryzacja per tool i HITL OPEN |
 | ENT-10 | MCP Tool Gateway i routing Tavily/Exa/SearXNG, jawna polityka egress, retencji i klasyfikacja danych | ENT-06, ENT-07 | PARTIAL: adaptery HTTP i router publicznych kwerend, fail-closed, bez fallbacku i redirectów, limity odpowiedzi, klasyfikator zaufanego hosta; testy kontraktowe PASS. MCP transport, realne API, infrastruktura egress/DLP, Serper i livecrawl OPEN |
 | ENT-11 | Firecracker CPU i gVisor dla obsługiwanych środowisk; GPU tylko po dowodzie kompatybilności/izolacji | ENT-06, ENT-07 | PARTIAL: gVisor adapter Docker/runsc z przypiętym obrazem, limity i brak host mounts/network, stdin, kontrola exit code oraz cleanup; testy modelowane PASS. Firecracker, rzeczywisty runsc, izolacja hosta, GPU i recovery po awarii OPEN |
-| ENT-12 | Hardware-aware onboarding, GGUF, dual-model, budżety KV/VRAM, ComfyUI | V4-GPU, ENT-09 | OPEN |
+| ENT-12 | Hardware-aware onboarding, GGUF, dual-model, budżety KV/VRAM, ComfyUI | V4-GPU, ENT-09 | PARTIAL: lokalny ResourceArbiter, atomowa rezerwacja dwóch modeli, best-fit, thermal/freshness gate i dokładny wzór KV dla pełnych elementów; 5/5 testów. Fizyczny GPU, discovery, loading/offload, distributed leases OPEN |
 | ENT-13 | Agent-Native IDE: React Flow, wizualny DAG, AST/LSP i bezpieczne narzędzia, symulator urządzeń | ENT-02, V4-AST, ENT-11 | OPEN |
 | ENT-14 | CLI, SDK/API i współdzielony UI PL/EN, klienci desktop/PWA/mobile | ENT-01, ENT-05, ENT-08 | OPEN |
-| ENT-15 | Kompresja kontekstu z zachowaniem źródeł, wersjonowanie embeddingów, RAG i benchmark | ENT-03, ENT-09 | OPEN |
-| ENT-16 | Disaster recovery, backup/restore, migracje, telemetria i test awarii | ENT-03, ENT-04, ENT-08 | OPEN |
+| ENT-15 | Kompresja kontekstu z zachowaniem źródeł, wersjonowanie embeddingów, RAG i benchmark | ENT-03, ENT-09 | PARTIAL: gradientowy scheduler, zachowanie system/recent/pinned, re-count całego promptu przez przekazany adapter, archiwum oryginałów i SHA-256; 5/5 testów z modelowanym licznikiem. Realny tokenizer/LLM, zapis RAG i ocena jakości OPEN |
+| ENT-16 | Disaster recovery, backup/restore, migracje, telemetria i test awarii | ENT-03, ENT-04, ENT-08 | PARTIAL: SQLite checkpoint AES-256-GCM, AAD tenant/project/revision, CAS, transakcje FULL, rzeczywisty SIGKILL po commicie i restore; 5/5 testów. Replikacja PG/S3, harmonogram, klucze OS/KMS, retencja i RPO/RTO OPEN |
 | ENT-17 | Multi-platform build, lockfile, SBOM, podpisy, release i testy E2E; bez automatycznego uruchamiania płatnego CI | ENT-11, ENT-13, ENT-14, ENT-16 | OPEN |
 
 ## Przyjęte bezpieczne decyzje architektoniczne
@@ -32,7 +32,7 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 
 ## Następne niezależne wymagania
 
-V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-12 (hardware-aware AI runtime), ENT-15 (gradientowa kompresja kontekstu), ENT-16 (backup/recovery). Kontynuować niezależnie otwarte kryteria ENT-09/10/11. Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
+V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-13 (IDE Studio), ENT-14 (SDK/CLI/shared UI), ENT-18 (Integrated App launcher). Kontynuować otwarte bramki ENT-12/15/16. Kontynuować niezależnie otwarte kryteria ENT-09/10/11. Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
 
 ## Integrated App i ODYN Ω — rozszerzenie zakresu 2026-11-20
 
@@ -68,3 +68,14 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 | ENT-32 | ComfyUI schema-aware workflow, image/video presets, walidacja model+VAE+encoder, reprodukowalność, OOM recovery i pomiar zasobów | ENT-12, ENT-31 | OPEN |
 
 ENT-09/10/11: [dowody lokalne](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md) — 17/17 testów PASS w wyizolowanym zestawie, bez usług zewnętrznych. Brak globalnego odbioru.
+
+## Enterprise Media / Remote Access / Compliance — rozszerzenie 2026-11-20
+
+| ID | Wymaganie | Zależności | Stan |
+|---|---|---|---|
+| ENT-33 | Rozproszona farma ComfyUI: discovery GPU, capability/lease, kolejki renderu, artefakty, retry/anulowanie, opcjonalny Run:ai adapter | ENT-04, ENT-12, ENT-32 | OPEN |
+| ENT-34 | WebRTC Voice AI: self-hosted STT/TTS, duplex/barge-in, autoryzowany signaling i TURN, jawna polityka retencji | ENT-05, ENT-12, V4-VOICE | OPEN |
+| ENT-35 | ZTNA remote access: OIDC/PKCE, tożsamość urządzenia, krótkotrwałe sesje, per-resource authorization, revocation i audyt | ENT-05, ENT-06, ENT-07, ENT-19 | OPEN |
+| ENT-36 | AGPL compliance i separacja niezależnych usług: SBOM/licencje, oferta Corresponding Source, granice integracji i analiza konkretnych zależności | ENT-10, ENT-17, ENT-24 | OPEN |
+
+[ENTERPRISE_MEDIA_REMOTE_SPEC.md](ENTERPRISE_MEDIA_REMOTE_SPEC.md) doprecyzowuje także ENT-24/28/29 (rejestr, bezpośredni chat, SSE, action bar), nie dublując wcześniejszych wymagań. [Dowody ENT-12/15/16](OMEGA_ENT_RESOURCE_EVIDENCE.md): 15 nowych testów + 17 regresji PASS, bez fizycznego GPU lub klastra.
