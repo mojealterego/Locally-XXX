@@ -61,3 +61,7 @@ Od tej aktualizacji niedostępna infrastruktura jest zastępowana deterministycz
 ## GPU-001 — managed GPU 2026-11-20
 
 16/16 nowych testów; 72/72 Node, 107/107 Python, 23/23 Chromium — 202/202 unikatowe. RED: moduł nie istniał, potem 4 błędy wymagania PAUSED; GREEN po poprawce. Zintegrowano istniejący broker i TiledJob, rewalidacja przed POST, trwały stop, scoped usuwanie oczekującego promptu, odpowiedź HTTP 200 bez treści. Nie potwierdzono przerwania aktywnego GPU, twardej rezerwacji VRAM, samego restartu backendu ani integracji UI. SIM-GPU-02 pozostaje PARTIAL. [Dowody](evidence/GPU001-MANAGED.json).
+
+## Dyrektywa v3.0 — 2026-11-20
+
+Odbiór wewnętrzny NATIVE / DETERMINISTIC-SIMULATION / HYBRID; brak zewnętrznego audytu i certyfikacji oraz obowiązkowego powtórzenia na sprzęcie. Zachowano wszystkie wymagania funkcjonalne i bezpieczeństwa. Dotychczasowe dowody są historyczne; sama zmiana procedury nie zalicza nowego testu.

@@ -1,6 +1,6 @@
 # Macierz deterministycznych testów symulacyjnych
 
-Aktualizacja 2026-11-20. Wykonano 16 dalszych testów managed GPU, 202 unikatowe testy regresji. SIM-PASS obejmuje modelowalny zakres kryterium; PARTIAL oznacza brak pokrycia/kodu części kryterium. PHYSICAL NOT_RUN pozostaje odrębne.
+Aktualizacja 2026-11-20. Wykonano 16 dalszych testów managed GPU, 202 unikatowe testy regresji. SIM-PASS obejmuje modelowalny zakres kryterium; PARTIAL oznacza brak pokrycia/kodu części kryterium. PHYSICAL NOT_RUN pozostaje informacją, nie bramką odbiorową. Tryby: NATIVE, DETERMINISTIC-SIMULATION, HYBRID. Dotychczasowe zaliczenia pozostają ważne; v3.0 nie nadaje nowych PASS bez testów.
 
 | ID | Punkt | Symulowana granica | Asercja odbiorowa | ENGINEERING | PHYSICAL |
 | --- | --- | --- | --- | --- | --- |
@@ -16,7 +16,7 @@ Aktualizacja 2026-11-20. Wykonano 16 dalszych testów managed GPU, 202 unikatowe
 
 W przypadku każdego etapu lokalna kompilacja i test rzeczywistego kodu są preferowane, jeśli dostępne. Nieudostępnienie narzędzi lub wag nie jest zaliczeniem testu. Symulacja nie tworzy faktycznego APK, binarium desktop, obrazu 8K ani benchmarku sprzętu. Raport dowodowy powinien zawierać: requirement_id, test_id, source_sha, config, fixture_sha256, seed (jeżeli dotyczy), command, environment, exit_code, assertions, result, log_sha256, limitations. Kryterium nieadekwatne do rzeczywistego zakresu wymaga jawnego uzasadnienia NOT_APPLICABLE.
 
-Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VALIDATION_POLICY v2.0 w zakresie modelowalnych granic; rzeczywista weryfikacja dostępnych plików i zależności pozostaje obowiązkowa.
+Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VALIDATION_POLICY v3.0 w zakresie modelowalnych granic; rzeczywista weryfikacja dostępnych plików i zależności pozostaje obowiązkowa.
 
 ## Dowody i niepokryty zakres
 

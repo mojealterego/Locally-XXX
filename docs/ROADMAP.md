@@ -1,6 +1,6 @@
 # OMEGA-X / Locally-XXX — Roadmapa i rejestr stanu
 
-Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v2.0](VALIDATION_POLICY.md): niedostępną infrastrukturę zastępujemy deterministycznymi testami symulacyjnymi. SIM-PASS zamyka przebadane kryterium inżynieryjne; PHYSICAL pozostaje niezależnym wymiarem. Zasada: status `POTWIERDZONE` wymaga wskazania konkretnego dowodu, `CZĘŚCIOWE` oznacza brak przynajmniej jednego kryterium odbioru, `BRAK` oznacza brak kodu/dowodu w docelowym repozytorium.
+Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v3.0](VALIDATION_POLICY.md): niedostępną infrastrukturę zastępujemy deterministycznymi testami symulacyjnymi. Tryby NATIVE, DETERMINISTIC-SIMULATION i HYBRID. SIM-PASS zamyka przebadane kryterium inżynieryjne bez fizycznego powtórzenia; PHYSICAL jest wyłącznie informacją o faktycznym wykonaniu. Zewnętrzny audyt i zewnętrzna certyfikacja nie są wymaganiami odbiorowymi. [Dyrektywa v3.0](AUTONOMOUS_ENGINEERING_DIRECTIVE.md). Zasada: status `POTWIERDZONE` wymaga wskazania konkretnego dowodu, `CZĘŚCIOWE` oznacza brak przynajmniej jednego kryterium odbioru, `BRAK` oznacza brak kodu/dowodu w docelowym repozytorium.
 
 | ID | Obszar | Status | Dowód / warunek domknięcia |
 | --- | --- | --- | --- |
@@ -26,6 +26,6 @@ Data aktualizacji: 2026-11-20. Obowiązuje [VALIDATION_POLICY v2.0](VALIDATION_P
 3. Selektywny import autorskich modułów OMEGA-X po kontroli pochodzenia, licencji i sekretów (`MIG-004`, `SEC-002`).
 4. Integracja RAG i testów regresyjnych; pełny build desktop (`RAG-001`, `RUN-001`).
 5. Oddzielna ścieżka Android ARM64 i deterministyczna walidacja granic niedostępnej infrastruktury (`AND-001`).
-6. Testy generacji i awarii z kontrolowanymi adapterami (`GPU-001`). Weryfikacja fizyczna i rzeczywiste wydanie są odrębnie rejestrowane; nie wstrzymują prac inżynieryjnych nad innymi punktami.
+6. Testy generacji i awarii z kontrolowanymi adapterami (`GPU-001`). Weryfikacja fizyczna i rzeczywiste wydanie są odrębnie rejestrowane, bez obowiązku powtarzania zaliczonych kryteriów symulacyjnych. Nie blokują zamknięcia inżynieryjnego.
 
 Brak zielonego testu w tej tabeli nie jest równoznaczny z awarią; oznacza brak potwierdzonego dowodu w docelowym repozytorium.

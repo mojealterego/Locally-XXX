@@ -59,7 +59,7 @@ Importer sprawdza SHA-1 obiektów Git, SHA-256 skopiowanych plików, odrzuca dow
 - Baza to **desktop Tauri + React + Rust**. Nie stanowi aplikacji Android ani gotowego APK.
 - Komponenty OMEGA-X i archiwa z `Omega-XXX-Absolute` wymagają odrębnego przeglądu licencji, integralności i sekretów przed publikacją; repozytorium źródłowe jest prywatne, a niniejsze publiczne.
 - Do ukończenia migracji potrzebna jest materializacja pełnych plików źródłowych i niezależne porównanie ich SHA-256. Submoduł jest odtwarzalnym, przypiętym punktem startowym, **nie pełną migracją**.
-- Testy deterministyczne nie zastępują sprzętowych testów Android, GPU ani produkcyjnego E2E.
+- Testy deterministyczne zastępują niedostępną infrastrukturę w odbiorze modelowanych właściwości; nie są deklaracją fizycznego testu Android/GPU ani wdrożenia.
 
 Zobacz [roadmapę](docs/ROADMAP.md), [macierz weryfikacji](docs/TEST_MATRIX.md) i [politykę odbioru](docs/VALIDATION_POLICY.md).
 
@@ -113,7 +113,7 @@ Testy: 24/24 offline Python i 72/72 regresji Node. Rzeczywiste zdalne bajty jedn
 
 ## Polityka odbioru bez niezależnej infrastruktury
 
-[VALIDATION_POLICY v2.0](docs/VALIDATION_POLICY.md) ustanawia deterministyczne testy inżynieryjne z symulowanymi granicami niedostępnej infrastruktury jako podstawę odbioru modelowalnych kryteriów. Zewnętrzny audyt i płatne CI nie są wymagane. [Macierz testów RUN/AND/GPU](docs/SIMULATION_MATRIX.md) rozdziela ENGINEERING (w tym SIM-PASS) od PHYSICAL. Symulacja nie zastępuje implementacji ani faktycznego buildu, instalacji lub pomiaru, jeśli są one deklarowane jako wykonane.
+[VALIDATION_POLICY v3.0](docs/VALIDATION_POLICY.md) ustanawia deterministyczne testy inżynieryjne z symulowanymi granicami niedostępnej infrastruktury jako podstawę odbioru modelowalnych kryteriów. Zewnętrzny audyt, zewnętrzna certyfikacja, płatne CI oraz fizyczne powtórzenie zaliczonych kryteriów symulacyjnych nie są wymagane. [Macierz testów RUN/AND/GPU](docs/SIMULATION_MATRIX.md) rozdziela ENGINEERING (w tym SIM-PASS) od PHYSICAL. Symulacja nie zastępuje implementacji ani faktycznego buildu, instalacji lub pomiaru, jeśli są one deklarowane jako wykonane.
 
 ## RUN-001 / AND-001 / GPU-001 — kontroler lokalnego wykonania
 
