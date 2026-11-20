@@ -66,3 +66,5 @@ Przyrost ENT-03/04/08: repozytorium pgvector, review_tasks, FlowProducer i worke
 ENT-09/10/11: kontrolowany DAG runner, per-tool gate, adaptery search i gVisor; 17/17 testów nowego zestawu PASS, pełne integracje NOT_RUN. [Dowody](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md). Rozszerzenie ustawień i ComfyUI: [specyfikacja](SETTINGS_OPTIMIZATION_SPEC.md), ENT-31/32.
 
 ENT-12/15/16: ResourceArbiter, gradient context scheduler, AES-GCM SQLite checkpoints; 15 nowych + 17 regresji PASS, rzeczywisty SIGKILL po commit. [Dowody](OMEGA_ENT_RESOURCE_EVIDENCE.md). Nowe ENT-33..36: [media, remote access i licencje](ENTERPRISE_MEDIA_REMOTE_SPEC.md).
+
+ENT-13/14/18: pierwszy lokalny web shell, 18 kafelków, workspace, AST inspector, typowany SDK/CLI i HTTP proxy; 9/9 lokalnych testów PASS, TS strict PASS, browser E2E BLOCKED. [Dowody](OMEGA_ENT_UI_EVIDENCE.md).

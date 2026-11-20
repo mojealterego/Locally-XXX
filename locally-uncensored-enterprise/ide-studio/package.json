@@ -1,0 +1,1 @@
+{"name":"@omega/ide-studio","version":"0.1.0","private":true,"type":"module","exports":{"./workspace":"./workspace.mjs","./inspect":"./inspect.mjs"},"dependencies":{"typescript":"5.8.3"}}

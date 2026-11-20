@@ -16,8 +16,8 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 | ENT-10 | MCP Tool Gateway i routing Tavily/Exa/SearXNG, jawna polityka egress, retencji i klasyfikacja danych | ENT-06, ENT-07 | PARTIAL: adaptery HTTP i router publicznych kwerend, fail-closed, bez fallbacku i redirectów, limity odpowiedzi, klasyfikator zaufanego hosta; testy kontraktowe PASS. MCP transport, realne API, infrastruktura egress/DLP, Serper i livecrawl OPEN |
 | ENT-11 | Firecracker CPU i gVisor dla obsługiwanych środowisk; GPU tylko po dowodzie kompatybilności/izolacji | ENT-06, ENT-07 | PARTIAL: gVisor adapter Docker/runsc z przypiętym obrazem, limity i brak host mounts/network, stdin, kontrola exit code oraz cleanup; testy modelowane PASS. Firecracker, rzeczywisty runsc, izolacja hosta, GPU i recovery po awarii OPEN |
 | ENT-12 | Hardware-aware onboarding, GGUF, dual-model, budżety KV/VRAM, ComfyUI | V4-GPU, ENT-09 | PARTIAL: lokalny ResourceArbiter, atomowa rezerwacja dwóch modeli, best-fit, thermal/freshness gate i dokładny wzór KV dla pełnych elementów; 5/5 testów. Fizyczny GPU, discovery, loading/offload, distributed leases OPEN |
-| ENT-13 | Agent-Native IDE: React Flow, wizualny DAG, AST/LSP i bezpieczne narzędzia, symulator urządzeń | ENT-02, V4-AST, ENT-11 | OPEN |
-| ENT-14 | CLI, SDK/API i współdzielony UI PL/EN, klienci desktop/PWA/mobile | ENT-01, ENT-05, ENT-08 | OPEN |
+| ENT-13 | Agent-Native IDE: React Flow, wizualny DAG, AST/LSP i bezpieczne narzędzia, symulator urządzeń | ENT-02, V4-AST, ENT-11 | PARTIAL: workspace in-memory, CAS i limity, edycja/import/eksport, statyczny izolowany HTML preview z 4 viewportami, rzeczywisty TS AST inspector CLI; kontrakty/testy lokalne PASS. React Flow, LSP, agent edits, sandbox build, trwałość i browser E2E OPEN |
+| ENT-14 | CLI, SDK/API i współdzielony UI PL/EN, klienci desktop/PWA/mobile | ENT-01, ENT-05, ENT-08 | PARTIAL: typowany ReviewClient, CLI get/submit/decide/inspect, shared catalog, web build/proxy i workspace manifests; rzeczywiste lokalne HTTP i TS strict PASS. PKCE, React 19, MCP SDK, rzeczywisty backend, native/PWA i lockfile OPEN |
 | ENT-15 | Kompresja kontekstu z zachowaniem źródeł, wersjonowanie embeddingów, RAG i benchmark | ENT-03, ENT-09 | PARTIAL: gradientowy scheduler, zachowanie system/recent/pinned, re-count całego promptu przez przekazany adapter, archiwum oryginałów i SHA-256; 5/5 testów z modelowanym licznikiem. Realny tokenizer/LLM, zapis RAG i ocena jakości OPEN |
 | ENT-16 | Disaster recovery, backup/restore, migracje, telemetria i test awarii | ENT-03, ENT-04, ENT-08 | PARTIAL: SQLite checkpoint AES-256-GCM, AAD tenant/project/revision, CAS, transakcje FULL, rzeczywisty SIGKILL po commicie i restore; 5/5 testów. Replikacja PG/S3, harmonogram, klucze OS/KMS, retencja i RPO/RTO OPEN |
 | ENT-17 | Multi-platform build, lockfile, SBOM, podpisy, release i testy E2E; bez automatycznego uruchamiania płatnego CI | ENT-11, ENT-13, ENT-14, ENT-16 | OPEN |
@@ -32,7 +32,7 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 
 ## Następne niezależne wymagania
 
-V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-13 (IDE Studio), ENT-14 (SDK/CLI/shared UI), ENT-18 (Integrated App launcher). Kontynuować otwarte bramki ENT-12/15/16. Kontynuować niezależnie otwarte kryteria ENT-09/10/11. Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
+V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-19 (wbudowany agent Android), ENT-20 (Codespace), ENT-30 (visual AST app builder). Utrzymać otwarte kryteria ENT-13/14/18. Kontynuować otwarte bramki ENT-12/15/16. Kontynuować niezależnie otwarte kryteria ENT-09/10/11. Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
 
 ## Integrated App i ODYN Ω — rozszerzenie zakresu 2026-11-20
 
@@ -40,7 +40,7 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 
 | ID | Wymaganie | Zależności | Stan |
 |---|---|---|---|
-| ENT-18 | Integrated App shell: kafelki, nawigacja, rejestr modułów, dostępność, wspólna tożsamość i ustawienia | ENT-01, ENT-14 | OPEN |
+| ENT-18 | Integrated App shell: kafelki, nawigacja, rejestr modułów, dostępność, wspólna tożsamość i ustawienia | ENT-01, ENT-14 | PARTIAL: pierwszy web shell PL/EN, 18 kafelków, trzy dostępne interfejsy (IDE, agent reviews, settings), pozostałe jawnie niedostępne; build i HTTP PASS. Browser E2E zablokowane polityką środowiska, runtime health, natywne osadzenie, pełne SSO i moduły OPEN |
 | ENT-19 | Wbudowany agent Android: adapter Rust/UniFFI, uprawnienia Android, prywatny stan, kontrola operatora; OCAF bridge OMAs/OMAt | ENT-07, ENT-18 | OPEN; źródła odczytane: ZeroAI i Android-Agent-; wymagany audyt licencji i ABI |
 | ENT-20 | Codespace: własne repozytoria, VS Code/IDE, terminal, bezpieczne zdalne środowisko, Actions z limitami kosztów | ENT-11, ENT-13, ENT-18 | OPEN |
 | ENT-21 | LLM Training Studio: import/wersjonowanie danych i wag, LoRA/QLoRA, SFT, ewaluacja modeli lokalnych, trening i eksport GGUF z kontrolą zasobów i pochodzenia danych | ENT-12, ENT-18, V4-MODELS | OPEN |
@@ -79,3 +79,5 @@ ENT-09/10/11: [dowody lokalne](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md) — 17/17 tes
 | ENT-36 | AGPL compliance i separacja niezależnych usług: SBOM/licencje, oferta Corresponding Source, granice integracji i analiza konkretnych zależności | ENT-10, ENT-17, ENT-24 | OPEN |
 
 [ENTERPRISE_MEDIA_REMOTE_SPEC.md](ENTERPRISE_MEDIA_REMOTE_SPEC.md) doprecyzowuje także ENT-24/28/29 (rejestr, bezpośredni chat, SSE, action bar), nie dublując wcześniejszych wymagań. [Dowody ENT-12/15/16](OMEGA_ENT_RESOURCE_EVIDENCE.md): 15 nowych testów + 17 regresji PASS, bez fizycznego GPU lub klastra.
+
+ENT-13/14/18: [dowody pierwszego web shell](OMEGA_ENT_UI_EVIDENCE.md) — 9 lokalnych testów PASS, TS strict PASS, browser E2E BLOCKED. Aktualnie trzy interfejsy są dostępne, nie oznacza to potwierdzonej gotowości usług za nimi.

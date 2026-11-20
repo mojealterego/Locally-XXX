@@ -1,8 +1,1 @@
-{
-  "name": "locally-uncensored-enterprise",
-  "version": "0.1.0",
-  "private": true,
-  "packageManager": "pnpm@10.11.0",
-  "engines": {"node": ">=22"},
-  "scripts": {"build": "pnpm -r build", "test": "pnpm -r test"}
-}
+{"name":"locally-uncensored-enterprise","version":"0.1.0","private":true,"packageManager":"pnpm@10.11.0","engines":{"node":">=22"},"scripts":{"build":"pnpm -r build","test":"pnpm -r test && pnpm run test:ui","test:ui":"node --test test/ui.test.mjs","build:web":"node apps/web/build.mjs","start:web":"node apps/web/serve.mjs"}}
