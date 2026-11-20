@@ -45,6 +45,11 @@
     "test:managed-gpu": "python3 -m unittest discover -s tests -p test_managed_gpu.py -v",
     "runtime:android-lifecycle": "python3 -m scripts.native_acceptance",
     "test:native-acceptance": "python3 -m unittest discover -s tests -p test_native_acceptance.py -v",
-    "test:advisories": "python3 -m unittest discover -s tests -p test_security_advisories.py -v"
+    "test:advisories": "python3 -m unittest discover -s tests -p test_security_advisories.py -v",
+    "runtime:android-overlay": "python3 -m scripts.android_overlay",
+    "test:android-jvm": "python3 tests/android-jvm.py",
+    "test:android-overlay": "python3 -m unittest discover -s tests -p test_native_overlay.py -v",
+    "test:lockfiles": "python3 -m unittest discover -s tests -p test_security_lockfiles.py -v",
+    "test:rag-retrieval": "node --test tests/rag-retrieval.test.mjs"
   }
 }

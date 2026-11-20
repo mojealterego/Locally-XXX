@@ -220,3 +220,24 @@ npm run test:rag-browser
 ```
 
 26 nowych testów; regresja 228/228, 39 testowanych blob SHA. SIM-GPU-02 odebrana w zakresie dedykowanego backendu i bezpiecznej odmowy przy współdzielonym; pozostałe dwa scenariusze Android PARTIAL z powodu brakującego kodu mobilnego. Wszystkie tryby zgodne z dyrektywą v3.0; brak automatycznego zaliczenia pełnego produktu. Raport i 12 surowych logów: `docs/evidence/V3-ACCEPTANCE.json` oraz `docs/evidence/V3-ACCEPTANCE/`.
+
+## AND-001 / RAG-001 / SEC-002 — integracja istniejących komponentów
+
+Android: `overlays/android/` instalowane przez `npm run runtime:android-overlay -- WORKSPACE PACKAGE_ID` albo istniejący `runtime:build -- android WORKSPACE REPORTS --initialize-android --native-lifecycle --signer-sha256 PIN --package-id PACKAGE_ID`.
+Wymagany zgodny szablon Tauri CLI 2.10.1 lub identyczna nakładka, prywatny zaufany workspace; nie nadpisuje niestandardowej Activity. Checkpoint native zapisuje generację i fazę Activity, wykrywa zmianę procesu oraz ignoruje stare Activity. Nie uznaje zakończenia Activity za bezczynność GPU. Blokada ABI sprawdzana przed uruchomieniem Tauri, backup wyłączony w manifeście i sprawdzany po buildzie. Instalacja ma atomowe podmiany pojedynczych plików; nie gwarantuje transakcji całego zestawu przy awarii zasilania. Po przerwaniu powtórzyć identyczną nakładkę w świeżym workspace. Kotwica szablonu: tauri-apps/tauri tag tauri-cli-v2.10.1, e414641e04612851b6af3078bfaa35c6d011c7f1. Test JVM kompiluje rzeczywiste Kotlin MainActivity i OmegaLifecycle, Android SDK i TauriActivity są testowymi modelami. To nie APK ani port całego Rust UI. Latch nie odtwarza danych ani nie jest automatycznym uzgodnieniem brokera.
+
+RAG: istniejące `rag:prepare` używa 23 sprawdzonych kotwic. Wyszukiwanie BM25 dla hybrydowego rankingu liczy częstość dokumentową w jednym przebiegu, dokładne tokeny, zapytanie maks. 8192 znaków/256 unikalnych tokenów, korpus maks. 8192 fragmentów/8 mln znaków, budżet 4 194 304 wartości wektorowych na indexing. To licznik wartości, nie twardy limit RSS. OpenAI embedding wymaga jednoznacznych indeksów i skończonych wektorów; rodzina backendu wybierana raz na operację. Nie gwarantuje niezmienności modelu wewnątrz tej samej rodziny. Pełny build i realne PDF.js/Mammoth pozostają otwarte.
+
+SEC: ścisłe parsowanie JSON z odrzuceniem zduplikowanych kluczy i nonfinite, bezpośrednie zależności wymagane w lockfile, zgodność deklaracji root i dokładnej wersji, jawne resolved poza registry.npmjs.org zgłaszane do przeglądu. To kontrola metadanych, nie dowód zgodności całego zakresu SemVer, SRI bajtów paczki ani kompletnego audytu CVE. Sprawdzono rzeczywiste 506 wpisów npm, 0 rozbieżności sprawdzanego zakresu.
+
+```bash
+npm run test:android-overlay
+npm run test:android-jvm
+npm run test:rag-retrieval
+npm run test:lockfiles
+npm run test:gate
+npm run test:python
+npm run test:rag-browser
+```
+
+Kotlin JVM wymaga kotlinc i Java; nowe testy Node kompilują helper przy pomocy tsc. 258/258 unikatowych testów (78 Node,149 Python,23 Chromium,8 Kotlin/JVM); 30 nowych. [Raport](docs/evidence/ANDROID-RAG-SEC-INTEGRATION.json) zawiera SHA-256 pełnych logów, które dostarczono w ZIP przyrostu. Brak deklaracji pełnego portu, fizycznego APK lub wyczerpującego audytu.

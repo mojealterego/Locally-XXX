@@ -1,6 +1,6 @@
 # Macierz deterministycznych testów symulacyjnych
 
-Aktualizacja 2026-11-20. Dyrektywa v3.0, 26 dodatkowych testów, 228 unikatowych testów regresji. SIM-PASS jest pełnoprawnym odbiorem modelowanego kryterium, bez obowiązku fizycznego powtórzenia; PARTIAL oznacza niepokryte wymagania implementacyjne.
+Aktualizacja 2026-11-20. 30 nowych testów, 258 unikatowych regresji. Dyrektywa v3.0: SIM-PASS zamyka modelowany zakres bez fizycznego powtórzenia; PARTIAL oznacza niepokryty kod lub kontrakt.
 
 | ID | Punkt | Symulowana granica | Asercja odbiorowa | ENGINEERING | PHYSICAL |
 | --- | --- | --- | --- | --- | --- |
@@ -25,8 +25,8 @@ Pozostałe wymagania (MIG-003, MIG-004, SEC-002, RAG-001) również stosują VAL
 - **SIM-RUN-01 — SIM-PASS**: Build step ordering, first failure abort, missing output rejected. Process runner injected for application toolchain. Pozostało: No actual Tauri/React/Rust executable produced.
 - **SIM-RUN-02 — SIM-PASS**: Real POSIX subprocess and timeout; simulated missing dependency/failure; evidence retained. Pozostało: No full toolchain installation.
 - **SIM-RUN-03 — SIM-PASS**: Safe restart after early failure, preserved original failure log, rejection of stale dist. Pozostało: Hard kill leaving lock needs inspection; late failure needs fresh workspace.
-- **SIM-AND-01 — PARTIAL**: inicjalizacja natywnego projektu w istniejącej ścieżce Tauri, walidacja przypiętej tożsamości podpisu, pakietu, manifestu i wybranych ryzyk eksportu/uprawnień. Pozostały entrypoint Rust mobile, integracja WebView i kontrakty natywne; nie chodzi o obowiązek fizycznego powtórzenia zaliczonych testów.
-- **SIM-AND-02 — PARTIAL**: wcześniejszy broker/SIGKILL oraz rzeczywisty adapter ADB z deterministycznym testbedem launch/force-stop/relaunch, odmowa niezgodnego ABI i komponentu, deadline. Pozostała implementacja natywnego Activity/service recovery i uprawnień wewnątrz aplikacji; testbed nie dowodzi odtworzenia stanu aplikacji.
+- **SIM-AND-01 — PARTIAL**: istniejące bramki ABI/ELF/podpisu i inicjalizacji rozszerzone o rzeczywisty kod Kotlin MainActivity Tauri 2.10.1, instalator nakładki oraz kontrolę backup i pełnej nazwy klasy launchera w końcowym APK. Kotlin/JVM kompilacja i testy modelowanego SDK PASS. Brak natywnego Rust mobile entrypoint i działającego WebView IPC; fizyczne powtórzenie zaliczonych właściwości nie jest wymagane.
+- **SIM-AND-02 — PARTIAL**: natywny trwały checkpoint Activity (SharedPreferences, commit), identyfikator procesu i fencing generacji, testy odtworzenia checkpointu, błędu zapisu i niedozwolonego ABI na JVM, istniejący test SIGKILL brokera i ADB. Latch recoveryRequired sygnalizuje konieczność uzgodnienia, nie odtwarza sam sesji i nie zwalnia rezerwacji GPU. Brak integracji IPC/recovery stanu aplikacji.
 - **SIM-AND-03 — SIM-PASS (kontrola dopuszczenia)**: trwała kolejka FIFO, transakcje SQLite, monitor jednego właściciela, rezerwa 1024 MiB, histereza 43/39.5 C, ważność próbki 10 s, kontrola deadline i zwolnienie/recovery. Nie przerywa działającego GPU; rzeczywisty sensor i pamięć urządzenia NOT_RUN.
 - **SIM-GPU-01 — SIM-PASS**: Actual loopback HTTP transport to fixture; llama-server route and simulated ComfyUI prompt/history/view contract, content validation. Pozostało: Trusted local backend/workflow required; no real model execution.
 - **SIM-GPU-02 — SIM-PASS (HYBRID, dedykowany backend/fail-closed dla współdzielonego)**: istniejące retry, checkpointy i broker z rzeczywistym nadzorem potomka, potwierdzeniem właściciela socketu, ograniczonym restartem na znanej granicy, bez replay niepewnego POST. Przerwanie aktywnej pracy wyłącznie przez zatrzymanie własnego dedykowanego procesu; obcy proces i niepewne anulowanie pozostają fail-closed. Rzeczywiste SIGKILL, restart i 6/6 odrębnych POST w lokalnym testbedzie ComfyUI. PHYSICAL jest informacyjne.
@@ -39,3 +39,5 @@ Przyrost tiled upscale: `npm run test:tiled` 20/20, pełna regresja 186/186. Dwa
 Przyrost managed GPU: `npm run test:managed-gpu` (16 testów; równoważne polecenie unittest wykonane lokalnie). Pełna regresja 202/202. [Dowody](evidence/GPU001-MANAGED.json).
 
 Przyrost v3.0: `npm run test:native-acceptance` 14/14, `npm run test:advisories` 12/12; pełna regresja 228/228. [Raport i logi](evidence/V3-ACCEPTANCE.json). Wszystkie wcześniej zaliczone bramki pozostają bez zmian.
+
+Przyrost AND/RAG/SEC: 8 Python Android overlay + 8 Kotlin/JVM + 6 Node RAG + 8 Python lockfile = 30 nowych. 258/258 pełnej regresji. [Raport](evidence/ANDROID-RAG-SEC-INTEGRATION.json). Pełne surowe logi z hashami raportu są w paczce przyrostu; nie wprowadzono nieuruchomionych PASS.

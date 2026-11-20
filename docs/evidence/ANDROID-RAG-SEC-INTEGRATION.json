@@ -1,0 +1,192 @@
+{
+  "base_commit": "33d66d887fd07e647bb059c5196e20a0c498eef6",
+  "date": "2026-11-20",
+  "mode": "HYBRID",
+  "unique_tests": 258,
+  "new_tests": 30,
+  "tested_git_blobs": {
+    "overlays/rag/patches.json": "12647e83ad9701e0fdb057c02c036b9e44ae1bc5",
+    "overlays/rag/src/api/rag-documents.ts": "b2e6cd91daebccd5ef27b60969837a449814284c",
+    "package.json": "2fc8c1fb5db52f993c3181b6b33eda4db7741fae",
+    "requirements-upscale.txt": "e7cc6c178b542946a555ad07fa55b5dde3fca566",
+    "scripts/backend_supervisor.py": "9daaa1005c5e12cb7fe1d1c120da3584dab0e87d",
+    "scripts/gguf-inventory.mjs": "a3f1459740421713ad4332eca788723cb8c8fe14",
+    "scripts/gguf_layout.py": "7709108948b4f8535fc1c2e3baa5199198744e30",
+    "scripts/index-trust.mjs": "dd938b8272c30ce9c09edc18c41c531496a51830",
+    "scripts/managed_gpu.py": "5e5206e933d28828c1c06a510ff19462841344bd",
+    "scripts/native_acceptance.py": "49cf70cff051356708688892e98a9c2ba05bb8b9",
+    "scripts/omega_import.py": "f0782d005f508efcdce9236d96fbbeb9df903010",
+    "scripts/osv_offline.py": "8159292a4920d77ef532129b5c16ecfe53915d24",
+    "scripts/rag-overlay.mjs": "014f21ddd77c7a29501b7000f0cadc8294fcd740",
+    "scripts/recoverable_render.py": "93b49914dc46338677cfb416ebb238b173a7f0dc",
+    "scripts/resource_broker.py": "3fcaefc282036a87dcba55620845fedc6d160d55",
+    "scripts/runtime_control.py": "85a9100483f8b59bf1670868d75151f774208218",
+    "scripts/security_scan.py": "c68b4769fecdf810e8e46ca2182f163c9258ddad",
+    "scripts/snapshot-integrity.mjs": "90e9027eef0c8ec92cc0f89015af00d647eed108",
+    "scripts/staged-runtime.mjs": "930eec14e0f0379ec17d64149f3c69bc108f7f22",
+    "scripts/tiled_upscale.py": "0f164c8c768d24fc72c3db05914a83ef70171f27",
+    "scripts/upstream-gate.mjs": "84659f81e5aba30dd145e483d05f807aec0059de",
+    "scripts/vendorize.mjs": "f05813c72b7c910918099edc464949f8d8994979",
+    "tests/gguf-inventory.test.mjs": "4b9ec6d090bf755d50e3c0cccd214068c58d7cb0",
+    "tests/measure_tiled_memory.py": "600620e6fd61c596076efab4b1ae3f1ec0a77fd3",
+    "tests/rag-browser.py": "02fd5351de0b9d7a7c95062787d5b1705afc2d68",
+    "tests/rag-overlay.test.mjs": "9c33ffdc44cf4d5aa4c4430c5130f6f79e7da67b",
+    "tests/snapshot-integrity.test.mjs": "1b8a109e6ecd16704f4551f3175f6e6a8ad3d9a4",
+    "tests/staged-runtime.test.mjs": "1c637bb56647623de73570f942c47c54e434fb5f",
+    "tests/test_managed_gpu.py": "9b9c6cafd2ffa1b15e1863121d0ea750dece22d8",
+    "tests/test_native_acceptance.py": "584c9f705adda57386c8b7ffd721e74bbaada523",
+    "tests/test_omega_three.py": "8008270d72067bdebc854fbc2acf722e273d431b",
+    "tests/test_recoverable_render.py": "cf8151276dd5c76dde9f598a6d3d99d52b10bb4a",
+    "tests/test_resource_broker.py": "5ea417ffb0857c4b8483b3d65442a204224c148f",
+    "tests/test_runtime_control.py": "696d10bebbe27e8d92d182aa087c1f33a19b31d5",
+    "tests/test_security_advisories.py": "1df05591faf4e650ddd936db403040957a03a51c",
+    "tests/test_tiled_upscale.py": "12bf2ebc4d1ceafd57f16ba2009d8a270907def4",
+    "tests/upstream-gate-security.test.mjs": "5c29a39ba103e1c058f6d043a93f61d3ab2c8e4a",
+    "tests/upstream-gate.test.mjs": "b6b02c7498d62fd232743adcca779be3f01f27ca",
+    "tests/vendorize.test.mjs": "4ed67fe0a66ef1849996b6017fff9bc65c22fe49",
+    "scripts/android_overlay.py": "736973444f6e550e570030f0cbac68f846f9b94c",
+    "tests/test_native_overlay.py": "ab2494872e9756b892a819fcb42a9429749145b6",
+    "tests/test_security_lockfiles.py": "ae23c618572a507c06f461faed19e7c936d296c5",
+    "tests/rag-retrieval.test.mjs": "c605eca103c5795cb29d6343bfbf5b2e39d9856c",
+    "tests/android-jvm.py": "23ec0a82c975300172deb8fc5dede0622dc801e5",
+    "overlays/android/MainActivity.kt": "e1ebe143a626f217f09b914fb7614f915fdeb829",
+    "overlays/android/OmegaLifecycle.kt": "d4ce9a0d7cc5351829c4837e36466f7aa9365b4c",
+    "tests/android-jvm/AndroidActivity.kt": "a81957842ef6dfb8f395db417e94dc2a31246e31",
+    "tests/android-jvm/AndroidOs.kt": "9995171762e55f36e00ce36b90b0b533f1c91686",
+    "tests/android-jvm/LifecycleTest.kt": "d6f5430028326ee64712375cf4a9f17b00b973fb",
+    "tests/android-jvm/TauriFixture.kt": "efa86347de740a1d3cbb7c4cfc8d70cc0a35901f"
+  },
+  "source_sha256": {
+    "overlays/rag/patches.json": "bf6180b6871b045952404c4ba0f8f9c8f89556a95271866c784f0a66c2a64e30",
+    "overlays/rag/src/api/rag-documents.ts": "d02e020139a46b6202564f671f733360ef7db2680e407dff002fde2f5f7cd89a",
+    "scripts/security_scan.py": "a53f60bb3adfb62cbc00be79842264d2ac85ec7a5e586b694935640ea75effcf",
+    "scripts/android_overlay.py": "cddaebdd2cc3494775e5d43ad3e7be6f5214b811d33abdada4d857d23ef3f253",
+    "scripts/native_acceptance.py": "d6bdb0ae671dee8d9adc19e9d249f49ffc18ba17f3400f1606f9cfeb3c7d0536",
+    "scripts/runtime_control.py": "518669d66e23ff03c96cc52844eb520ac9cf2950e7b69687b353b69d9ad9fb27",
+    "tests/test_omega_three.py": "5b2053b0b71d3be705ce6cc1a915b0548af417d2b2c5c527be211c9e5d53da05",
+    "tests/test_native_overlay.py": "fd4295bc8642e6721d191de65432d79ce4d4c25daad17c774eb3a504a612c77b",
+    "tests/test_security_lockfiles.py": "688f9adfc52b157d2dac661ff796bb4665f4c8232292bd090f342380df6fd8bd",
+    "tests/rag-retrieval.test.mjs": "61459ed47e262083adae046899f4121a8227c514e9565b6b657d8e54c0c3de9e",
+    "tests/android-jvm.py": "934dc9e74536364ba0ff3bd88b637ee1979f7a654096b5c5d34fde9649022c0a",
+    "overlays/android/MainActivity.kt": "b5e069ef0fd485795c1e219b433ee91094eb2e3f26d4d7ea67bca1dd78315075",
+    "overlays/android/OmegaLifecycle.kt": "31f00b7345d2ead4c1d310664bb53dff88e053910c8efeaff971cf90a0b5d905",
+    "tests/android-jvm/AndroidActivity.kt": "23d68631e0f2afcf5048755f0ad93a39d9ba0482f0d9c7cab0a6b8fde52fea1b",
+    "tests/android-jvm/AndroidOs.kt": "b72bda2796733f1bcdf38febca34cf2eb5cf616aa406d1b35d86c432c5fcb470",
+    "tests/android-jvm/LifecycleTest.kt": "d6baff061d35abecf095acc1610d2ebf03a62705086649229e85229fd33173eb",
+    "tests/android-jvm/TauriFixture.kt": "6a03f1e0c09d065b710aab32fde5bedb6ef6338f232b06bc44b12793b4aad04a",
+    "package.json": "cf29f06160f9ba0bc292484a5d3e8ef55a231686f7ffc5af9d4c04a02257ccc3"
+  },
+  "environment": {
+    "python": "Python 3.13.5",
+    "node": "v22.16.0",
+    "typescript": "Version 5.8.3",
+    "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+    "kotlin": "1.9.0",
+    "chromium": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+    "os": "Linux x86_64"
+  },
+  "commands": [
+    {
+      "command": "npm run test:gate",
+      "passed": 78,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "INCREMENT-NODE.log",
+      "sha256": "2c204ca1937b510e044144ad825eeb47c3fcaf28f3adf1959ace8d598f21398f"
+    },
+    {
+      "command": "npm run test:python",
+      "passed": 149,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "INCREMENT-PYTHON.log",
+      "sha256": "24e6b3e604cebb4c2d2c28494f4a69fbd0183e93fe2f25bb26f9094809677a26"
+    },
+    {
+      "command": "npm run test:rag-browser",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "INCREMENT-RAG.log",
+      "sha256": "9f39d76fdc1b8d65d0dd804843057b6e271bb147a315792580b802b561e52a4a"
+    },
+    {
+      "command": "python3 tests/android-jvm.py",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "ANDROID-JVM.log",
+      "sha256": "c94d968ce733c612b77794b979c913d10d5b777d50703fc35a7754aaa923d925"
+    }
+  ],
+  "red": {
+    "log": "INCREMENT-RED.log",
+    "sha256": "456b101614a9688d472f11c99b4f74fb7e0b503b400fa65f63122e736c681702",
+    "scope": "Native overlay absent; lock consistency and strict JSON failures; six RAG retrieval failures before implementation. Subsequent refinements include two native tests, one lock test and eight JVM scenarios."
+  },
+  "acceptance": [
+    {
+      "requirement_id": "AND-001",
+      "test_id": "SIM-AND-01/02-native-lifecycle",
+      "mode": "HYBRID",
+      "status": "PARTIAL",
+      "assertions": [
+        "Exact upstream generated Tauri MainActivity template or already installed overlay only",
+        "Native Activity Kotlin code compiled and executed against modeled Android SDK / TauriActivity",
+        "Private durable lifecycle checkpoint, stale Activity fencing, process-token recovery latch, fail closed on ABI or persistence failures",
+        "Build controller installs opt-in overlay before Gradle/Tauri build and checks final backup policy and launcher identity"
+      ],
+      "limitations": "Mobile Rust entrypoint and WebView IPC/session restoration not implemented. Kotlin checkpoint is a recovery signal, not reconciliation of running GPU jobs. Full SDK/NDK and APK not built."
+    },
+    {
+      "requirement_id": "RAG-001",
+      "test_id": "RAG-RETRIEVAL",
+      "mode": "HYBRID",
+      "status": "PARTIAL",
+      "assertions": [
+        "Strict TypeScript compiled",
+        "Exact Polish token BM25, one corpus traversal; bounded query/corpus",
+        "Reject bad indices, sparse vectors, aggregate vector memory budget",
+        "Existing browser regression and exact upstream patch anchors"
+      ],
+      "limitations": "Selection of backend family once per indexing prevents lane switching, not backend identity changes inside the same lane. No actual PDF.js/Mammoth integration or full UI build."
+    },
+    {
+      "requirement_id": "SEC-002",
+      "test_id": "SEC-NPM-LOCK",
+      "mode": "HYBRID",
+      "status": "PARTIAL",
+      "assertions": [
+        "Strict duplicate/nonfinite JSON rejected",
+        "Declared direct dependencies and root spec compared, exact version mismatches identified",
+        "Explicit non-npm registry resolved source flagged",
+        "Actual upstream manifest/lock metadata 506 entries; zero discrepancies by these metadata checks"
+      ],
+      "limitations": "Not npm semver range resolution or dependency byte verification; external registry requests, complete advisory snapshot and license review remain unverified."
+    }
+  ],
+  "upstream_checks": {
+    "rag_anchors": 23,
+    "rag_files": 4,
+    "tauri_cli_tag": "tauri-cli-v2.10.1",
+    "template_blob": "e414641e04612851b6af3078bfaa35c6d011c7f1",
+    "npm_manifest_blob": "8d343977bda5a66b9c1832a966145b24f9d762af",
+    "npm_lock_blob": "a8c0a7894dcaba4fa48b490353cdff5a08e68858",
+    "npm_entries": 506,
+    "root_mismatch": 0,
+    "direct_missing": 0,
+    "exact_mismatch": 0,
+    "non_registry": 0,
+    "missing_resolved": 0
+  },
+  "physical": "NOT_RUN",
+  "remaining": [
+    "Full Android Rust mobile entrypoint and integration with actual Tauri IPC and session/job recovery",
+    "Actual application build/RAG PDF.js/Mammoth E2E",
+    "Full staged security scan, complete OSV data and license review"
+  ]
+}

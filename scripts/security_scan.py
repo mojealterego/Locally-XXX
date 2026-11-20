@@ -7,6 +7,7 @@ import re
 import stat
 import tomllib
 from pathlib import Path
+from urllib.parse import urlsplit
 
 MAX_FILE=16*1024**2
 MAX_TOTAL=256*1024**2
@@ -40,6 +41,39 @@ def make_sbom(components):
         result.append(item)
     return {'bomFormat':'CycloneDX','specVersion':'1.5','version':1,'components':result}
 
+def strict_json(body):
+    def unique(pairs):
+        out={}
+        for key,value in pairs:
+            if key in out:raise ValueError('Duplicate JSON key')
+            out[key]=value
+        return out
+    def invalid(_):raise ValueError('Nonfinite JSON')
+    return json.loads(body,object_pairs_hook=unique,parse_constant=invalid)
+
+
+def check_npm_lock(manifest,lock,path,finding):
+    root=lock['packages'].get('',{});packages=lock['packages']
+    if not isinstance(root,dict):raise ValueError('Invalid lock root')
+    for section in ('dependencies','devDependencies','optionalDependencies'):
+        declared=manifest.get(section,{})
+        if not isinstance(declared,dict) or not all(isinstance(k,str) and isinstance(v,str) for k,v in declared.items()):raise ValueError('Invalid dependency declaration')
+        if (section in root or declared) and root.get(section,{})!=declared:finding('lock-root-mismatch',path,section=section)
+        for name,spec in declared.items():
+            installed=packages.get('node_modules/'+name)
+            if not isinstance(installed,dict):finding('lock-dependency-missing',path,dependency=name);continue
+            if re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?',spec) and installed.get('version')!=spec:
+                finding('lock-version-mismatch',path,dependency=name)
+
+
+def npm_source_ok(value):
+    if not isinstance(value,str):return False
+    try:
+        url=urlsplit(value)
+        return url.scheme=='https' and url.hostname=='registry.npmjs.org' and url.port in (None,443) and url.username is None and url.password is None and not url.query and not url.fragment and url.path.endswith('.tgz')
+    except ValueError:return False
+
+
 def scan_tree(root,*,advisory_path=None,advisory_sha256=None):
     if (advisory_path is None)!=(advisory_sha256 is None):raise ValueError('Both advisory snapshot and trusted digest required')
     root=Path(os.path.abspath(root)); findings=[]; components=[]; texts={}; total=0; entries=0
@@ -71,12 +105,14 @@ def scan_tree(root,*,advisory_path=None,advisory_sha256=None):
         p=Path(path); name=p.name
         try:
             if name=='package.json':
-                doc=json.loads(body); license=doc.get('license'); licenses.append({'path':path,'declared':license if isinstance(license,str) and license in LICENSES else 'REVIEW'})
+                doc=strict_json(body); license=doc.get('license'); licenses.append({'path':path,'declared':license if isinstance(license,str) and license in LICENSES else 'REVIEW'})
                 if license not in LICENSES: finding('license-review',path)
                 if any(doc.get(k) for k in ('dependencies','devDependencies','optionalDependencies')) and str(p.with_name('package-lock.json')) not in texts: finding('missing-lock',path)
             elif name=='package-lock.json':
-                doc=json.loads(body)
+                doc=strict_json(body)
                 if doc.get('lockfileVersion') not in (2,3) or not isinstance(doc.get('packages'),dict): raise ValueError('unsupported lock')
+                manifest=texts.get(p.with_name('package.json').as_posix())
+                if manifest is not None:check_npm_lock(strict_json(manifest),doc,path,finding)
                 for key,v in sorted(doc['packages'].items()):
                     if not key: continue
                     if not isinstance(v,dict) or not isinstance(v.get('version'),str) or v.get('link'): finding('dependency-review',path); continue
@@ -84,6 +120,7 @@ def scan_tree(root,*,advisory_path=None,advisory_sha256=None):
                     if not isinstance(dep,str) or not dep:raise ValueError('Invalid npm package')
                     components.append({'ecosystem':'npm','name':dep,'version':v['version'],'license':lic if isinstance(lic,str) and lic in LICENSES else 'REVIEW','lock':path,'integrity_declared':valid_sri(integrity)})
                     if lic not in LICENSES or not valid_sri(integrity): finding('dependency-review',path,dependency=dep)
+                    if 'resolved' in v and not npm_source_ok(v['resolved']):finding('dependency-source-review',path,dependency=dep)
             elif name=='Cargo.toml':
                 doc=tomllib.loads(body); lic=doc.get('package',{}).get('license'); licenses.append({'path':path,'declared':lic if isinstance(lic,str) and lic in LICENSES else 'REVIEW'})
                 if lic not in LICENSES: finding('license-review',path)

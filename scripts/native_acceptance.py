@@ -22,7 +22,7 @@ def verify_signer(report,pin):
     require(len(matches)==1 and matches[0].lower()==pin.lower(),'SIGNER','APK signer differs from pinned publisher')
     return matches[0].lower()
 
-def validate_manifest(xml,package):
+def validate_manifest(xml,package,*,require_no_backup=False):
     require(isinstance(package,str) and PACKAGE.fullmatch(package) and isinstance(xml,str) and len(xml)<=1024**2 and '<!DOCTYPE' not in xml.upper() and '<!ENTITY' not in xml.upper(),'MANIFEST','Invalid manifest input')
     try: root=ET.fromstring(xml)
     except ET.ParseError as e:raise RuntimeErrorCode('MANIFEST','Cannot parse APK manifest') from e
@@ -32,6 +32,7 @@ def validate_manifest(xml,package):
             permission=element.get(NS+'name','');require(permission.rsplit('.',1)[-1] not in DENIED,'PERMISSION','Excessively privileged permission')
     apps=root.findall('application');require(len(apps)==1,'MANIFEST','Expected one application');app=apps[0]
     require(app.get(NS+'debuggable','false')=='false' and app.get(NS+'testOnly','false')=='false','MANIFEST','Debug/test APK denied')
+    if require_no_backup:require(app.get(NS+'allowBackup')=='false','MANIFEST','Android backup must be disabled in final APK')
     launcher=[]
     for comp in app:
         if comp.tag not in ('activity','activity-alias','service','receiver','provider'):continue
@@ -41,7 +42,7 @@ def validate_manifest(xml,package):
         if main:
             require(exported=='true','MANIFEST','Launcher not exported');launcher.append(package+'/'+name)
         else:require(exported=='false' or (exported is None and not filters and comp.tag!='provider'),'MANIFEST','Unexpected exported component')
-    require(len(launcher)==1 and launcher[0].split('/',1)[1].rsplit('.',1)[-1]=='MainActivity','MANIFEST','Expected unique Tauri MainActivity launcher')
+    require(len(launcher)==1 and launcher[0].split('/',1)[1] in ('.MainActivity',package+'.MainActivity'),'MANIFEST','Expected unique Tauri MainActivity launcher')
     return launcher[0]
 
 def lifecycle_check(adb,component,sleep=time.sleep):

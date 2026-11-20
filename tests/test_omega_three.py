@@ -20,7 +20,7 @@ class Three(unittest.TestCase):
     def test_sec_empty(self): self.assertFalse(scan_tree(self.root)['review_ready'])
     def test_sec_lock(self):
         (self.root/'package.json').write_text(json.dumps({'name':'demo','license':'AGPL-3.0-only','dependencies':{'dep':'1.0.0'}}))
-        (self.root/'package-lock.json').write_text(json.dumps({'lockfileVersion':3,'packages':{'':{'name':'demo'},'node_modules/dep':{'version':'1.0.0','license':'MIT','integrity':'sha512-'+'A'*86+'=='}}}))
+        (self.root/'package-lock.json').write_text(json.dumps({'lockfileVersion':3,'packages':{'':{'name':'demo','dependencies':{'dep':'1.0.0'}},'node_modules/dep':{'version':'1.0.0','license':'MIT','integrity':'sha512-'+'A'*86+'=='}}}))
         r=scan_tree(self.root); self.assertTrue(r['review_ready']); self.assertEqual(r['components'][0]['name'],'dep')
     def test_sec_invalid_sri(self):
         (self.root/'package.json').write_text('{"license":"MIT"}')

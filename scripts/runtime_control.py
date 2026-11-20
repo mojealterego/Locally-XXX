@@ -69,7 +69,7 @@ def check_apk(path):
     except (OSError,zipfile.BadZipFile) as e: raise RuntimeErrorCode('APK','Invalid APK') from e
 
 
-def build_runtime(workspace, journal_parent, target, runner=run_process, *, initialize_android=False, signer_sha256=None, package_id=None):
+def build_runtime(workspace, journal_parent, target, runner=run_process, *, initialize_android=False, signer_sha256=None, package_id=None, native_lifecycle=False):
     """Build a fresh, explicitly trusted workspace. Never overwrite a prior artifact."""
     w=Path(workspace).absolute(); parent=Path(journal_parent).absolute()
     require(target in ('desktop','android'),'TARGET','Unknown target')
@@ -77,6 +77,7 @@ def build_runtime(workspace, journal_parent, target, runner=run_process, *, init
     for name in ('package.json','package-lock.json','src-tauri/Cargo.toml','src-tauri/Cargo.lock'): regular(w/name)
     require(not (w/'src-tauri').is_symlink(),'WORKSPACE','Unsafe native directory')
     android=w/'src-tauri/gen/android'; apk_dir=android/'app/build/outputs/apk'
+    require(not native_lifecycle or (target=='android' and signer_sha256 is not None and package_id is not None),'ANDROID_PROJECT','Native lifecycle requires Android and publisher identity')
     if target=='android':
         require((android.is_dir() or (initialize_android and not os.path.lexists(android))) and not android.is_symlink() and not os.path.lexists(apk_dir),'ANDROID_PROJECT','Fresh Tauri Android project or explicit initialization required')
         require((signer_sha256 is None)==(package_id is None),'SIGNER','Require signer pin and package identity together')
@@ -105,6 +106,9 @@ def build_runtime(workspace, journal_parent, target, runner=run_process, *, init
                 if log.is_file():record['log_sha256']=checksum(log)
         try:
             for args in steps:
+                if native_lifecycle and args[:6]==['npm','run','tauri','--','android','build']:
+                    from scripts.android_overlay import install_lifecycle
+                    report['native_lifecycle']=install_lifecycle(w,package_id)
                 execute(args)
                 if args[4:6]==['android','init']:require(android.is_dir() and not android.is_symlink(),'ANDROID_PROJECT','Initialization did not produce native project')
             regular(w/'dist/index.html')
@@ -120,7 +124,7 @@ def build_runtime(workspace, journal_parent, target, runner=run_process, *, init
                     execute(['apksigner','verify','--verbose','--print-certs',str(artifact)]);log=audit/f"{len(report['steps'])-1:02d}.log"
                     require(log.stat().st_size<=65536,'SIGNER','Signer report exceeds limit');report['signer_sha256']=verify_signer(log.read_text(),signer_sha256)
                     execute(['apkanalyzer','manifest','print',str(artifact)]);log=audit/f"{len(report['steps'])-1:02d}.log"
-                    require(log.stat().st_size<=1024**2,'MANIFEST','Manifest exceeds limit');report['launcher']=validate_manifest(log.read_text(),package_id)
+                    require(log.stat().st_size<=1024**2,'MANIFEST','Manifest exceeds limit');report['launcher']=validate_manifest(log.read_text(),package_id,require_no_backup=native_lifecycle)
             report.update(status='BUILT',artifact=str(artifact),sha256=checksum(artifact));return report
         except BaseException as e:
             report.update(status='FAIL',error_code=getattr(e,'code','INTERRUPTED' if isinstance(e,KeyboardInterrupt) else 'ERROR'));raise
@@ -268,7 +272,7 @@ class LocalBackend:
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='action',required=True)
-    b=sub.add_parser('build');b.add_argument('target',choices=['desktop','android']);b.add_argument('workspace');b.add_argument('journal_parent');b.add_argument('--initialize-android',action='store_true');b.add_argument('--signer-sha256');b.add_argument('--package-id')
+    b=sub.add_parser('build');b.add_argument('target',choices=['desktop','android']);b.add_argument('workspace');b.add_argument('journal_parent');b.add_argument('--initialize-android',action='store_true');b.add_argument('--signer-sha256');b.add_argument('--package-id');b.add_argument('--native-lifecycle',action='store_true')
     sub.add_parser('android-probe');c=sub.add_parser('chat');c.add_argument('port',type=int);c.add_argument('model');c.add_argument('prompt')
     r=sub.add_parser('render');r.add_argument('port',type=int);r.add_argument('workflow');r.add_argument('output');r.add_argument('width',type=int);r.add_argument('height',type=int);r.add_argument('budget_mib',type=int)
     for cmd in (c,r):
@@ -277,7 +281,7 @@ def main():
     try:
         if a.action=='build':
             require(a.target!='android' or (a.signer_sha256 and a.package_id),'SIGNER','Android CLI requires pinned publisher and package ID')
-            result=build_runtime(a.workspace,a.journal_parent,a.target,initialize_android=a.initialize_android,signer_sha256=a.signer_sha256,package_id=a.package_id)
+            result=build_runtime(a.workspace,a.journal_parent,a.target,initialize_android=a.initialize_android,signer_sha256=a.signer_sha256,package_id=a.package_id,native_lifecycle=a.native_lifecycle)
         elif a.action=='android-probe':result=android_probe()
         else:
             if a.action=='chat':

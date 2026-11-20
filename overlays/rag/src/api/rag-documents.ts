@@ -162,10 +162,54 @@ export async function embedBatches(chunks: string[], embed: (batch: string[]) =>
     const batch = chunks.slice(i, i + 16), result = await embed(batch)
     if (!Array.isArray(result) || result.length !== batch.length) throw Error('Embedding response count mismatch')
     for (const vector of result) {
-      if (!Array.isArray(vector) || !vector.length || vector.length > 4096 || vector.some(n => !Number.isFinite(n))) throw Error('Invalid embedding vector')
+      if (!Array.isArray(vector) || !vector.length || vector.length > 4096 || !validVector(vector)) throw Error('Invalid embedding vector')
       if (dimension && dimension !== vector.length) throw Error('Embedding dimension mismatch')
+      if ((vectors.length + 1) * vector.length > 4_194_304) throw Error('Embedding memory budget exceeded')
       dimension = vector.length; vectors.push(vector)
     }
   }
   return vectors
+}
+
+function validVector(vector: unknown[]): boolean {
+  for (let i = 0; i < vector.length; i++) if (!Number.isFinite(vector[i])) return false
+  return true
+}
+/** Reject ambiguous/missing OpenAI indices before vectors can be attached to chunks. */
+export function orderedEmbeddings(rows: unknown, count: number): number[][] {
+  if (!Number.isInteger(count) || count < 0 || count > 4096 || !Array.isArray(rows) || rows.length !== count) throw Error('Embedding response count mismatch')
+  const out: number[][] = new Array(count)
+  for (const row of rows) {
+    if (!row || !Number.isInteger(row.index) || row.index < 0 || row.index >= count || out[row.index]) throw Error('Invalid or duplicate embedding index')
+    if (!Array.isArray(row.embedding) || !row.embedding.length || row.embedding.length > 4096 || !validVector(row.embedding)) throw Error('Invalid embedding vector')
+    out[row.index] = row.embedding
+  }
+  if (out.some(v => v.length !== out[0].length)) throw Error('Embedding dimension mismatch')
+  return out
+}
+/** Linear corpus traversal, exact token document frequency, bounded input. */
+export function bm25Scores(query: string, documents: string[]): number[] {
+  if (query.length > 8192 || documents.length > 8192) throw Error('Retrieval limit exceeded')
+  const terms = new Set(searchTokens(query))
+  if (terms.size > 256) throw Error('Query token limit exceeded')
+  let chars = 0, words = 0
+  const df = new Map<string, number>()
+  const rows = documents.map(text => {
+    chars += text.length
+    if (chars > 8_000_000) throw Error('Retrieval corpus limit exceeded')
+    const tokens = searchTokens(text), tf = new Map<string, number>()
+    words += tokens.length
+    for (const t of tokens) if (terms.has(t)) tf.set(t, (tf.get(t) ?? 0) + 1)
+    for (const t of tf.keys()) df.set(t, (df.get(t) ?? 0) + 1)
+    return {tf, len: tokens.length}
+  })
+  const n = documents.length, avg = words / (n || 1) || 200
+  return rows.map(({tf, len}) => {
+    let score = 0
+    for (const [t, f] of tf) {
+      const d = df.get(t)!
+      score += Math.log(1 + (n - d + 0.5) / (d + 0.5)) * (f * 2.2 / (f + 1.2 * (0.25 + 0.75 * len / avg)))
+    }
+    return score
+  })
 }

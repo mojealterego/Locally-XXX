@@ -4,7 +4,7 @@
     "replacements": [
       {
         "old": "import { v4 as uuid } from \"uuid\"",
-        "new": "import { v4 as uuid } from \"uuid\"\nimport { LIMITS, documentType, boundedText, extractPlainText, extractXlsx, validateOffice, searchTokens, embedBatches } from \"./rag-documents\""
+        "new": "import { v4 as uuid } from \"uuid\"\nimport { LIMITS, documentType, boundedText, extractPlainText, extractXlsx, validateOffice, searchTokens, embedBatches, orderedEmbeddings, bm25Scores } from \"./rag-documents\""
       },
       {
         "old": "  const ext = file.name.split(\".\").pop()?.toLowerCase()\n  try {\n    if (ext === \"pdf\") return await extractTextFromPDF(file)\n    if (ext === \"docx\") return await extractTextFromDOCX(file)\n    return await file.text()",
@@ -36,11 +36,39 @@
       },
       {
         "old": "  const embeddings = await generateEmbeddings(rawChunks, embeddingModel)",
-        "new": "  const embeddings = await embedBatches(rawChunks, batch => generateEmbeddings(batch, embeddingModel))"
+        "new": "  const embeddings = await generateEmbeddings(rawChunks, embeddingModel)"
       },
       {
         "old": "    type: file.name.split(\".\").pop()?.toLowerCase() as \"pdf\" | \"docx\" | \"txt\",",
         "new": "    type: documentType(file),"
+      },
+      {
+        "old": "  return [...data.data]\n    .sort((a: any, b: any) => (a.index ?? 0) - (b.index ?? 0))\n    .map((d: any) => d.embedding as number[])",
+        "new": "  return orderedEmbeddings(data.data, texts.length)"
+      },
+      {
+        "old": "  const bm25Results = chunks.map((chunk) => ({\n    chunk,\n    bm25Score: bm25Score(query, chunk.content, allDocTexts),\n  }))",
+        "new": "  const scores = bm25Scores(query, allDocTexts)\n  const bm25Results = chunks.map((chunk, i) => ({ chunk, bm25Score: scores[i] }))"
+      },
+      {
+        "old": "  const [queryEmb] = await generateEmbeddings([query], embeddingModel)",
+        "new": "  if (query.length > 8192 || chunks.length > 8192) throw Error('Retrieval limit exceeded')\n  const [queryEmb] = await generateEmbeddings([query], embeddingModel)"
+      },
+      {
+        "old": "export async function generateEmbeddings(\n  texts: string[],\n  model = \"nomic-embed-text\"\n): Promise<number[][]> {",
+        "new": "export async function generateEmbeddings(texts: string[], model = \"nomic-embed-text\"): Promise<number[][]> {\n  const embed = await selectEmbedder(model)\n  return embedBatches(texts, embed)\n}\n\nasync function selectEmbedder(model: string): Promise<(texts: string[]) => Promise<number[][]>> {"
+      },
+      {
+        "old": "    return embedViaBuiltin(texts, model)\n  }",
+        "new": "    return texts => embedViaBuiltin(texts, model)\n  }"
+      },
+      {
+        "old": "      return embedViaBuiltin(texts, model)",
+        "new": "      return texts => embedViaBuiltin(texts, model)"
+      },
+      {
+        "old": "  return embedViaOllama(texts, model)",
+        "new": "  return texts => embedViaOllama(texts, model)"
       }
     ]
   },
