@@ -12,6 +12,8 @@
     "test:ui": "node --test test/*.test.mjs",
     "build:web": "node apps/web/build.mjs",
     "start:web": "node apps/web/serve.mjs",
-    "test:phase3": "node --test test/visual.test.mjs test/codespace.test.mjs"
+    "test:phase3": "node --test test/visual.test.mjs test/codespace.test.mjs",
+    "training": "node backend/scripts/training.mjs",
+    "test:operations": "node --test backend/test/enterprise-services.test.mjs"
   }
 }

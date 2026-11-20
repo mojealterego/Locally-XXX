@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+import {readFile} from 'node:fs/promises';
+import {prepareExamples,writePreparedDataset,validateTrainingConfig,validatePreparedFiles} from '../src/training/dataset.mjs';
+async function run(){const [op,a,b,...extra]=process.argv.slice(2);if(extra.length)throw Error('Unexpected arguments');switch(op){case 'inspect':if(!a||b)throw Error('Usage: inspect input.jsonl');return prepareExamples(await readFile(a,'utf8')).manifest;case 'prepare':if(!a||!b)throw Error('Usage: prepare input.jsonl new-output-directory');return await writePreparedDataset(await readFile(a,'utf8'),b);case 'verify':if(!a||b)throw Error('Usage: verify dataset-directory');return await validatePreparedFiles(a);case 'check-config':if(!a||b)throw Error('Usage: check-config config.json');return validateTrainingConfig(JSON.parse(await readFile(a,'utf8')));default:throw Error('Usage: inspect|prepare|verify|check-config')}}
+try{process.stdout.write(JSON.stringify(await run(),null,2)+'\n')}catch(e){console.error('Training data rejected: '+e.message);process.exitCode=1}
