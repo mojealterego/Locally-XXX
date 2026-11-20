@@ -69,6 +69,14 @@
       {
         "old": "  return embedViaOllama(texts, model)",
         "new": "  return texts => embedViaOllama(texts, model)"
+      },
+      {
+        "old": "import { ollamaUrl, localFetch } from \"./backend\"",
+        "new": "import { ollamaUrl, localFetch, isTauri, isLinux, backendCall } from \"./backend\""
+      },
+      {
+        "old": "    const ext = documentType(file)\n    if (ext === \"pdf\")",
+        "new": "    const ext = documentType(file)\n    if (isTauri() && isLinux()) {\n      const bytes = new Uint8Array(await file.arrayBuffer())\n      let binary = ''\n      for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i,i+8192))\n      return boundedText(await backendCall<string>('ingest_document_native', { kind: ext, contentBase64: btoa(binary) }))\n    }\n    if (ext === \"pdf\")"
       }
     ]
   },
@@ -336,6 +344,10 @@
       {
         "old": "<SliderControl label=\"Temperature\"",
         "new": "<SliderControl label={tr('Temperature')}"
+      },
+      {
+        "old": "  { id: 'en_US-lessac-medium', label: 'Lessac, US, neutral' },",
+        "new": "  { id: 'pl_PL-gosia-medium', label: 'Gosia, PL' },\n  { id: 'en_US-lessac-medium', label: 'Lessac, US, neutral' },"
       }
     ]
   },
@@ -511,6 +523,263 @@
       {
         "old": "    #[cfg(target_os = \"windows\")]\n    cmd.creation_flags(CREATE_NO_WINDOW);\n\n",
         "new": ""
+      }
+    ]
+  },
+  "src-tauri/tauri.conf.json": {
+    "git_sha1": "5ed8265f2f353b8182f74bc9b956111732fb06c4",
+    "replacements": [
+      {
+        "old": "\"resources/whisper_server.py\",",
+        "new": "\"resources/whisper_server.py\",\n      \"resources/omega_ingest.py\","
+      }
+    ]
+  },
+  "src-tauri/src/commands/mod.rs": {
+    "git_sha1": "5f7bf3b5889e7ace4211aadf262358533a1fb506",
+    "replacements": [
+      {
+        "old": "pub mod download;",
+        "new": "pub mod download;\npub mod omega_download_registry;\npub mod omega_ingest;"
+      }
+    ]
+  },
+  "src-tauri/src/main.rs": {
+    "git_sha1": "62116802893f65236da6d14cbf57aaf965a45c5b",
+    "replacements": [
+      {
+        "old": "            commands::download::download_progress,",
+        "new": "            commands::download::download_progress,\n            commands::download::watch_downloads,\n            commands::omega_ingest::ingest_document_native,"
+      }
+    ]
+  },
+  "src/api/voice.ts": {
+    "git_sha1": "57fa4415dedf910200fc7eea0f77df50c89ba990",
+    "replacements": [
+      {
+        "old": "import { backendCall, isTauri } from \"./backend\";",
+        "new": "import { backendCall, isTauri } from \"./backend\";\nimport { sentenceParts, speechLanguage, speechTag } from \"./voice-pl\";"
+      },
+      {
+        "old": "  pitch: number = 1.0\n): Promise<void>",
+        "new": "  pitch: number = 1.0,\n  locale?: unknown\n): Promise<void>"
+      },
+      {
+        "old": "  pitch?: number\n): Promise<void>",
+        "new": "  pitch?: number,\n  locale?: unknown\n): Promise<void>"
+      },
+      {
+        "old": "t);\n    if (voice) utterance.voice = voice;\n   ",
+        "new": "t);\n    utterance.lang = voice?.lang || speechTag(locale);\n    if (voice) utterance.voice = voice;\n   "
+      },
+      {
+        "old": "e);\n    if (voice) utterance.voice = voice;\n   ",
+        "new": "e);\n    utterance.lang = voice?.lang || speechTag(locale);\n    if (voice) utterance.voice = voice;\n   "
+      },
+      {
+        "old": "export async function transcribeAudio(audioBlob: Blob): Promise<string> {",
+        "new": "export async function transcribeAudio(audioBlob: Blob, locale?: unknown): Promise<string> {\n  const language = speechLanguage(locale);"
+      },
+      {
+        "old": "      contentType: audioBlob.type || \"audio/wav\",",
+        "new": "      contentType: audioBlob.type || \"audio/wav\",\n      language,"
+      },
+      {
+        "old": "      \"Content-Type\": audioBlob.type || \"audio/webm\",",
+        "new": "      \"Content-Type\": audioBlob.type || \"audio/webm\",\n      \"x-omega-language\": language,"
+      },
+      {
+        "old": "  const parts = clean.split(/(?<=[.!?。！？\\n])/).filter(Boolean);",
+        "new": "  const parts = sentenceParts(clean);"
+      },
+      {
+        "old": "  const clean = text.trim();\n  if (clean.length <= max)",
+        "new": "  if (!Number.isSafeInteger(max) || max < 2) throw new RangeError('Invalid TTS chunk limit');\n  const clean = text.trim();\n  if (clean.length <= max)"
+      }
+    ]
+  },
+  "src/hooks/useVoice.ts": {
+    "git_sha1": "733c0fafe54932bb46467cc4937a7dcb4abc5b69",
+    "replacements": [
+      {
+        "old": "transcribeAudio(snap)",
+        "new": "transcribeAudio(snap, useSettingsStore.getState().settings.locale)"
+      },
+      {
+        "old": "transcribeAudio(blob)",
+        "new": "transcribeAudio(blob, useSettingsStore.getState().settings.locale)"
+      },
+      {
+        "old": "await speakStreaming(text, voice, store.ttsRate, store.ttsPitch);",
+        "new": "await speakStreaming(text, voice, store.ttsRate, store.ttsPitch, useSettingsStore.getState().settings.locale);"
+      },
+      {
+        "old": "await speak(text, voice, store.ttsRate, store.ttsPitch);",
+        "new": "await speak(text, voice, store.ttsRate, store.ttsPitch, useSettingsStore.getState().settings.locale);"
+      }
+    ]
+  },
+  "src-tauri/src/commands/whisper.rs": {
+    "git_sha1": "492060eb556f0b6f789ed8abc0656814e442e366",
+    "replacements": [
+      {
+        "old": "    content_type: String,\n) -> Result<serde_json::Value, String> {",
+        "new": "    content_type: String,\n    language: Option<String>,\n) -> Result<serde_json::Value, String> {"
+      },
+      {
+        "old": "transcribe_blocking(&app, audio_base64, content_type, &state)",
+        "new": "transcribe_blocking(&app, audio_base64, content_type, language, &state)"
+      },
+      {
+        "old": "    content_type: String,\n    state: &State<'_, AppState>,",
+        "new": "    content_type: String,\n    language: Option<String>,\n    state: &State<'_, AppState>,"
+      },
+      {
+        "old": "    let audio_bytes = base64::engine::general_purpose::STANDARD",
+        "new": "    if !matches!(language.as_deref(), None | Some(\"pl\") | Some(\"en\") | Some(\"auto\")) { return Err(\"Unsupported speech language\".into()); }\n    if audio_base64.len() > 48*1024*1024 { return Err(\"Audio size limit exceeded\".into()); }\n    let audio_bytes = base64::engine::general_purpose::STANDARD"
+      },
+      {
+        "old": "    // Write to temp file\n    let tmp_dir = std::env::temp_dir();\n    let tmp_file = tmp_dir.join(format!(\"whisper-{}{}\", std::time::SystemTime::now()\n        .duration_since(std::time::UNIX_EPOCH)\n        .map(|d| d.as_millis())\n        .unwrap_or(0), ext));\n\n    std::fs::write(&tmp_file, &audio_bytes)\n        .map_err(|e| format!(\"Write temp file: {}\", os_error::english(&e)))?;\n\n    let audio_path = tmp_file.to_string_lossy().replace('\\\\', \"/\");\n    println!(\"[Whisper] Transcribing: {} ({:.1} KB)\", audio_path, audio_bytes.len() as f64 / 1024.0);\n\n",
+        "new": "    // Private random temp file; RAII cleanup on every early return.\n    let mut tmp_file = tempfile::Builder::new().prefix(\"omega-whisper-\").suffix(ext).tempfile()\n        .map_err(|e| format!(\"Audio temp file: {}\", os_error::english(&e)))?;\n    tmp_file.write_all(&audio_bytes).map_err(|e| format!(\"Write audio: {}\", os_error::english(&e)))?;\n    let audio_path = tmp_file.path().to_string_lossy().replace('\\\\', \"/\");\n\n"
+      },
+      {
+        "old": "        \"path\": audio_path,",
+        "new": "        \"path\": audio_path,\n        \"language\": language,"
+      },
+      {
+        "old": "    let _ = std::fs::remove_file(&tmp_file);",
+        "new": "    drop(tmp_file);"
+      }
+    ]
+  },
+  "public/whisper_server.py": {
+    "git_sha1": "6ae164378253657d3c9d68bd11b98cc86d5fec0a",
+    "replacements": [
+      {
+        "old": "        action = cmd.get(\"action\", \"\")",
+        "new": "        if not isinstance(cmd, dict):\n            respond({\"error\": \"Invalid command\"})\n            continue\n        action = cmd.get(\"action\", \"\")"
+      },
+      {
+        "old": "                segments, info = model.transcribe(audio_path)",
+        "new": "                language = cmd.get(\"language\")\n                if language not in (None, \"auto\", \"pl\", \"en\"):\n                    raise ValueError(\"Unsupported speech language\")\n                segments, info = model.transcribe(audio_path, language=None if language == \"auto\" else language)"
+      }
+    ]
+  },
+  "src-tauri/resources/whisper_server.py": {
+    "git_sha1": "6ae164378253657d3c9d68bd11b98cc86d5fec0a",
+    "replacements": [
+      {
+        "old": "        action = cmd.get(\"action\", \"\")",
+        "new": "        if not isinstance(cmd, dict):\n            respond({\"error\": \"Invalid command\"})\n            continue\n        action = cmd.get(\"action\", \"\")"
+      },
+      {
+        "old": "                segments, info = model.transcribe(audio_path)",
+        "new": "                language = cmd.get(\"language\")\n                if language not in (None, \"auto\", \"pl\", \"en\"):\n                    raise ValueError(\"Unsupported speech language\")\n                segments, info = model.transcribe(audio_path, language=None if language == \"auto\" else language)"
+      }
+    ]
+  },
+  "vite.config.ts": {
+    "git_sha1": "bdd6fde8e29c865b7fe5bbd2b8301184ad2e0eb0",
+    "replacements": [
+      {
+        "old": "{ action: 'transcribe', path: tmpFile.replace(/\\\\/g, '/') },",
+        "new": "{ action: 'transcribe', path: tmpFile.replace(/\\\\/g, '/'), language: req.headers['x-omega-language'] === 'pl' ? 'pl' : req.headers['x-omega-language'] === 'en' ? 'en' : 'auto' },"
+      }
+    ]
+  },
+  "src-tauri/src/state.rs": {
+    "git_sha1": "679804a88e65a27ae8dd6bac13e5c2126b50c7ed",
+    "replacements": [
+      {
+        "old": "use crate::commands::gpu::GpuSelection;",
+        "new": "use crate::commands::gpu::GpuSelection;\nuse crate::commands::omega_download_registry::DownloadRegistry;"
+      },
+      {
+        "old": "pub downloads: Arc<Mutex<HashMap<String, DownloadProgress>>>",
+        "new": "pub downloads: Arc<DownloadRegistry>"
+      },
+      {
+        "old": "downloads: Arc::new(Mutex::new(HashMap::new())),",
+        "new": "downloads: Arc::new(DownloadRegistry::new()),"
+      }
+    ]
+  },
+  "src-tauri/src/commands/download.rs": {
+    "git_sha1": "afe41c7e9b0ccb0e8943b01e60fcb42e8e760daf",
+    "replacements": [
+      {
+        "old": "use crate::state::{AppState, DownloadProgress};",
+        "new": "use crate::state::{AppState, DownloadProgress};\nuse super::omega_download_registry::DownloadRegistry;"
+      },
+      {
+        "old": "downloads: &Arc<Mutex<HashMap<String, DownloadProgress>>>",
+        "new": "downloads: &Arc<DownloadRegistry>"
+      },
+      {
+        "old": "use std::sync::{Arc, Mutex};",
+        "new": "use std::sync::Arc;"
+      },
+      {
+        "old": "    let mut last_update = Instant::now();",
+        "new": "    let mut last_update = Instant::now();\n    let mut last_bytes = already_on_disk;\n    let mut smoothed_speed = 0.0_f64;"
+      },
+      {
+        "old": "                        // Update progress every 500ms\n                        if last_update.elapsed().as_millis() > 500 {\n                            last_update = Instant::now();\n                            let elapsed = start.elapsed().as_secs_f64();\n                            let speed = if elapsed > 0.0 {\n                                (downloaded - already_on_disk) as f64 / elapsed\n                            } else {\n                                0.0\n                            };",
+        "new": "                        // Limit telemetry to four updates per second; EWMA avoids ETA jitter.\n                        let elapsed = last_update.elapsed().as_secs_f64();\n                        if elapsed >= 0.25 {\n                            last_update = Instant::now();\n                            let instantaneous = downloaded.saturating_sub(last_bytes) as f64 / elapsed;\n                            last_bytes = downloaded;\n                            smoothed_speed = if smoothed_speed == 0.0 { instantaneous } else { 0.2*instantaneous + 0.8*smoothed_speed };\n                            let speed = smoothed_speed;"
+      },
+      {
+        "old": "    let start = Instant::now();\n",
+        "new": ""
+      },
+      {
+        "old": "// ─── HuggingFace GGUF Downloads (to provider model dirs) ───",
+        "new": "/// Server-push snapshots with a bounded lease; no per-client progress polling.\n#[tauri::command]\npub async fn watch_downloads(state: State<'_, AppState>, on_update: tauri::ipc::Channel<serde_json::Value>) -> Result<(),String> {\n    use std::time::Duration;\n    let _lease=state.downloads.subscriptions.try_acquire().map_err(|_|\"Too many download subscriptions\")?;\n    let mut changes=state.downloads.subscribe();\n    let deadline=tokio::time::Instant::now()+Duration::from_secs(30);\n    loop {\n        let _=*changes.borrow_and_update();\n        let snapshot={\n            let data=state.downloads.lock().map_err(|_|\"Download registry poisoned\")?;\n            if data.len()>4096 {return Err(\"Download registry limit exceeded\".into());}\n            serde_json::to_value(&*data).map_err(|e|e.to_string())?\n        };\n        if on_update.send(snapshot).is_err(){return Ok(());}\n        match tokio::time::timeout_at(deadline,changes.changed()).await {\n            Ok(Ok(()))=>{},\n            _=>return Ok(()),\n        }\n        tokio::time::sleep(Duration::from_millis(250)).await;\n        if tokio::time::Instant::now()>=deadline{return Ok(());}\n    }\n}\n\n// ─── HuggingFace GGUF Downloads (to provider model dirs) ───"
+      }
+    ]
+  },
+  "src/stores/downloadStore.ts": {
+    "git_sha1": "a0cf50926a27b7a53d2219f32df6471e54634c33",
+    "replacements": [
+      {
+        "old": "import { log } from '../lib/logger'",
+        "new": "import { log } from '../lib/logger'\nimport { backendCall, isTauri } from '../api/backend'\nimport { isDownloadSnapshot, StreamGeneration } from '../api/download-events'\nconst nativeStream = new StreamGeneration()"
+      },
+      {
+        "old": "  refresh: () => Promise<void>",
+        "new": "  pollCount: number\n  applySnapshot: (prog: Record<string, DownloadProgress>) => void\n  refresh: () => Promise<void>"
+      },
+      {
+        "old": "  refresh: async () => {\n    try {\n      const prog = await getDownloadProgress()\n      const prev = get().downloads",
+        "new": "  applySnapshot: (prog) => {\n    if (!isDownloadSnapshot(prog)) return\n    const prev = get().downloads"
+      },
+      {
+        "old": "      if (!hasActive && count >= 5) {\n        get().stopPolling()\n      }\n    } catch {\n      // Keep polling on transient errors\n    }\n  },",
+        "new": "      if (!isTauri() && !hasActive && count >= 5) get().stopPolling()\n  },\n  refresh: async () => {\n    // Native updates are ordered by their channel; avoid a competing stale GET.\n    if (isTauri() && get().polling) return\n    try { get().applySnapshot(await getDownloadProgress()) } catch { /* retry in web mode */ }\n  },"
+      },
+      {
+        "old": "    const interval = setInterval(() => get().refresh(), 1000)",
+        "new": "    if (isTauri()) {\n      const generation = nativeStream.begin()\n      set({ polling: true, pollInterval: null, pollCount: 0 })\n      void (async () => {\n        let delay = 250\n        while (nativeStream.current(generation)) {\n          let active = true\n          try {\n            const { Channel } = await import('@tauri-apps/api/core')\n            if (!nativeStream.current(generation)) break\n            const channel = new Channel<Record<string, DownloadProgress>>()\n            channel.onmessage = prog => { if (active && nativeStream.current(generation)) get().applySnapshot(prog) }\n            await backendCall('watch_downloads', { onUpdate: channel })\n            delay = 250\n          } catch (err) {\n            log.warn('[downloads] Native progress channel disconnected', { err })\n            delay = Math.min(delay * 2, 8000)\n          } finally { active = false }\n          if (nativeStream.current(generation)) await new Promise(resolve => setTimeout(resolve,delay))\n        }\n      })()\n      return\n    }\n    const interval = setInterval(() => get().refresh(), 1000)"
+      },
+      {
+        "old": "  stopPolling: () => {\n    const state = get()",
+        "new": "  stopPolling: () => {\n    nativeStream.stop()\n    const state = get()"
+      }
+    ]
+  },
+  "src/components/layout/DownloadBadge.tsx": {
+    "git_sha1": "796c5befdd818012b1327c8ffb3a85c8852db3af",
+    "replacements": [
+      {
+        "old": "import { formatBytes } from '../../lib/formatters'",
+        "new": "import { formatBytes } from '../../lib/formatters'\nimport { isTauri } from '../../api/backend'\nimport { etaSeconds } from '../../api/download-events'"
+      },
+      {
+        "old": "    if (comfyActiveCount > 0 && !polling) {",
+        "new": "    if ((isTauri() || comfyActiveCount > 0) && !polling) {"
+      },
+      {
+        "old": "{e.speed > 0 && <span className=\"ml-1.5 text-gray-400\">{formatBytes(e.speed)}/s</span>}",
+        "new": "{e.speed > 0 && <span className=\"ml-1.5 text-gray-400\">{formatBytes(e.speed)}/s</span>}\n                           {etaSeconds(e) !== null && <span className=\"ml-1.5 text-gray-400\">ETA {etaSeconds(e)} s</span>}"
       }
     ]
   }

@@ -53,6 +53,8 @@
     "test:rag-retrieval": "node --test tests/rag-retrieval.test.mjs",
     "runtime:android-brand": "python3 -m scripts.android_brand",
     "test:android-brand": "python3 -m unittest discover -s tests -p test_android_brand.py -v",
-    "test:i18n-v4": "node --test tests/i18n-v4.test.mjs"
+    "test:i18n-v4": "node --test tests/i18n-v4.test.mjs",
+    "test:voice-download-v4": "node --test tests/voice-download.test.mjs",
+    "test:native-ingest": "python3 -m unittest discover -s tests -p test_native_ingest.py -v"
   }
 }

@@ -4,8 +4,8 @@ import {join,resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {prepareStage} from './staged-runtime.mjs';
 const ROOT=resolve(fileURLToPath(new URL('..',import.meta.url)));
-const PATHS=["src/api/rag.ts","src/hooks/useRAG.ts","src/components/chat/RAGPanel.tsx","src/types/rag.ts","src/lib/memory-retrieval.ts","src/stores/memoryStore.ts","src/types/settings.ts","src/lib/constants.ts","src/stores/settingsStore.ts","src/App.tsx","src/components/layout/Header.tsx","src/components/settings/SettingsPage.tsx","src/components/onboarding/Onboarding.tsx","src/components/personas/PersonaPanel.tsx","src-tauri/src/commands/shell.rs"];
-const MODULES=['src/api/rag-documents.ts','src/i18n/locale.ts','src-tauri/src/commands/omega_shell_sandbox.rs'];
+const PATHS=["src/api/rag.ts","src/hooks/useRAG.ts","src/components/chat/RAGPanel.tsx","src/types/rag.ts","src/lib/memory-retrieval.ts","src/stores/memoryStore.ts","src/types/settings.ts","src/lib/constants.ts","src/stores/settingsStore.ts","src/App.tsx","src/components/layout/Header.tsx","src/components/settings/SettingsPage.tsx","src/components/onboarding/Onboarding.tsx","src/components/personas/PersonaPanel.tsx","src-tauri/src/commands/shell.rs","src-tauri/tauri.conf.json","src-tauri/src/commands/mod.rs","src-tauri/src/main.rs","src/api/voice.ts","src/hooks/useVoice.ts","src-tauri/src/commands/whisper.rs","public/whisper_server.py","src-tauri/resources/whisper_server.py","vite.config.ts","src-tauri/src/state.rs","src-tauri/src/commands/download.rs","src/stores/downloadStore.ts","src/components/layout/DownloadBadge.tsx"];
+const MODULES=['src/api/rag-documents.ts','src/i18n/locale.ts','src-tauri/src/commands/omega_shell_sandbox.rs','src/api/voice-pl.ts','src/api/download-events.ts','src-tauri/resources/omega_ingest.py','src-tauri/src/commands/omega_ingest.rs','src-tauri/src/commands/omega_download_registry.rs'];
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 export function patchText(input,entry){
   const bytes=Buffer.from(input,'utf8');
