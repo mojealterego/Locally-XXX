@@ -18,6 +18,7 @@
     "test:integrations": "node --test integrations/test/integrations.test.mjs",
     "business:mcp": "node integrations/bin/business-mcp.mjs",
     "knowledge": "node integrations/bin/knowledge-cli.mjs",
-    "json:format": "node integrations/bin/json-fmt.mjs"
+    "json:format": "node integrations/bin/json-fmt.mjs",
+    "test:catalog-context": "node --test test/next-increment.test.mjs test/legacy-context-regression.test.mjs"
   }
 }

@@ -74,3 +74,5 @@ ENT-19/20/30: Kotlin mobile read-only, lokalny Codespace Git z weryfikacją SHA-
 ENT-21/22/23: przygotowanie danych SFT/LoRA/QLoRA offline, dwufazowe Mining Control, Twilio Virtual Number inventory/search/SMS adapter. 13/13 testów lokalnych PASS, live operations NOT_RUN; [dowody](OMEGA_ENT_TRAINING_MINING_TELECOM_EVIDENCE.md). GATE-09 PARTIAL.
 
 ENT-37..40: zintegrowane cztery interfejsy (konwerter JPG/PNG/WebP, JSON/ENV/YAML, knowledge z adapterem pgvector, kalkulator + MCP). 16/16 testów lokalnych PASS, realny browser/DB/GPU E2E OPEN. [Dowody](OMEGA_ENT_EXTERNAL_INTEGRATIONS.md).
+
+ENT-41/42/43: lokalny indeks wyszukiwania/filtrowania katalogów, poprawiona geometria skalowania iframe oraz deterministyczny algorytm podziału historycznego budżetu tokenów. 12 nowych testów i 5 regresji PASS w izolowanym środowisku Node, pełne GUI/Model Manager/Agent Registry E2E OPEN. [Dowody](OMEGA_ENT_CATALOG_VIEWPORT_CONTEXT_EVIDENCE.md).

@@ -98,3 +98,13 @@ ENT-13/14/18: [dowody pierwszego web shell](OMEGA_ENT_UI_EVIDENCE.md) — 9 loka
 | ENT-40 | Kalkulator stawek i serwer MCP dla Agenta Biznesowego | ENT-14, ENT-18 | PARTIAL: lokalny kalkulator i MCP stdio 2025-11-25 (tools/list, tools/call), test subprocess. Integracja OMAt, fiskalna i zewnętrzne systemy OPEN |
 
 [Dowody, licencje i ograniczenia](OMEGA_ENT_EXTERNAL_INTEGRATIONS.md). 16/16 lokalnych testów PASS. GATE-09 wszystkich czterech punktów OPEN.
+
+## ENT-41–43 — lokalne katalogi, geometria viewportu i kontrola budżetu
+
+| ID | Wymaganie | Zależności | Status |
+|---|---|---|---|
+| ENT-41 | Wspólny indeks katalogów inspirowany discogs-viewer: wyszukiwanie, filtry, sortowanie i paginacja w Model Manager, Agent Registry oraz launcherze | ENT-18, ENT-28, ENT-31 | PARTIAL: typed/validated data snapshot (50k rows max), lokalny AND search z polskimi diakrytykami, kategorie/tagi/lata, deterministyczne sortowanie, paginacja; interfejs live w launcherze. Dedykowane widoki Agent Registry i Model Manager, browser E2E i wydajność 50k na telefonie OPEN |
+| ENT-42 | Poprawna geometria wbudowanego symulatora urządzeń i adaptacyjnego iframe | ENT-13, ENT-30 | PARTIAL: obliczenia viewportLayout i zintegrowany resize w IDE; bez nadmiernego zoomu, dopasowanie szerokości i wysokości. Rzeczywisty browser i Android/iOS simulators OPEN |
+| ENT-43 | Gradientowy przydział tokenów dla historycznych segmentów z gwarantowanym budżetem i ochroną współczesnego horyzontu | ENT-15, ENT-31 | PARTIAL: deterministyczny largest-remainder integer apportionment, wagi exp(-decay*age) ograniczone do [0.1,1], wspólny budżet, chronione system/recent/pinned, rzeczywiste liczenie przez dostarczony tokenizer callback. Testy jednostkowe i regresyjne PASS; ewaluacja semantyczna, produkcyjny tokenizer/model/VRAM E2E OPEN |
+
+[Dowody i ograniczenia](OMEGA_ENT_CATALOG_VIEWPORT_CONTEXT_EVIDENCE.md). Nowe testy: 12/12 PASS; ponownie wykonane wybrane historyczne testy CTX-01..05: 5/5 PASS. Brak zewnętrznych zależności, żadnego kosztownego CI. GATE-09 OPEN.

@@ -9,3 +9,5 @@ export class Workspace {
   edit(path,expected,text){const old=this.read(path);if(expected!==old.revision||typeof text!=='string'||bytes(text)>262144||old.revision>=Number.MAX_SAFE_INTEGER||this.#size-bytes(old.text)+bytes(text)>2097152)fail();this.#size+=bytes(text)-bytes(old.text);this.#files.set(path,{text,revision:old.revision+1});return this.read(path)}
 }
 export function viewportScale(w,h,availableW,availableH){if(![w,h,availableW,availableH].every(n=>Number.isFinite(n)&&n>0))fail();return Math.min(1,availableW/w,availableH/h)}
+/** CSS transform shrinks the logical viewport; scale only once, outer shell takes transformed dimensions. */
+export function viewportLayout(w,h,availableW,availableH){const scale=viewportScale(w,h,availableW,availableH);return Object.freeze({scale,renderedWidth:w*scale,renderedHeight:h*scale,unscaledVisibleHeight:availableH/scale});}

@@ -31,3 +31,8 @@ Codespace (operator wybiera istniejące lokalne repo Git; tylko do odczytu, przy
 Cztery kafelki: File Converter (lokalny canvas JPG/PNG/WebP bez sieci), JSON Formatter (pretty/minify/YAML/ENV), LLM Knowledge (przypięty snapshot README z wyszukiwaniem po wierszach), Rate Calculator (lokalne oszacowanie stawki). PDF, HEIC i SVG są **jawnie nieobsługiwane** przez ten etap; ich dekodery wymagają odrębnego audytu, licencji i izolacji. UI nie wywołuje automatycznie zewnętrznych usług.
 
 Pełny dokument: [integrations README](../../integrations/README.md) i [dowody repo](../../../../docs/OMEGA_ENT_EXTERNAL_INTEGRATIONS.md). Knowledge MCP i RAG po stronie serwera opisane są w osobnym przewodniku.
+
+## Katalog i symulator — ENT-41/42
+Launcher ma wyszukiwanie live po nazwie modułu oraz filtrowanie dostępne/planowane bez odblokowywania funkcji niezaimplementowanych. Silnik `integrations/src/catalog-index.mjs` może zostać ponownie użyty przez Model Manager i Agent Registry po zasileniu z autoryzowanych serwerowych rekordów; żadne dane wielu tenantów nie są obecnie pobierane w tych widokach.
+
+Viewport w IDE korzysta teraz z jednego obliczenia dla obu osi (`viewportLayout`): `scale=min(1, availableWidth/deviceWidth, availableHeight/deviceHeight)`. Szerokość i wysokość zewnętrznej obudowy równa się odpowiedniemu wymiarowi pomnożonemu przez skalę; sam iframe zachowuje logiczny rozmiar urządzenia i transform CSS. Rzeczywisty browser E2E i natywne symulatory urządzeń nie były uruchamiane.

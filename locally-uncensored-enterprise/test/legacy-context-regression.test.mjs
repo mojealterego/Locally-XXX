@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {compressContext} from '../backend/src/optimization/context-compressor.mjs';
+const msg=(id,content,role='user')=>({id,content,role});
+const count=async messages=>messages.reduce((n,m)=>n+Buffer.byteLength(m.content)+2,0);
+const history=[msg('old','x'.repeat(80)),msg('mid','y'.repeat(80)),msg('new','recent')];
+test('CTX-01 original regression: system+recent, exact accounting',async()=>{const r=await compressContext({system:'policy',messages:history,maxTokens:420,outputReserve:10,recent:1,count,summarize:async()=> 'short'});assert.equal(r.messages[0].content,'policy');assert.equal(r.messages.at(-1).content,'recent');assert.ok(r.tokens+10<=420);assert.deepEqual(r.archive.map(x=>x.id),['old','mid']);assert.equal(r.messages[1].role,'assistant')});
+test('CTX-02 original regression: protected overflow',async()=>{await assert.rejects(compressContext({system:'x'.repeat(80),messages:history,maxTokens:50,outputReserve:10,recent:1,count,summarize:async()=>''}),/Protected/)});
+test('CTX-03 original regression: oversized summary rejected',async()=>{const r=await compressContext({system:'policy',messages:history,maxTokens:50,outputReserve:10,recent:1,count,summarize:async()=> 'Z'.repeat(1000)});assert.equal(r.messages.length,2);assert.equal(r.archive.length,2)});
+test('CTX-04 original regression: invalid roles and duplicate ids',async()=>{for(const messages of [[msg('a','evil','system')],[msg('a','x'),msg('a','y')]])await assert.rejects(compressContext({system:'policy',messages,maxTokens:100,outputReserve:10,recent:1,count,summarize:async()=>''}))});
+test('CTX-05 original regression: pinned history',async()=>{const r=await compressContext({system:'p',messages:history,maxTokens:200,outputReserve:10,recent:1,pinned:['old'],count,summarize:async()=> 'short'});assert.equal(r.messages[1].content,history[0].content);assert.deepEqual(r.archive.map(x=>x.id),['mid'])});
