@@ -1,0 +1,14 @@
+import {execFile} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
+const IMAGE=/^[a-z0-9][a-z0-9._:/-]{0,255}@sha256:[a-f0-9]{64}$/;
+function docker(args,{input='',timeout=15000}={}){return new Promise((resolve,reject)=>{const p=execFile('/usr/bin/docker',args,{timeout,maxBuffer:262144,killSignal:'SIGKILL',encoding:'utf8',env:{PATH:'/usr/bin:/bin',HOME:'/nonexistent',DOCKER_HOST:'unix:///var/run/docker.sock'}},(error,stdout,stderr)=>{if(error)return reject(Error('Sandbox command failed'));resolve({stdout,stderr})});p.stdin.on('error',()=>{});p.stdin.end(input)})}
+export class GvisorRunner {
+  constructor({image,authorize,run=docker}){if(typeof image!=='string'||!IMAGE.test(image)||typeof authorize!=='function'||typeof run!=='function')throw Error('Invalid sandbox configuration');this.image=image;this.authorize=authorize;this.run=run}
+  async execute(q){const {language,code}=q??{};if(!q||!['python','bash'].includes(language)||typeof code!=='string'||!code.length||Buffer.byteLength(code)>65536||Object.keys(q).some(k=>!['language','code'].includes(k)))throw Error('Unsupported sandbox request');if(await this.authorize(Object.freeze({language,bytes:Buffer.byteLength(code)}))!==true)throw Error('Sandbox denied');
+    const name='omega-'+randomUUID();const program=language==='python'?['--entrypoint','/usr/bin/python3',this.image,'-I','-']:['--entrypoint','/bin/bash',this.image,'--noprofile','--norc','-s'];
+    try{await this.run(['create','-i','--name',name,'--runtime=runsc','--pull=never','--network=none','--read-only','--cap-drop=ALL','--security-opt=no-new-privileges','--user=65534:65534','--pids-limit=64','--memory=256m','--memory-swap=256m','--cpus=1','--log-driver=none','--tmpfs','/tmp:rw,noexec,nosuid,nodev,size=32m',...program]);
+      const inspect=JSON.parse((await this.run(['inspect',name])).stdout);const v=inspect?.[0];if(!Array.isArray(inspect)||inspect.length!==1||v?.HostConfig?.Runtime!=='runsc'||v.HostConfig.NetworkMode!=='none'||v.HostConfig.ReadonlyRootfs!==true||!Array.isArray(v.Mounts)||v.Mounts.some(m=>m.Type!=='tmpfs'||m.Destination!=='/tmp')||v.HostConfig.Privileged!==false||v.HostConfig.CapDrop?.includes('ALL')!==true||v.Config?.User!=='65534:65534'||v.HostConfig.PidsLimit!==64||v.HostConfig.Memory!==268435456)throw Error('Sandbox isolation not confirmed');
+      const result=await this.run(['start','-ai',name],{input:code,timeout:30000});const end=JSON.parse((await this.run(['inspect',name])).stdout)?.[0]?.State;if(end?.Status!=='exited'||end.ExitCode!==0||end.OOMKilled!==false)throw Error('Sandbox execution failed');return {stdout:result.stdout,stderr:result.stderr??''};
+    }finally{try{await this.run(['rm','-f',name],{timeout:10000})}catch{throw Error('Sandbox cleanup failed; operator intervention required')}}
+  }
+}

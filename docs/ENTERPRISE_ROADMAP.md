@@ -12,9 +12,9 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 | ENT-06 | Permit.io PDP/RBAC/ABAC i deny-by-default; werdykty per tenant | ENT-05 | PARTIAL: realny klient HTTP POST /allowed i fail-closed, kontrola tenant/agent/action, limit czasu, bez przekierowań; testy HTTP PASS. Rzeczywisty PDP, provisioning ról i enforcement w wykonawcach otwarte |
 | ENT-07 | AIM: krótkotrwała tożsamość agentów, scope, revocation, audyt | ENT-05, ENT-06 | PARTIAL: 256-bitowe opaque tokeny, SHA-256 w SQLite, TTL max 900 s i nie dłużej niż token operatora, re-check PDP, revocation i audyt transakcyjny, API; 12/12 testów wspólnej warstwy PASS. Klastrowanie PostgreSQL, integracja gateway/worker i retencja audytu otwarte |
 | ENT-08 | Temporal durable execution, workflow/activity, fencing/replay/recovery | ENT-02, ENT-04, ENT-07 | PARTIAL: worker + workflow przeglądu strukturalnego projektu, Activities, API HTTP 202, stabilny workflowId, SQL compare-and-set akceptacji i ograniczone oczekiwanie; modelowane kontrakty PASS, prawdziwy Temporal replay/recovery, outbox, HITL signal oraz LLM/sandbox i publikacja agenta OPEN |
-| ENT-09 | Orkiestrator wieloagentowy, supervisor/planner/executor/verifier, HITL i anulowanie | ENT-08 | OPEN |
-| ENT-10 | MCP Tool Gateway i routing Tavily/Exa/SearXNG, jawna polityka egress, retencji i klasyfikacja danych | ENT-06, ENT-07 | OPEN |
-| ENT-11 | Firecracker CPU i gVisor dla obsługiwanych środowisk; GPU tylko po dowodzie kompatybilności/izolacji | ENT-06, ENT-07 | OPEN |
+| ENT-09 | Orkiestrator wieloagentowy, supervisor/planner/executor/verifier, HITL i anulowanie | ENT-08 | PARTIAL: wykonawca DAG z walidacją topologii, limitem czasu i wyniku, zaufany rejestr handlerów oraz bramka AIM + osobna decyzja tool policy; testy lokalne PASS. Trwały runtime, planner/supervisor, równoległość, faktyczna autoryzacja per tool i HITL OPEN |
+| ENT-10 | MCP Tool Gateway i routing Tavily/Exa/SearXNG, jawna polityka egress, retencji i klasyfikacja danych | ENT-06, ENT-07 | PARTIAL: adaptery HTTP i router publicznych kwerend, fail-closed, bez fallbacku i redirectów, limity odpowiedzi, klasyfikator zaufanego hosta; testy kontraktowe PASS. MCP transport, realne API, infrastruktura egress/DLP, Serper i livecrawl OPEN |
+| ENT-11 | Firecracker CPU i gVisor dla obsługiwanych środowisk; GPU tylko po dowodzie kompatybilności/izolacji | ENT-06, ENT-07 | PARTIAL: gVisor adapter Docker/runsc z przypiętym obrazem, limity i brak host mounts/network, stdin, kontrola exit code oraz cleanup; testy modelowane PASS. Firecracker, rzeczywisty runsc, izolacja hosta, GPU i recovery po awarii OPEN |
 | ENT-12 | Hardware-aware onboarding, GGUF, dual-model, budżety KV/VRAM, ComfyUI | V4-GPU, ENT-09 | OPEN |
 | ENT-13 | Agent-Native IDE: React Flow, wizualny DAG, AST/LSP i bezpieczne narzędzia, symulator urządzeń | ENT-02, V4-AST, ENT-11 | OPEN |
 | ENT-14 | CLI, SDK/API i współdzielony UI PL/EN, klienci desktop/PWA/mobile | ENT-01, ENT-05, ENT-08 | OPEN |
@@ -32,7 +32,7 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 
 ## Następne niezależne wymagania
 
-V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-09 (orkiestracja agentów), ENT-10 (MCP search gateway), ENT-11 (sandbox). Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
+V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-12 (hardware-aware AI runtime), ENT-15 (gradientowa kompresja kontekstu), ENT-16 (backup/recovery). Kontynuować niezależnie otwarte kryteria ENT-09/10/11. Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
 
 ## Integrated App i ODYN Ω — rozszerzenie zakresu 2026-11-20
 
@@ -57,3 +57,14 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 ## Aktualizacja architektury Enterprise — IDE, RAG, inference i operacje
 
 [ENTERPRISE_ARCHITECTURE_INCREMENT.md](ENTERPRISE_ARCHITECTURE_INCREMENT.md) uszczegóławia ENT-09/10/11/13/15/16/17/28/29/30, bez usuwania wcześniejszych wymagań. ENT-03/04/08: [dowody](OMEGA_ENT_EXECUTION_EVIDENCE.md) — 16 nowych testów + 12 regresji PASS, SDK i klaster NOT_RUN. `APPROVED` w module review oznacza zaakceptowany strukturalny projekt, nie certyfikację ani wdrożenie agenta.
+
+## Ustawienia, optymalizacja i Model Manager — 2026-11-20
+
+[SETTINGS_OPTIMIZATION_SPEC.md](SETTINGS_OPTIMIZATION_SPEC.md) uszczegóławia V4-GPU/V4-THERMAL/V4-MODELS oraz ENT-10/11/12/14/15/18/21. Parametry i wartości z raportu operatora są hipotezami/punktami startowymi, nie dowodami benchmarków.
+
+| ID | Wymaganie | Zależności | Stan |
+|---|---|---|---|
+| ENT-31 | Integrated Settings: provider registry, porty i ścieżki, GGUF/bundles, onboarding, memory/voice, tryby uprawnień i profile sprzętowo-generatywne oraz diagnostyka | ENT-12, ENT-14, ENT-18, V4-MODELS | OPEN |
+| ENT-32 | ComfyUI schema-aware workflow, image/video presets, walidacja model+VAE+encoder, reprodukowalność, OOM recovery i pomiar zasobów | ENT-12, ENT-31 | OPEN |
+
+ENT-09/10/11: [dowody lokalne](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md) — 17/17 testów PASS w wyizolowanym zestawie, bez usług zewnętrznych. Brak globalnego odbioru.

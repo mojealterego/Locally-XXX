@@ -62,3 +62,5 @@ Dowody przyrostu V4-GPU / V4-AST / V4-THERMAL: [OMEGA_V4_GPU_AST_THERMAL_EVIDENC
 Przyrost ENT-05/06/07: lokalnie testowana warstwa JWT/JWKS + HTTP PDP + AIM, 12/12 PASS; integracja realnych usług i bramek wykonawczych pozostaje otwarta. Rozszerzono Enterprise o ENT-18..30 (Integrated App, mobile agent, Codespace, Training Studio, koparki, Virtual Number i ODYN) — [specyfikacja](INTEGRATED_APP_SPEC.md), [dowody](OMEGA_ENT_AUTH_EVIDENCE.md).
 
 Przyrost ENT-03/04/08: repozytorium pgvector, review_tasks, FlowProducer i worker Temporal; 16 nowych testów + 12 regresji PASS; rzeczywiste SDK/klaster NOT_RUN. [Dowody](OMEGA_ENT_EXECUTION_EVIDENCE.md), [nowe kontrakty architektury](ENTERPRISE_ARCHITECTURE_INCREMENT.md).
+
+ENT-09/10/11: kontrolowany DAG runner, per-tool gate, adaptery search i gVisor; 17/17 testów nowego zestawu PASS, pełne integracje NOT_RUN. [Dowody](OMEGA_ENT_TOOL_RUNTIME_EVIDENCE.md). Rozszerzenie ustawień i ComfyUI: [specyfikacja](SETTINGS_OPTIMIZATION_SPEC.md), ENT-31/32.

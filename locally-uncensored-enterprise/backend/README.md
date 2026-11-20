@@ -23,3 +23,7 @@ Konfiguracja: OMEGA_DB_HOST, OMEGA_DB_PORT, OMEGA_DB_NAME, OMEGA_DB_USER, OMEGA_
 - /api/reviews/decide: {id,digest,approved}; Permit approve i niezależny reviewer. Status APPROVED dotyczy przeglądu strukturalnego, bez wdrożenia.
 
 Długie procesy nie dziedziczą tokenów operatora, sprawdzają aktualną politykę PDP na operacjach workera. Brak pełnego AIM proof-of-possession i atomowego outbox pozostaje otwarty. Dokumentacja API w tej wersji opisuje kod, nie potwierdzone wdrożenie.
+
+## Tool runtime — ENT-09/10/11
+
+`src/orchestration/agent-runtime.mjs` łączy wykonawcę DAG, AIM i osobną per-tool policy z `web_search_plus` oraz `sandbox_execute`. Jest modułem in-process dla zaufanego hosta, nie nowym otwartym endpointem. Konfiguracja: instancja AgentIdentity, serwerowa funkcja permission (allow/deny/ask), zaufany klasyfikator query, konfiguracja kluczy wyszukiwania i zaufanego HTTPS SearXNG, przypięty digest obrazu gVisor. Nie przyjmować tych adapterów ani poświadczeń od klienta. Domyślnie odmówić, jeżeli policy lub classifier nie działają. Docker socket jest uprzywilejowany — nie uruchamiać na głównym hoście z sekretami; dedykowany server, zweryfikowana konfiguracja izolacji i testy fizyczne wymagane. GPU/Firecracker i MCP protocol server pozostają niezrealizowane. Test pojedynczego suite: `node --test test/next.test.mjs`. Pełna integracja z workerem nadal OPEN.
