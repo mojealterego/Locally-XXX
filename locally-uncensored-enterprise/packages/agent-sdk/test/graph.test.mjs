@@ -1,0 +1,13 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {compileGraph} from '../dist/graph.js';
+const node=(id,dependsOn=[],tool='read')=>({id,dependsOn,tool,timeoutMs:1000});
+const grant={tenant:'tenant-a',agent:'agent-a',tools:['read','write']};
+const graph=nodes=>({tenant:'tenant-a',agent:'agent-a',nodes});
+test('ENT-DAG-01 deterministic topological ordering',()=>{const a=graph([node('c',['b','a']),node('b'),node('a')]);const b=graph([...a.nodes].reverse());assert.deepEqual(compileGraph(a,grant),compileGraph(b,grant));assert.deepEqual(compileGraph(a,grant).order,['a','b','c'])});
+test('ENT-DAG-02 foreign tenant or identity denied',()=>{assert.throws(()=>compileGraph({...graph([node('a')]),tenant:'tenant-b'},grant));assert.throws(()=>compileGraph(graph([node('a')]),{...grant,agent:'other'}))});
+test('ENT-DAG-03 ungranted tools denied',()=>assert.throws(()=>compileGraph(graph([node('a',[],'shell')]),grant)));
+test('ENT-DAG-04 cycles and missing dependencies denied',()=>{for(const nodes of [[node('a',['b']),node('b',['a'])],[node('a',['x'])],[node('a',['a'])]])assert.throws(()=>compileGraph(graph(nodes),grant))});
+test('ENT-DAG-05 duplicate IDs and dependency lists denied',()=>{for(const nodes of [[node('a'),node('a')],[node('a'),node('b',['a','a'])]])assert.throws(()=>compileGraph(graph(nodes),grant))});
+test('ENT-DAG-06 invalid shapes and timeouts denied',()=>{for(const bad of [null,{},graph([{...node('a'),timeoutMs:0}]),graph([{...node('a'),timeoutMs:Infinity}]),graph([node('__proto__')])])assert.throws(()=>compileGraph(bad,grant))});
+test('ENT-DAG-07 result is immutable and does not alias input',()=>{const a=graph([node('a')]);const result=compileGraph(a,grant);a.nodes[0].tool='shell';assert.equal(result.nodes[0].tool,'read');assert.throws(()=>result.order.push('z'))});

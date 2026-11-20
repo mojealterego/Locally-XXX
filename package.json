@@ -55,6 +55,15 @@
     "test:android-brand": "python3 -m unittest discover -s tests -p test_android_brand.py -v",
     "test:i18n-v4": "node --test tests/i18n-v4.test.mjs",
     "test:voice-download-v4": "node --test tests/voice-download.test.mjs",
-    "test:native-ingest": "python3 -m unittest discover -s tests -p test_native_ingest.py -v"
+    "test:native-ingest": "python3 -m unittest discover -s tests -p test_native_ingest.py -v",
+    "runtime:kv-handoff": "python3 -m scripts.kv_handoff",
+    "test:kv-handoff": "python3 -m unittest discover -s tests -p test_kv_handoff.py -v",
+    "ast:index": "node scripts/ast-index.mjs",
+    "test:ast": "node --test tests/ast-index.test.mjs",
+    "test:thermal": "python3 scripts/test-thermal.py",
+    "test:enterprise-sdk": "npm --prefix locally-uncensored-enterprise/packages/agent-sdk test"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
   }
 }

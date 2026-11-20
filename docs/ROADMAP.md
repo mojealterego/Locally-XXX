@@ -42,13 +42,19 @@ Baza nadal 2.6.7 (nie 3.0.10). Wymagania muszą zostać zweryfikowane względem 
 | V4-RAG | Natywna ingestia, SQLite-vec, embedding wielojęzyczny | IMPLEMENTED PARTIAL — lokalny proces ekstrakcji TXT/PDF/DOCX/XLSX poza WebView, Rust IPC na Linuksie; 7 testów rzeczywistych plików/procesu PASS. Parser Rust, sqlite-vec, embedding wielojęzyczny i Tauri E2E nadal otwarte |
 | V4-VOICE | PL STT/TTS, segmentacja skrótów, zdalny voice z bramką | IMPLEMENTED PARTIAL — PL/EN w Whisper, Piper Gosia w pickerze, segmentacja skrótów, język systemowego TTS, bezpieczny temp audio; 4 testy TS PASS. Rzeczywiste STT/TTS, Android i zdalny Opus NOT_RUN/OPEN |
 | V4-IPC | Zdarzenia postępu i telemetria zamiast pollingu | IMPLEMENTED PARTIAL — watch/rejestr Rust i Tauri Channel, EWMA 250 ms, ETA, odrzucanie spóźnionych zdarzeń; 3 testy TS PASS, 2 testy Rust NOT_RUN, web pozostaje przy pollingu |
-| V4-GPU | KV-slot handoff, kompatybilna kwantyzacja, kontekst i narzędzia | OPEN |
+| V4-GPU | KV-slot handoff, kompatybilna kwantyzacja, kontekst i narzędzia | IMPLEMENTED PARTIAL — kontroler CLI checkpointów KV z tożsamością modelu/scope i integralnością; 6/6 testów, lokalny HTTP z modelowanym serwerem. Rzeczywisty llama.cpp, integracja istniejącego Tauri IPC, automatyczny handoff i kwantyzacja OPEN |
 | V4-SEC | Izolacja procesów na poziomie OS, PL sensitive patterns | IMPLEMENTED PARTIAL — Linux Bubblewrap, deny-by-default bez adaptera, ograniczony workspace i wejście; 3 testy Rust dodane, NOT_RUN; Windows/macOS/Android i PL Computer Control otwarte; brak gwarancji izolacji tenantów |
-| V4-AST | Natywny indeks AST | OPEN |
-| V4-THERMAL | Android thermal listener | OPEN |
+| V4-AST | Natywny indeks AST | IMPLEMENTED PARTIAL — rzeczywisty TypeScript Compiler API, indeks TS/JS i deterministyczny graf importów; 5/5 testów. Natywny Rust/Tree-sitter, LSP, aliasy i integracja repo_map OPEN |
+| V4-THERMAL | Android thermal listener | IMPLEMENTED PARTIAL — Kotlin API29+, PowerManager, 1 Hz, histereza 15 s, minimum 1024 MiB, integracja Activity; dwa scenariusze JVM z modelowanym SDK i 8/8 regresji cyklu życia PASS. IPC admission i pomiar fizyczny OPEN |
 | V4-MODELS | Lokalny katalog polskich modeli i neutralna ewaluacja PL/EN jakości | OPEN |
 | V4-RELEASE | Kompilacja i testy całej aplikacji, APK | OPEN |
 
 Dowody przyrostu V4-I18N / V4-ANDROID / V4-SEC: [OMEGA_V4_LOCALIZATION_SECURITY_EVIDENCE.md](OMEGA_V4_LOCALIZATION_SECURITY_EVIDENCE.md). Wszystkie trzy pozostają częściowe; bramki wydaniowe nie zostały zamknięte.
 
 Dowody przyrostu V4-RAG / V4-VOICE / V4-IPC: [OMEGA_V4_RAG_VOICE_IPC_EVIDENCE.md](OMEGA_V4_RAG_VOICE_IPC_EVIDENCE.md).
+
+Dowody przyrostu V4-GPU / V4-AST / V4-THERMAL: [OMEGA_V4_GPU_AST_THERMAL_EVIDENCE.md](OMEGA_V4_GPU_AST_THERMAL_EVIDENCE.md).
+
+## Enterprise — odrębne rozszerzenie monorepo
+
+[ENTERPRISE_ROADMAP.md](ENTERPRISE_ROADMAP.md) jest normatywnym rejestrem rozszerzenia. Pierwszy kompilator kontraktów grafu agentów (ENT-02) — 7/7 testów lokalnych PASS; bootstrap pnpm, PostgreSQL/pgvector i Redis — IMPLEMENTED PARTIAL, bez potwierdzonego uruchomienia kontenerów. Nie zastępuje ani nie usuwa pozycji V4.

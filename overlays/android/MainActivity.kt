@@ -4,10 +4,14 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import java.util.UUID
+import android.app.ActivityManager
+import android.os.PowerManager
 
 class MainActivity : TauriActivity() {
     companion object { private val processToken = UUID.randomUUID().toString() }
     private lateinit var lifecycleCheckpoint: OmegaLifecycle
+    private lateinit var thermalMonitor: OmegaThermalMonitor
+    fun canStartHeavyWork(): Boolean = ::thermalMonitor.isInitialized && thermalMonitor.canAdmit()
     override fun onCreate(savedInstanceState: Bundle?) {
         check(Build.SUPPORTED_ABIS.firstOrNull() == "arm64-v8a") { "ARM64 required" }
         val prefs = getSharedPreferences("omega_lifecycle_v1", MODE_PRIVATE)
@@ -21,15 +25,17 @@ class MainActivity : TauriActivity() {
         lifecycleCheckpoint.create()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        thermalMonitor = OmegaThermalMonitor(getSystemService(PowerManager::class.java), getSystemService(ActivityManager::class.java))
     }
     override fun onStart() {
         super.onStart()
         lifecycleCheckpoint.transition("FOREGROUND")
+        thermalMonitor.start()
     }
     override fun onStop() {
-        try { lifecycleCheckpoint.transition("BACKGROUND") } finally { super.onStop() }
+        try { thermalMonitor.stop(); lifecycleCheckpoint.transition("BACKGROUND") } finally { super.onStop() }
     }
     override fun onDestroy() {
-        try { if (::lifecycleCheckpoint.isInitialized) lifecycleCheckpoint.transition("DETACHED") } finally { super.onDestroy() }
+        try { if (::thermalMonitor.isInitialized) thermalMonitor.stop(); if (::lifecycleCheckpoint.isInitialized) lifecycleCheckpoint.transition("DETACHED") } finally { super.onDestroy() }
     }
 }

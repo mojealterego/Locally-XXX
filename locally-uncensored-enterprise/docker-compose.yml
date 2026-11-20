@@ -1,0 +1,38 @@
+name: omega-enterprise
+services:
+  postgres:
+    image: ${OMEGA_POSTGRES_IMAGE:?Provide pinned pgvector PostgreSQL image}
+    environment:
+      POSTGRES_DB: omega
+      POSTGRES_USER: omega_admin
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/001_registry.sql:/docker-entrypoint-initdb.d/001_registry.sql:ro
+    networks: [data]
+    healthcheck:
+      test: [CMD, pg_isready, -U, omega_admin, -d, omega]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  redis:
+    image: ${OMEGA_REDIS_IMAGE:?Provide pinned Redis image}
+    command: [redis-server, /run/secrets/redis_config]
+    secrets: [redis_config]
+    volumes:
+      - redis_data:/data
+    networks: [data]
+    restart: unless-stopped
+networks:
+  data:
+    internal: true
+volumes:
+  postgres_data:
+  redis_data:
+secrets:
+  postgres_password:
+    file: ${OMEGA_POSTGRES_PASSWORD_FILE:?Provide password file outside repository}
+  redis_config:
+    file: ${OMEGA_REDIS_CONFIG_FILE:?Provide restricted authenticated Redis config outside repository}

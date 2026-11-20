@@ -1,0 +1,10 @@
+{
+  "name": "@omega/agent-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./dist/graph.js",
+  "types": "./dist/graph.d.ts",
+  "scripts": {"build": "tsc -p tsconfig.json", "test": "tsc -p tsconfig.json && node --test test/*.test.mjs"},
+  "devDependencies": {"typescript": "5.8.3"}
+}

@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,writeFileSync,mkdirSync,symlinkSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {buildIndex} from '../scripts/ast-index.mjs';
+const fixture=fn=>{const root=mkdtempSync(join(tmpdir(),'omega-ast-'));try{writeFileSync(join(root,'a.ts'),"// import './fake'\nimport './b'; export { x } from './b'; const lazy=import('./c');\nexport function run(){return lazy}");writeFileSync(join(root,'b.ts'),'export const x=1');writeFileSync(join(root,'c.ts'),'export class C {}');fn(root)}finally{rmSync(root,{recursive:true,force:true})}};
+test('AST imports ignore comments and deduplicate edges',()=>fixture(root=>{const x=buildIndex(root);assert.deepEqual(x.edges,[['a.ts','b.ts'],['a.ts','c.ts']]);assert.ok(x.files.find(f=>f.path==='a.ts').symbols.includes('run'))}));
+test('AST output deterministic',()=>fixture(root=>assert.deepEqual(buildIndex(root),buildIndex(root))));
+test('AST ignores symlinks and dependency directories',()=>fixture(root=>{symlinkSync('/etc/passwd',join(root,'secret.ts'));mkdirSync(join(root,'node_modules'));writeFileSync(join(root,'node_modules','hidden.ts'),'export const secret=1');assert.equal(buildIndex(root).files.length,3)}));
+test('AST nonliteral import and escaping path do not create edges',()=>fixture(root=>{writeFileSync(join(root,'d.ts'),"import('../b'); import(name); require('fs');");assert.equal(buildIndex(root).edges.length,2)}));
+test('AST explicit limits fail closed',()=>fixture(root=>assert.throws(()=>buildIndex(root,{maxFiles:1}),/limit/i)));

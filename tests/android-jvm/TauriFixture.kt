@@ -20,6 +20,9 @@ open class TauriActivity {
     companion object { val prefs = Prefs() }
     val MODE_PRIVATE = 0
     val calls = mutableListOf<String>()
+    private val power=android.os.PowerManager()
+    private val memory=android.app.ActivityManager()
+    fun <T> getSystemService(type: Class<T>): T? { val service: Any = when(type.name) { "android.os.PowerManager" -> power; "android.app.ActivityManager" -> memory; else -> return null }; return type.cast(service) }
     fun getSharedPreferences(name: String, mode: Int): Prefs { check(name == "omega_lifecycle_v1" && mode == 0); return prefs }
     open fun onCreate(savedInstanceState: Bundle?) { calls.add("create") }
     open fun onStart() { calls.add("start") }

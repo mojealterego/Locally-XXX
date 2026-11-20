@@ -34,9 +34,12 @@ def install_lifecycle(workspace,package):
     require(isinstance(package,str) and PACKAGE.fullmatch(package),'ANDROID_PROJECT','Invalid Android package')
     root=Path(workspace).absolute();require(root.is_dir() and not root.is_symlink(),'ANDROID_PROJECT','Unsafe root')
     main=root/'src-tauri/gen/android/app/src/main';activity=main/'java'/Path(*package.split('.'))/'MainActivity.kt';helper=activity.with_name('OmegaLifecycle.kt');manifest=main/'AndroidManifest.xml'
-    for p in (activity,manifest,helper):safe_file(root,p,p==helper)
+    thermal={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaThermalGate.kt','OmegaThermalMonitor.kt')}
+    for p in (activity,manifest,helper,*thermal):safe_file(root,p,p not in (activity,manifest))
     source=activity.read_text();out=(ASSETS/'MainActivity.kt').read_text().replace('@PACKAGE@',package);core=(ASSETS/'OmegaLifecycle.kt').read_text().replace('@PACKAGE@',package)
-    require(source in (template(package),out),'ANDROID_PROJECT','Unknown MainActivity; refuse overwrite')
+    legacy=out.replace('import android.app.ActivityManager\nimport android.os.PowerManager\n','').replace('    private lateinit var thermalMonitor: OmegaThermalMonitor\n    fun canStartHeavyWork(): Boolean = ::thermalMonitor.isInitialized && thermalMonitor.canAdmit()\n','').replace('        thermalMonitor = OmegaThermalMonitor(getSystemService(PowerManager::class.java), getSystemService(ActivityManager::class.java))\n','').replace('        thermalMonitor.start()\n','').replace('thermalMonitor.stop(); lifecycleCheckpoint.transition','lifecycleCheckpoint.transition').replace('if (::thermalMonitor.isInitialized) thermalMonitor.stop(); ','')
+    require(source in (template(package),legacy,out),'ANDROID_PROJECT','Unknown MainActivity; refuse overwrite')
+    for path,data in thermal.items():require(not path.exists() or path.read_text()==data,'ANDROID_PROJECT','Unknown thermal helper; refuse overwrite')
     require(not helper.exists() or helper.read_text()==core,'ANDROID_PROJECT','Unknown lifecycle helper; refuse overwrite')
     raw=manifest.read_text();require('<!DOCTYPE' not in raw.upper() and '<!ENTITY' not in raw.upper(),'MANIFEST','Invalid manifest declarations')
     try: xml=ET.fromstring(raw)
@@ -48,7 +51,7 @@ def install_lifecycle(workspace,package):
         require(len(re.findall(r'<application(?=\s|>)',raw))==1,'MANIFEST','Ambiguous application element')
         raw=re.sub(r'<application(?=\s|>)','<application android:allowBackup="false"',raw,count=1)
         require(ET.fromstring(raw).find('application').get(NS+'allowBackup')=='false','MANIFEST','Backup policy failed')
-    desired={helper:core,activity:out,manifest:raw};staged={}
+    desired={helper:core,**thermal,activity:out,manifest:raw};staged={}
     try:
         for path,data in desired.items():
             if path.exists() and path.read_text()==data:continue
