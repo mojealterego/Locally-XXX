@@ -62,7 +62,8 @@
     "test:ast": "node --test tests/ast-index.test.mjs",
     "test:thermal": "python3 scripts/test-thermal.py",
     "test:enterprise-sdk": "npm --prefix locally-uncensored-enterprise/packages/agent-sdk test",
-    "test:enterprise-auth": "npm --prefix locally-uncensored-enterprise/backend test"
+    "test:enterprise-auth": "npm --prefix locally-uncensored-enterprise/backend test",
+    "test:enterprise-execution": "npm --prefix locally-uncensored-enterprise/backend test"
   },
   "devDependencies": {
     "typescript": "5.8.3"

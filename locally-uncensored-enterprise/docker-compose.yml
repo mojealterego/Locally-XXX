@@ -10,6 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/db/001_registry.sql:/docker-entrypoint-initdb.d/001_registry.sql:ro
+      - ./backend/db/002_review_tasks.sql:/docker-entrypoint-initdb.d/002_review_tasks.sql:ro
     networks: [data]
     healthcheck:
       test: [CMD, pg_isready, -U, omega_admin, -d, omega]

@@ -6,12 +6,12 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 |---|---|---|---|
 | ENT-01 | pnpm monorepo apps/desktop, apps/web, apps/mobile, backend, shared-ui, agent-sdk, CLI i IDE; migracja SPA/Tauri | MIG-003 | PARTIAL: deklaracje workspace i pierwszy realny pakiet agent-sdk; reszta OPEN |
 | ENT-02 | Typowany DAG, statyczny kontrakt Agents Builder / Tool Registry, deterministyczna kompilacja | ENT-01 | PARTIAL: kompilator TS 7/7 PASS, limity, cykle, grant i tenant, niemutowalny wynik; rejestr, wykonawca, MCP i UI OPEN |
-| ENT-03 | PostgreSQL/pgvector, model danych agentów i RAG per tenant, RLS i parametryzowane zapytania | ENT-01 | PARTIAL: DDL + Compose; brak uruchomienia DB, testów cross-tenant, pool i indeksu ANN |
-| ENT-04 | Redis i BullMQ FlowProducer, idempotencja, limity i backpressure | ENT-01 | PARTIAL: definicja Redis; worker/kolejki i integracja OPEN |
+| ENT-03 | PostgreSQL/pgvector, model danych agentów i RAG per tenant, RLS i parametryzowane zapytania | ENT-01 | PARTIAL: repozytorium pg, transakcje SET LOCAL ROLE/tenant, RAG cosine distance, immutable IDs, review_tasks z RLS i triggerem przejść; kontrakty lokalne PASS. Brak wykonania SQL w realnym PostgreSQL/pgvector, ANN, replikacja i pełny rejestr OPEN |
+| ENT-04 | Redis i BullMQ FlowProducer, idempotencja, limity i backpressure | ENT-01 | PARTIAL: rzeczywisty kod FlowProducer i dwóch Worker, tenant-scoped job IDs, dwa child checks, join, re-check PDP, retry/backoff i limity concurrency; testy kontraktów PASS, Redis/BullMQ runtime, wyścigi dispatch i quota per tenant OPEN |
 | ENT-05 | Keycloak OIDC SSO, walidacja JWT (iss/aud/exp/alg), PKCE, uprawnienia | ENT-01 | PARTIAL: weryfikator rzeczywistych podpisów RS256/JWKS, issuer/audience/azp/typ/exp/iat/nbf i chroniony claim tenant; testy lokalne PASS. Realm, login PKCE w UI i live IdP otwarte |
 | ENT-06 | Permit.io PDP/RBAC/ABAC i deny-by-default; werdykty per tenant | ENT-05 | PARTIAL: realny klient HTTP POST /allowed i fail-closed, kontrola tenant/agent/action, limit czasu, bez przekierowań; testy HTTP PASS. Rzeczywisty PDP, provisioning ról i enforcement w wykonawcach otwarte |
 | ENT-07 | AIM: krótkotrwała tożsamość agentów, scope, revocation, audyt | ENT-05, ENT-06 | PARTIAL: 256-bitowe opaque tokeny, SHA-256 w SQLite, TTL max 900 s i nie dłużej niż token operatora, re-check PDP, revocation i audyt transakcyjny, API; 12/12 testów wspólnej warstwy PASS. Klastrowanie PostgreSQL, integracja gateway/worker i retencja audytu otwarte |
-| ENT-08 | Temporal durable execution, workflow/activity, fencing/replay/recovery | ENT-02, ENT-04, ENT-07 | OPEN |
+| ENT-08 | Temporal durable execution, workflow/activity, fencing/replay/recovery | ENT-02, ENT-04, ENT-07 | PARTIAL: worker + workflow przeglądu strukturalnego projektu, Activities, API HTTP 202, stabilny workflowId, SQL compare-and-set akceptacji i ograniczone oczekiwanie; modelowane kontrakty PASS, prawdziwy Temporal replay/recovery, outbox, HITL signal oraz LLM/sandbox i publikacja agenta OPEN |
 | ENT-09 | Orkiestrator wieloagentowy, supervisor/planner/executor/verifier, HITL i anulowanie | ENT-08 | OPEN |
 | ENT-10 | MCP Tool Gateway i routing Tavily/Exa/SearXNG, jawna polityka egress, retencji i klasyfikacja danych | ENT-06, ENT-07 | OPEN |
 | ENT-11 | Firecracker CPU i gVisor dla obsługiwanych środowisk; GPU tylko po dowodzie kompatybilności/izolacji | ENT-06, ENT-07 | OPEN |
@@ -32,7 +32,7 @@ Data: 2026-11-20. Integracja addytywna w `locally-uncensored-enterprise/`, bez u
 
 ## Następne niezależne wymagania
 
-V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-03 (repozytorium PostgreSQL), ENT-04 (BullMQ), ENT-08 (Temporal worker i trwałe wykonanie), a następnie ENT-09/10/11. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
+V4-MODELS i V4-RELEASE (wykonalne części) pozostają otwarte. Następna trójka Enterprise: ENT-09 (orkiestracja agentów), ENT-10 (MCP search gateway), ENT-11 (sandbox). Kontynuacja otwartych kryteriów ENT-03/04/08 niezależnie od przyrostów. Kryteria bezpieczeństwa ENT-05/06/07 muszą zostać zintegrowane z operacjami zamiast pozostawać samodzielnym endpointem. Żaden otwarty punkt nie jest zaliczony samą dokumentacją.
 
 ## Integrated App i ODYN Ω — rozszerzenie zakresu 2026-11-20
 
@@ -53,3 +53,7 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 | ENT-28 | Global Registry i Approval UI: autoryzowane odczyty, walidacja danych i sygnały Temporal związane z konkretną wersją artefaktu | ENT-03, ENT-05, ENT-08, ENT-24 | OPEN |
 | ENT-29 | Observability: tenant-scoped zdarzenia, trwały audyt, redakcja sekretów, streaming z uprawnieniami, OpenTelemetry | ENT-03, ENT-07, ENT-09 | OPEN |
 | ENT-30 | Multi-target App Builder: wizualny graf React Flow, walidacja, generacja AST bez interpolacji kodu, osobne artefakty projektu i web/desktop/mobile/www | ENT-13, ENT-17, ENT-18 | OPEN |
+
+## Aktualizacja architektury Enterprise — IDE, RAG, inference i operacje
+
+[ENTERPRISE_ARCHITECTURE_INCREMENT.md](ENTERPRISE_ARCHITECTURE_INCREMENT.md) uszczegóławia ENT-09/10/11/13/15/16/17/28/29/30, bez usuwania wcześniejszych wymagań. ENT-03/04/08: [dowody](OMEGA_ENT_EXECUTION_EVIDENCE.md) — 16 nowych testów + 12 regresji PASS, SDK i klaster NOT_RUN. `APPROVED` w module review oznacza zaakceptowany strukturalny projekt, nie certyfikację ani wdrożenie agenta.

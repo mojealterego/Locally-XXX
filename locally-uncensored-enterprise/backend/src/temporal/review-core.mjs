@@ -1,0 +1,2 @@
+// Deterministic core: only supplied durable activity calls and timer; no process I/O.
+export async function runReview(ref,activities,pause,limit=120){await activities.enqueue(ref);for(let i=0;i<limit;i++){const status=await activities.status(ref);if(['APPROVED','REJECTED','EXPIRED'].includes(status))return status;if(!['PENDING','REVIEWED'].includes(status))throw Error('Invalid review state');await pause(5000)}const final=await activities.expire(ref);if(!['APPROVED','REJECTED','EXPIRED'].includes(final))throw Error('Invalid terminal state');return final}
