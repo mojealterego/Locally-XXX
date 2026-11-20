@@ -50,6 +50,9 @@
     "test:android-jvm": "python3 tests/android-jvm.py",
     "test:android-overlay": "python3 -m unittest discover -s tests -p test_native_overlay.py -v",
     "test:lockfiles": "python3 -m unittest discover -s tests -p test_security_lockfiles.py -v",
-    "test:rag-retrieval": "node --test tests/rag-retrieval.test.mjs"
+    "test:rag-retrieval": "node --test tests/rag-retrieval.test.mjs",
+    "runtime:android-brand": "python3 -m scripts.android_brand",
+    "test:android-brand": "python3 -m unittest discover -s tests -p test_android_brand.py -v",
+    "test:i18n-v4": "node --test tests/i18n-v4.test.mjs"
   }
 }

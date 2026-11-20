@@ -156,5 +156,362 @@
         "new": "        if (candidates.length > 8192) return ''\n        let corpusChars = 0\n        for (const entry of candidates) {\n          corpusChars += entry.title.length + entry.description.length + entry.content.length\n          for (const tag of entry.tags) corpusChars += tag.length + 1\n          if (corpusChars > 8_000_000) return ''\n        }\n        const ordered = candidates\n          .map((entry) => ({ entry, score: scoreMemory(entry, words, true) }))"
       }
     ]
+  },
+  "src/types/settings.ts": {
+    "git_sha1": "2767bf7d24db7c4abdbb4c80a8112acd0f1a0549",
+    "replacements": [
+      {
+        "old": "export interface Settings {\n",
+        "new": "export interface Settings {\n  locale?: 'pl' | 'en'\n"
+      }
+    ]
+  },
+  "src/lib/constants.ts": {
+    "git_sha1": "96633ff9b22e31ed11d920cd4667a72a44659320",
+    "replacements": [
+      {
+        "old": "export const DEFAULT_SETTINGS: Settings = {\n",
+        "new": "export const DEFAULT_SETTINGS: Settings = {\n  locale: 'pl',\n"
+      }
+    ]
+  },
+  "src/stores/settingsStore.ts": {
+    "git_sha1": "e907037c7716669594024f6f6f77a71e43e29612",
+    "replacements": [
+      {
+        "old": "import { DEFAULT_SETTINGS, BUILT_IN_PERSONAS } from '../lib/constants'",
+        "new": "import { normalizeLocale } from '../i18n/locale'\nimport { DEFAULT_SETTINGS, BUILT_IN_PERSONAS } from '../lib/constants'"
+      },
+      {
+        "old": "const STORE_VERSION = 21",
+        "new": "const STORE_VERSION = 22"
+      },
+      {
+        "old": "const mergedSettings = { ...DEFAULT_SETTINGS, ...(persisted.settings || {}) }",
+        "new": "const mergedSettings = { ...DEFAULT_SETTINGS, ...(persisted.settings || {}) }\n          mergedSettings.locale = normalizeLocale(mergedSettings.locale)"
+      }
+    ]
+  },
+  "src/App.tsx": {
+    "git_sha1": "fae8c083325841a22f1777bf3710bf483dcac3a1",
+    "replacements": [
+      {
+        "old": "import { useVoiceStore } from './stores/voiceStore'",
+        "new": "import { localeTag } from './i18n/locale'\nimport { useVoiceStore } from './stores/voiceStore'"
+      },
+      {
+        "old": "function App() {\n",
+        "new": "function App() {\n  const locale = useSettingsStore(s => s.settings.locale)\n  useEffect(() => { document.documentElement.lang = localeTag(locale) }, [locale])\n"
+      }
+    ]
+  },
+  "src/components/layout/Header.tsx": {
+    "git_sha1": "2a72f4c008f0f90276b041814b277994b2b66f94",
+    "replacements": [
+      {
+        "old": "import { useState, useEffect } from 'react'",
+        "new": "import { translate, type TranslationKey } from '../../i18n/locale'\nimport { useState, useEffect } from 'react'"
+      },
+      {
+        "old": "  const { settings, updateSettings } = useSettingsStore()\n",
+        "new": "  const { settings, updateSettings } = useSettingsStore()\n  const tr = (key: TranslationKey) => translate(settings.locale, key)\n"
+      },
+      {
+        "old": "textNav('chat', 'Chat')",
+        "new": "textNav('chat', tr('Chat'))"
+      },
+      {
+        "old": "dropdownNav('chat', 'Chat')",
+        "new": "dropdownNav('chat', tr('Chat'))"
+      },
+      {
+        "old": "textNav('create', 'Create')",
+        "new": "textNav('create', tr('Create'))"
+      },
+      {
+        "old": "dropdownNav('create', 'Create')",
+        "new": "dropdownNav('create', tr('Create'))"
+      },
+      {
+        "old": "textNav('benchmark', 'Benchmark')",
+        "new": "textNav('benchmark', tr('Benchmark'))"
+      },
+      {
+        "old": "dropdownNav('benchmark', 'Benchmark')",
+        "new": "dropdownNav('benchmark', tr('Benchmark'))"
+      },
+      {
+        "old": "textNav('models', 'Models')",
+        "new": "textNav('models', tr('Models'))"
+      },
+      {
+        "old": "dropdownNav('models', 'Models')",
+        "new": "dropdownNav('models', tr('Models'))"
+      },
+      {
+        "old": "textNav('settings', 'Settings')",
+        "new": "textNav('settings', tr('Settings'))"
+      },
+      {
+        "old": "dropdownNav('settings', 'Settings')",
+        "new": "dropdownNav('settings', tr('Settings'))"
+      },
+      {
+        "old": "\n            Compare\n",
+        "new": "\n            {tr('Compare')}\n"
+      },
+      {
+        "old": "\n                  Compare\n",
+        "new": "\n                  {tr('Compare')}\n"
+      },
+      {
+        "old": "aria-label=\"Toggle sidebar\"",
+        "new": "aria-label={tr('Toggle sidebar')}"
+      },
+      {
+        "old": "title=\"More\"",
+        "new": "title={tr('More')}"
+      },
+      {
+        "old": "title=\"Dismiss\"",
+        "new": "title={tr('Dismiss')}"
+      },
+      {
+        "old": "aria-label=\"Dismiss\"",
+        "new": "aria-label={tr('Dismiss')}"
+      },
+      {
+        "old": "<span>Refresh</span>",
+        "new": "<span>{tr('Refresh')}</span>"
+      },
+      {
+        "old": "title={settings.theme === 'dark' ? 'Light Mode' : 'Dark Mode'}",
+        "new": "title={tr(settings.theme === 'dark' ? 'Light Mode' : 'Dark Mode')}"
+      }
+    ]
+  },
+  "src/components/settings/SettingsPage.tsx": {
+    "git_sha1": "3f483917d7b9ccb08a32206568a2d163101ab5b6",
+    "replacements": [
+      {
+        "old": "import { useState, useEffect, useRef, type ReactNode, type ChangeEvent } from 'react'",
+        "new": "import { normalizeLocale, translate, type TranslationKey } from '../../i18n/locale'\nimport { useState, useEffect, useRef, type ReactNode, type ChangeEvent } from 'react'"
+      },
+      {
+        "old": "const SETTINGS_TABS: { id: SettingsTab; label: string;",
+        "new": "const SETTINGS_TABS: { id: SettingsTab; label: TranslationKey;"
+      },
+      {
+        "old": "export function SettingsPage() {\n  const { settings, updateSettings } = useSettingsStore()",
+        "new": "export function SettingsPage() {\n  const { settings, updateSettings } = useSettingsStore()\n  const tr = (key: TranslationKey) => translate(settings.locale, key)"
+      },
+      {
+        "old": "dark:text-gray-200\">Settings</h1>",
+        "new": "dark:text-gray-200\">{tr('Settings')}</h1>"
+      },
+      {
+        "old": "{t.label}",
+        "new": "{tr(t.label)}"
+      },
+      {
+        "old": "<Section title=\"Appearance\">",
+        "new": "<Section title={tr('Appearance')}>\n            <label className=\"flex items-center justify-between text-[0.7rem] text-gray-700 dark:text-gray-400\">\n              {tr('Language')}\n              <select aria-label={tr('Language')} value={normalizeLocale(settings.locale)} onChange={e => updateSettings({ locale: normalizeLocale(e.target.value) })} className=\"rounded px-2 py-1 bg-gray-100 dark:bg-[#303030]\">\n                <option value=\"pl\">Polski</option><option value=\"en\">English</option>\n              </select>\n            </label>"
+      },
+      {
+        "old": "dark:text-gray-400\">Theme</span>",
+        "new": "dark:text-gray-400\">{tr('Theme')}</span>"
+      },
+      {
+        "old": "<Sun size={11} /> Light",
+        "new": "<Sun size={11} /> {tr('Light')}"
+      },
+      {
+        "old": "<Moon size={11} /> Dark",
+        "new": "<Moon size={11} /> {tr('Dark')}"
+      },
+      {
+        "old": "<Section title=\"Generation\">",
+        "new": "<Section title={tr('Generation')}>"
+      },
+      {
+        "old": "<SliderControl label=\"Temperature\"",
+        "new": "<SliderControl label={tr('Temperature')}"
+      }
+    ]
+  },
+  "src/components/onboarding/Onboarding.tsx": {
+    "git_sha1": "5ee5b0e760e01abe0b13cd5bd0ea0efca6e9e6f9",
+    "replacements": [
+      {
+        "old": "import { useState, useEffect } from 'react'",
+        "new": "import { normalizeLocale, translate, installModelsLabel, type TranslationKey } from '../../i18n/locale'\nimport { useState, useEffect } from 'react'"
+      },
+      {
+        "old": "  const { settings, updateSettings } = useSettingsStore()\n",
+        "new": "  const { settings, updateSettings } = useSettingsStore()\n  const tr = (key: TranslationKey) => translate(settings.locale, key)\n"
+      },
+      {
+        "old": "<h1 className=\"text-base font-semibold\">LU <span className=\"font-normal opacity-60\">by LU Labs</span></h1>",
+        "new": "<h1 className=\"text-base font-semibold\">LU <span className=\"font-normal opacity-60\">by LU Labs</span></h1>\n            <label className=\"flex items-center justify-center gap-2 text-xs\">\n              {tr('Language')}\n              <select aria-label={tr('Language')} value={normalizeLocale(settings.locale)} onChange={e => updateSettings({ locale: normalizeLocale(e.target.value) })} className=\"rounded px-2 py-1 bg-gray-100 dark:bg-[#303030]\"><option value=\"pl\">Polski</option><option value=\"en\">English</option></select>\n            </label>"
+      },
+      {
+        "old": "Private, local AI chat that works right away. No extra software to install. No servers, no tracking, everything stays on your machine.",
+        "new": "{tr(\"Private, local AI chat that works right away. No extra software to install. No servers, no tracking, everything stays on your machine.\")}"
+      },
+      {
+        "old": "One small model to get you running. You can browse and install more from the Models tab once you're in.",
+        "new": "{tr(\"One small model to get you running. You can browse and install more from the Models tab once you're in.\")}"
+      },
+      {
+        "old": " >\n              Get Started <ArrowRight size={14} />\n   ",
+        "new": " >\n              {tr('Get Started')} <ArrowRight size={14} />\n   "
+      },
+      {
+        "old": "Get Started <ArrowRight",
+        "new": "{tr('Get Started')} <ArrowRight"
+      },
+      {
+        "old": "}>\n                    Continue <ArrowRight size={14} />\n         ",
+        "new": "}>\n                    {tr('Continue')} <ArrowRight size={14} />\n         "
+      },
+      {
+        "old": "                   Continue <ArrowRight size={14} />\n     ",
+        "new": "                   {tr('Continue')} <ArrowRight size={14} />\n     "
+      },
+      {
+        "old": "? <>Continue <ArrowRight siz",
+        "new": "? <>{tr('Continue')} <ArrowRight siz"
+      },
+      {
+        "old": " Continue <ArrowRight ",
+        "new": " {tr('Continue')} <ArrowRight "
+      },
+      {
+        "old": "Continue <ArrowRight",
+        "new": "{tr('Continue')} <ArrowRight"
+      },
+      {
+        "old": ": <>Skip for now <ChevronRight siz",
+        "new": ": <>{tr('Skip for now')} <ChevronRight siz"
+      },
+      {
+        "old": "         Skip for now <ChevronRight size={12",
+        "new": "         {tr('Skip for now')} <ChevronRight size={12"
+      },
+      {
+        "old": " Skip for now <ChevronRight ",
+        "new": " {tr('Skip for now')} <ChevronRight "
+      },
+      {
+        "old": "Skip for now <ChevronRight",
+        "new": "{tr('Skip for now')} <ChevronRight"
+      },
+      {
+        "old": ">Ready to chat<",
+        "new": ">{tr(\"Ready to chat\")}<"
+      },
+      {
+        "old": ">Pick a starter model<",
+        "new": ">{tr(\"Pick a starter model\")}<"
+      },
+      {
+        "old": ">Unfiltered<",
+        "new": ">{tr(\"Unfiltered\")}<"
+      },
+      {
+        "old": ">Mainstream<",
+        "new": ">{tr(\"Mainstream\")}<"
+      },
+      {
+        "old": ">You're all set!<",
+        "new": ">{tr(\"You're all set!\")}<"
+      },
+      {
+        "old": "Use another engine (Ollama, LM Studio…)",
+        "new": "{tr('Use another engine (Ollama, LM Studio…)')}"
+      },
+      {
+        "old": "title=\"Scan again\"",
+        "new": "title={tr('Scan again')}"
+      },
+      {
+        "old": "\n                              Recommended\n",
+        "new": "\n                              {tr('Recommended')}\n"
+      },
+      {
+        "old": "Install {selectedModels.length} model{selectedModels.length > 1 ? 's' : ''}",
+        "new": "{installModelsLabel(settings.locale, selectedModels.length)}"
+      },
+      {
+        "old": "<Download size={14} /> Install Ollama",
+        "new": "<Download size={14} /> {tr('Install Ollama')}"
+      },
+      {
+        "old": "<Download size={14} /> Install ComfyUI (Recommended)",
+        "new": "<Download size={14} /> {tr('Install ComfyUI (Recommended)')}"
+      },
+      {
+        "old": "<Check size={12} /> Installed. Document Chat is ready.",
+        "new": "<Check size={12} /> {tr('Installed. Document Chat is ready.')}"
+      },
+      {
+        "old": "aria-label=\"Minimize\"",
+        "new": "aria-label={tr('Minimize')}"
+      },
+      {
+        "old": "aria-label=\"Maximize\"",
+        "new": "aria-label={tr('Maximize')}"
+      },
+      {
+        "old": "aria-label=\"Close\"",
+        "new": "aria-label={tr('Close')}"
+      }
+    ]
+  },
+  "src/components/personas/PersonaPanel.tsx": {
+    "git_sha1": "7a061384efd89af496e3bcfdff2eb6f5c654eb48",
+    "replacements": [
+      {
+        "old": "import { useState } from 'react'",
+        "new": "import { personaName, translate } from '../../i18n/locale'\nimport { useState } from 'react'"
+      },
+      {
+        "old": "export function PersonaPanel() {\n",
+        "new": "export function PersonaPanel() {\n  const locale = useSettingsStore(s => s.settings.locale)\n"
+      },
+      {
+        "old": "name={persona.name}",
+        "new": "name={personaName(locale, persona)}"
+      },
+      {
+        "old": "title=\"Edit persona\"",
+        "new": "title={translate(locale, 'Edit persona')}"
+      },
+      {
+        "old": "title=\"Delete persona\"",
+        "new": "title={translate(locale, 'Delete persona')}"
+      }
+    ]
+  },
+  "src-tauri/src/commands/shell.rs": {
+    "git_sha1": "32724bb7cca5e944c8a0d9da5207d91acb848e51",
+    "replacements": [
+      {
+        "old": "use std::path::{Path, PathBuf};\n\n/// Resolve the per-chat agent workspace (`~/agent-workspace/<chat_id>/`).\n/// Mirrors commands/filesystem.rs::resolve_path so shell output lands in the\n/// SAME folder the file tools write to. Used as the fallback cwd when the\n/// caller doesn't pass one — without it the child process inherits the LU\n/// app's ambient cwd and dumps build output into ~/Documents (David 2026-06-04).\nfn workspace_cwd(chat_id: Option<&str>) -> PathBuf {\n    let id = chat_id.unwrap_or(\"default\");\n    let safe: String = id\n        .chars()\n        .take(64)\n        .map(|c| if c.is_ascii_alphanumeric() || c == '_' || c == '-' || c == '.' { c } else { '_' })\n        .collect();\n    let slug = if safe.is_empty() { \"default\".to_string() } else { safe };\n    dirs::home_dir()\n        .unwrap_or_default()\n        .join(\"agent-workspace\")\n        .join(slug)\n}\n\n",
+        "new": "#[path = \"omega_shell_sandbox.rs\"]\nmod omega_shell_sandbox;\n\n"
+      },
+      {
+        "old": "#[cfg(target_os = \"windows\")]\nuse std::os::windows::process::CommandExt;\n\n#[cfg(target_os = \"windows\")]\nconst CREATE_NO_WINDOW: u32 = 0x08000000;\n\n",
+        "new": ""
+      },
+      {
+        "old": "    let timeout_ms = timeout.unwrap_or(120_000);\n    let shell_bin = shell.unwrap_or_else(|| {\n        if cfg!(target_os = \"windows\") {\n            \"powershell\".to_string()\n        } else {\n            \"bash\".to_string()\n        }\n    });\n\n    let mut cmd = Command::new(&shell_bin);\n\n    // Build shell command\n    if cfg!(target_os = \"windows\") && shell_bin.to_lowercase().contains(\"powershell\") {\n        cmd.arg(\"-NoProfile\").arg(\"-NonInteractive\").arg(\"-Command\").arg(&command);\n    } else if cfg!(target_os = \"windows\") && shell_bin.to_lowercase().contains(\"cmd\") {\n        cmd.arg(\"/C\").arg(&command);\n    } else {\n        cmd.arg(\"-c\").arg(&command);\n    }\n\n    // Append extra args\n    if let Some(extra_args) = args {\n        for a in extra_args {\n            cmd.arg(&a);\n        }\n    }\n\n    // Working directory. Use the explicit cwd when it exists; otherwise fall\n    // back to the per-chat agent workspace (created if missing) so a relative\n    // command never runs in the app's ambient cwd and scatters files into\n    // ~/Documents (David 2026-06-04). Mirrors the file tools' path resolution.\n    let workdir: PathBuf = match cwd.as_ref().map(|d| Path::new(d)) {\n        Some(p) if p.is_dir() => p.to_path_buf(),\n        _ => match working_directory.as_deref().map(str::trim).filter(|s| !s.is_empty()) {\n            // Folder workspace (the user's repo, from chatCtx.workingDirectory)\n            // wins over the per-chat sandbox for relative commands (#62).\n            Some(wd) => PathBuf::from(wd),\n            None => {\n                let w = workspace_cwd(chat_id.as_deref());\n                let _ = std::fs::create_dir_all(&w);\n                w\n            }\n        },\n    };\n    if workdir.is_dir() {\n        cmd.current_dir(&workdir);\n    }\n\n",
+        "new": "    let timeout_ms = timeout.unwrap_or(120_000).clamp(1, 1_800_000);\n    if stdin.as_ref().is_some_and(|input| input.len() > 1_048_576) {\n        return Err(\"Shell stdin limit exceeded\".into());\n    }\n    let mut cmd = omega_shell_sandbox::prepare(\n        &command, args.as_deref().unwrap_or(&[]), cwd.as_deref(),\n        shell.as_deref(), chat_id.as_deref(), working_directory.as_deref(),\n    )?;\n\n"
+      },
+      {
+        "old": "    #[cfg(target_os = \"windows\")]\n    cmd.creation_flags(CREATE_NO_WINDOW);\n\n",
+        "new": ""
+      }
+    ]
   }
 }

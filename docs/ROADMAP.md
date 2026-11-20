@@ -37,14 +37,16 @@ Baza nadal 2.6.7 (nie 3.0.10). Wymagania muszą zostać zweryfikowane względem 
 
 | ID | Zakres | Stan |
 |---|---|---|
-| V4-I18N | UI, katalog, onboarding, persony PL/EN | OPEN |
-| V4-ANDROID | Nazwa, zasoby PL, opcjonalne package ID oraz spójność release | OPEN |
+| V4-I18N | UI, katalog, onboarding, persony PL/EN | IMPLEMENTED PARTIAL — polski domyślny, przełącznik PL/EN, migracja ustawień v22, nawigacja, fragmenty ustawień/onboardingu i nazwy person; 6 testów modułu PASS; katalog, pozostałe UI, pełny React/E2E otwarte |
+| V4-ANDROID | Nazwa, zasoby PL, opcjonalne package ID oraz spójność release | IMPLEMENTED PARTIAL — rebranding poziomu 1 przez `runtime:android-brand` lub `runtime:build --android-brand`; 8 testów XML/kontraktu PASS, package ID zachowany, finalny APK i podpis NOT_RUN |
 | V4-RAG | Natywna ingestia, SQLite-vec, embedding wielojęzyczny | OPEN; PL-001 częściowo pokrywa leksykę |
 | V4-VOICE | PL STT/TTS, segmentacja skrótów, zdalny voice z bramką | OPEN |
 | V4-IPC | Zdarzenia postępu i telemetria zamiast pollingu | OPEN |
 | V4-GPU | KV-slot handoff, kompatybilna kwantyzacja, kontekst i narzędzia | OPEN |
-| V4-SEC | Izolacja procesów na poziomie OS, PL sensitive patterns | OPEN |
+| V4-SEC | Izolacja procesów na poziomie OS, PL sensitive patterns | IMPLEMENTED PARTIAL — Linux Bubblewrap, deny-by-default bez adaptera, ograniczony workspace i wejście; 3 testy Rust dodane, NOT_RUN; Windows/macOS/Android i PL Computer Control otwarte; brak gwarancji izolacji tenantów |
 | V4-AST | Natywny indeks AST | OPEN |
 | V4-THERMAL | Android thermal listener | OPEN |
 | V4-MODELS | Lokalny katalog polskich modeli i neutralna ewaluacja PL/EN jakości | OPEN |
 | V4-RELEASE | Kompilacja i testy całej aplikacji, APK | OPEN |
+
+Dowody przyrostu V4-I18N / V4-ANDROID / V4-SEC: [OMEGA_V4_LOCALIZATION_SECURITY_EVIDENCE.md](OMEGA_V4_LOCALIZATION_SECURITY_EVIDENCE.md). Wszystkie trzy pozostają częściowe; bramki wydaniowe nie zostały zamknięte.
