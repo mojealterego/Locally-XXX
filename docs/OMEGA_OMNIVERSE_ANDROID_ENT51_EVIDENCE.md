@@ -35,3 +35,14 @@ Android API 15+ limits foreground `dataSync`/`mediaProcessing` service operation
 - Integrated on device: **NOT_RUN**.
 - Security: limited local capability tests PASS; full penetration/SSRF/CaMeL and native sandbox **OPEN**.
 - Release Gate-09: **OPEN**.
+
+## 16 KiB release preflight (ENT-51/PSZ-01..10, second increment)
+
+New `scripts/verify_android_pagesize.py` validates **every** arm64 ELF shared library found in a candidate APK/AAB by reading ELF64 program headers (ET_DYN, EM_AARCH64, PT_LOAD, power-of-two `p_align >= 16384`, congruent `p_offset` and `p_vaddr`). For APK it additionally checks the real ZIP local-file data offset of each uncompressed `.so` is divisible by 16384; compressed native libraries are refused for this mmap-oriented packaging contract. Archive path traversal, unexpected ABIs, symlinks, duplicates and oversized inputs are rejected. An AAB by itself is **PARTIAL / exit 2**, because actual APK ZIP alignment can only be verified after `bundletool` creates the final installation APK.
+
+```bash
+python -m unittest discover -s tests -p test_android_pagesize.py -v
+python scripts/verify_android_pagesize.py path/to/release.apk
+```
+
+**Actual locally executed RED:** missing module import. **GREEN:** 10/10 deterministic Python unittest cases PASS, Python 3.13.5 on Linux x86-64, using crafted ELF and APK/AAB fixture bytes. Source blob Git-SHA: `97fb26d80bc29dac1f1c56cd54623bda4e378dfa`; test source blob Git-SHA: `f0fbd11132153df8b24bcd9a3df2f4e3a194c71c`. Real NDK-built `.so`, production APK/AAB, `zipalign -c -P 16`, `bundletool`, Play release and physical device: **NOT_RUN**. PASS applies to test fixtures only and does not certify that an unsigned or synthetic APK is ready for publication.

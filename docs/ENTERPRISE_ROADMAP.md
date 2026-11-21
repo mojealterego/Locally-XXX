@@ -154,3 +154,5 @@ Integracja oparta wyłącznie na potwierdzonych API Google Cloud; nie wykorzystu
 ### ENT-51 — Android Foundation / Omega Omniverse (2026-11-21)
 
 Szczegóły implementacji, SHA źródeł, testów i ograniczeń środowiskowych: [OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md](OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md). Nie powielono istniejącego backendowego ResourceArbiter; warstwa Kotlin Android kontroluje tylko przyszłe rezerwacje lokalnych silników, a ich faktyczne odładowywanie, JNI i zakup/build APK nadal wymagają integracji. Wartość 6553 MiB jest limitem analitycznym, nie zweryfikowanym budżetem urządzenia. **PARTIAL; GATE-09 OPEN.**
+
+ENT-51 PSZ-01..10 (2026-11-21): dołożono niezależny, fail-closed verifier 16 KiB ELF64/ZIP dla arm64 APK i AAB, rozróżniający ELF verification od końcowego APK packaging verification. Testy na kontrolowanych plikach ZIP/ELF: 10/10 PASS lokalnie; produkcyjny ARM64/NDK, bundletool i urządzenie NIEURUCHOMIONE. [Dowody](OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md). Status PARTIAL, GATE-09 OPEN.
