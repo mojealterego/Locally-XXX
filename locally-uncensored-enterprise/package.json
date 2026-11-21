@@ -24,6 +24,8 @@
     "start:cloud": "node backend/src/cloud/start.mjs",
     "test:awesome": "node --test test/awesome.test.mjs",
     "awesome:list": "node packages/awesome-workspace/cli.mjs list",
-    "awesome:verify": "node packages/awesome-workspace/cli.mjs verify"
+    "awesome:verify": "node packages/awesome-workspace/cli.mjs verify",
+    "test:gflow": "node --test packages/awesome-gflow-mcp/test/*.test.mjs",
+    "gflow:mcp": "node packages/awesome-gflow-mcp/bin/flow-mcp.mjs"
   }
 }

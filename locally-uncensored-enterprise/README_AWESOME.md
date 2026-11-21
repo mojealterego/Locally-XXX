@@ -2,9 +2,9 @@
 
 **Status: ENT-47/48/49 PARTIAL.** Zintegrowana przestrzeń modułów — bez powielania istniejącego kodu i bez automatycznego wywoływania płatnych usług.
 
-## ENT-47: Rejestr 10 modułów
+## ENT-47: Rejestr modułów Awesome
 
-Katalog `packages/awesome-workspace/` mapuje 10 nazw `awesome-*` na rzeczywiste, istniejące komponenty `backend/`, `integrations/`, `ide-studio/` i na nowe paczki. `OPEN` jest jawne, a `PARTIAL` oznacza tylko fragment kodu, nie status produkcyjny.
+Katalog `packages/awesome-workspace/` mapuje 11 nazw `awesome-*` na rzeczywiste, istniejące komponenty `backend/`, `integrations/`, `ide-studio/` i na nowe paczki. `OPEN` jest jawne, a `PARTIAL` oznacza tylko fragment kodu, nie status produkcyjny.
 
 Z katalogu `locally-uncensored-enterprise`:
 ```sh
@@ -52,6 +52,10 @@ HTML jest statyczny z kodowaniem danych i CSP, bez pobierania zasobów sieciowyc
 node --test test/awesome.test.mjs
 ```
 
-Testy w Linux Node 22.16.0: **12/12 PASS**, w tym faktyczny lokalny HTTP fixture NDJSON, porównanie dwóch PDF byte-by-byte oraz `pdftotext` weryfikujący „Zażółć gęślą jaźń”, CLI oraz komponent DOM na kontrolowanym mocku. Przeglądarka, realny model, pełny pnpm monorepo, Windows/macOS/Android, Rust/Tauri oraz niezależny sandbox zostały **NOT_RUN**. [Dowody](../docs/OMEGA_ENT_AWESOME_EVIDENCE.md).
+Testy w Linux Node 22.16.0: **12/12 PASS (przyrost pierwotny; zestaw rejestru po rozszerzeniu NOT_RUN)**, w tym faktyczny lokalny HTTP fixture NDJSON, porównanie dwóch PDF byte-by-byte oraz `pdftotext` weryfikujący „Zażółć gęślą jaźń”, CLI oraz komponent DOM na kontrolowanym mocku. Przeglądarka, realny model, pełny pnpm monorepo, Windows/macOS/Android, Rust/Tauri oraz niezależny sandbox zostały **NOT_RUN**. [Dowody](../docs/OMEGA_ENT_AWESOME_EVIDENCE.md).
 
 Żaden moduł nie uzyskuje GATE-09 na podstawie lokalnych testów jednostkowych.
+
+## ENT-50: Hybrid Google Cloud / Vertex Veo Film Studio (2026-11-21)
+
+Nowy moduł `packages/awesome-gflow-mcp/` jest rozpoznawany przez istniejący `pnpm-workspace.yaml` i rejestr Awesome (11 modułów). Zawiera deterministyczny kompilator trzywarstwowego Master Prompt JSON, lokalny MCP stdio, integracyjny adapter oficjalnego Vertex Veo 3.1 oraz trwały limitowany rejestr zadań w SQLite. Samodzielny MCP pozwala tylko kompilować; płatne wywołania są wyłączone bez oddzielnej autoryzacji backendu. Repozytorium nie deklaruje oficjalnego publicznego API Google Labs Flow. Nie implementuje rozwiązywania reCAPTCHA ani omijania moderacji. Testy modułu 21/21 lokalnie PASS; zewnętrzne Google Cloud, UI/Android i CI produkcyjne NOT_RUN. [Moduł](packages/awesome-gflow-mcp/README.md) · [Dowody](../docs/OMEGA_ENT_GFLOW_EVIDENCE.md).

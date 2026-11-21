@@ -8,5 +8,6 @@ export const DEFINITIONS=Object.freeze([
  {id:'awesome-private-ai',entry:'backend/src/sandbox/gvisor.mjs',capability:'Bounded gVisor adapter',outstanding:'Real Firecracker, gVisor and GPU validation'},
  {id:'awesome-json-fmt',entry:'integrations/src/json-tools.mjs',capability:'Strict local JSON/YAML/ENV formatter',outstanding:'AST pipeline auto-lint integration'},
  {id:'awesome-stundensatz-rechner',entry:'integrations/src/pricing.mjs',capability:'Local billing estimate and optional business MCP',outstanding:'Country-specific tax and project quotations'},
- {id:'awesome-printer-tools',entry:'packages/awesome-printer-tools/html.mjs',capability:'Safe reproducible HTML and PDF report exports',outstanding:'PDF platform availability and full UI integration'}
+ {id:'awesome-printer-tools',entry:'packages/awesome-printer-tools/html.mjs',capability:'Safe reproducible HTML and PDF report exports',outstanding:'PDF platform availability and full UI integration'},
+ {id:'awesome-gflow-mcp',entry:'packages/awesome-gflow-mcp/src/mcp.mjs',capability:'Offline Master Prompt video compiler and first-party Vertex Veo REST client; Cloud tool execution disabled by default',outstanding:'Production OIDC/PDP + explicit user consent, model access, real provider E2E, media identity/reference upload, extension, GUI and multi-node orchestration'}
 ].map(x=>Object.freeze({...x,status:x.entry?'PARTIAL':'OPEN'})));

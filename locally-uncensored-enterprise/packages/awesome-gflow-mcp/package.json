@@ -1,0 +1,12 @@
+{
+  "name": "@omega/awesome-gflow-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.16.0" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "mcp": "node bin/flow-mcp.mjs"
+  },
+  "bin": { "omega-vertex-film-mcp": "bin/flow-mcp.mjs" }
+}
