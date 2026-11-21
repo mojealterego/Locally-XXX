@@ -51,7 +51,7 @@ Jedna aplikacja z wewnętrznym launcherem kafelkowym (nie osobne APK dla każdej
 | ENT-26 | ODYN research: codzienna inżynieria, cotygodniowe badanie rynku, comiesięczna propozycja ewolucji, zatwierdzanie operatora | ENT-08, ENT-24, ENT-25 | OPEN |
 | ENT-27 | Agents Market: dokumentacja, ceny/licencje, certyfikaty wewnętrzne, płatności i autoryzowana dystrybucja, podpisy oraz szyfrowanie/hybrydowa PQC | ENT-07, ENT-24 | OPEN |
 | ENT-28 | Global Registry i Approval UI: autoryzowane odczyty, walidacja danych i sygnały Temporal związane z konkretną wersją artefaktu | ENT-03, ENT-05, ENT-08, ENT-24 | OPEN |
-| ENT-29 | Observability: tenant-scoped zdarzenia, trwały audyt, redakcja sekretów, streaming z uprawnieniami, OpenTelemetry | ENT-03, ENT-07, ENT-09 | OPEN |
+| ENT-29 | Observability: tenant-scoped zdarzenia, trwały audyt, redakcja sekretów, streaming z uprawnieniami, OpenTelemetry | ENT-03, ENT-07, ENT-09 | PARTIAL: lokalny HMAC SQLite ledger i HTTP/SSE OIDC/PDP, instrumentacja DAG/Agent Runtime, 13/13 testów. Brak OpenTelemetry, centralnego HA/retencji, UI i globalnych E2E |
 | ENT-30 | Multi-target App Builder, React Flow, AST i kompilacja platformowa | ENT-13, ENT-17, ENT-18 | PARTIAL: deklaratywne ekrany i przyciski nawigacji, walidacja grafu, kompilator AST TypeScript Compiler API do React source + SHA-256, CLI i formularz DOM z podglądem oraz eksportem JSON; 5/5 testów PASS. React Flow, typecheck realnego React, E2E, pakowanie Android/iOS/desktop/web OPEN |
 
 ## Aktualizacja architektury Enterprise — IDE, RAG, inference i operacje
@@ -136,3 +136,7 @@ Dziesięć nazw `awesome-*` stanowi logiczną mapę rzeczywistego kodu, nie kopi
 ## ENT-44/46 — QTA-01..10 (2026-11-21)
 
 Stan PARTIAL: zaimplementowano trwały licznik dzienny tenant-scoped na SQLite, dwa obowiązkowe limity konfiguracji, fail-closed przed strumieniem do dostawcy, odczyt limitów w autoryzowanym statusie i brak zwrotu rezerwacji przy niejednoznacznym wyniku. QTA-01..10: 10/10 lokalnych testów PASS, w tym test rzeczywistego HTTP loopback; full-suite, realny OIDC/PDP i zewnętrzny provider NOT_RUN. Prawdziwe koszty w walucie, input tokens, ceny modeli, faktury i distributed ledger wciąż OPEN. [Dowody](OMEGA_ENT_CLOUD_QUOTA_EVIDENCE.md). GATE-09 OPEN.
+
+## ENT-29 — lokalny dziennik zdarzeń i audyt (2026-11-21)
+
+Moduły `backend/src/observability/ledger.mjs`, `http.mjs`, `start.mjs` oraz integracja z `graph-runner.mjs` i `agent-runtime.mjs` zapisują wyłącznie uporządkowane zdarzenia procesu bez danych promptów, wyników lub prywatnego rozumowania. HMAC-SHA-256 per tenant, transakcje SQLite, OIDC/PDP przed odczytem i SSE z limitami oraz cursorem. Testy AUD-01..13: 13 PASS lokalnie. Dane zdarzeń z pozostałych procesów nie są jeszcze integrowane, nie istnieje pełny GUI panel, brak produkcyjnego OTel, PostgreSQL, retencji i ZTNA. [Dowody](OMEGA_ENT_OBSERVABILITY_EVIDENCE.md). **PARTIAL, GATE-09 OPEN.**

@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 const ID=/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
 const valid=x=>typeof x==='string'&&ID.test(x);
 const fail=()=>{throw Error('Invalid graph or tool registry')};
@@ -9,13 +10,20 @@ function validate(g,tools){
   return {tenant:g.tenant,agent:g.agent,nodes,order};
 }
 async function bounded(fn,signal){if(signal.aborted)throw signal.reason;let listener;try{return await Promise.race([Promise.resolve().then(()=>{if(signal.aborted)throw signal.reason;return fn()}),new Promise((_,reject)=>{listener=()=>reject(signal.reason);signal.addEventListener('abort',listener,{once:true})})])}finally{signal.removeEventListener('abort',listener)}}
-export async function executeGraph(graph,{authorize,tools,deadlineMs=60000,maxOutputBytes=1024*1024,signal}={}){
-  if(typeof authorize!=='function'||!Number.isSafeInteger(deadlineMs)||deadlineMs<1||deadlineMs>3600000||!Number.isSafeInteger(maxOutputBytes)||maxOutputBytes<1||maxOutputBytes>16*1024*1024)fail();
+export async function executeGraph(graph,{authorize,tools,deadlineMs=60000,maxOutputBytes=1024*1024,signal,eventSink,runId}={}){
+  if(typeof authorize!=='function'||(eventSink!==undefined&&typeof eventSink!=='function')||(runId!==undefined&&!valid(runId))||!Number.isSafeInteger(deadlineMs)||deadlineMs<1||deadlineMs>3600000||!Number.isSafeInteger(maxOutputBytes)||maxOutputBytes<1||maxOutputBytes>16*1024*1024)fail();
   const registry=new Map(tools),g=validate(graph,registry),control=new AbortController(),timer=setTimeout(()=>control.abort(Error('Graph deadline exceeded')),deadlineMs),global=signal?AbortSignal.any([signal,control.signal]):control.signal;const outputs=new Map();let bytes=0;
-  try{for(const id of g.order){const node=g.nodes.get(id),step=new AbortController(),tick=setTimeout(()=>step.abort(Error('Tool timeout')),node.timeoutMs),local=AbortSignal.any([global,step.signal]),context=Object.freeze({tenant:g.tenant,agent:g.agent,node,signal:local});try{
-    if(await bounded(()=>authorize(context),local)!==true)throw Error('Tool denied');
-    const parents=Object.fromEntries(node.dependsOn.map(d=>[d,structuredClone(outputs.get(d))]));const value=await bounded(()=>registry.get(node.tool)({...context,parents}),local);
-    const raw=JSON.stringify(value);if(typeof raw!=='string'||(bytes+=Buffer.byteLength(raw))>maxOutputBytes)throw Error('Graph output budget exceeded');outputs.set(id,JSON.parse(raw));
-  }finally{clearTimeout(tick)}}
-  return Object.fromEntries(outputs)}finally{clearTimeout(timer)}
+  const trace=runId??randomUUID();
+  const emit=async(kind,node)=>{if(eventSink)await bounded(()=>eventSink(Object.freeze({tenant:g.tenant,agent:g.agent,runId:trace,kind,node})),global)};
+  try{await emit('run_started',null);
+    for(const id of g.order){const node=g.nodes.get(id),step=new AbortController(),tick=setTimeout(()=>step.abort(Error('Tool timeout')),node.timeoutMs),local=AbortSignal.any([global,step.signal]),context=Object.freeze({tenant:g.tenant,agent:g.agent,node,signal:local});let allowed=false,denied=false;
+      try{
+        if(await bounded(()=>authorize(context),local)!==true){denied=true;await emit('tool_denied',id);throw Error('Tool denied')}
+        allowed=true;await emit('tool_allowed',id);
+        const parents=Object.fromEntries(node.dependsOn.map(d=>[d,structuredClone(outputs.get(d))]));const value=await bounded(()=>registry.get(node.tool)({...context,parents}),local);
+        const raw=JSON.stringify(value);if(typeof raw!=='string'||(bytes+=Buffer.byteLength(raw))>maxOutputBytes)throw Error('Graph output budget exceeded');outputs.set(id,JSON.parse(raw));await emit('tool_finished',id);
+      }catch(e){if(allowed)await emit('tool_failed',id);else if(!denied)await emit('tool_denied',id);throw e}finally{clearTimeout(tick)}
+    }
+    await emit('run_finished',null);return Object.fromEntries(outputs);
+  }catch(e){await emit('run_failed',null);throw e}finally{clearTimeout(timer)}
 }
