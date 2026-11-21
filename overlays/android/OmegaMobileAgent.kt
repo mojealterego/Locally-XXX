@@ -6,7 +6,13 @@ internal interface MobileHealthProvider { fun sample(): MobileHealth }
 internal class OmegaMobileAgent(private val provider: MobileHealthProvider) {
     fun execute(command: String, userApproved: Boolean): MobileHealth {
         require(command == "device_status") { "Unknown mobile command" }
-        check(userApproved) { "Operator approval is required" }
+        OmegaCapabilityPolicy.authorize(
+            principal = "mobile-agent",
+            trust = OmegaAgentTrust.PRIVILEGED,
+            scope = OmegaToolScope.DEVICE_STATUS,
+            arguments = emptyList(),
+            operatorApproved = userApproved
+        )
         val result = provider.sample()
         check(result.availableMemoryMiB >= 0 && result.thermalStatus?.let { it in 0..6 } != false && result.batteryPercent?.let { it in 0..100 } != false) { "Invalid device health telemetry" }
         return result

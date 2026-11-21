@@ -6,6 +6,18 @@ from scripts.native_acceptance import PACKAGE, NS
 import xml.etree.ElementTree as ET
 
 ASSETS=Path(__file__).resolve().parents[1]/'overlays/android'
+# Pre-upgrade fingerprints for exact, unmodified old helpers (normalized to com.example.app).
+LEGACY_HELPER_SHA256={
+    'OmegaThermalMonitor.kt':'4880a098eac801b38f38ca21f3c035fc0286f769190e01a6b5ab0a3e631821e7',
+    'OmegaMobileAgent.kt':'118cdac63dbae532eaabc515cbc0243e72fd65d18a81f782af120dd76a2e85fa',
+}
+
+def recognized_legacy_helper(path,package):
+    expected=LEGACY_HELPER_SHA256.get(path.name)
+    if expected is None:return False
+    content=path.read_text()
+    normalized=content.replace(f'package {package}\n','package com.example.app\n',1)
+    return hashlib.sha256(normalized.encode('utf-8')).hexdigest()==expected
 
 def template(package):
     return f'''package {package}
@@ -35,13 +47,13 @@ def install_lifecycle(workspace,package):
     root=Path(workspace).absolute();require(root.is_dir() and not root.is_symlink(),'ANDROID_PROJECT','Unsafe root')
     main=root/'src-tauri/gen/android/app/src/main';activity=main/'java'/Path(*package.split('.'))/'MainActivity.kt';helper=activity.with_name('OmegaLifecycle.kt');manifest=main/'AndroidManifest.xml'
     thermal={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaThermalGate.kt','OmegaThermalMonitor.kt')}
-    native={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaMobileAgent.kt','OmegaAgentStatusPanel.kt')}
+    native={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaMobileAgent.kt','OmegaAgentStatusPanel.kt','OmegaMemoryLeaseBroker.kt','OmegaCapabilityPolicy.kt')}
     for p in (activity,manifest,helper,*thermal,*native):safe_file(root,p,p not in (activity,manifest))
     source=activity.read_text();out=(ASSETS/'MainActivity.kt').read_text().replace('@PACKAGE@',package);core=(ASSETS/'OmegaLifecycle.kt').read_text().replace('@PACKAGE@',package)
     old_out=out.replace('    private lateinit var agentPanel: OmegaAgentStatusPanel\n','').replace('        agentPanel = OmegaAgentStatusPanel(this) { thermalMonitor.canAdmit() }\n        agentPanel.attach()\n','').replace('if (::agentPanel.isInitialized) agentPanel.detach(); ','')
     legacy=old_out.replace('import android.app.ActivityManager\nimport android.os.PowerManager\n','').replace('    private lateinit var thermalMonitor: OmegaThermalMonitor\n    fun canStartHeavyWork(): Boolean = ::thermalMonitor.isInitialized && thermalMonitor.canAdmit()\n','').replace('        thermalMonitor = OmegaThermalMonitor(getSystemService(PowerManager::class.java), getSystemService(ActivityManager::class.java))\n','').replace('        thermalMonitor.start()\n','').replace('thermalMonitor.stop(); lifecycleCheckpoint.transition','lifecycleCheckpoint.transition').replace('if (::thermalMonitor.isInitialized) thermalMonitor.stop(); ','')
     require(source in (template(package),legacy,old_out,out),'ANDROID_PROJECT','Unknown MainActivity; refuse overwrite')
-    for path,data in {**thermal,**native}.items():require(not path.exists() or path.read_text()==data,'ANDROID_PROJECT','Unknown thermal helper; refuse overwrite')
+    for path,data in {**thermal,**native}.items():require(not path.exists() or path.read_text()==data or recognized_legacy_helper(path,package),'ANDROID_PROJECT','Unknown Android helper; refuse overwrite')
     require(not helper.exists() or helper.read_text()==core,'ANDROID_PROJECT','Unknown lifecycle helper; refuse overwrite')
     raw=manifest.read_text();require('<!DOCTYPE' not in raw.upper() and '<!ENTITY' not in raw.upper(),'MANIFEST','Invalid manifest declarations')
     try: xml=ET.fromstring(raw)

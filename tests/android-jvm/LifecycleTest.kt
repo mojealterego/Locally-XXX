@@ -31,5 +31,6 @@ fun main() {
     test("production MainActivity rejects failed checkpoint before Tauri startup") {
         TauriActivity.prefs.fail=true;val a=MainActivity();fails { a.onCreate(null) };check(a.calls.isEmpty());TauriActivity.prefs.fail=false
     }
-    println("ANDROID-JVM $count/8 PASS")
+    test("native resource reservations use Android telemetry and thermal dwell") { assertMemoryMonitorIntegration() }
+    println("ANDROID-JVM $count/9 PASS")
 }

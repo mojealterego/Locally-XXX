@@ -16,5 +16,16 @@ with tempfile.TemporaryDirectory() as tmp:
     mobile_test=root/'OmegaMobileAgentTest.kt'
     mobile_test.write_text((ROOT/'tests/mobile/OmegaMobileAgentTest.kt').read_text().replace('@PACKAGE@','com.example.app'))
     mobile_jar=root/'mobile-agent.jar'
-    subprocess.run(['kotlinc',str(root/'OmegaMobileAgent.kt'),str(mobile_test),'-include-runtime','-d',str(mobile_jar)],check=True,timeout=120)
+    subprocess.run(['kotlinc',str(root/'OmegaMobileAgent.kt'),str(root/'OmegaCapabilityPolicy.kt'),str(mobile_test),'-include-runtime','-d',str(mobile_jar)],check=True,timeout=120)
     subprocess.run(['java','-jar',str(mobile_jar)],check=True,timeout=30)
+
+    policy_test=root/'OmegaCapabilityPolicyTest.kt'
+    policy_test.write_text((ROOT/'tests/mobile/OmegaCapabilityPolicyTest.kt').read_text().replace('@PACKAGE@','com.example.app'))
+    policy_jar=root/'capability-policy.jar'
+    subprocess.run(['kotlinc',str(root/'OmegaCapabilityPolicy.kt'),str(policy_test),'-include-runtime','-d',str(policy_jar)],check=True,timeout=120)
+    subprocess.run(['java','-jar',str(policy_jar)],check=True,timeout=30)
+    memory_test=root/'OmegaMemoryLeaseBrokerTest.kt'
+    memory_test.write_text((ROOT/'tests/mobile/OmegaMemoryLeaseBrokerTest.kt').read_text().replace('@PACKAGE@','com.example.app'))
+    memory_jar=root/'memory-broker.jar'
+    subprocess.run(['kotlinc',str(root/'OmegaMemoryLeaseBroker.kt'),str(memory_test),'-include-runtime','-d',str(memory_jar)],check=True,timeout=120)
+    subprocess.run(['java','-jar',str(memory_jar)],check=True,timeout=30)
