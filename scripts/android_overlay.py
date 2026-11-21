@@ -47,7 +47,7 @@ def install_lifecycle(workspace,package):
     root=Path(workspace).absolute();require(root.is_dir() and not root.is_symlink(),'ANDROID_PROJECT','Unsafe root')
     main=root/'src-tauri/gen/android/app/src/main';activity=main/'java'/Path(*package.split('.'))/'MainActivity.kt';helper=activity.with_name('OmegaLifecycle.kt');manifest=main/'AndroidManifest.xml'
     thermal={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaThermalGate.kt','OmegaThermalMonitor.kt')}
-    native={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaMobileAgent.kt','OmegaAgentStatusPanel.kt','OmegaMemoryLeaseBroker.kt','OmegaCapabilityPolicy.kt')}
+    native={activity.with_name(name):(ASSETS/name).read_text().replace('@PACKAGE@',package) for name in ('OmegaMobileAgent.kt','OmegaAgentStatusPanel.kt','OmegaMemoryLeaseBroker.kt','OmegaCapabilityPolicy.kt','OmegaNativeModelCoordinator.kt','OmegaAndroidModelAdmission.kt')}
     for p in (activity,manifest,helper,*thermal,*native):safe_file(root,p,p not in (activity,manifest))
     source=activity.read_text();out=(ASSETS/'MainActivity.kt').read_text().replace('@PACKAGE@',package);core=(ASSETS/'OmegaLifecycle.kt').read_text().replace('@PACKAGE@',package)
     old_out=out.replace('    private lateinit var agentPanel: OmegaAgentStatusPanel\n','').replace('        agentPanel = OmegaAgentStatusPanel(this) { thermalMonitor.canAdmit() }\n        agentPanel.attach()\n','').replace('if (::agentPanel.isInitialized) agentPanel.detach(); ','')

@@ -12,7 +12,7 @@ class AndroidOverlayTests(unittest.TestCase):
         self.activity.write_text(template(self.pkg))
         self.manifest=self.main/'AndroidManifest.xml';self.manifest.write_text('<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="LU"/></manifest>')
     def test_install_idempotent(self):
-        result=install_lifecycle(self.root,self.pkg);self.assertIn('OmegaLifecycle',self.activity.read_text());self.assertIn('OmegaMemoryLeaseBroker',self.activity.with_name('OmegaThermalMonitor.kt').read_text());self.assertIn('OmegaCapabilityPolicy',self.activity.with_name('OmegaMobileAgent.kt').read_text());self.assertIn('android:allowBackup="false"',self.manifest.read_text());self.assertEqual(result,install_lifecycle(self.root,self.pkg))
+        result=install_lifecycle(self.root,self.pkg);self.assertIn('OmegaLifecycle',self.activity.read_text());self.assertIn('OmegaMemoryLeaseBroker',self.activity.with_name('OmegaThermalMonitor.kt').read_text());self.assertIn('OmegaCapabilityPolicy',self.activity.with_name('OmegaMobileAgent.kt').read_text());self.assertTrue(self.activity.with_name('OmegaNativeModelCoordinator.kt').is_file());self.assertTrue(self.activity.with_name('OmegaAndroidModelAdmission.kt').is_file());self.assertIn('android:allowBackup="false"',self.manifest.read_text());self.assertEqual(result,install_lifecycle(self.root,self.pkg))
     def test_custom_activity_refused(self):
         self.activity.write_text('custom');before=self.manifest.read_bytes()
         with self.assertRaises(RuntimeErrorCode):install_lifecycle(self.root,self.pkg)
@@ -26,6 +26,12 @@ class AndroidOverlayTests(unittest.TestCase):
         install_lifecycle(self.root,self.pkg)
         p=self.activity.with_name('OmegaThermalMonitor.kt');p.write_text(p.read_text()+'\\n// malicious alteration\\n')
         with self.assertRaises(RuntimeErrorCode):install_lifecycle(self.root,self.pkg)
+    def test_untrusted_coordinator_rejected_without_rewriting_activity(self):
+        helper=self.activity.with_name('OmegaNativeModelCoordinator.kt')
+        helper.write_text('override attempt')
+        with self.assertRaises(RuntimeErrorCode):install_lifecycle(self.root,self.pkg)
+        self.assertEqual(helper.read_text(),'override attempt')
+        self.assertEqual(self.activity.read_text(),template(self.pkg))
     def test_custom_helper_refused(self):
         p=self.activity.with_name('OmegaLifecycle.kt');p.write_text('untrusted')
         with self.assertRaises(RuntimeErrorCode):install_lifecycle(self.root,self.pkg)

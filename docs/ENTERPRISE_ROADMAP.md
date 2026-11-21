@@ -156,3 +156,9 @@ Integracja oparta wyłącznie na potwierdzonych API Google Cloud; nie wykorzystu
 Szczegóły implementacji, SHA źródeł, testów i ograniczeń środowiskowych: [OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md](OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md). Nie powielono istniejącego backendowego ResourceArbiter; warstwa Kotlin Android kontroluje tylko przyszłe rezerwacje lokalnych silników, a ich faktyczne odładowywanie, JNI i zakup/build APK nadal wymagają integracji. Wartość 6553 MiB jest limitem analitycznym, nie zweryfikowanym budżetem urządzenia. **PARTIAL; GATE-09 OPEN.**
 
 ENT-51 PSZ-01..10 (2026-11-21): dołożono niezależny, fail-closed verifier 16 KiB ELF64/ZIP dla arm64 APK i AAB, rozróżniający ELF verification od końcowego APK packaging verification. Testy na kontrolowanych plikach ZIP/ELF: 10/10 PASS lokalnie; produkcyjny ARM64/NDK, bundletool i urządzenie NIEURUCHOMIONE. [Dowody](OMEGA_OMNIVERSE_ANDROID_ENT51_EVIDENCE.md). Status PARTIAL, GATE-09 OPEN.
+
+| ENT-52 | Android Dual-GGUF lifecycle: rzeczywisty in-process backend JNI z llama.cpp, dwie rezydentne instancje, transakcyjne dzierżawy, kontrola KV/cache, testy na ARM64 i odzyskiwanie po LMKD | ENT-51 | PARTIAL: Kotlin `OmegaNativeModelCoordinator` i `OmegaAndroidModelAdmission`, dwufazowe physical unload → potwierdzona dzierżawa, defensywna inspekcja GGUF z jednym FD, 10/10 testów lokalnego kontrolera; realne JNI/llama.cpp, spec decode, NDK/ARM64, fizyczny Android oraz pełne regresje OPEN |
+
+### ENT-52 — transactional Dual-GGUF lifecycle, 2026-11-21
+
+Zaimplementowano kontroler rezerwacji dwóch modeli wraz z preflight GGUF, dwufazowym zwolnieniem pamięci, konserwatywnym stanem `suspectSlots` po awarii oraz adapterem do `OmegaThermalMonitor`. Testy jednostkowe sterowania przeprowadzone na Linux x86-64 (Kotlin/JVM): NMC-01..10 PASS. **Nie wykonano rzeczywistego ładowania w `llama.cpp` ani budowy APK**. [Dowody](OMEGA_ENT52_DUAL_GGUF_LIFECYCLE_EVIDENCE.md). PARTIAL, GATE-09 OPEN.

@@ -29,3 +29,8 @@ with tempfile.TemporaryDirectory() as tmp:
     memory_jar=root/'memory-broker.jar'
     subprocess.run(['kotlinc',str(root/'OmegaMemoryLeaseBroker.kt'),str(memory_test),'-include-runtime','-d',str(memory_jar)],check=True,timeout=120)
     subprocess.run(['java','-jar',str(memory_jar)],check=True,timeout=30)
+    native_model_test=root/'OmegaNativeModelCoordinatorTest.kt'
+    native_model_test.write_text((ROOT/'tests/mobile/OmegaNativeModelCoordinatorTest.kt').read_text())
+    native_model_jar=root/'native-model-coordinator.jar'
+    subprocess.run(['kotlinc',str(root/'OmegaMemoryLeaseBroker.kt'),str(root/'OmegaNativeModelCoordinator.kt'),str(native_model_test),'-include-runtime','-d',str(native_model_jar)],check=True,timeout=120)
+    subprocess.run(['java','-jar',str(native_model_jar)],check=True,timeout=30)
