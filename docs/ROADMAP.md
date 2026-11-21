@@ -76,3 +76,5 @@ ENT-21/22/23: przygotowanie danych SFT/LoRA/QLoRA offline, dwufazowe Mining Cont
 ENT-37..40: zintegrowane cztery interfejsy (konwerter JPG/PNG/WebP, JSON/ENV/YAML, knowledge z adapterem pgvector, kalkulator + MCP). 16/16 testów lokalnych PASS, realny browser/DB/GPU E2E OPEN. [Dowody](OMEGA_ENT_EXTERNAL_INTEGRATIONS.md).
 
 ENT-41/42/43: lokalny indeks wyszukiwania/filtrowania katalogów, poprawiona geometria skalowania iframe oraz deterministyczny algorytm podziału historycznego budżetu tokenów. 12 nowych testów i 5 regresji PASS w izolowanym środowisku Node, pełne GUI/Model Manager/Agent Registry E2E OPEN. [Dowody](OMEGA_ENT_CATALOG_VIEWPORT_CONTEXT_EVIDENCE.md).
+
+ENT-44..46 Cloud Multi-Provider: zintegrowana, domyślnie wyłączona bramka siedmiu dostawców z bezpiecznym magazynem AES-GCM, HTTP OIDC/PDP, jednorazowymi zgodami i SSE przez localhost web proxy. 19 lokalnych testów PASS; brak live E2E i produkcyjnych kontroli kosztów. [Dowody](OMEGA_ENT_CLOUD_GATEWAY_EVIDENCE.md).

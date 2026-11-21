@@ -108,3 +108,15 @@ ENT-13/14/18: [dowody pierwszego web shell](OMEGA_ENT_UI_EVIDENCE.md) — 9 loka
 | ENT-43 | Gradientowy przydział tokenów dla historycznych segmentów z gwarantowanym budżetem i ochroną współczesnego horyzontu | ENT-15, ENT-31 | PARTIAL: deterministyczny largest-remainder integer apportionment, wagi exp(-decay*age) ograniczone do [0.1,1], wspólny budżet, chronione system/recent/pinned, rzeczywiste liczenie przez dostarczony tokenizer callback. Testy jednostkowe i regresyjne PASS; ewaluacja semantyczna, produkcyjny tokenizer/model/VRAM E2E OPEN |
 
 [Dowody i ograniczenia](OMEGA_ENT_CATALOG_VIEWPORT_CONTEXT_EVIDENCE.md). Nowe testy: 12/12 PASS; ponownie wykonane wybrane historyczne testy CTX-01..05: 5/5 PASS. Brak zewnętrznych zależności, żadnego kosztownego CI. GATE-09 OPEN.
+
+## Cloud Multi-Provider Gateway — ENT-44/45/46 (2026-11-21)
+
+| ID | Wymaganie | Zależność | Stan |
+|---|---|---|---|
+| ENT-44 | Hybrydowy wybór modeli: OpenAI, Anthropic, OpenRouter, Groq, Together, DeepSeek, Mistral; brak automatycznego egress, klasyfikacja i potwierdzenie promptu | ENT-05, ENT-06, ENT-18 | PARTIAL: stała allowlista HTTPS, tylko publiczne dane i jawna aktywacja, limit rozmiaru i heurystyka sekretów, requesty dopuszczane po zgodzie. Live dostawcy, DLP formalne, faktury i modele OPEN |
+| ENT-45 | Szyfrowany, odseparowany od przeglądarki magazyn kluczy na tenant, cofanie, konfiguracja prywatna, rotacja i kontrola operatora | ENT-07, ENT-16 | PARTIAL: rzeczywisty SQLite AES-256-GCM z zewnętrznym 32B kluczem plikowym, katalog 0700 / plik 0600, API write/forget/status, kontrola tenant. KMS/OS keystore, rotacja, backup, HA, pełny audit OPEN |
+| ENT-46 | Uwierzytelniony cloud proxy, SSE i UI chmury w Integrated App, jawne zgody, bez ujawniania rozumowania ukrytego | ENT-44, ENT-45, ENT-18 | PARTIAL: HTTP OIDC/Permit + jednokrotne ticket approval 60s, backend Stream SSE dla standardowych adapterów, lokalny same-origin web proxy + kafelek Cloud Gateway; 19 testów lokalnych PASS. Browser E2E, Rust Tauri proxy, live IdP/PDP, provider API E2E i rozliczenia OPEN |
+
+[Instrukcja bezpiecznego uruchomienia](../locally-uncensored-enterprise/backend/CLOUD_GATEWAY.md) · [dowody CLD-01..19](OMEGA_ENT_CLOUD_GATEWAY_EVIDENCE.md). Domyślnie `OMEGA_CLOUD_ENABLED` nie jest aktywne. Żaden klucz użytkownika nie został dodany do kodu. Brak automatycznych zapytań do zewnętrznych modeli. 
+
+**GATE-09: OPEN** dla ENT-44/45/46. Żaden status PARTIAL nie oznacza pełnej migracji do Enterprise, prywatności w chmurze ani produkcyjnego wdrożenia.

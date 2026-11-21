@@ -12,7 +12,9 @@
     "start:reviews": "node src/review-server.mjs",
     "start:worker": "node src/worker.mjs",
     "training": "node scripts/training.mjs",
-    "test:operations": "node --test test/enterprise-services.test.mjs"
+    "test:operations": "node --test test/enterprise-services.test.mjs",
+    "test:cloud": "node --test test/cloud.test.mjs test/cloud-proxy.test.mjs",
+    "start:cloud": "node src/cloud/start.mjs"
   },
   "dependencies": {
     "pg": "8.16.3",

@@ -1,0 +1,12 @@
+import {readFileSync} from 'node:fs';
+import {Oidc,Permit} from '../auth/security.mjs';
+import {CredentialVault} from './vault.mjs';
+import {cloudServer} from './http.mjs';
+const required=k=>{const v=process.env[k];if(!v)throw Error('Missing '+k);return v};
+const cloudEnabled=process.env.OMEGA_CLOUD_ENABLED==='YES';
+const oidc=new Oidc({issuer:required('OMEGA_OIDC_ISSUER'),audience:required('OMEGA_OIDC_AUDIENCE'),client:required('OMEGA_OIDC_CLIENT')});
+const permit=new Permit({url:required('OMEGA_PDP_URL'),apiKey:readFileSync(required('OMEGA_PDP_KEY_FILE'),'utf8').trim()});
+const vault=new CredentialVault({directory:required('OMEGA_CLOUD_VAULT_DIR'),machineKeyFile:required('OMEGA_CLOUD_MASTER_KEY_FILE')});
+const port=Number(process.env.CLOUD_PORT??3002);if(!Number.isInteger(port)||port<1||port>65535)throw Error('Invalid CLOUD_PORT');
+const server=cloudServer({oidc,permit,vault,enabled:cloudEnabled});server.listen(port,'127.0.0.1');
+let stopped=false;for(const signal of ['SIGTERM','SIGINT'])process.once(signal,()=>{if(stopped)return;stopped=true;server.close(()=>vault.close());setTimeout(()=>server.closeAllConnections(),12000).unref()});
