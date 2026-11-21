@@ -16,7 +16,7 @@
     "test:cloud": "node --test test/cloud.test.mjs test/cloud-proxy.test.mjs",
     "start:cloud": "node src/cloud/start.mjs",
     "start:audit": "node src/observability/start.mjs",
-    "test:audit": "node --test test/observability.test.mjs"
+    "test:audit": "node --test test/observability.test.mjs test/audit-proxy.test.mjs"
   },
   "dependencies": {
     "pg": "8.16.3",

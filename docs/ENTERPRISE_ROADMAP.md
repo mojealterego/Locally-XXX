@@ -140,3 +140,5 @@ Stan PARTIAL: zaimplementowano trwały licznik dzienny tenant-scoped na SQLite, 
 ## ENT-29 — lokalny dziennik zdarzeń i audyt (2026-11-21)
 
 Moduły `backend/src/observability/ledger.mjs`, `http.mjs`, `start.mjs` oraz integracja z `graph-runner.mjs` i `agent-runtime.mjs` zapisują wyłącznie uporządkowane zdarzenia procesu bez danych promptów, wyników lub prywatnego rozumowania. HMAC-SHA-256 per tenant, transakcje SQLite, OIDC/PDP przed odczytem i SSE z limitami oraz cursorem. Testy AUD-01..13: 13 PASS lokalnie. Dane zdarzeń z pozostałych procesów nie są jeszcze integrowane, nie istnieje pełny GUI panel, brak produkcyjnego OTel, PostgreSQL, retencji i ZTNA. [Dowody](OMEGA_ENT_OBSERVABILITY_EVIDENCE.md). **PARTIAL, GATE-09 OPEN.**
+
+ENT-29 APX-01..04 (2026-11-21): stały, lokalny proxy pass-through `/api/audit/list` i `/api/audit/stream` przez aplikację web, filtr Origin/Bearer i limity. Testy: 4/4 PASS (razem AUD+APX 17/17). Brak UI audytu, zdalnego ZTNA, SSO PKCE, centralnej retencji i pełnych E2E. [Dowody](OMEGA_ENT_OBSERVABILITY_EVIDENCE.md). Status PARTIAL, GATE-09 OPEN.
