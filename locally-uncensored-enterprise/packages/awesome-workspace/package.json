@@ -1,0 +1,1 @@
+{"name":"@omega/awesome-workspace","version":"0.1.0","private":true,"type":"module","scripts":{"list":"node cli.mjs list","verify":"node cli.mjs verify"},"engines":{"node":">=22.16.0"}}

@@ -120,3 +120,15 @@ ENT-13/14/18: [dowody pierwszego web shell](OMEGA_ENT_UI_EVIDENCE.md) — 9 loka
 [Instrukcja bezpiecznego uruchomienia](../locally-uncensored-enterprise/backend/CLOUD_GATEWAY.md) · [dowody CLD-01..19](OMEGA_ENT_CLOUD_GATEWAY_EVIDENCE.md). Domyślnie `OMEGA_CLOUD_ENABLED` nie jest aktywne. Żaden klucz użytkownika nie został dodany do kodu. Brak automatycznych zapytań do zewnętrznych modeli. 
 
 **GATE-09: OPEN** dla ENT-44/45/46. Żaden status PARTIAL nie oznacza pełnej migracji do Enterprise, prywatności w chmurze ani produkcyjnego wdrożenia.
+
+## Awesome Enterprise Workspace — ENT-47/48/49 (2026-11-21)
+
+Dziesięć nazw `awesome-*` stanowi logiczną mapę rzeczywistego kodu, nie kopie istniejących implementacji. Brakujące moduły są jawnie OPEN. Wstępne statusy nie nadają certyfikatów wdrożenia.
+
+| ID | Wymaganie | Zależności | Status |
+|---|---|---|---|
+| ENT-47 | Awesome registry: manifest 10 modułów, kontrola obecności plików, uczciwa widoczność statusów, launcher i CLI | ENT-18, ENT-13, ENT-14 | PARTIAL: read-only status catalog/CLI, source verification bez symlinków, kafelek Awesome Enterprise i delegacja do istniejących UI. Native Tauri/awesome-opensource-app OPEN, GUI browser E2E OPEN |
+| ENT-48 | Awesome Open Source Alternatives: realny, audytowalny benchmark lokalnego Ollama i porównanie obserwacji | ENT-12, ENT-31, ENT-44 | PARTIAL: rzeczywisty adapter HTTP na loopback z NDJSON, walidacja czasów/tokenów, pomiar TTFT i tokens/s, SHA promptu, wymóg jawnego `--execute YES`, CLI i porównanie warunków. Fixture HTTP PASS; realny model, chmura/ceny, sprzętowe pomiary, jakościowy scoring OPEN |
+| ENT-49 | Awesome Printer Tools: deterministyczne lokalne raporty HTML/PDF i bezpieczna serializacja | ENT-13, ENT-16, ENT-40 | PARTIAL: walidacja struktury, HTML z CSP i escaping, ReportLab 4.4.9 z TTF lokalnego systemu, PDF invariant; dwa PDF byte-identyczne i poprawna ekstrakcja polskich znaków. GUI, podpisy cyfrowe, cross-platform build i rzeczywiste dokumenty audytowe OPEN |
+
+[Instrukcja](../locally-uncensored-enterprise/README_AWESOME.md) · [dowody testowe](OMEGA_ENT_AWESOME_EVIDENCE.md). Lokalne testy: 12/12 PASS. **GATE-09 OPEN** dla ENT-47..49.

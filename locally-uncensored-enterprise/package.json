@@ -21,6 +21,9 @@
     "json:format": "node integrations/bin/json-fmt.mjs",
     "test:catalog-context": "node --test test/next-increment.test.mjs test/legacy-context-regression.test.mjs",
     "test:cloud": "node --test backend/test/cloud.test.mjs backend/test/cloud-proxy.test.mjs",
-    "start:cloud": "node backend/src/cloud/start.mjs"
+    "start:cloud": "node backend/src/cloud/start.mjs",
+    "test:awesome": "node --test test/awesome.test.mjs",
+    "awesome:list": "node packages/awesome-workspace/cli.mjs list",
+    "awesome:verify": "node packages/awesome-workspace/cli.mjs verify"
   }
 }

@@ -39,3 +39,6 @@ Viewport w IDE korzysta teraz z jednego obliczenia dla obu osi (`viewportLayout`
 
 ## Cloud gateway — on-demand
 Kafelek Cloud Gateway jest interfejsem połączenia z lokalnym proxy, nie dowodem uruchomienia dostawcy. API key wpisany w formularzu jest wysyłany wyłącznie do lokalnego endpointu po OIDC i PDP. Backend zapisuje zaszyfrowany klucz w odseparowanym katalogu i nie zwraca go klientowi. Funkcja transmisji pozostaje zablokowana, dopóki operator nie ustawi `OMEGA_CLOUD_ENABLED=YES`, nie skonfiguruje OIDC/PDP/vault oraz nie potwierdzi konkretnej publicznej wiadomości. Ruch chmurowy może być płatny. Nie kopiować RAG ani treści konwersacji automatycznie. Szczegóły: `backend/CLOUD_GATEWAY.md`.
+
+## Awesome Workspace ENT-47/48/49
+Kafelek **Awesome Enterprise** pokazuje 10 ujednoliconych nazw i faktyczny zakres dostępnych kodów. PARTIAL oznacza tylko częściową implementację; nie ma automatycznego wdrożenia ani nowych uprawnień. Moduły CLI: lokalny benchmark Ollama (wyłącznie jawne `--execute YES`) oraz raporty HTML/PDF z Unicode. [Instrukcja](../../README_AWESOME.md) · [dowody](../../../../docs/OMEGA_ENT_AWESOME_EVIDENCE.md). PDF działa w środowisku posiadającym ReportLab i lokalny font TTF, nie przesyła materiałów do chmury. Funkcje benchmarku i eksportu PDF nie mają jeszcze interfejsów webowych.

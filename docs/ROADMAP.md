@@ -78,3 +78,5 @@ ENT-37..40: zintegrowane cztery interfejsy (konwerter JPG/PNG/WebP, JSON/ENV/YAM
 ENT-41/42/43: lokalny indeks wyszukiwania/filtrowania katalogów, poprawiona geometria skalowania iframe oraz deterministyczny algorytm podziału historycznego budżetu tokenów. 12 nowych testów i 5 regresji PASS w izolowanym środowisku Node, pełne GUI/Model Manager/Agent Registry E2E OPEN. [Dowody](OMEGA_ENT_CATALOG_VIEWPORT_CONTEXT_EVIDENCE.md).
 
 ENT-44..46 Cloud Multi-Provider: zintegrowana, domyślnie wyłączona bramka siedmiu dostawców z bezpiecznym magazynem AES-GCM, HTTP OIDC/PDP, jednorazowymi zgodami i SSE przez localhost web proxy. 19 lokalnych testów PASS; brak live E2E i produkcyjnych kontroli kosztów. [Dowody](OMEGA_ENT_CLOUD_GATEWAY_EVIDENCE.md).
+
+ENT-47..49: Awesome Workspace (10 referencji z uczciwymi statusami, launcher i CLI), bezpieczny benchmark Ollama na loopback ze źródłowymi metrykami oraz deterministyczny HTML/PDF exporter. 12/12 testów nowego przyrostu PASS, rzeczywisty Ollama, React/Tauri/Android, renderer cross-platform i pełne GUI E2E NOT_RUN. [Dowody](OMEGA_ENT_AWESOME_EVIDENCE.md).

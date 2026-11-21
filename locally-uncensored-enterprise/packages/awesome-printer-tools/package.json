@@ -1,0 +1,1 @@
+{"name":"@omega/awesome-printer-tools","version":"0.1.0","private":true,"type":"module","scripts":{"export":"node cli.mjs"},"engines":{"node":">=22.16.0"}}
