@@ -162,3 +162,9 @@ ENT-51 PSZ-01..10 (2026-11-21): dołożono niezależny, fail-closed verifier 16 
 ### ENT-52 — transactional Dual-GGUF lifecycle, 2026-11-21
 
 Zaimplementowano kontroler rezerwacji dwóch modeli wraz z preflight GGUF, dwufazowym zwolnieniem pamięci, konserwatywnym stanem `suspectSlots` po awarii oraz adapterem do `OmegaThermalMonitor`. Testy jednostkowe sterowania przeprowadzone na Linux x86-64 (Kotlin/JVM): NMC-01..10 PASS. **Nie wykonano rzeczywistego ładowania w `llama.cpp` ani budowy APK**. [Dowody](OMEGA_ENT52_DUAL_GGUF_LIFECYCLE_EVIDENCE.md). PARTIAL, GATE-09 OPEN.
+
+| ENT-53 | Android C++20 native in-process dual GGUF: JNI bridge, verified llama source pin, two-slot load/unload RAII, nonblocking production integration, Android Gradle/NDK 16 KiB, real inference and speculative decoding | ENT-51, ENT-52 | PARTIAL: C++20 RAII dual slot + JNI API and Kotlin ParcelFileDescriptor bridge, Android-only pinned CMake, 9/9 native host tests with ASan/UBSan and 8/8 JVM→JNI host smoke with mocked llama, no actual production Android build/real GGUF/decode |
+
+### ENT-53 — native C++20 JNI llama.cpp model loader, 2026-11-21
+
+Pliki w `overlays/android/native` implementują C++ loader przez `llama_model_load_from_file_ptr` z dwoma slotami oraz bezpośredni most JNI, źródło `llama.cpp` przypięte do `418fe97b5f01b11eeb89f30d8a0459433edbf1d2`. W lokalnym teście z kontrolowaną atrapą libllama kompilacja i JNI wywołania PASS (9+8 scenariuszy). **Nie ma pełnego Android build/Gradle/NDK, realnego modelu, generacji tekstu, GPU ani pakowania APK**. [Evidence](OMEGA_ENT53_LLAMA_JNI_EVIDENCE.md). PARTIAL, GATE-09 OPEN.
