@@ -168,3 +168,9 @@ Zaimplementowano kontroler rezerwacji dwóch modeli wraz z preflight GGUF, dwufa
 ### ENT-53 — native C++20 JNI llama.cpp model loader, 2026-11-21
 
 Pliki w `overlays/android/native` implementują C++ loader przez `llama_model_load_from_file_ptr` z dwoma slotami oraz bezpośredni most JNI, źródło `llama.cpp` przypięte do `418fe97b5f01b11eeb89f30d8a0459433edbf1d2`. W lokalnym teście z kontrolowaną atrapą libllama kompilacja i JNI wywołania PASS (9+8 scenariuszy). **Nie ma pełnego Android build/Gradle/NDK, realnego modelu, generacji tekstu, GPU ani pakowania APK**. [Evidence](OMEGA_ENT53_LLAMA_JNI_EVIDENCE.md). PARTIAL, GATE-09 OPEN.
+
+| ENT-54 | In-process generation llama.cpp, deterministic greedy decode, JNI UTF-8, cancellation, integration opt-in Gradle/NDK Android ARM64 | ENT-51, ENT-52, ENT-53 | PARTIAL: implementacja C++ batch_ext/process, JNI ByteArray, Android installer pin SHA/rollback, 35 scenariuszy C++/JNI z mock llama PASS, 8 testów instalatora PASS, Kotlin typecheck PASS na atrapach; real inference/Android NDK/physical S24/16 KB APK NOT_RUN |
+
+### ENT-54 — Kotlin/JNI Android inference and packaging bridge (2026-11-21)
+
+Dołożono sterowanie sekwencją tokenizacji i dekodowania w rzeczywistym kodzie C++ `OmegaLlamaEngine` oraz bezpośredni transfer UTF-8 przez JNI, bez `llama-server` i bez udawanych odpowiedzi w kodzie produkcyjnym. Testy użyły jawnie oznaczonego mocka `llama.cpp`, więc nie dowodzą prawdziwej inferencji. Instalator `scripts/install_android_llama.py` bezpiecznie przygotowuje projekt generowany przez Tauri i odmawia ingerencji w nieznane pliki/kopii bez przypięcia upstream. [Dowody](OMEGA_ENT54_GENERATION_AND_ANDROID_INSTALL_EVIDENCE.md). **PARTIAL; GATE-09 OPEN.**
