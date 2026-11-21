@@ -48,3 +48,16 @@ Run `node --test test/cloud.test.mjs test/cloud-proxy.test.mjs` from backend (th
 - Threat-model review for exfiltration/prompt injection: heuristic DLP is not a security boundary.
 
 **GATE-09 remains OPEN.** The increment is not a claim of deployed or production-verified cloud connectivity.
+
+## Durable daily cloud quota (QTA-01..10, 2026-11-21)
+
+Cloud startup fails closed when enabled unless both mandatory positive integer environment variables are supplied:
+
+- OMEGA_CLOUD_DAILY_REQUESTS: 1..1,000,000 per tenant per UTC day.
+- OMEGA_CLOUD_DAILY_OUTPUT_TOKENS: 1..10,000,000 reserved requested output tokens per tenant per UTC day.
+
+The new cloud-quota.sqlite under the existing private vault directory uses synchronous FULL, atomic SQLite UPSERT, 0600 file mode and rejects unsafe paths. Authentication, PDP, single-use approval, and quota reservation all precede upstream SSE. No upstream network request is attempted if the limit is exhausted. POST /api/cloud/status reports quota usage and remaining allowance to the authorized tenant. Aborted/failed streams retain their reservation to prevent uncertain refunds and retries bypassing limits.
+
+**IMPORTANT: this is NOT a dollar-cost cap.** It counts requests and maximum output tokens, not provider invoices, actual token usage or input tokens. Model pricing can change; do not treat it as cost reconciliation or a billing guarantee. An accurate monetary budget, provider-verified usage, model-price schedule, tenant-specific prices, alerts, multi-host durability and HA remain OPEN. Clock integrity and supported local SQLite filesystem are required.
+
+Local regression: node --test test/cloud-quota.test.mjs test/cloud-http-quota.test.mjs (10/10 PASS with a synthetic provider and real loopback HTTP). Full backend, React, Tauri/Android and paid provider E2E NOT_RUN. See docs/OMEGA_ENT_CLOUD_QUOTA_EVIDENCE.md.

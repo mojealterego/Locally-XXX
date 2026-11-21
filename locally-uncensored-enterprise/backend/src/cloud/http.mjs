@@ -4,8 +4,8 @@ import {cloudStream} from './providers.mjs';
 const deny=()=>{throw Error('Denied')};
 async function jsonBody(req){if(req.headers['content-type']!=='application/json')deny();let total=0;const data=[];for await(const chunk of req){total+=chunk.length;if(total>73728)deny();data.push(chunk)}let object;try{object=JSON.parse(Buffer.concat(data).toString('utf8'))}catch{deny()}if(!object||typeof object!=='object'||Array.isArray(object))deny();return object}
 const exact=(obj,keys)=>obj&&typeof obj==='object'&&!Array.isArray(obj)&&Object.keys(obj).sort().join(',')===keys.slice().sort().join(',');
-export function cloudServer({oidc,permit,vault,enabled=false,stream=cloudStream,allowedOrigins=['http://127.0.0.1:4173','http://localhost:4173'],clock=()=>Date.now()/1000}){
- if(!oidc?.verify||!permit?.allowed||!vault?.using||!vault?.set||typeof stream!=='function'||typeof enabled!=='boolean')throw Error('Cloud gateway dependencies required');
+export function cloudServer({oidc,permit,vault,quota=null,enabled=false,stream=cloudStream,allowedOrigins=['http://127.0.0.1:4173','http://localhost:4173'],clock=()=>Date.now()/1000}){
+ if(!oidc?.verify||!permit?.allowed||!vault?.using||!vault?.set||typeof stream!=='function'||typeof enabled!=='boolean'||(enabled&&(!quota||typeof quota.reserve!=='function'||typeof quota.snapshot!=='function')))throw Error('Cloud gateway dependencies required');
  const authorize=(p,_provider,action)=>permit.allowed(p,p.tenant,action,'cloud-gateway');
  const consent=new CloudConsent({enabled,authorize,clock});let active=0;
  const server=createServer({requestTimeout:15000,headersTimeout:5000,maxHeaderSize:16384},async(req,res)=>{
@@ -28,7 +28,7 @@ export function cloudServer({oidc,permit,vault,enabled=false,stream=cloudStream,
     if(!exact(body,['provider']))deny();validProvider(body.provider);vault.remove(principal.tenant,body.provider);return send(200,{removed:true,provider:body.provider});
    }
    if(req.url==='/api/cloud/status'){
-    if(!exact(body,['provider']))deny();validProvider(body.provider);return send(200,{configured:vault.has(principal.tenant,body.provider),enabled});
+    if(!exact(body,['provider']))deny();validProvider(body.provider);return send(200,{configured:vault.has(principal.tenant,body.provider),enabled,quota:quota?.snapshot(principal.tenant)??null});
    }
    if(req.url==='/api/cloud/approve'){
     if(!enabled||!exact(body,['request']))deny();const request=validatePrompt(body.request);if(!vault.has(principal.tenant,request.provider))deny();
@@ -36,6 +36,7 @@ export function cloudServer({oidc,permit,vault,enabled=false,stream=cloudStream,
    }
    if(!enabled||!exact(body,['ticket','request']))deny();const request=await consent.consume(principal,body.ticket,body.request);
    if(!vault.has(principal.tenant,request.provider))deny();
+   quota.reserve(principal.tenant,request);
    // Important: streaming credentials never travel to caller; all provider URLs are hardcoded.
    res.statusCode=200;res.setHeader('content-type','text/event-stream; charset=utf-8');res.setHeader('connection','keep-alive');res.setHeader('x-accel-buffering','no');
    const ctl=new AbortController();const abort=()=>ctl.abort();res.once('close',abort);

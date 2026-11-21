@@ -132,3 +132,7 @@ Dziesięć nazw `awesome-*` stanowi logiczną mapę rzeczywistego kodu, nie kopi
 | ENT-49 | Awesome Printer Tools: deterministyczne lokalne raporty HTML/PDF i bezpieczna serializacja | ENT-13, ENT-16, ENT-40 | PARTIAL: walidacja struktury, HTML z CSP i escaping, ReportLab 4.4.9 z TTF lokalnego systemu, PDF invariant; dwa PDF byte-identyczne i poprawna ekstrakcja polskich znaków. GUI, podpisy cyfrowe, cross-platform build i rzeczywiste dokumenty audytowe OPEN |
 
 [Instrukcja](../locally-uncensored-enterprise/README_AWESOME.md) · [dowody testowe](OMEGA_ENT_AWESOME_EVIDENCE.md). Lokalne testy: 12/12 PASS. **GATE-09 OPEN** dla ENT-47..49.
+
+## ENT-44/46 — QTA-01..10 (2026-11-21)
+
+Stan PARTIAL: zaimplementowano trwały licznik dzienny tenant-scoped na SQLite, dwa obowiązkowe limity konfiguracji, fail-closed przed strumieniem do dostawcy, odczyt limitów w autoryzowanym statusie i brak zwrotu rezerwacji przy niejednoznacznym wyniku. QTA-01..10: 10/10 lokalnych testów PASS, w tym test rzeczywistego HTTP loopback; full-suite, realny OIDC/PDP i zewnętrzny provider NOT_RUN. Prawdziwe koszty w walucie, input tokens, ceny modeli, faktury i distributed ledger wciąż OPEN. [Dowody](OMEGA_ENT_CLOUD_QUOTA_EVIDENCE.md). GATE-09 OPEN.

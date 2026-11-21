@@ -1,12 +1,15 @@
 import {readFileSync} from 'node:fs';
 import {Oidc,Permit} from '../auth/security.mjs';
 import {CredentialVault} from './vault.mjs';
+import {CloudQuota} from './quota.mjs';
 import {cloudServer} from './http.mjs';
 const required=k=>{const v=process.env[k];if(!v)throw Error('Missing '+k);return v};
 const cloudEnabled=process.env.OMEGA_CLOUD_ENABLED==='YES';
+const quotaLimit=(key,max)=>{const raw=required(key);if(!/^[1-9][0-9]{0,7}$/.test(raw)||Number(raw)>max)throw Error('Invalid '+key);return Number(raw)};
 const oidc=new Oidc({issuer:required('OMEGA_OIDC_ISSUER'),audience:required('OMEGA_OIDC_AUDIENCE'),client:required('OMEGA_OIDC_CLIENT')});
 const permit=new Permit({url:required('OMEGA_PDP_URL'),apiKey:readFileSync(required('OMEGA_PDP_KEY_FILE'),'utf8').trim()});
 const vault=new CredentialVault({directory:required('OMEGA_CLOUD_VAULT_DIR'),machineKeyFile:required('OMEGA_CLOUD_MASTER_KEY_FILE')});
+const quota=cloudEnabled?new CloudQuota({directory:required('OMEGA_CLOUD_VAULT_DIR'),maxRequestsPerDay:quotaLimit('OMEGA_CLOUD_DAILY_REQUESTS',1000000),maxOutputTokensPerDay:quotaLimit('OMEGA_CLOUD_DAILY_OUTPUT_TOKENS',10000000)}):null;
 const port=Number(process.env.CLOUD_PORT??3002);if(!Number.isInteger(port)||port<1||port>65535)throw Error('Invalid CLOUD_PORT');
-const server=cloudServer({oidc,permit,vault,enabled:cloudEnabled});server.listen(port,'127.0.0.1');
-let stopped=false;for(const signal of ['SIGTERM','SIGINT'])process.once(signal,()=>{if(stopped)return;stopped=true;server.close(()=>vault.close());setTimeout(()=>server.closeAllConnections(),12000).unref()});
+const server=cloudServer({oidc,permit,vault,quota,enabled:cloudEnabled});server.listen(port,'127.0.0.1');
+let stopped=false;for(const signal of ['SIGTERM','SIGINT'])process.once(signal,()=>{if(stopped)return;stopped=true;server.close(()=>{try{quota?.close()}finally{vault.close()}});setTimeout(()=>server.closeAllConnections(),12000).unref()});
