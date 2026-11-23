@@ -24,3 +24,7 @@ Run `python3 overlays/omega-integrations/media_bridge.py < overlays/omega-integr
 ## Inference Gateway ↔ Mobile resource admission (third increment)
 
 Run `python3 overlays/omega-integrations/examples/compute_demo.py`. `compute_bridge.py` composes the genuine reference admission functions from Inference Gateway and Mobile Sovereign policy. It refuses mismatched budgets, tenant principals, mode upgrades, cloud usage without separate authenticated grants and remote transfer of private/restricted data. The result is **ROUTE_PLAN_ONLY** and does not start llama.cpp or a network connection. The caller must authenticate principal/grants and supply trustworthy device telemetry; unverified client-provided grants are not sufficient.
+
+## OTCM → ATM → OmegOS knowledge/proof bridge (fourth increment)
+
+Run `python3 overlays/omega-integrations/examples/knowledge_demo.py`. The actual OTCM event model is used to replay temporal records; ATM Belnap logic computes contradictions without explosion. The gate does **not** accept an unverified proof and never executes a tool. `validate_omegos_obligation` validates the original OmegOS JSON Schema, but does not run a solver or claim a proof. This module uses in-memory SQLite only and forbids implicit sharing; production requires authenticated tenant identity and OCX persistence integration. Future effective dates not supported by ATM's current evidence contract are explicitly rejected, not silently reinterpreted.

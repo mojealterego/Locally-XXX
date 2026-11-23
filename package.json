@@ -67,7 +67,8 @@
     "test:omega-integrations": "python3 overlays/omega-integrations/verify.py",
     "studio:plan": "node overlays/omega-integrations/cli.mjs",
     "media:preview": "python3 overlays/omega-integrations/media_bridge.py",
-    "compute:plan": "python3 overlays/omega-integrations/examples/compute_demo.py"
+    "compute:plan": "python3 overlays/omega-integrations/examples/compute_demo.py",
+    "knowledge:reconcile": "python3 overlays/omega-integrations/examples/knowledge_demo.py"
   },
   "devDependencies": {
     "typescript": "5.8.3"
