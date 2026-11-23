@@ -7,13 +7,13 @@
       "suite": "omega-bridge",
       "exit_code": 0,
       "command": "node --test tests/bridge.test.mjs",
-      "stdout_tail": "director revision conflicts fail closed\nok 19 - director revision conflicts fail closed\n  ---\n  duration_ms: 0.311098\n  type: 'test'\n  ...\n# Subtest: executor refuses missing approval\nok 20 - executor refuses missing approval\n  ---\n  duration_ms: 1.491494\n  type: 'test'\n  ...\n# Subtest: executor refuses missing adapter\nok 21 - executor refuses missing adapter\n  ---\n  duration_ms: 0.790429\n  type: 'test'\n  ...\n# Subtest: executor detects tampered manifest\nok 22 - executor detects tampered manifest\n  ---\n  duration_ms: 1.106454\n  type: 'test'\n  ...\n# Subtest: executor respects abort before adapter\nok 23 - executor respects abort before adapter\n  ---\n  duration_ms: 0.68463\n  type: 'test'\n  ...\n# Subtest: executor fails closed without artifact evidence\nok 24 - executor fails closed without artifact evidence\n  ---\n  duration_ms: 0.648025\n  type: 'test'\n  ...\n# Subtest: executor passes exact manifest to approved adapter and labels reported evidence\nok 25 - executor passes exact manifest to approved adapter and labels reported evidence\n  ---\n  duration_ms: 0.860014\n  type: 'test'\n  ...\n# Subtest: adapter cannot report built without independent evidence bundle\nok 26 - adapter cannot report built without independent evidence bundle\n  ---\n  duration_ms: 0.69135\n  type: 'test'\n  ...\n1..26\n# tests 26\n# suites 0\n# pass 26\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 95.772556\n\n"
+      "stdout_tail": "irector revision conflicts fail closed\nok 19 - director revision conflicts fail closed\n  ---\n  duration_ms: 0.289245\n  type: 'test'\n  ...\n# Subtest: executor refuses missing approval\nok 20 - executor refuses missing approval\n  ---\n  duration_ms: 1.16378\n  type: 'test'\n  ...\n# Subtest: executor refuses missing adapter\nok 21 - executor refuses missing adapter\n  ---\n  duration_ms: 0.783889\n  type: 'test'\n  ...\n# Subtest: executor detects tampered manifest\nok 22 - executor detects tampered manifest\n  ---\n  duration_ms: 0.979924\n  type: 'test'\n  ...\n# Subtest: executor respects abort before adapter\nok 23 - executor respects abort before adapter\n  ---\n  duration_ms: 0.649847\n  type: 'test'\n  ...\n# Subtest: executor fails closed without artifact evidence\nok 24 - executor fails closed without artifact evidence\n  ---\n  duration_ms: 0.707434\n  type: 'test'\n  ...\n# Subtest: executor passes exact manifest to approved adapter and labels reported evidence\nok 25 - executor passes exact manifest to approved adapter and labels reported evidence\n  ---\n  duration_ms: 1.174716\n  type: 'test'\n  ...\n# Subtest: adapter cannot report built without independent evidence bundle\nok 26 - adapter cannot report built without independent evidence bundle\n  ---\n  duration_ms: 0.701765\n  type: 'test'\n  ...\n1..26\n# tests 26\n# suites 0\n# pass 26\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 95.663568\n\n"
     },
     {
       "suite": "media-bridge",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_media_bridge.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 15 tests in 2.714s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 15 tests in 2.684s\n\nOK\n"
     },
     {
       "suite": "compute-bridge",
@@ -25,49 +25,55 @@
       "suite": "knowledge-bridge",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_knowledge_bridge.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 14 tests in 0.765s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 14 tests in 0.794s\n\nOK\n"
+    },
+    {
+      "suite": "experiment-bridge",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_experiment_bridge.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 20 tests in 0.021s\n\nOK\n"
     },
     {
       "suite": "aether-studio",
       "exit_code": 0,
       "command": "node --test tests/control.test.mjs tests/schema.test.mjs",
-      "stdout_tail": "est: Schema neurobus includes dialect, URI, and property constraints\nok 51 - Schema neurobus includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.189656\n  type: 'test'\n  ...\n# Subtest: Schema director_patch includes dialect, URI, and property constraints\nok 52 - Schema director_patch includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.122314\n  type: 'test'\n  ...\n# Subtest: Example project satisfies executable code validation\nok 53 - Example project satisfies executable code validation\n  ---\n  duration_ms: 1.262609\n  type: 'test'\n  ...\n# Subtest: Example branching graph contains both unique epilogues\nok 54 - Example branching graph contains both unique epilogues\n  ---\n  duration_ms: 0.975718\n  type: 'test'\n  ...\n# Subtest: Example music quantizes to next bar at 120 BPM\nok 55 - Example music quantizes to next bar at 120 BPM\n  ---\n  duration_ms: 0.334193\n  type: 'test'\n  ...\n# Subtest: Example NeuroBus body is a signable structure\nok 56 - Example NeuroBus body is a signable structure\n  ---\n  duration_ms: 0.960855\n  type: 'test'\n  ...\n# Subtest: No private capture files or actor likeness distributed with examples\nok 57 - No private capture files or actor likeness distributed with examples\n  ---\n  duration_ms: 0.396577\n  type: 'test'\n  ...\n1..57\n# tests 57\n# suites 0\n# pass 57\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 104.187113\n\n"
+      "stdout_tail": "test: Schema neurobus includes dialect, URI, and property constraints\nok 51 - Schema neurobus includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.194192\n  type: 'test'\n  ...\n# Subtest: Schema director_patch includes dialect, URI, and property constraints\nok 52 - Schema director_patch includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.122744\n  type: 'test'\n  ...\n# Subtest: Example project satisfies executable code validation\nok 53 - Example project satisfies executable code validation\n  ---\n  duration_ms: 1.60287\n  type: 'test'\n  ...\n# Subtest: Example branching graph contains both unique epilogues\nok 54 - Example branching graph contains both unique epilogues\n  ---\n  duration_ms: 0.948557\n  type: 'test'\n  ...\n# Subtest: Example music quantizes to next bar at 120 BPM\nok 55 - Example music quantizes to next bar at 120 BPM\n  ---\n  duration_ms: 0.297868\n  type: 'test'\n  ...\n# Subtest: Example NeuroBus body is a signable structure\nok 56 - Example NeuroBus body is a signable structure\n  ---\n  duration_ms: 0.978842\n  type: 'test'\n  ...\n# Subtest: No private capture files or actor likeness distributed with examples\nok 57 - No private capture files or actor likeness distributed with examples\n  ---\n  duration_ms: 0.356947\n  type: 'test'\n  ...\n1..57\n# tests 57\n# suites 0\n# pass 57\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 110.400383\n\n"
     },
     {
       "suite": "p10-cinema",
       "exit_code": 0,
       "command": "node --test tests/core.test.mjs tests/cli.test.mjs",
-      "stdout_tail": "ck\n  ---\n  duration_ms: 0.187202\n  type: 'test'\n  ...\n# Subtest: P10-040 geodesic route connects neighboring cells deterministically\nok 43 - P10-040 geodesic route connects neighboring cells deterministically\n  ---\n  duration_ms: 2.314011\n  type: 'test'\n  ...\n# Subtest: P10-041 terrain cost changes geodesic route\nok 44 - P10-041 terrain cost changes geodesic route\n  ---\n  duration_ms: 0.423477\n  type: 'test'\n  ...\n# Subtest: P10-042 disconnected world has no fabricated route\nok 45 - P10-042 disconnected world has no fabricated route\n  ---\n  duration_ms: 0.171388\n  type: 'test'\n  ...\n# Subtest: P10-043 reject negative traversal weights\nok 46 - P10-043 reject negative traversal weights\n  ---\n  duration_ms: 0.286932\n  type: 'test'\n  ...\n# Subtest: P10-044 mixed shot fps cannot be merged as raw frame indices\nok 47 - P10-044 mixed shot fps cannot be merged as raw frame indices\n  ---\n  duration_ms: 0.463007\n  type: 'test'\n  ...\n# Subtest: P10-045 reject duplicate coordinates in world manifest\nok 48 - P10-045 reject duplicate coordinates in world manifest\n  ---\n  duration_ms: 0.424018\n  type: 'test'\n  ...\n# Subtest: P10-046 do not infer non-PL minor work authorization\nok 49 - P10-046 do not infer non-PL minor work authorization\n  ---\n  duration_ms: 0.183166\n  type: 'test'\n  ...\n1..49\n# tests 49\n# suites 0\n# pass 49\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 194.433291\n\n"
+      "stdout_tail": "ack\n  ---\n  duration_ms: 0.312099\n  type: 'test'\n  ...\n# Subtest: P10-040 geodesic route connects neighboring cells deterministically\nok 43 - P10-040 geodesic route connects neighboring cells deterministically\n  ---\n  duration_ms: 5.903088\n  type: 'test'\n  ...\n# Subtest: P10-041 terrain cost changes geodesic route\nok 44 - P10-041 terrain cost changes geodesic route\n  ---\n  duration_ms: 0.393101\n  type: 'test'\n  ...\n# Subtest: P10-042 disconnected world has no fabricated route\nok 45 - P10-042 disconnected world has no fabricated route\n  ---\n  duration_ms: 0.215534\n  type: 'test'\n  ...\n# Subtest: P10-043 reject negative traversal weights\nok 46 - P10-043 reject negative traversal weights\n  ---\n  duration_ms: 0.238669\n  type: 'test'\n  ...\n# Subtest: P10-044 mixed shot fps cannot be merged as raw frame indices\nok 47 - P10-044 mixed shot fps cannot be merged as raw frame indices\n  ---\n  duration_ms: 0.475184\n  type: 'test'\n  ...\n# Subtest: P10-045 reject duplicate coordinates in world manifest\nok 48 - P10-045 reject duplicate coordinates in world manifest\n  ---\n  duration_ms: 0.303526\n  type: 'test'\n  ...\n# Subtest: P10-046 do not infer non-PL minor work authorization\nok 49 - P10-046 do not infer non-PL minor work authorization\n  ---\n  duration_ms: 0.090296\n  type: 'test'\n  ...\n1..49\n# tests 49\n# suites 0\n# pass 49\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 184.40082\n\n"
     },
     {
       "suite": "p09-firefly",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m pytest -q tests",
-      "stdout_tail": "...................................................                      [100%]\n51 passed in 1.14s\n\n"
+      "stdout_tail": "...................................................                      [100%]\n51 passed in 1.19s\n\n"
     },
     {
       "suite": "qfv",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 49 tests in 0.050s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 49 tests in 0.058s\n\nOK\n"
     },
     {
       "suite": "aethr",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m pytest -q tests",
-      "stdout_tail": ".....................................                                    [100%]\n37 passed in 0.96s\n\n"
+      "stdout_tail": ".....................................                                    [100%]\n37 passed in 1.02s\n\n"
     },
     {
       "suite": "inference",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 24 tests in 0.009s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 24 tests in 0.010s\n\nOK\n"
     },
     {
       "suite": "otcm",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 28 tests in 0.136s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 28 tests in 0.131s\n\nOK\n"
     },
     {
       "suite": "atm",
@@ -97,13 +103,13 @@
       "suite": "haee",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 10 tests in 0.003s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 10 tests in 0.002s\n\nOK\n"
     },
     {
       "suite": "omegos-contracts",
       "exit_code": 0,
       "command": "/opt/pyvenv/bin/python3 -m unittest discover -s verification -p test_*.py -q",
-      "stdout_tail": "\n----------------------------------------------------------------------\nRan 20 tests in 0.011s\n\nOK\n"
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 20 tests in 0.010s\n\nOK\n"
     }
   ],
   "all_pass": true,

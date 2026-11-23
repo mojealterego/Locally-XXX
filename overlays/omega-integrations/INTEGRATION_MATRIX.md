@@ -10,11 +10,11 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 | QFV v11 | `qfv/` | **Python media bridge live**: CPU vector-field deformation; still not UI | GPU/Android, capture adapters and facial-rig interchange |
 | ATM | `atm/` | **Python knowledge bridge live**: Belnap contradiction/truth + fail-closed decision; tools not executed | Real proof gateway / policy decision service |
 | OTCM | `otcm/` | **Python knowledge bridge live**: temporal replay in ephemeral SQLite; OCX not connected | Integrate through OCX, do not duplicate production database |
-| AETHR | `aethr/` | `.oxa`/routing/tenant cache source imported, **not connected** | Real GGUF/backend execution and dedicated resource arbiter |
+| AETHR | `aethr/` | **Signed .oxa experiment-plan bridge** in `experiment_bridge.py`; no model execution | Real GGUF/backend execution and dedicated resource arbiter |
 | Inference Gateway | `inference/` | **Python compute admission bridge live**: Inference Request + Runtime catalog; model launch not connected | Bind to existing llama.cpp/Ollama/LLM manager |
-| Attention/PEFT | `attention/` | Planner source imported + tests, **not connected** | HPC-only remote runners and real GPU training |
+| Attention/PEFT | `attention/` | **GPU/training admission planner connected to HAEE experiment contract**; no GPU job | HPC-only remote runners and real GPU training |
 | Mobile Sovereign Runtime | `mobile/` | **Python compute admission bridge live**: Mobile sovereign policy; Android signals not connected | Android native packaging and thermal/memory signals |
-| HAEE | `haee/` | Contracts + tests imported, **not connected** | DGM/RSI experiments under separate workflow |
+| HAEE | `haee/` | **HAEE experiment schema connected to attention planner and signed .oxa**; no DGM loop | DGM/RSI experiments under separate workflow |
 | OmegOS/Continuum | `omegos/` | **Schema contract integrated** into knowledge bridge; theorem proving not connected | Real trusted checker/prover; no fabricated proof evidence |
 
 **Explicitly NOT integrated:** OCX core storage, Aether Engine runtime, proprietary media/video APIs, quantum/neuromorphic hardware, physical S24 Ultra, ComfyUI/Unreal/Godot runtimes. These require live adapters, explicit authority and actual integration tests.
@@ -40,3 +40,7 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 ## Ω-INT-004 — knowledge/proof bridge
 
 `knowledge_bridge.py` composes OTCM in-memory temporal event queries, ATM four-valued truth/gate, and OmegOS Proof Obligation schema validation. It cannot authorize an external tool without an actual checker; no agent or private data is shared. Supported cross-product subset is deterministic local analysis, not a global memory fabric or formal proof engine. GATE-09 BLOCKED.
+
+## Ω-INT-005 — experiment admission with signed .oxa
+
+`experiment_bridge.py` composes Attention/PEFT's actual `plan_job`, HAEE's JSON Schema, and AETHR's `oxa_ref.archive` signed data packaging and verification. No training, optimizer, quantum processing, or executable `.oxa` runner is included. Hardware probe, data rights, model evaluation and operator approval are still required. Fail-closed policy checks cover cloud consent, external data egress, tenant principal, invalid contracts and approval constraints; signing demonstrates authenticity only under an independently trusted Ed25519 public key. GATE-09 BLOCKED.
