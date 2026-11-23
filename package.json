@@ -65,7 +65,8 @@
     "test:enterprise-auth": "npm --prefix locally-uncensored-enterprise/backend test",
     "test:enterprise-execution": "npm --prefix locally-uncensored-enterprise/backend test",
     "test:omega-integrations": "python3 overlays/omega-integrations/verify.py",
-    "studio:plan": "node overlays/omega-integrations/cli.mjs"
+    "studio:plan": "node overlays/omega-integrations/cli.mjs",
+    "media:preview": "python3 overlays/omega-integrations/media_bridge.py"
   },
   "devDependencies": {
     "typescript": "5.8.3"

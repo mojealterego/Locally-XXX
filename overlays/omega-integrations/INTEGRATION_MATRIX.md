@@ -6,8 +6,8 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 |---|---|---|---|
 | Aether Studio AS-2026 | `studio/` | **Node bridge live**: project validation, narrative graph, adaptive audio | Director Dashboard UI, renderer/engine adapters, genuine E2E |
 | P10 Cinema/Animation/AAA | `cinema/` | **Node bridge live**: shot manifests, role catalogue, narrative QA, readiness | Godot/Unreal/Aether adapter, film editing/render |
-| P09 Firefly | `firefly/` | Source and CPU code imported + tests; **not connected** to UI/bridge | Shared asset registry, image masks and true media E2E |
-| QFV v11 | `qfv/` | Source imported + tests, **not connected** | GPU/Android, capture adapters and facial-rig interchange |
+| P09 Firefly | `firefly/` | **Python media bridge live**: ElementRegistry + VideoPrompt + rights validation; still not UI | Shared asset registry, image masks and true media E2E |
+| QFV v11 | `qfv/` | **Python media bridge live**: CPU vector-field deformation; still not UI | GPU/Android, capture adapters and facial-rig interchange |
 | ATM | `atm/` | Reference reasoning source imported, **not connected** | Proof gateway / policy decision service |
 | OTCM | `otcm/` | Four-temporal reference memory source imported, **not connected** | Integrate through OCX, do not duplicate production database |
 | AETHR | `aethr/` | `.oxa`/routing/tenant cache source imported, **not connected** | Real GGUF/backend execution and dedicated resource arbiter |
@@ -28,3 +28,7 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 3. Integrate ATM/OTCM/OmegOS through the existing OCX/Policy abstractions and audit traces.
 4. Route AETHR/inference/mobile/attention through the existing resource arbiter and explicit cloud opt-ins.
 5. Integrate Aether Engine/Godot/Unreal/ComfyUI only after an executable backend and real asset evidence exist.
+
+## Ω-INT-002 — media bridge
+
+`media_bridge.py` now connects P09 `ElementRegistry` + `VideoPrompt` with QFV `FieldDeformer` on a bounded in-memory mesh. It is an **executed CPU reference pipeline**, not a functioning video generator. Input requires explicitly attested source references and preserves `@mentions`; ownership/project scope is checked at entry, persistent tenant ACL and approved media rights management remain required for production. Unit and subprocess CLI tests in `tests/test_media_bridge.py`. GATE-09 remains BLOCKED.

@@ -16,3 +16,7 @@ node overlays/omega-integrations/cli.mjs overlays/omega-integrations/examples/in
 `SOURCE_LOCK.json` contains the SHA-256 of every imported file. The verifier checks those hashes before running tests. New source revisions must be reviewed and relocked deliberately; do not silently modify third-party files in place. Original AGPL-3.0-only attribution must be maintained and source licenses re-audited before redistribution beyond this repository.
 
 See `INTEGRATION_MATRIX.md` for the boundary of every referenced subsystem and remaining GATE-09 blockers. No automatic SaaS, GPU, P2P, camera or network activity is performed.
+
+## P09↔QFV CPU media stage (second increment)
+
+Run `python3 overlays/omega-integrations/media_bridge.py < overlays/omega-integrations/examples/media-preview.json`. This strict JSON-in/JSON-out, no-network bridge checks managed references (1–5), owner/project scope, preserved `@mentions` and executes **actual QFV CPU vector-field deformation** on bounded geometry. It returns `CPU_REFERENCE_PREVIEW_NO_VIDEO_RENDER`; no video, face recognition, rasterized image, GPU, persistent asset catalog or native Android support.
