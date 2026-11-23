@@ -1,0 +1,8 @@
+{
+ "schemaVersion":"1.0","projectId":"child-omega-001","name":"Magiczny Most","track":"CHILD_ANIMATION","audience":"AGE_6_8","rating":"G","explicit":false,"jurisdiction":"PL",
+ "crew":[{"personId":"a","roleId":"ANIMATION_DIRECTOR"},{"personId":"b","roleId":"CHILD_SAFEGUARDING_LEAD"}],"performers":[{"id":"v-1","age":27,"paid":true}],
+ "childSafeguarding":{"editorialReview":true,"guardianReview":true,"accessibilityReview":true},
+ "assets":[],"shots":[{"id":"cartoon-001","fps":[25,1],"durationFrames":250,"camera":{"focalLengthMm":30},"assetRefs":[]}],
+ "tasks":[{"id":"story","needs":[],"status":"DONE"},{"id":"storyboard","needs":["story"],"status":"PLANNED"}],
+ "rightsClearance":true,"technicalQc":false,"humanApproval":false
+}

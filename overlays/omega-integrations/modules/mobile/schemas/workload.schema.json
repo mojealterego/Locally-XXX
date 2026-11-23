@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:omega:mobile:workload:1.0.0",
+  "title": "OMEGA Mobile WorkloadRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "principal", "mode", "kind", "model_ref", "required_ram_mib", "max_duration_sec", "cloud_egress_requested", "estimated_cost_usd", "allow_payment", "checkpoint_required"],
+  "properties": {
+    "request_id": {"type":"string","pattern":"^[a-zA-Z0-9._-]{1,128}$"},
+    "principal": {"type":"string","minLength":1,"maxLength":128},
+    "mode": {"enum":["OFFLINE","HYBRID","CLOUD_HPC"]},
+    "kind": {"enum":["INFERENCE","TRAINING","CODE_BUILD","EDGE_DONATION"]},
+    "model_ref": {"type":"string","minLength":1,"maxLength":4096},
+    "required_ram_mib": {"type":"integer","minimum":1,"maximum":1000000},
+    "max_duration_sec": {"type":"integer","minimum":1,"maximum":86400},
+    "cloud_egress_requested": {"type":"boolean"},
+    "estimated_cost_usd": {"type":"number","minimum":0},
+    "allow_payment": {"const":false},
+    "checkpoint_required": {"type":"boolean","const":true}
+  }
+}

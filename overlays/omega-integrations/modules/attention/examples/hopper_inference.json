@@ -1,0 +1,8 @@
+{
+  "mode": "inference", "accelerator": "cuda", "compute_capability": 90,
+  "gpu_count": 1, "head_count": 32, "kv_head_count": 8, "head_dim": 128,
+  "layers": 32, "context_tokens": 8192, "kv_dtype": "fp16",
+  "attention": "auto", "parallel": "none", "precision": "bf16",
+  "model_format": "safetensors", "training_strategy": "none",
+  "tensor_parallel": 1, "pipeline_parallel": 1
+}

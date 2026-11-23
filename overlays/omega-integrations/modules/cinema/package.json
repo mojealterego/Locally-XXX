@@ -1,0 +1,10 @@
+{
+  "name": "@omega/studio-cinema-worlds-reference",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "description": "Reference-only Node 22 production planning, scene graphs and world streaming (not renderer)",
+  "engines": {"node": ">=22"},
+  "scripts": {"test": "node --test tests/*.test.mjs", "demo": "node src/cli.mjs validate examples/project_cinematic.json", "demo:world": "node src/cli.mjs stream examples/project_world.json 120 64 256"}
+}

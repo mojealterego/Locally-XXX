@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:omega:haee:experiment:1.0.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "experiment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "train_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "validation_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "train_sha256",
+        "validation_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "baseline_candidate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "population": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 100000
+    },
+    "max_generations": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_evaluations": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_wall_clock_minutes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_parallel_evaluations": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_profile": {
+      "enum": [
+        "OFFLINE_ANDROID_ARM64",
+        "DESKTOP_LOCAL",
+        "HYBRID",
+        "CLOUD_HPC"
+      ]
+    },
+    "objective_ids": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "TASK_ERROR",
+          "GPU_SECONDS",
+          "ROBUSTNESS_DROP",
+          "PARAMETER_COUNT",
+          "ENERGY_JOULES",
+          "PEAK_MEMORY_MIB"
+        ]
+      }
+    },
+    "allowed_operators": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "MUTATE_PARAM",
+          "ADD_NODE",
+          "REMOVE_NODE",
+          "ADD_EDGE",
+          "REMOVE_EDGE",
+          "FUSE_SUBGRAPH",
+          "SWITCH_OPTIMIZER",
+          "MUTATE_LOSS",
+          "MUTATE_SCHEDULE",
+          "SHOCK_MUTATION"
+        ]
+      }
+    },
+    "approval_policy": {
+      "const": "HUMAN_BEFORE_PROMOTION"
+    },
+    "allow_external_dataset_egress": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "tenant_id",
+    "task_id",
+    "dataset",
+    "baseline_candidate_id",
+    "seed",
+    "population",
+    "max_generations",
+    "max_evaluations",
+    "max_wall_clock_minutes",
+    "max_parallel_evaluations",
+    "run_profile",
+    "objective_ids",
+    "allowed_operators",
+    "approval_policy",
+    "allow_external_dataset_egress"
+  ],
+  "additionalProperties": false
+}

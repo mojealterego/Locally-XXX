@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://omega.local/schemas/aethr/route_request.v1.json",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["request_id","tenant_id","mode","classification","format","required_mib","cloud_consent"],
+  "properties":{
+    "request_id":{"type":"string","format":"uuid"},
+    "tenant_id":{"type":"string","minLength":1,"maxLength":128},
+    "mode":{"enum":["OFFLINE","HYBRID","CLOUD_HPC"]},
+    "classification":{"enum":["public","internal","confidential","secret"]},
+    "format":{"enum":["gguf","safetensors","onnx","mnn"]},
+    "required_mib":{"type":"integer","minimum":0},
+    "cloud_consent":{"type":"boolean"},
+    "requires_grammar":{"type":"boolean"},
+    "max_price_micro_usd":{"type":"integer","minimum":0},
+    "max_ttft_p95_ms":{"type":"integer","minimum":0}
+  }
+}

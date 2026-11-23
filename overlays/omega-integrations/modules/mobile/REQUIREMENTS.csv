@@ -1,0 +1,49 @@
+requirement_id,requirement,acceptance_evidence
+MOB-001,Trzy tryby OFFLINE/HYBRID/CLOUD-HPC,Odrębne reguły egress; OFFLINE = 0 połączeń na zewnątrz.
+MOB-002,Domyślna izolacja lokalna,Brak konfiguracji API = brak ruchu do chmury.
+MOB-003,Jedno źródło prawdy o zadaniach,"Identyfikator, wersja stanu, audyt."
+MOB-004,Kontrola uprawnień Android,Brak nieudokumentowanych grantów i automatycznego ADB.
+MOB-005,ADPF/PerformanceHintManager,Wysyłanie celu czasu pracy i raportowanie wykonania; bez wymuszania zegarów.
+MOB-006,Thermal Governor,Zatrzymanie/obniżenie obciążenia przy progu telemetrii.
+MOB-007,Obserwowalność RAM i LMKD,Eksport PSS/RSS/KV z oznaczeniem niepewności pomiaru.
+MOB-008,Memory Lease Broker,Brak nadprzydziału w modelowym budżecie.
+MOB-009,Native in-process GGUF,Brak wywoływania zewnętrznego procesu `llama-server` w wydaniu Play.
+MOB-010,Walidacja kompatybilności modeli,Wykrywanie formatu i tokenizera przed uruchomieniem.
+MOB-011,Efektywne bufory KV-cache,Mierzalna alokacja i poprawne kwantyzacje.
+MOB-012,Stage-offload / mmap,"Integralność wag, deterministyczne checksumy."
+MOB-013,Experyment 1-bit / WNN,Porównanie perplexity/accuracy i jakości z baseline; zero fikcyjnego „odzysku” wag.
+MOB-014,Testy FlashAttention,Rozróżnienie wersji i wymagań akceleratora.
+MOB-015,MQA/GQA compatibility,Brak niedozwolonych przekształceń architektury wag.
+MOB-016,Mixed precision profiles,"Twarde wykrycie operatorów, test stabilności numerycznej."
+MOB-017,LoRA inferencyjna,Ładowanie/zdejmowanie adaptera i zachowanie wag bazowych.
+MOB-018,QLoRA zdalne,"Plan treningu wymaga runnera, danych i zatwierdzenia kosztów."
+MOB-019,Megatron/ZeRO/FSDP zdalne,Żadne lokalne wymuszenie CUDA na Adreno.
+MOB-020,Kompilacja natywna zgodna z W^X,Brak execve niezaufanych plików w katalogu aplikacji.
+MOB-021,Test 16 KiB ELF/ZIP,Wszystkie dystrybuowane `.so` i pakiet przechodzą kontrole.
+MOB-022,Natywny WebGPU/Vulkan fallback,"Feature probe, brak wymuszenia nieobsługiwanego backendu."
+MOB-023,Samoobsługowe UI Jetpack Compose,Kontrola start/stop i widoczna kolejka zadań.
+MOB-024,Zarządzanie ADB w trybie dev,Parowanie i komendy tylko świadomie wywołane przez operatora.
+MOB-025,SmartThings OAuth,Brak odczytu/sterowania bez nadanych zakresów.
+MOB-026,Samsung DeX,Layout responsywny i niezależny od usług chmurowych.
+MOB-027,Knox / Keystore,"Sekrety w sprzętowym Keystore, nie w logach."
+MOB-028,Brak obchodzenia Play Protect,Brak ukrywania kodu i zdarzeń weryfikacji.
+MOB-029,Edge Mesh opt-in,Brak CPU donation bez aktywnego grantu.
+MOB-030,Edge Mesh STOP,"Przerwanie, odwołanie lease, brak restartu bez zgody."
+MOB-031,Edge Mesh charging/unmetered,Uruchomienie tylko po spełnieniu polityki.
+MOB-032,P2P podpisane zadania,Nieznany peer / payload = odmowa wykonania.
+MOB-033,Ograniczenia zasobów Edge,Limity RAM/CPU/czasu/transferu egzekwowane.
+MOB-034,Brak ukrytej rekrutacji,Jawna informacja o udziale i wycofanie zgody.
+MOB-035,Gateway hybrydowy,"Endpointy allowlist, TLS, weryfikacja certyfikatów."
+MOB-036,Granica kosztu chmurowego,Zlecenie z szacowanym kosztem poza budżetem odrzucone.
+MOB-037,Human-in-the-loop,Oddzielna zgoda na płatne/zewnętrzne działania.
+MOB-038,Brak samodzielnego tradingu,Moduł nie składa zleceń na giełdzie ani nie tworzy fikcyjnych kont.
+MOB-039,Checkpoint/Resume,Odtwarzanie po FGS timeout i zamknięciu procesu.
+MOB-040,Idempotentne retry,Nie dubluje rozliczeń ani renderów po ponowieniu.
+MOB-041,Strumieniowanie UI,"Backpressure, timeout, retry z ograniczeniami."
+MOB-042,Izolacja tenantów,"Testy cross-tenant deny, klucze per tenant."
+MOB-043,Redaction logów,"Brak sekretów, metadanych prywatnych i danych RAG."
+MOB-044,SBOM / SPDX,Zachowanie licencji i sum zależności.
+MOB-045,Chronos provenance,"Dowód wejścia, kodu, modelu, ustawień i wyniku."
+MOB-046,Deterministyczny harness polityki,Testy RED/GREEN i wielozestawowe wektory wejścia.
+MOB-047,Test na fizycznym S24 Ultra,"Pomiar temperatury, czasu, pamięci, energii i jakości."
+MOB-048,Bez fałszywych PASS,Odmowa uznania GATE-09 bez natywnego E2E i pakietu dowodów.

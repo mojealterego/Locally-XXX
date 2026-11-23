@@ -241,3 +241,7 @@ npm run test:rag-browser
 ```
 
 Kotlin JVM wymaga kotlinc i Java; nowe testy Node kompilują helper przy pomocy tsc. 258/258 unikatowych testów (78 Node,149 Python,23 Chromium,8 Kotlin/JVM); 30 nowych. [Raport](docs/evidence/ANDROID-RAG-SEC-INTEGRATION.json) zawiera SHA-256 pełnych logów, które dostarczono w ZIP przyrostu. Brak deklaracji pełnego portu, fizycznego APK lub wyczerpującego audytu.
+
+## OMEGA incremental integrations
+
+Reference components and a working Aether Studio ↔ P10 production-planning bridge are available at [`overlays/omega-integrations/`](overlays/omega-integrations/README.md). Run `npm run test:omega-integrations` for host-only tests. Only Aether/P10 are connected by the new bridge; imported other modules are isolated/testable sources, **not** integrated GPU/Android/app backends.

@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0", "project_id":"night-station-demo", "tenant_id":"omega-studio", "title":"Nocna Stacja", "rating":"MATURE", "target_engine":"aether", "compute_budget_units":100, "revision":1,
+  "tags":["neo-noir","sci-fi","interaktywne-narracje"],
+  "style_profile":{"palette":["#11182A","#A33C42","#E0D1BB"],"realism":0.89,"lighting":"chiaroscuro"},
+  "content_rights":{"voice_consent":false,"likeness_consent":false,"licenses":["Original work by project owner"]},
+  "tasks":[
+    {"id":"narrative","agent":"NARRATIVE","kind":"NARRATIVE_GRAPH_PLAN","dependencies":[],"cost_units":15},
+    {"id":"art","agent":"ART","kind":"VISUAL_ASSET_PLAN","dependencies":["narrative"],"cost_units":20},
+    {"id":"systems","agent":"SYSTEMS","kind":"ENGINE_INTEGRATION_PLAN","dependencies":["narrative"],"cost_units":25},
+    {"id":"audio","agent":"AUDIO","kind":"ADAPTIVE_AUDIO_PLAN","dependencies":["narrative"],"cost_units":10},
+    {"id":"qa","agent":"QA","kind":"STRUCTURAL_QA","dependencies":["art","systems","audio"],"cost_units":10}
+  ]
+}

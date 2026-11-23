@@ -1,0 +1,1 @@
+{"start":"opening","nodes":[{"id":"opening","choices":[{"id":"protect_witness","target":"witness_safe","when":{"witness_known":true},"effects":{"trust":1}},{"id":"secure_evidence","target":"evidence_found","when":{},"effects":{"trust":-1}}]},{"id":"witness_safe","ending":true},{"id":"evidence_found","ending":true}]}

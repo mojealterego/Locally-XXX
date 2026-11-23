@@ -1,0 +1,27 @@
+{
+  "prompt": "Zbliżenie na @Red-Fox obok @Old-Town, złota godzina",
+  "elementReferences": [
+    {
+      "elementId": "char-1",
+      "label": "Red-Fox"
+    },
+    {
+      "elementId": "location-1",
+      "label": "Old-Town"
+    }
+  ],
+  "mentions": [
+    {
+      "label": "Red-Fox",
+      "start": 13,
+      "end": 21,
+      "text": "@Red-Fox"
+    },
+    {
+      "label": "Old-Town",
+      "start": 27,
+      "end": 36,
+      "text": "@Old-Town"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "mode": "inference", "accelerator": "android", "compute_capability": null,
+  "gpu_count": 1, "head_count": 16, "kv_head_count": 8, "head_dim": 128,
+  "layers": 28, "context_tokens": 8192, "kv_dtype": "q8_0",
+  "attention": "auto", "parallel": "none", "precision": "fp16",
+  "model_format": "gguf", "training_strategy": "none",
+  "tensor_parallel": 1, "pipeline_parallel": 1
+}

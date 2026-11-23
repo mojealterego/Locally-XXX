@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "bounds": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ],
+      "items": false,
+      "minItems": 4
+    },
+    "focus": {
+      "enum": [
+        "bounds",
+        "subject",
+        "face",
+        "head",
+        "upper_body",
+        "prompt"
+      ]
+    },
+    "focus_box": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "alignX": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "alignY": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "margin": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      }
+    },
+    "straighten": {
+      "enum": [
+        "auto",
+        "level",
+        "vertical",
+        "full"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "extract",
+        "reframe",
+        "pad"
+      ]
+    }
+  },
+  "required": [
+    "bounds",
+    "focus",
+    "alignX",
+    "alignY",
+    "margin",
+    "straighten",
+    "mode"
+  ],
+  "$id": "https://omega.local/spec/v1/crop.schema.json"
+}

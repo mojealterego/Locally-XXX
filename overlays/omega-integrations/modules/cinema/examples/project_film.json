@@ -1,0 +1,6 @@
+{
+ "schemaVersion":"1.0","projectId":"film-omega-001","name":"Miasto i Pamięć","track":"FILM_TV","audience":"FAMILY","rating":"PG","explicit":false,"jurisdiction":"PL",
+ "crew":[{"personId":"a","roleId":"DIRECTOR"},{"personId":"b","roleId":"PRODUCER"},{"personId":"c","roleId":"DIRECTOR_OF_PHOTOGRAPHY"}],"performers":[{"id":"actor-a","age":24,"paid":true}],"assets":[],
+ "shots":[{"id":"film-shot-a","fps":[24000,1001],"durationFrames":240,"camera":{"focalLengthMm":50,"fStop":4},"assetRefs":[]}],"tasks":[{"id":"script","needs":[],"status":"DONE"},{"id":"locations","needs":["script"],"status":"DONE"},{"id":"shoot","needs":["locations"],"status":"PLANNED"},{"id":"edit","needs":["shoot"],"status":"PLANNED"}],
+ "rightsClearance":false,"technicalQc":false,"humanApproval":false
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ATM CausalQuery v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "graph_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "exposure": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adjustment_set": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "estimand": {
+      "type": "string",
+      "enum": [
+        "ATE_BACKDOOR_BINARY"
+      ]
+    },
+    "budget_ms": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "graph_digest",
+    "exposure",
+    "outcome",
+    "adjustment_set",
+    "estimand",
+    "budget_ms"
+  ]
+}

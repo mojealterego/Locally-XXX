@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://omega.local/schemas/aethr/inference_event.v1.json",
+  "type":"object","additionalProperties":false,
+  "required":["request_id","sequence","kind","ts_unix_ms"],
+  "properties":{
+    "request_id":{"type":"string","format":"uuid"},
+    "sequence":{"type":"integer","minimum":0},
+    "kind":{"enum":["accepted","prefill_started","token_delta","tool_call_pending_approval","usage","verified_output","failed","cancelled"]},
+    "ts_unix_ms":{"type":"integer","minimum":0},
+    "payload":{"type":"object"}
+  }
+}

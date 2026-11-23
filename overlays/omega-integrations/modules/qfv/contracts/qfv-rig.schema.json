@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/qfv/rig/v1",
+  "title": "QFV Rig v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "rigId",
+    "coordinateSystem",
+    "restVertices",
+    "actuators",
+    "mapping"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "rigId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "coordinateSystem": {
+      "enum": [
+        "normalized-right-handed",
+        "pixel-right-handed"
+      ]
+    },
+    "restVertices": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {
+        "$ref": "#/$defs/vec3"
+      }
+    },
+    "actuators": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "anchor",
+          "direction",
+          "radius",
+          "gain"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anchor": {
+            "$ref": "#/$defs/vec3"
+          },
+          "direction": {
+            "$ref": "#/$defs/vec3"
+          },
+          "radius": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000
+          },
+          "gain": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          }
+        }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "sourceProvenance": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "vec3": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    }
+  }
+}

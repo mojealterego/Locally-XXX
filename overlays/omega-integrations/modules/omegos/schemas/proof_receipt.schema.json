@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/schemas/continuum/proof_receipt.v1.schema.json",
+  "title": "OmegOS Continuum — Proof Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "obligation_id", "tenant_id", "status", "source_sha256", "spec_sha256", "assumptions_sha256", "toolchain_lock_sha256", "semantic_profile", "verification_scope", "attempt"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "obligation_id": {"type": "string", "pattern": "^CONT-PO-[0-9]{4,12}$"},
+    "tenant_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
+    "status": {"enum": ["NOT_RUN", "RUNNING", "SOLVER_CLAIMED_UNSAT", "VERIFIED", "DISPROVED", "UNKNOWN", "TIMEOUT", "UNSUPPORTED", "INVALIDATED", "ERROR"]},
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "spec_sha256": {"$ref": "#/$defs/hash"},
+    "assumptions_sha256": {"$ref": "#/$defs/hash"},
+    "toolchain_lock_sha256": {"$ref": "#/$defs/hash"},
+    "semantic_profile": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,79}$"},
+    "verification_scope": {"enum": ["SOURCE", "IR", "BINARY", "HARDWARE", "SYSTEM_COMPOSITION"]},
+    "attempt": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "checker_id": {"type": "string", "minLength": 4, "maxLength": 128},
+    "checker_version": {"type": "string", "minLength": 1, "maxLength": 100},
+    "proof_sha256": {"$ref": "#/$defs/hash"},
+    "checker_log_sha256": {"$ref": "#/$defs/hash"},
+    "proof_format": {"enum": ["LEAN_TERM", "ROCQ_TERM", "ALETHE", "LFSC", "COQ_RECHECK", "TLA_CERT", "WHY3_CERT", "CUSTOM_L0"]},
+    "source_binary_sha256": {"$ref": "#/$defs/hash"},
+    "translation_validation_sha256": {"$ref": "#/$defs/hash"},
+    "failure_code": {"type": "string", "maxLength": 128}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "VERIFIED"}}, "required": ["status"]},
+     "then": {"required": ["checker_id", "checker_version", "proof_sha256", "checker_log_sha256", "proof_format"]}},
+    {"if": {"properties": {"status": {"const": "VERIFIED"}, "verification_scope": {"enum": ["BINARY", "HARDWARE", "SYSTEM_COMPOSITION"]}}, "required": ["status", "verification_scope"]},
+     "then": {"required": ["source_binary_sha256", "translation_validation_sha256"]}}
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "obligation_id": "CONT-PO-0001",
+  "tenant_id": "team-alpha",
+  "status": "NOT_RUN",
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "spec_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "assumptions_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "toolchain_lock_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "semantic_profile": "integer-unbounded-v1",
+  "verification_scope": "SOURCE",
+  "attempt": 0
+}

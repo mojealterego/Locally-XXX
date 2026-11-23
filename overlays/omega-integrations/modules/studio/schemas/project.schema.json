@@ -1,0 +1,10 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"urn:omega:aether:project:1","title":"Aether Studio Project v1","type":"object","additionalProperties":false,
+ "required":["schema_version","project_id","tenant_id","title","rating","target_engine","compute_budget_units","revision","tags","style_profile","content_rights","tasks"],
+ "properties":{
+  "schema_version":{"const":"1.0"},"project_id":{"type":"string","minLength":1,"maxLength":500},"tenant_id":{"type":"string","minLength":1,"maxLength":500},"title":{"type":"string","minLength":1,"maxLength":500},"rating":{"enum":["CHILD","TEEN","MATURE","ADULT"]},"target_engine":{"type":"string","minLength":1},"compute_budget_units":{"type":"number","minimum":0,"maximum":10000000},"revision":{"type":"integer","minimum":1},"tags":{"type":"array","maxItems":64,"items":{"type":"string","minLength":1,"maxLength":500}},
+  "style_profile":{"type":"object","additionalProperties":false,"required":["palette","realism","lighting"],"properties":{"palette":{"type":"array","items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"}},"realism":{"type":"number","minimum":0,"maximum":1},"lighting":{"type":"string","minLength":1}}},
+  "content_rights":{"type":"object","additionalProperties":false,"required":["voice_consent","likeness_consent","licenses"],"properties":{"voice_consent":{"type":"boolean"},"likeness_consent":{"type":"boolean"},"licenses":{"type":"array","items":{"type":"string"}}}},
+  "tasks":{"type":"array","minItems":1,"maxItems":200,"items":{"type":"object","additionalProperties":false,"required":["id","agent","kind","dependencies","cost_units"],"properties":{"id":{"type":"string","minLength":1},"agent":{"enum":["DIRECTOR","NARRATIVE","ART","SYSTEMS","INTEGRATOR","QA","PROFILER","RELEASE","AUDIO"]},"kind":{"type":"string","minLength":1},"dependencies":{"type":"array","uniqueItems":true,"items":{"type":"string"}},"cost_units":{"type":"number","minimum":0,"maximum":10000000}}}}
+ }
+}

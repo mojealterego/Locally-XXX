@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.example.invalid/schemas/training-job-v1.schema.json",
+  "title": "OMEGA-AOPT deterministic planning profile",
+  "description": "Schema-level validation only. Cross-field and hardware rules enforced by reference/planner.py; real hardware probe required.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode", "accelerator", "compute_capability", "gpu_count", "head_count", "kv_head_count", "head_dim", "layers", "context_tokens", "kv_dtype", "attention", "parallel", "precision", "model_format", "training_strategy", "tensor_parallel", "pipeline_parallel"],
+  "properties": {
+    "mode": {"enum": ["inference", "training", "fine_tune"]},
+    "accelerator": {"enum": ["cuda", "android", "cpu"]},
+    "compute_capability": {"type": ["integer", "null"], "enum": [75, 80, 86, 89, 90, 100, 103, 120, null]},
+    "gpu_count": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "head_count": {"type": "integer", "minimum": 1, "maximum": 8192},
+    "kv_head_count": {"type": "integer", "minimum": 1, "maximum": 8192},
+    "head_dim": {"type": "integer", "minimum": 1, "maximum": 8192},
+    "layers": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "context_tokens": {"type": "integer", "minimum": 1, "maximum": 10000000},
+    "kv_dtype": {"enum": ["fp16", "q8_0", "q4_0"]},
+    "attention": {"enum": ["auto", "math", "native_sdpa", "fa2", "fa3"]},
+    "parallel": {"enum": ["none", "fsdp2", "zero1", "zero2", "zero3", "megatron"]},
+    "precision": {"enum": ["fp32", "fp16", "bf16", "fp8"]},
+    "model_format": {"enum": ["safetensors", "gguf"]},
+    "training_strategy": {"enum": ["none", "lora", "qlora_nf4"]},
+    "tensor_parallel": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "pipeline_parallel": {"type": "integer", "minimum": 1, "maximum": 4096}
+  }
+}

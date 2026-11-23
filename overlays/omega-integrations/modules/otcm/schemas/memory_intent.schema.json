@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OTCM Prospective Intent (contract only)",
+  "type": "object",
+  "required": [
+    "intent_id",
+    "owner",
+    "trigger",
+    "approval_level",
+    "idempotency_key",
+    "max_attempts"
+  ],
+  "properties": {
+    "intent_id": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "object"
+    },
+    "approval_level": {
+      "enum": [
+        "notify_only",
+        "approval_required"
+      ]
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "413f45ca-a830-45b0-aac5-c0bb7ebd7b03",
+  "tenant_id": "team-studio",
+  "task_id": "segmentation-small-v1",
+  "dataset": {
+    "train_sha256": "d487f131a30f5d996e6d7c888c3c84f15a0c45e86c420ea236a3b8c9cb1a120f",
+    "validation_sha256": "b0dd2a2118a18d4fe971319f70a10ab2c3e3ec90660a3d4ab79462145ec4dd32"
+  },
+  "baseline_candidate_id": "candidate-baseline-001",
+  "seed": 20261121,
+  "population": 24,
+  "max_generations": 40,
+  "max_evaluations": 480,
+  "max_wall_clock_minutes": 240,
+  "max_parallel_evaluations": 2,
+  "run_profile": "HYBRID",
+  "objective_ids": [
+    "TASK_ERROR",
+    "GPU_SECONDS",
+    "ROBUSTNESS_DROP",
+    "PARAMETER_COUNT"
+  ],
+  "allowed_operators": [
+    "MUTATE_PARAM",
+    "ADD_NODE",
+    "REMOVE_NODE",
+    "FUSE_SUBGRAPH",
+    "SWITCH_OPTIMIZER",
+    "MUTATE_LOSS",
+    "SHOCK_MUTATION"
+  ],
+  "approval_policy": "HUMAN_BEFORE_PROMOTION",
+  "allow_external_dataset_egress": false
+}

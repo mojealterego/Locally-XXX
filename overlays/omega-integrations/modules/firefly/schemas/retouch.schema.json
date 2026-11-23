@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "operation": {
+      "enum": [
+        "remove_background",
+        "remove_blemishes"
+      ]
+    },
+    "input_asset_uri": {
+      "type": "string",
+      "pattern": "^asset://"
+    },
+    "maskURI": {
+      "type": "string",
+      "pattern": "^omega-mask://"
+    },
+    "output_mode": {
+      "enum": [
+        "cutout",
+        "solid"
+      ]
+    },
+    "hex_color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "radius": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 32
+    }
+  },
+  "required": [
+    "operation",
+    "input_asset_uri",
+    "maskURI"
+  ],
+  "$id": "https://omega.local/spec/v1/retouch.schema.json"
+}

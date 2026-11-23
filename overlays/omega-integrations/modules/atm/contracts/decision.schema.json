@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ATM DecisionResponse v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "REJECTED",
+        "DEFERRED"
+      ]
+    },
+    "candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reason_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof_status": {
+      "type": "string",
+      "enum": [
+        "PROVED",
+        "REFUTED",
+        "UNKNOWN",
+        "TIMEOUT",
+        "ERROR"
+      ]
+    },
+    "assumptions_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "maxItems": 10000
+    },
+    "requires_human_approval": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "decision",
+    "candidate_id",
+    "reason_code",
+    "policy_digest",
+    "proof_status",
+    "assumptions_digest",
+    "evidence_refs",
+    "requires_human_approval"
+  ]
+}

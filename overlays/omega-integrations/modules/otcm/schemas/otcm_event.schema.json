@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/schemas/otcm_event.v1.json",
+  "title": "OmniTemporal Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "agent_id",
+    "claim_key",
+    "kind",
+    "value",
+    "source_id",
+    "valid_from_utc",
+    "valid_to_utc",
+    "recorded_at_utc",
+    "cognitive_seq",
+    "branch_id",
+    "visibility"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "agent_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "claim_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "fact",
+        "abstraction",
+        "retraction",
+        "intent"
+      ]
+    },
+    "value": {
+      "type": "object"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "valid_from_utc": {
+      "type": "integer"
+    },
+    "valid_to_utc": {
+      "type": "integer"
+    },
+    "recorded_at_utc": {
+      "type": "integer"
+    },
+    "cognitive_seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "branch_id": {
+      "type": "string"
+    },
+    "simulation_at_utc": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "visibility": {
+      "enum": [
+        "private",
+        "shared"
+      ]
+    },
+    "consent_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_event_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "provenance_class": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "genome_id": "971d11aa-12f3-47bb-ae6f-a8f7420aa315",
+  "task_id": "segmentation-small-v1",
+  "seed": 20261121,
+  "nodes": [
+    {
+      "id": "input",
+      "kind": "INPUT",
+      "shape": [
+        1,
+        64
+      ],
+      "activation": "NONE"
+    },
+    {
+      "id": "proj",
+      "kind": "LINEAR",
+      "shape": [
+        1,
+        64
+      ],
+      "activation": "GELU"
+    },
+    {
+      "id": "output",
+      "kind": "OUTPUT",
+      "shape": [
+        1,
+        4
+      ],
+      "activation": "NONE"
+    }
+  ],
+  "edges": [
+    {
+      "source": "input",
+      "target": "proj",
+      "delay_steps": 0
+    },
+    {
+      "source": "proj",
+      "target": "output",
+      "delay_steps": 0
+    }
+  ],
+  "training": {
+    "optimizer": "ADAMW",
+    "learning_rate": 0.0005,
+    "weight_decay": 0.01,
+    "loss_id": "CROSS_ENTROPY",
+    "epochs": 5,
+    "batch_size": 16
+  },
+  "limits": {
+    "max_nodes": 64,
+    "max_edges": 256,
+    "max_train_seconds": 1800,
+    "max_memory_mib": 2048
+  },
+  "lineage": {
+    "parent_ids": [],
+    "operator": "BASELINE",
+    "mutation_seed": 20261121
+  }
+}

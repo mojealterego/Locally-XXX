@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:omega:haee:genome:1.0.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "genome_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "kind": {
+            "enum": [
+              "INPUT",
+              "LINEAR",
+              "ATTENTION",
+              "RECURRENT",
+              "FFN",
+              "OUTPUT"
+            ]
+          },
+          "shape": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 6,
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "activation": {
+            "enum": [
+              "NONE",
+              "RELU",
+              "GELU",
+              "TANH",
+              "SILU"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "shape",
+          "activation"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 16384,
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "delay_steps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          }
+        },
+        "required": [
+          "source",
+          "target",
+          "delay_steps"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "training": {
+      "type": "object",
+      "properties": {
+        "optimizer": {
+          "enum": [
+            "SGD",
+            "ADAMW"
+          ]
+        },
+        "learning_rate": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "weight_decay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "loss_id": {
+          "enum": [
+            "CROSS_ENTROPY",
+            "MSE",
+            "MAE"
+          ]
+        },
+        "epochs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000
+        },
+        "batch_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      },
+      "required": [
+        "optimizer",
+        "learning_rate",
+        "weight_decay",
+        "loss_id",
+        "epochs",
+        "batch_size"
+      ],
+      "additionalProperties": false
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "max_nodes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_edges": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_train_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_memory_mib": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "max_nodes",
+        "max_edges",
+        "max_train_seconds",
+        "max_memory_mib"
+      ],
+      "additionalProperties": false
+    },
+    "lineage": {
+      "type": "object",
+      "properties": {
+        "parent_ids": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "string"
+          }
+        },
+        "operator": {
+          "enum": [
+            "BASELINE",
+            "MUTATE_PARAM",
+            "ADD_NODE",
+            "REMOVE_NODE",
+            "ADD_EDGE",
+            "REMOVE_EDGE",
+            "FUSE_SUBGRAPH",
+            "SWITCH_OPTIMIZER",
+            "MUTATE_LOSS",
+            "MUTATE_SCHEDULE",
+            "SHOCK_MUTATION"
+          ]
+        },
+        "mutation_seed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "parent_ids",
+        "operator",
+        "mutation_seed"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "genome_id",
+    "task_id",
+    "seed",
+    "nodes",
+    "edges",
+    "training",
+    "limits",
+    "lineage"
+  ],
+  "additionalProperties": false
+}

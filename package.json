@@ -63,7 +63,9 @@
     "test:thermal": "python3 scripts/test-thermal.py",
     "test:enterprise-sdk": "npm --prefix locally-uncensored-enterprise/packages/agent-sdk test",
     "test:enterprise-auth": "npm --prefix locally-uncensored-enterprise/backend test",
-    "test:enterprise-execution": "npm --prefix locally-uncensored-enterprise/backend test"
+    "test:enterprise-execution": "npm --prefix locally-uncensored-enterprise/backend test",
+    "test:omega-integrations": "python3 overlays/omega-integrations/verify.py",
+    "studio:plan": "node overlays/omega-integrations/cli.mjs"
   },
   "devDependencies": {
     "typescript": "5.8.3"

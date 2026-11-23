@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/schemas/inference/runtime-capabilities-1.0.json",
+  "title": "OMEGA Inference Runtime Capability Manifest v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "runtime_id", "engine", "deployment", "model_ref", "model_format", "capabilities", "allowed_data_classes", "healthy", "memory_headroom_mib", "version_pinned", "tenant_allowlist"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "runtime_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]{2,63}$"},
+    "engine": {"enum": ["vllm", "tensorrt-llm", "tgi", "ollama", "llama.cpp", "sglang", "openvino", "lmdeploy", "tensorrt", "mnn"]},
+    "deployment": {"enum": ["ON_DEVICE", "DESKTOP_LOCAL", "LAN_TRUSTED", "CLOUD_HPC"]},
+    "model_ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "model_format": {"enum": ["GGUF", "SAFETENSORS", "ONNX", "OPENVINO_IR", "TRT_ENGINE", "MNN", "OTHER"]},
+    "model_digest_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "capabilities": {"type": "array", "uniqueItems": true, "items": {"enum": ["CHAT", "EMBEDDING", "VISION", "AUDIO", "TOOLS", "JSON_SCHEMA", "STREAMING", "SPECULATIVE_DECODING", "PREFIX_CACHE", "LOGPROBS", "VISION_GRAPH"]}},
+    "allowed_data_classes": {"type": "array", "uniqueItems": true, "items": {"enum": ["PUBLIC", "INTERNAL", "PRIVATE", "RESTRICTED"]}},
+    "tenant_allowlist": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "healthy": {"type": "boolean"},
+    "memory_headroom_mib": {"type": "integer", "minimum": 0},
+    "version_pinned": {"type": "boolean"},
+    "estimated_ttft_p95_ms": {"type": ["integer", "null"], "minimum": 0},
+    "cost_micro_usd_per_1000_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "hardware": {"type": "string", "minLength": 1},
+    "provenance": {"type": "string", "maxLength": 512}
+  }
+}

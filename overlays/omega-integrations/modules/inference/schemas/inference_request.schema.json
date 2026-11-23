@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/schemas/inference/request-1.0.json",
+  "title": "OMEGA Inference Request v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "tenant_id", "execution_mode", "data_class", "task_kind", "model_ref", "required_capabilities", "input", "limits", "sampling"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "request_id": {"type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[a-zA-Z0-9_.-]+$"},
+    "tenant_id": {"type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[a-zA-Z0-9_.-]+$"},
+    "execution_mode": {"enum": ["OFFLINE", "HYBRID", "CLOUD-HPC"]},
+    "data_class": {"enum": ["PUBLIC", "INTERNAL", "PRIVATE", "RESTRICTED"]},
+    "task_kind": {"enum": ["CHAT", "EMBEDDING", "VISION", "AUDIO"]},
+    "model_ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "required_capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["CHAT", "EMBEDDING", "VISION", "AUDIO", "TOOLS", "JSON_SCHEMA", "STREAMING", "SPECULATIVE_DECODING", "PREFIX_CACHE", "LOGPROBS", "VISION_GRAPH"]}},
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["messages"],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "content"],
+            "properties": {
+              "role": {"enum": ["system", "user", "assistant", "tool"]},
+              "content": {"type": "string", "maxLength": 1000000}
+            }
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_output_tokens", "timeout_ms", "max_context_tokens"],
+      "properties": {
+        "max_output_tokens": {"type": "integer", "minimum": 1, "maximum": 65536},
+        "timeout_ms": {"type": "integer", "minimum": 100, "maximum": 3600000},
+        "max_context_tokens": {"type": "integer", "minimum": 16, "maximum": 1048576}
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature"],
+      "properties": {
+        "temperature": {"type": "number", "minimum": 0, "maximum": 2},
+        "seed": {"type": "integer", "minimum": 0, "maximum": 4294967295}
+      }
+    }
+  }
+}

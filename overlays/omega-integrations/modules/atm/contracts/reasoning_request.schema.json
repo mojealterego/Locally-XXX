@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ATM ReasoningRequest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "OFFLINE",
+        "HYBRID",
+        "CLOUD_HPC"
+      ]
+    },
+    "policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "known_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "budgets": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "budgets",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_reasoning_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "wall_timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400000
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "max_causal_worlds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        }
+      },
+      "required": [
+        "max_reasoning_steps",
+        "wall_timeout_ms",
+        "max_tool_calls",
+        "max_causal_worlds"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "tenant_id",
+    "task",
+    "execution_mode",
+    "policy_version",
+    "known_at",
+    "budgets"
+  ]
+}

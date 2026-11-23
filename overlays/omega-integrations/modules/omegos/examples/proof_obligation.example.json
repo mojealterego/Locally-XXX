@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "obligation_id": "CONT-PO-0001",
+  "tenant_id": "team-alpha",
+  "goal_language": "SMT_LIB2",
+  "goal": "(assert (not (=> (and (>= ttl 1) (= ttl_next (- ttl 1))) (< ttl_next ttl))))",
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "spec_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "assumptions_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "toolchain_lock_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "semantic_profile": "integer-unbounded-v1",
+  "dependencies": [],
+  "timeout_seconds": 120,
+  "requested_assurance": "CHECKED_PROOF"
+}

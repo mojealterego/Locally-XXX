@@ -1,0 +1,93 @@
+{
+  "source_integrity": "PASS",
+  "locked_files": 141,
+  "source_lock_sha256": "c0d1c985f666a5e395d148dfa64b25d2464be685fe084a7beb87b9aa5698cc60",
+  "suites": [
+    {
+      "suite": "omega-bridge",
+      "exit_code": 0,
+      "command": "node --test tests/bridge.test.mjs",
+      "stdout_tail": "ector revision conflicts fail closed\nok 19 - director revision conflicts fail closed\n  ---\n  duration_ms: 0.408264\n  type: 'test'\n  ...\n# Subtest: executor refuses missing approval\nok 20 - executor refuses missing approval\n  ---\n  duration_ms: 2.006498\n  type: 'test'\n  ...\n# Subtest: executor refuses missing adapter\nok 21 - executor refuses missing adapter\n  ---\n  duration_ms: 1.780948\n  type: 'test'\n  ...\n# Subtest: executor detects tampered manifest\nok 22 - executor detects tampered manifest\n  ---\n  duration_ms: 1.517913\n  type: 'test'\n  ...\n# Subtest: executor respects abort before adapter\nok 23 - executor respects abort before adapter\n  ---\n  duration_ms: 0.671149\n  type: 'test'\n  ...\n# Subtest: executor fails closed without artifact evidence\nok 24 - executor fails closed without artifact evidence\n  ---\n  duration_ms: 0.735145\n  type: 'test'\n  ...\n# Subtest: executor passes exact manifest to approved adapter and labels reported evidence\nok 25 - executor passes exact manifest to approved adapter and labels reported evidence\n  ---\n  duration_ms: 0.997931\n  type: 'test'\n  ...\n# Subtest: adapter cannot report built without independent evidence bundle\nok 26 - adapter cannot report built without independent evidence bundle\n  ---\n  duration_ms: 0.690809\n  type: 'test'\n  ...\n1..26\n# tests 26\n# suites 0\n# pass 26\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 123.087187\n\n"
+    },
+    {
+      "suite": "aether-studio",
+      "exit_code": 0,
+      "command": "node --test tests/control.test.mjs tests/schema.test.mjs",
+      "stdout_tail": "test: Schema neurobus includes dialect, URI, and property constraints\nok 51 - Schema neurobus includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.30612\n  type: 'test'\n  ...\n# Subtest: Schema director_patch includes dialect, URI, and property constraints\nok 52 - Schema director_patch includes dialect, URI, and property constraints\n  ---\n  duration_ms: 0.190166\n  type: 'test'\n  ...\n# Subtest: Example project satisfies executable code validation\nok 53 - Example project satisfies executable code validation\n  ---\n  duration_ms: 4.292106\n  type: 'test'\n  ...\n# Subtest: Example branching graph contains both unique epilogues\nok 54 - Example branching graph contains both unique epilogues\n  ---\n  duration_ms: 1.213435\n  type: 'test'\n  ...\n# Subtest: Example music quantizes to next bar at 120 BPM\nok 55 - Example music quantizes to next bar at 120 BPM\n  ---\n  duration_ms: 0.229655\n  type: 'test'\n  ...\n# Subtest: Example NeuroBus body is a signable structure\nok 56 - Example NeuroBus body is a signable structure\n  ---\n  duration_ms: 1.171072\n  type: 'test'\n  ...\n# Subtest: No private capture files or actor likeness distributed with examples\nok 57 - No private capture files or actor likeness distributed with examples\n  ---\n  duration_ms: 0.500453\n  type: 'test'\n  ...\n1..57\n# tests 57\n# suites 0\n# pass 57\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 116.435637\n\n"
+    },
+    {
+      "suite": "p10-cinema",
+      "exit_code": 0,
+      "command": "node --test tests/core.test.mjs tests/cli.test.mjs",
+      "stdout_tail": "rack\n  ---\n  duration_ms: 0.257147\n  type: 'test'\n  ...\n# Subtest: P10-040 geodesic route connects neighboring cells deterministically\nok 43 - P10-040 geodesic route connects neighboring cells deterministically\n  ---\n  duration_ms: 3.4241\n  type: 'test'\n  ...\n# Subtest: P10-041 terrain cost changes geodesic route\nok 44 - P10-041 terrain cost changes geodesic route\n  ---\n  duration_ms: 0.464198\n  type: 'test'\n  ...\n# Subtest: P10-042 disconnected world has no fabricated route\nok 45 - P10-042 disconnected world has no fabricated route\n  ---\n  duration_ms: 0.273842\n  type: 'test'\n  ...\n# Subtest: P10-043 reject negative traversal weights\nok 46 - P10-043 reject negative traversal weights\n  ---\n  duration_ms: 0.324127\n  type: 'test'\n  ...\n# Subtest: P10-044 mixed shot fps cannot be merged as raw frame indices\nok 47 - P10-044 mixed shot fps cannot be merged as raw frame indices\n  ---\n  duration_ms: 0.469256\n  type: 'test'\n  ...\n# Subtest: P10-045 reject duplicate coordinates in world manifest\nok 48 - P10-045 reject duplicate coordinates in world manifest\n  ---\n  duration_ms: 0.361944\n  type: 'test'\n  ...\n# Subtest: P10-046 do not infer non-PL minor work authorization\nok 49 - P10-046 do not infer non-PL minor work authorization\n  ---\n  duration_ms: 0.131288\n  type: 'test'\n  ...\n1..49\n# tests 49\n# suites 0\n# pass 49\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 203.238493\n\n"
+    },
+    {
+      "suite": "p09-firefly",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m pytest -q tests",
+      "stdout_tail": "...................................................                      [100%]\n51 passed in 1.10s\n\n"
+    },
+    {
+      "suite": "qfv",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 49 tests in 0.062s\n\nOK\n"
+    },
+    {
+      "suite": "aethr",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m pytest -q tests",
+      "stdout_tail": ".....................................                                    [100%]\n37 passed in 0.98s\n\n"
+    },
+    {
+      "suite": "inference",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 24 tests in 0.010s\n\nOK\n"
+    },
+    {
+      "suite": "otcm",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 28 tests in 0.167s\n\nOK\n"
+    },
+    {
+      "suite": "atm",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 33 tests in 0.003s\n\nOK\n"
+    },
+    {
+      "suite": "mobile-policy",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest reference.test_policy -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 37 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "suite": "mobile-contracts",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 10 tests in 0.007s\n\nOK\n"
+    },
+    {
+      "suite": "attention",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 24 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "suite": "haee",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s tests -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 10 tests in 0.003s\n\nOK\n"
+    },
+    {
+      "suite": "omegos-contracts",
+      "exit_code": 0,
+      "command": "/opt/pyvenv/bin/python3 -m unittest discover -s verification -p test_*.py -q",
+      "stdout_tail": "\n----------------------------------------------------------------------\nRan 20 tests in 0.011s\n\nOK\n"
+    }
+  ],
+  "all_pass": true,
+  "scope": "Host code and contract tests only; no real GPU, inference, mobile device, renderer or engine integration"
+}

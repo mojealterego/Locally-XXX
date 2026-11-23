@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/qfv/quality/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profile",
+    "p95FrameMs",
+    "thermalPressure",
+    "memoryPressure"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "profile": {
+      "enum": [
+        "MOBILE_FULL",
+        "MOBILE_FAST",
+        "DESKTOP_FULL",
+        "DESKTOP_BALANCED"
+      ]
+    },
+    "p95FrameMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "thermalPressure": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "memoryPressure": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

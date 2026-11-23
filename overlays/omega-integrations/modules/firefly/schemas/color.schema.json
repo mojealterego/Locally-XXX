@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "exposure": {
+      "type": "number",
+      "minimum": -8,
+      "maximum": 8
+    },
+    "gamma": {
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 4
+    },
+    "shadow_offset": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "highlights": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "lights": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "darks": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "shadows": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "brightness": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "contrast": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "hue": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "saturation": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "lightness": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "vibrance": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "global_saturation": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "tempA": {
+      "type": "number",
+      "minimum": -50,
+      "maximum": 50
+    },
+    "tempB": {
+      "type": "number",
+      "minimum": -50,
+      "maximum": 50
+    },
+    "tempLuminance": {
+      "type": "number",
+      "minimum": -50,
+      "maximum": 50
+    },
+    "colorize": {
+      "type": "boolean"
+    },
+    "saturation_channels": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "red": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "yellow": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "green": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "cyan": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "blue": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "magenta": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        }
+      },
+      "required": []
+    }
+  },
+  "required": [],
+  "$id": "https://omega.local/spec/v1/color.schema.json"
+}

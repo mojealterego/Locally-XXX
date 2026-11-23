@@ -1,0 +1,34 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://omega.local/schemas/cinema/project-1.0.0.json",
+  "title":"OMEGA P10 ProductionProject",
+  "type":"object",
+  "additionalProperties":true,
+  "required":["schemaVersion","projectId","name","track","audience","rating","jurisdiction","crew","assets","shots","tasks","rightsClearance","technicalQc","humanApproval"],
+  "properties":{
+    "schemaVersion":{"const":"1.0"},
+    "projectId":{"type":"string","pattern":"^[a-z][a-z0-9_-]{0,79}$"},
+    "name":{"type":"string","minLength":1},
+    "track":{"enum":["FILM_TV","CHILD_ANIMATION","GAME_CINEMATIC","AAA_WORLD"]},
+    "audience":{"enum":["AGE_0_2","AGE_3_5","AGE_6_8","AGE_9_12","AGE_13_17","FAMILY","ADULT"]},
+    "rating":{"enum":["G","PG","TEEN","ADULT"]},
+    "explicit":{"type":"boolean","default":false},
+    "jurisdiction":{"type":"string","minLength":2,"maxLength":4},
+    "crew":{"type":"array","items":{"type":"object","required":["personId","roleId"],"properties":{"personId":{"type":"string","minLength":1},"roleId":{"type":"string","minLength":1}}}},
+    "assets":{"type":"array","items":{"type":"object","required":["id","hash"],"properties":{"id":{"type":"string","minLength":1},"hash":{"type":"string","pattern":"^sha256:[a-f0-9]{64}$"}}}},
+    "shots":{"type":"array","items":{"$ref":"#/$defs/shot"}},
+    "tasks":{"type":"array","items":{"type":"object","required":["id","needs"],"properties":{"id":{"type":"string"},"needs":{"type":"array","items":{"type":"string"}},"status":{"enum":["PLANNED","ACTIVE","DONE","BLOCKED"]}}}},
+    "narrative":{"type":"object"},
+    "world":{"type":"object"},
+    "rightsClearance":{"type":"boolean"},
+    "technicalQc":{"type":"boolean"},
+    "humanApproval":{"type":"boolean"}
+  },
+  "$defs":{"shot":{"type":"object","required":["id","fps","durationFrames","camera"],"properties":{"id":{"type":"string"},"fps":{"type":"array","minItems":2,"maxItems":2,"prefixItems":[{"type":"integer","minimum":1},{"type":"integer","minimum":1}]},"durationFrames":{"type":"integer","minimum":1},"camera":{"type":"object","required":["focalLengthMm"],"properties":{"focalLengthMm":{"type":"number","exclusiveMinimum":0,"maximum":2000},"fStop":{"type":"number","exclusiveMinimum":0}}},"assetRefs":{"type":"array","items":{"type":"string"}}}}},
+  "allOf":[
+    {"if":{"properties":{"track":{"const":"GAME_CINEMATIC"}}},"then":{"required":["narrative"]}},
+    {"if":{"properties":{"track":{"const":"AAA_WORLD"}}},"then":{"required":["world"]}},
+    {"if":{"properties":{"track":{"const":"CHILD_ANIMATION"}}},"then":{"required":["childSafeguarding"]}},
+    {"if":{"properties":{"explicit":{"const":true}},"required":["explicit"]},"then":{"properties":{"rating":{"const":"ADULT"},"audience":{"const":"ADULT"}}}}
+  ]
+}

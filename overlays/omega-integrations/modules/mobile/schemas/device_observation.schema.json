@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:omega:mobile:telemetry:1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "device", "runtime_mode", "thermal_headroom", "native_leases_mib", "battery_percent", "is_charging", "foreground", "time_monotonic_ns", "source", "measurement_status"],
+  "properties": {
+    "schema_version": {"const":"1.0"},
+    "device": {"type":"string","minLength":1,"maxLength":128},
+    "runtime_mode": {"enum":["OFFLINE","HYBRID","CLOUD_HPC"]},
+    "thermal_headroom": {"type":"number","minimum":0},
+    "native_leases_mib": {"type":"integer","minimum":0},
+    "battery_percent": {"type":"integer","minimum":0,"maximum":100},
+    "is_charging": {"type":"boolean"},
+    "foreground": {"type":"boolean"},
+    "time_monotonic_ns": {"type":"integer","minimum":0},
+    "source": {"enum":["ANDROID_PLATFORM","ANDROID_PROFILER","REFERENCE_SIMULATOR"]},
+    "measurement_status": {"enum":["MEASURED","ESTIMATED","SIMULATED"]}
+  }
+}

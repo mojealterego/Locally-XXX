@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "maskURI": {
+      "type": "string",
+      "pattern": "^omega-mask://"
+    },
+    "tenant": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "expires_at": {
+      "type": "number"
+    },
+    "acl": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "precision": {
+      "enum": [
+        "u8",
+        "u16",
+        "f32"
+      ]
+    },
+    "coordinate_space": {
+      "enum": [
+        "source-pixels",
+        "normalized",
+        "canvas-pixels"
+      ]
+    },
+    "alpha_semantics": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "string",
+      "minLength": 1
+    },
+    "time_range": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
+  "required": [
+    "maskURI",
+    "tenant",
+    "project",
+    "sha256",
+    "width",
+    "height",
+    "version",
+    "expires_at",
+    "acl",
+    "precision",
+    "coordinate_space",
+    "alpha_semantics",
+    "provenance"
+  ],
+  "$id": "https://omega.local/spec/v1/mask.schema.json"
+}

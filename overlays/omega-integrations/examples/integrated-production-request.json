@@ -1,0 +1,280 @@
+{
+  "studioProject": {
+    "schema_version": "1.0",
+    "project_id": "cinema-omega-001",
+    "tenant_id": "omega-studio",
+    "title": "Two Sides - Interactive Reveal",
+    "rating": "MATURE",
+    "target_engine": "aether",
+    "compute_budget_units": 100,
+    "revision": 1,
+    "tags": [
+      "neo-noir",
+      "sci-fi",
+      "interaktywne-narracje"
+    ],
+    "style_profile": {
+      "palette": [
+        "#11182A",
+        "#A33C42",
+        "#E0D1BB"
+      ],
+      "realism": 0.89,
+      "lighting": "chiaroscuro"
+    },
+    "content_rights": {
+      "voice_consent": false,
+      "likeness_consent": false,
+      "licenses": [
+        "Original work by project owner"
+      ]
+    },
+    "tasks": [
+      {
+        "id": "narrative",
+        "agent": "NARRATIVE",
+        "kind": "NARRATIVE_GRAPH_PLAN",
+        "dependencies": [],
+        "cost_units": 15
+      },
+      {
+        "id": "art",
+        "agent": "ART",
+        "kind": "VISUAL_ASSET_PLAN",
+        "dependencies": [
+          "narrative"
+        ],
+        "cost_units": 20
+      },
+      {
+        "id": "systems",
+        "agent": "SYSTEMS",
+        "kind": "ENGINE_INTEGRATION_PLAN",
+        "dependencies": [
+          "narrative"
+        ],
+        "cost_units": 25
+      },
+      {
+        "id": "audio",
+        "agent": "AUDIO",
+        "kind": "ADAPTIVE_AUDIO_PLAN",
+        "dependencies": [
+          "narrative"
+        ],
+        "cost_units": 10
+      },
+      {
+        "id": "qa",
+        "agent": "QA",
+        "kind": "STRUCTURAL_QA",
+        "dependencies": [
+          "art",
+          "systems",
+          "audio"
+        ],
+        "cost_units": 10
+      }
+    ]
+  },
+  "cinemaProject": {
+    "schemaVersion": "1.0",
+    "projectId": "cinema-omega-001",
+    "name": "Two Sides - Interactive Reveal",
+    "track": "GAME_CINEMATIC",
+    "audience": "ADULT",
+    "rating": "TEEN",
+    "explicit": false,
+    "jurisdiction": "PL",
+    "crew": [
+      {
+        "personId": "p-director",
+        "roleId": "CINEMATIC_DIRECTOR"
+      },
+      {
+        "personId": "p-story",
+        "roleId": "NARRATIVE_DESIGNER"
+      }
+    ],
+    "assets": [
+      {
+        "id": "char_a",
+        "hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      {
+        "id": "city",
+        "hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot-001",
+        "fps": [
+          24,
+          1
+        ],
+        "durationFrames": 144,
+        "camera": {
+          "focalLengthMm": 35,
+          "fStop": 2.8
+        },
+        "assetRefs": [
+          "char_a",
+          "city"
+        ],
+        "narrativeNode": "intro"
+      },
+      {
+        "id": "shot-002",
+        "fps": [
+          24,
+          1
+        ],
+        "durationFrames": 96,
+        "camera": {
+          "focalLengthMm": 50
+        },
+        "assetRefs": [
+          "char_a"
+        ],
+        "narrativeNode": "choice"
+      }
+    ],
+    "narrative": {
+      "root": "intro",
+      "nodes": [
+        {
+          "id": "intro",
+          "ending": false,
+          "edges": [
+            {
+              "to": "choice",
+              "outcome": "ADVANCE"
+            }
+          ]
+        },
+        {
+          "id": "choice",
+          "ending": false,
+          "qte": true,
+          "edges": [
+            {
+              "to": "ending_reveal",
+              "outcome": "SUCCESS"
+            },
+            {
+              "to": "ending_reframe",
+              "outcome": "FAILURE"
+            }
+          ]
+        },
+        {
+          "id": "ending_reveal",
+          "ending": true,
+          "edges": []
+        },
+        {
+          "id": "ending_reframe",
+          "ending": true,
+          "edges": []
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": "script",
+        "needs": [],
+        "status": "DONE"
+      },
+      {
+        "id": "storyboard",
+        "needs": [
+          "script"
+        ],
+        "status": "DONE"
+      },
+      {
+        "id": "mocap",
+        "needs": [
+          "storyboard"
+        ],
+        "status": "PLANNED"
+      },
+      {
+        "id": "render",
+        "needs": [
+          "mocap"
+        ],
+        "status": "PLANNED"
+      }
+    ],
+    "rightsClearance": true,
+    "technicalQc": false,
+    "humanApproval": false
+  },
+  "assetRights": [
+    {
+      "asset_id": "char_a",
+      "hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "owner": "original-author",
+      "license": "original-rights-cleared",
+      "type": "prop"
+    },
+    {
+      "asset_id": "city",
+      "hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "owner": "original-author",
+      "license": "original-rights-cleared",
+      "type": "prop"
+    }
+  ],
+  "narrative": {
+    "start": "opening",
+    "nodes": [
+      {
+        "id": "opening",
+        "choices": [
+          {
+            "id": "protect_witness",
+            "target": "witness_safe",
+            "when": {
+              "witness_known": true
+            },
+            "effects": {
+              "trust": 1
+            }
+          },
+          {
+            "id": "secure_evidence",
+            "target": "evidence_found",
+            "when": {},
+            "effects": {
+              "trust": -1
+            }
+          }
+        ]
+      },
+      {
+        "id": "witness_safe",
+        "ending": true
+      },
+      {
+        "id": "evidence_found",
+        "ending": true
+      }
+    ]
+  },
+  "audioCue": {
+    "bpm": 120,
+    "beats_per_bar": 4,
+    "now_ms": 350,
+    "from": "ambient",
+    "to": "threat",
+    "intensity": 0.82,
+    "stems": [
+      "pulse",
+      "strings",
+      "drums"
+    ]
+  }
+}

@@ -1,0 +1,1025 @@
+{
+  "schemaVersion": "1.0",
+  "roles": [
+    {
+      "id": "EXECUTIVE_PRODUCER",
+      "name": "Executive Producer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCER",
+      "name": "Producer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "LINE_PRODUCER",
+      "name": "Line Producer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "CO_PRODUCER",
+      "name": "Co-Producer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "ASSOCIATE_PRODUCER",
+      "name": "Associate Producer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCTION_MANAGER",
+      "name": "Production Manager",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCTION_COORDINATOR",
+      "name": "Production Coordinator",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCTION_ACCOUNTANT",
+      "name": "Production Accountant",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCTION_SECRETARY",
+      "name": "Production Secretary",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "SCREENWRITER",
+      "name": "Screenwriter",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "HEAD_WRITER",
+      "name": "Head Writer",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "SCRIPT_EDITOR",
+      "name": "Script Editor",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "STORY_EDITOR",
+      "name": "Story Editor",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "RESEARCHER",
+      "name": "Researcher",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "CASTING_DIRECTOR",
+      "name": "Casting Director",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "CASTING_ASSISTANT",
+      "name": "Casting Assistant",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "LOCATION_MANAGER",
+      "name": "Location Manager",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "LOCATION_SCOUT",
+      "name": "Location Scout",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "UNIT_PRODUCTION_MANAGER",
+      "name": "Unit Production Manager",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "PRODUCTION_ASSISTANT_RUNNER",
+      "name": "Production Assistant / Runner",
+      "department": "PRODUCTION"
+    },
+    {
+      "id": "DIRECTOR",
+      "name": "Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "FIRST_ASSISTANT_DIRECTOR",
+      "name": "First Assistant Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "SECOND_ASSISTANT_DIRECTOR",
+      "name": "Second Assistant Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "THIRD_ASSISTANT_DIRECTOR",
+      "name": "Third Assistant Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "SCRIPT_SUPERVISOR",
+      "name": "Script Supervisor",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "SECOND_UNIT_DIRECTOR",
+      "name": "Second Unit Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "CROWD_ASSISTANT_DIRECTOR",
+      "name": "Crowd Assistant Director",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "INTIMACY_COORDINATOR",
+      "name": "Intimacy Coordinator",
+      "department": "DIRECTION"
+    },
+    {
+      "id": "DIRECTOR_OF_PHOTOGRAPHY",
+      "name": "Director of Photography",
+      "department": "CAMERA"
+    },
+    {
+      "id": "CAMERA_OPERATOR",
+      "name": "Camera Operator",
+      "department": "CAMERA"
+    },
+    {
+      "id": "FIRST_ASSISTANT_CAMERA",
+      "name": "First Assistant Camera",
+      "department": "CAMERA"
+    },
+    {
+      "id": "SECOND_ASSISTANT_CAMERA",
+      "name": "Second Assistant Camera",
+      "department": "CAMERA"
+    },
+    {
+      "id": "DIGITAL_IMAGING_TECHNICIAN",
+      "name": "Digital Imaging Technician",
+      "department": "CAMERA"
+    },
+    {
+      "id": "DATA_WRANGLER",
+      "name": "Data Wrangler",
+      "department": "CAMERA"
+    },
+    {
+      "id": "STEADICAM_OPERATOR",
+      "name": "Steadicam Operator",
+      "department": "CAMERA"
+    },
+    {
+      "id": "DRONE_CAMERA_OPERATOR",
+      "name": "Drone Camera Operator",
+      "department": "CAMERA"
+    },
+    {
+      "id": "UNDERWATER_CAMERA_OPERATOR",
+      "name": "Underwater Camera Operator",
+      "department": "CAMERA"
+    },
+    {
+      "id": "VIDEO_ASSIST_OPERATOR",
+      "name": "Video Assist Operator",
+      "department": "CAMERA"
+    },
+    {
+      "id": "GAFFER",
+      "name": "Gaffer",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "BEST_BOY_ELECTRIC",
+      "name": "Best Boy Electric",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "LIGHTING_TECHNICIAN",
+      "name": "Lighting Technician",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "LIGHTING_PROGRAMMER",
+      "name": "Lighting Programmer",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "KEY_GRIP",
+      "name": "Key Grip",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "BEST_BOY_GRIP",
+      "name": "Best Boy Grip",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "DOLLY_GRIP",
+      "name": "Dolly Grip",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "CRANE_JIB_OPERATOR",
+      "name": "Crane / Jib Operator",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "RIGGING_GRIP",
+      "name": "Rigging Grip",
+      "department": "LIGHTING_GRIP"
+    },
+    {
+      "id": "PRODUCTION_DESIGNER",
+      "name": "Production Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "ART_DIRECTOR",
+      "name": "Art Director",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "SET_DESIGNER",
+      "name": "Set Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "SET_DECORATOR",
+      "name": "Set Decorator",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "CONSTRUCTION_MANAGER",
+      "name": "Construction Manager",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "PROP_MASTER",
+      "name": "Prop Master",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "PROP_MAKER",
+      "name": "Prop Maker",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "SCENIC_ARTIST",
+      "name": "Scenic Artist",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "CONCEPT_ARTIST",
+      "name": "Concept Artist",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "GRAPHIC_DESIGNER",
+      "name": "Graphic Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "COSTUME_DESIGNER",
+      "name": "Costume Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "COSTUME_SUPERVISOR",
+      "name": "Costume Supervisor",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "WARDROBE_ASSISTANT",
+      "name": "Wardrobe Assistant",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "HAIR_DESIGNER",
+      "name": "Hair Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "MAKE_UP_ARTIST",
+      "name": "Make-up Artist",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "PROSTHETICS_ARTIST",
+      "name": "Prosthetics Artist",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "CREATURE_DESIGNER",
+      "name": "Creature Designer",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "SPECIAL_EFFECTS_SUPERVISOR",
+      "name": "Special Effects Supervisor",
+      "department": "ART_COSTUME_SFX"
+    },
+    {
+      "id": "LEAD_ACTOR",
+      "name": "Lead Actor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "SUPPORTING_ACTOR",
+      "name": "Supporting Actor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "BACKGROUND_ACTOR",
+      "name": "Background Actor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "VOICE_ACTOR",
+      "name": "Voice Actor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "PERFORMANCE_CAPTURE_ACTOR",
+      "name": "Performance Capture Actor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "STUNT_COORDINATOR",
+      "name": "Stunt Coordinator",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "STUNT_PERFORMER",
+      "name": "Stunt Performer",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "FIGHT_CHOREOGRAPHER",
+      "name": "Fight Choreographer",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "MOVEMENT_DIRECTOR",
+      "name": "Movement Director",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "DIALECT_COACH",
+      "name": "Dialect Coach",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "ACTING_COACH",
+      "name": "Acting Coach",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "MILITARY_MEDICAL_HISTORICAL_ADVISOR",
+      "name": "Military / Medical / Historical Advisor",
+      "department": "PERFORMANCE"
+    },
+    {
+      "id": "PRODUCTION_SOUND_MIXER",
+      "name": "Production Sound Mixer",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "BOOM_OPERATOR",
+      "name": "Boom Operator",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "SOUND_UTILITY_TECHNICIAN",
+      "name": "Sound Utility Technician",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "SOUND_DESIGNER",
+      "name": "Sound Designer",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "DIALOGUE_EDITOR",
+      "name": "Dialogue Editor",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "ADR_SUPERVISOR",
+      "name": "ADR Supervisor",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "FOLEY_ARTIST",
+      "name": "Foley Artist",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "FOLEY_MIXER",
+      "name": "Foley Mixer",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "RE_RECORDING_MIXER",
+      "name": "Re-recording Mixer",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "COMPOSER",
+      "name": "Composer",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "MUSIC_EDITOR",
+      "name": "Music Editor",
+      "department": "SOUND_MUSIC"
+    },
+    {
+      "id": "POST_PRODUCTION_SUPERVISOR",
+      "name": "Post-production Supervisor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "FILM_EDITOR",
+      "name": "Film Editor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "ASSISTANT_EDITOR",
+      "name": "Assistant Editor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "COLOURIST",
+      "name": "Colourist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "ONLINE_EDITOR",
+      "name": "Online Editor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "VFX_SUPERVISOR",
+      "name": "VFX Supervisor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "VFX_PRODUCER",
+      "name": "VFX Producer",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "COMPOSITOR",
+      "name": "Compositor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "MATCHMOVE_ARTIST",
+      "name": "Matchmove Artist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "ROTOSCOPE_ARTIST",
+      "name": "Rotoscope Artist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "3D_GENERALIST",
+      "name": "3D Generalist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "LIGHTING_RENDERING_ARTIST",
+      "name": "Lighting / Rendering Artist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "CG_SUPERVISOR",
+      "name": "CG Supervisor",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "PIPELINE_TD",
+      "name": "Pipeline TD",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "DELIVERABLES_PRODUCER",
+      "name": "Deliverables Producer",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "LOCALIZATION_SPECIALIST",
+      "name": "Localization Specialist",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "QC_OPERATOR",
+      "name": "QC Operator",
+      "department": "POST_VFX"
+    },
+    {
+      "id": "CHILDREN_S_CONTENT_PRODUCER",
+      "name": "Children’s Content Producer",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "DEVELOPMENTAL_PSYCHOLOGY_CONSULTANT",
+      "name": "Developmental Psychology Consultant",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "EDUCATIONAL_CONSULTANT",
+      "name": "Educational Consultant",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CURRICULUM_SPECIALIST",
+      "name": "Curriculum Specialist",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_SAFEGUARDING_LEAD",
+      "name": "Child Safeguarding Lead",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_WELFARE_COORDINATOR",
+      "name": "Child Welfare Coordinator",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHAPERONE",
+      "name": "Chaperone",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "ON_SET_TUTOR",
+      "name": "On-set Tutor",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_CASTING_SPECIALIST",
+      "name": "Child Casting Specialist",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_ACTING_COACH",
+      "name": "Child Acting Coach",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_FRIENDLY_DIALOGUE_WRITER",
+      "name": "Child-Friendly Dialogue Writer",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "ACCESSIBILITY_CONSULTANT",
+      "name": "Accessibility Consultant",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "CHILD_AUDIENCE_RESEARCHER",
+      "name": "Child Audience Researcher",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "DEVELOPMENTAL_CONTENT_REVIEWER",
+      "name": "Developmental Content Reviewer",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "EDUCATIONAL_GAME_DESIGNER",
+      "name": "Educational Game Designer",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "PUPPETEER",
+      "name": "Puppeteer",
+      "department": "CHILD_SAFEGUARDING"
+    },
+    {
+      "id": "ANIMATION_DIRECTOR",
+      "name": "Animation Director",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "HEAD_OF_STORY",
+      "name": "Head of Story",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "CHARACTER_DESIGNER",
+      "name": "Character Designer",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "BACKGROUND_DESIGNER",
+      "name": "Background Designer",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "STORYBOARD_ARTIST",
+      "name": "Storyboard Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "STORYBOARD_SUPERVISOR",
+      "name": "Storyboard Supervisor",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "ANIMATIC_EDITOR",
+      "name": "Animatic Editor",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "LAYOUT_ARTIST",
+      "name": "Layout Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "2D_ANIMATOR",
+      "name": "2D Animator",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "3D_CHARACTER_MODELER",
+      "name": "3D Character Modeler",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "ENVIRONMENT_MODELER",
+      "name": "Environment Modeler",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "TEXTURE_ARTIST",
+      "name": "Texture Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "LOOK_DEVELOPMENT_ARTIST",
+      "name": "Look Development Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "CHARACTER_TD",
+      "name": "Character TD",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "RIGGER",
+      "name": "Rigger",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "SKINNING_ARTIST",
+      "name": "Skinning Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "CHARACTER_ANIMATOR",
+      "name": "Character Animator",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "FACIAL_ANIMATOR",
+      "name": "Facial Animator",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "LIP_SYNC_ARTIST",
+      "name": "Lip Sync Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "CROWD_ANIMATOR",
+      "name": "Crowd Animator",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "EFFECTS_ANIMATOR",
+      "name": "Effects Animator",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "SIMULATION_ARTIST",
+      "name": "Simulation Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "LIGHTING_ARTIST",
+      "name": "Lighting Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "RENDER_TD",
+      "name": "Render TD",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "COMPOSITING_ARTIST",
+      "name": "Compositing Artist",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "RENDER_WRANGLER",
+      "name": "Render Wrangler",
+      "department": "ANIMATION"
+    },
+    {
+      "id": "CINEMATIC_DIRECTOR",
+      "name": "Cinematic Director",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "GAME_DIRECTOR",
+      "name": "Game Director",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "NARRATIVE_DIRECTOR",
+      "name": "Narrative Director",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "NARRATIVE_DESIGNER",
+      "name": "Narrative Designer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "GAME_WRITER",
+      "name": "Game Writer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "DIALOGUE_DESIGNER",
+      "name": "Dialogue Designer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "CINEMATIC_DESIGNER",
+      "name": "Cinematic Designer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "CINEMATIC_ARTIST",
+      "name": "Cinematic Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "VIRTUAL_CAMERA_ARTIST",
+      "name": "Virtual Camera Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "INTERACTIVE_DIALOGUE_DESIGNER",
+      "name": "Interactive Dialogue Designer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "BRANCHING_NARRATIVE_DESIGNER",
+      "name": "Branching Narrative Designer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "NARRATIVE_CONTINUITY_SPECIALIST",
+      "name": "Narrative Continuity Specialist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "PREVISUALIZATION_ARTIST",
+      "name": "Previsualization Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "SCENE_PRODUCER",
+      "name": "Scene Producer",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "PERFORMANCE_CAPTURE_DIRECTOR",
+      "name": "Performance Capture Director",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "MOTION_CAPTURE_SUPERVISOR",
+      "name": "Motion Capture Supervisor",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "MOTION_CAPTURE_TECHNICIAN",
+      "name": "Motion Capture Technician",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "FACIAL_CAPTURE_SUPERVISOR",
+      "name": "Facial Capture Supervisor",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "FACIAL_CAPTURE_TECHNICIAN",
+      "name": "Facial Capture Technician",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "MOTION_DATA_PROCESSING_ARTIST",
+      "name": "Motion Data Processing Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "RETARGETING_ARTIST",
+      "name": "Retargeting Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "ANIMATION_CLEANUP_ARTIST",
+      "name": "Animation Cleanup Artist",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "TECHNICAL_ANIMATOR",
+      "name": "Technical Animator",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "GAMEPLAY_ANIMATOR",
+      "name": "Gameplay Animator",
+      "department": "CINEMATICS"
+    },
+    {
+      "id": "ENGINE_PROGRAMMER",
+      "name": "Engine Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "GAMEPLAY_PROGRAMMER",
+      "name": "Gameplay Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "GRAPHICS_PROGRAMMER",
+      "name": "Graphics Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "ANIMATION_PROGRAMMER",
+      "name": "Animation Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "TOOLS_PROGRAMMER",
+      "name": "Tools Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "TECHNICAL_ARTIST",
+      "name": "Technical Artist",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "RENDERING_ENGINEER",
+      "name": "Rendering Engineer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "PHYSICS_PROGRAMMER",
+      "name": "Physics Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "AI_GAMEPLAY_PROGRAMMER",
+      "name": "AI Gameplay Programmer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "BUILD_ENGINEER",
+      "name": "Build Engineer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "PERFORMANCE_ENGINEER",
+      "name": "Performance Engineer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "QA_AUTOMATION_ENGINEER",
+      "name": "QA Automation Engineer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "PIPELINE_ENGINEER",
+      "name": "Pipeline Engineer",
+      "department": "ENGINEERING"
+    },
+    {
+      "id": "WORLD_DIRECTOR",
+      "name": "World Director",
+      "department": "WORLD"
+    },
+    {
+      "id": "WORLD_BUILDER",
+      "name": "World Builder",
+      "department": "WORLD"
+    },
+    {
+      "id": "ENVIRONMENT_ART_DIRECTOR",
+      "name": "Environment Art Director",
+      "department": "WORLD"
+    },
+    {
+      "id": "ENVIRONMENT_ARTIST",
+      "name": "Environment Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "LEVEL_DESIGNER",
+      "name": "Level Designer",
+      "department": "WORLD"
+    },
+    {
+      "id": "LEVEL_ARTIST",
+      "name": "Level Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "LANDSCAPE_ARTIST",
+      "name": "Landscape Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "TERRAIN_TECHNICAL_ARTIST",
+      "name": "Terrain Technical Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "VEGETATION_ARTIST",
+      "name": "Vegetation Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "ARCHITECTURAL_DESIGNER",
+      "name": "Architectural Designer",
+      "department": "WORLD"
+    },
+    {
+      "id": "PROP_ARTIST",
+      "name": "Prop Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "MATERIAL_ARTIST",
+      "name": "Material Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "PHOTOGRAMMETRY_SPECIALIST",
+      "name": "Photogrammetry Specialist",
+      "department": "WORLD"
+    },
+    {
+      "id": "WEATHER_FX_ARTIST",
+      "name": "Weather FX Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "VFX_ARTIST",
+      "name": "VFX Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "SIMULATION_ENGINEER",
+      "name": "Simulation Engineer",
+      "department": "WORLD"
+    },
+    {
+      "id": "PROCEDURAL_CONTENT_ARTIST",
+      "name": "Procedural Content Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "ENVIRONMENT_OPTIMIZATION_ARTIST",
+      "name": "Environment Optimization Artist",
+      "department": "WORLD"
+    },
+    {
+      "id": "TECHNICAL_LEVEL_DESIGNER",
+      "name": "Technical Level Designer",
+      "department": "WORLD"
+    },
+    {
+      "id": "WORLD_QA_TESTER",
+      "name": "World QA Tester",
+      "department": "WORLD"
+    }
+  ]
+}

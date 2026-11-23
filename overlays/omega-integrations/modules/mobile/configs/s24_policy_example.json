@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "note": "EXAMPLE ONLY - native memory ceiling must be measured on device",
+  "modes": ["OFFLINE", "HYBRID", "CLOUD_HPC"],
+  "default_mode": "OFFLINE",
+  "native_budget_mib": 6553,
+  "native_leased_mib": 3500,
+  "thermal_pause_headroom": 0.85,
+  "low_battery_percent": 15,
+  "cloud_egress_enabled": false,
+  "cloud_cost_approved_usd": 0,
+  "edge_donation_default": false,
+  "edge_donation_requirements": {"charging":true,"unmetered":true,"foreground":true,"consent_scope":"edge.donate"},
+  "native_exec_from_writable_app_data": false,
+  "claimed_asi": false
+}
