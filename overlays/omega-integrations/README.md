@@ -20,3 +20,7 @@ See `INTEGRATION_MATRIX.md` for the boundary of every referenced subsystem and r
 ## P09↔QFV CPU media stage (second increment)
 
 Run `python3 overlays/omega-integrations/media_bridge.py < overlays/omega-integrations/examples/media-preview.json`. This strict JSON-in/JSON-out, no-network bridge checks managed references (1–5), owner/project scope, preserved `@mentions` and executes **actual QFV CPU vector-field deformation** on bounded geometry. It returns `CPU_REFERENCE_PREVIEW_NO_VIDEO_RENDER`; no video, face recognition, rasterized image, GPU, persistent asset catalog or native Android support.
+
+## Inference Gateway ↔ Mobile resource admission (third increment)
+
+Run `python3 overlays/omega-integrations/examples/compute_demo.py`. `compute_bridge.py` composes the genuine reference admission functions from Inference Gateway and Mobile Sovereign policy. It refuses mismatched budgets, tenant principals, mode upgrades, cloud usage without separate authenticated grants and remote transfer of private/restricted data. The result is **ROUTE_PLAN_ONLY** and does not start llama.cpp or a network connection. The caller must authenticate principal/grants and supply trustworthy device telemetry; unverified client-provided grants are not sufficient.

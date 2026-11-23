@@ -15,6 +15,7 @@ BASE = Path(__file__).resolve().parent
 SUITES = [
     ('omega-bridge', '.', ['node', '--test', 'tests/bridge.test.mjs']),
     ('media-bridge', '.', [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_media_bridge.py', '-q']),
+    ('compute-bridge', '.', [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_compute_bridge.py', '-q']),
     ('aether-studio', 'modules/studio', ['node', '--test', 'tests/control.test.mjs', 'tests/schema.test.mjs']),
     ('p10-cinema', 'modules/cinema', ['node', '--test', 'tests/core.test.mjs', 'tests/cli.test.mjs']),
     ('p09-firefly', 'modules/firefly', [sys.executable, '-m', 'pytest', '-q', 'tests']),

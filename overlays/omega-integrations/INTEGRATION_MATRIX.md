@@ -11,9 +11,9 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 | ATM | `atm/` | Reference reasoning source imported, **not connected** | Proof gateway / policy decision service |
 | OTCM | `otcm/` | Four-temporal reference memory source imported, **not connected** | Integrate through OCX, do not duplicate production database |
 | AETHR | `aethr/` | `.oxa`/routing/tenant cache source imported, **not connected** | Real GGUF/backend execution and dedicated resource arbiter |
-| Inference Gateway | `inference/` | Routing reference imported + tests, **not connected** | Bind to existing llama.cpp/Ollama/LLM manager |
+| Inference Gateway | `inference/` | **Python compute admission bridge live**: Inference Request + Runtime catalog; model launch not connected | Bind to existing llama.cpp/Ollama/LLM manager |
 | Attention/PEFT | `attention/` | Planner source imported + tests, **not connected** | HPC-only remote runners and real GPU training |
-| Mobile Sovereign Runtime | `mobile/` | Policy source imported + tests, **not connected** | Android native packaging and thermal/memory signals |
+| Mobile Sovereign Runtime | `mobile/` | **Python compute admission bridge live**: Mobile sovereign policy; Android signals not connected | Android native packaging and thermal/memory signals |
 | HAEE | `haee/` | Contracts + tests imported, **not connected** | DGM/RSI experiments under separate workflow |
 | OmegOS/Continuum | `omegos/` | Formal obligation schemas and tests imported, **not connected** | Real trusted checker/prover; no fabricated proof evidence |
 
@@ -32,3 +32,7 @@ Date: 2026-11-23; repository `mojealterego/Locally-XXX`, branch **main only**. E
 ## Ω-INT-002 — media bridge
 
 `media_bridge.py` now connects P09 `ElementRegistry` + `VideoPrompt` with QFV `FieldDeformer` on a bounded in-memory mesh. It is an **executed CPU reference pipeline**, not a functioning video generator. Input requires explicitly attested source references and preserves `@mentions`; ownership/project scope is checked at entry, persistent tenant ACL and approved media rights management remain required for production. Unit and subprocess CLI tests in `tests/test_media_bridge.py`. GATE-09 remains BLOCKED.
+
+## Ω-INT-003 — resource/policy bridge
+
+`compute_bridge.py` composes existing `mobile/reference/runtime_policy.py` and `inference/reference/inference_router.py` without duplicating their routing algorithms. It refuses silent local→cloud upgrades, incompatible tenancy, unmatched RAM lease, cloud without authorization, and remote PRIVATE/RESTRICTED data. Contract/test suite `tests/test_compute_bridge.py` runs without hardware or network; results are host-only route plans, not real inference. GATE-09 remains BLOCKED.
