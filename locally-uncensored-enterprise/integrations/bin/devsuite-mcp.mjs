@@ -2,6 +2,7 @@
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {executeLocalTool, LocalToolError} from '../../apps/web/devsuite-service.mjs';
+import {extendedDescriptions} from '../../../scripts/devsuite-extended.mjs';
 
 const VERSION='2025-11-25';
 const MAX_LINE=65536;
@@ -14,6 +15,7 @@ const toolDefinitions=Object.freeze([
   {name:'hash.digest',description:'Calculate a local digest',inputSchema:{type:'object',additionalProperties:false,required:['input'],properties:{input:{type:'string',maxLength:32768},algorithm:{type:'string',enum:['sha256','sha512','sha1','md5']}}}},
   {name:'password.generate',description:'Generate a cryptographically secure password without persistence',inputSchema:{type:'object',additionalProperties:false,properties:{length:{type:'integer',minimum:12,maximum:1024},alphabet:{type:'string',minLength:2,maxLength:256}}}},
   {name:'uuid.v4',description:'Generate random RFC 4122 UUID v4',inputSchema:{type:'object',additionalProperties:false,properties:{}}},
+  ...Object.entries(extendedDescriptions).map(([name,description])=>({name,description,inputSchema:stringInput})),
 ]);
 const nameSet=new Set(toolDefinitions.map(x=>x.name));
 const reply=(id,result)=>({jsonrpc:'2.0',id,result});
