@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <fcntl.h>
 #include <string>
+#include <vector>
 #include <thread>
 #include <unistd.h>
 
@@ -90,6 +91,25 @@ int main() {
     assert(result.status==omega::GenerationStatus::Completed && result.output=="ab");
     test("cross-thread cancellation is prompt and does not poison future generations");
 
+    std::vector<std::string> streamed;
+    result = engine.generate(0, "Hi", 8, [&](const std::string& piece) {
+        streamed.push_back(piece);
+        return true;
+    });
+    assert(result.status == omega::GenerationStatus::Completed);
+    assert(result.generated_tokens == 2 && streamed.size() == 2);
+    assert(streamed[0] + streamed[1] == "ab");
+    test("optional token sink receives ordered fragments without changing output");
+
+    int delivered = 0;
+    result = engine.generate(0, "Hi", 8, [&](const std::string&) {
+        ++delivered;
+        return false;
+    });
+    assert(result.status == omega::GenerationStatus::Cancelled && delivered == 1);
+    assert(engine.generate(0, "Hi", 8).status == omega::GenerationStatus::Completed);
+    test("callback cancellation does not poison subsequent requests");
+
     engine.unload(0);
     assert(engine.generate(0,"Hi",8).status == omega::GenerationStatus::InvalidRequest);
     assert(engine.generate(1,"Hi",8).status == omega::GenerationStatus::Completed);
@@ -98,6 +118,6 @@ int main() {
     assert(omega_test_batches()==0 && omega_test_samplers()==0);
     close(fd);
     test("unload clears slot and releases all owned model/context resources");
-    assert(passed==10);
+    assert(passed==12);
     std::printf("OMEGA GENERATION %d/10 PASS\n",passed);
 }
