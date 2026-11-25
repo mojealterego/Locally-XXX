@@ -1,6 +1,7 @@
 #pragma once
 #include <atomic>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 #include <string>
 #include <llama.h>
@@ -35,7 +36,8 @@ public:
     bool load(int slot, int fd, int context_tokens, int gpu_layers, int kv_mode);
     void unload(int slot) noexcept;
     bool loaded(int slot) const noexcept;
-    GenerationResult generate(int slot, const std::string& prompt, int32_t max_tokens);
+    using TokenSink = std::function<bool(const std::string& token_bytes)>;
+    GenerationResult generate(int slot, const std::string& prompt, int32_t max_tokens, const TokenSink& sink = {});
     void cancel(int slot) noexcept;
 private:
     struct ModelSlot {
