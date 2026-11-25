@@ -4,11 +4,11 @@ import {PassThrough} from 'node:stream';
 import {handleMcpRequest,startServer} from '../bin/devsuite-mcp.mjs';
 const init={jsonrpc:'2.0',id:1,method:'initialize',params:{protocolVersion:'2025-11-25'}};
 
-test('MCP-01 initializes and lists twenty-two real functions',()=>{
+test('MCP-01 initializes and lists twenty-six real functions',()=>{
  const state={established:false};const r=handleMcpRequest(init,state);
  assert.equal(r.result.protocolVersion,'2025-11-25');
  const tools=handleMcpRequest({jsonrpc:'2.0',id:2,method:'tools/list'},state).result.tools;
- assert.equal(tools.length,22);
+ assert.equal(tools.length,26);
  for(const tool of tools)assert.equal(tool.inputSchema.additionalProperties,false);
 });
 test('MCP-02 dispatches offline tools after initialize',()=>{
