@@ -29,6 +29,7 @@
     "gflow:mcp": "node packages/awesome-gflow-mcp/bin/flow-mcp.mjs",
     "devsuite:mcp": "node integrations/bin/devsuite-mcp.mjs",
     "test:devsuite": "node --test test/devsuite-service.test.mjs test/devsuite-http.test.mjs integrations/test/devsuite-mcp.test.mjs",
-    "test:studio-http": "node --test test/studio-http.test.mjs"
+    "test:studio-http": "node --test test/studio-http.test.mjs",
+    "test:media-preview": "node --test test/media-preview-runner.test.mjs test/media-preview-http.test.mjs"
   }
 }
