@@ -69,3 +69,7 @@ Dodatkowe moduły w launcherze korzystają ze źródeł już istniejących w rep
 - **Attention/HAEE Experiment Plan:** `POST /api/local/experiments/plan`. Kompiluje plan bez treningu, bez kluczy podpisu i bez zgody na chmurę; oryginalny `experiment_bridge.py` posiada osobny format podpisanych artefaktów OXA i nadal wymaga uprawnień i sprawdzenia datasetu przed realnym treningiem.
 
 Testy bez builda: `npm run test:model-eval`, `npm run test:knowledge-http`, `npm run test:compute-http`, `npm run test:experiment-http`. Ten zestaw weryfikuje zachowanie adapterów i interfejsów, nie fizyczny GPU, NPU czy pełny Tauri/React E2E.
+
+## Developer Suite — cztery kolejne narzędzia offline
+
+`number.base`, `http.status`, `url.inspect` i `curl.build` są dostępne przez ten sam lokalny dispatcher, MCP i GUI PL/EN. `curl.build` generuje wyłącznie tekst polecenia, nie uruchamia go i nie przyjmuje nagłówków Authorization, Cookie ani X-API-Key. Format konwersji liczbowej: `16:ff->10`. Łączna liczba operacji: **26**, nie 200+. Testy: `node --test tests/devsuite-network.test.mjs` z katalogu głównego. Żaden build aplikacji nie został wykonany.
