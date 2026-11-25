@@ -1,6 +1,7 @@
 import {tools} from '../../../scripts/devsuite-core.mjs';
+import {extendedTools} from '../../../scripts/devsuite-extended.mjs';
 
-const registered = new Set(Object.keys(tools));
+const registered = new Set([...Object.keys(tools),...Object.keys(extendedTools)]);
 const algorithms = new Set(['sha256', 'sha512', 'sha1', 'md5']);
 const defaultAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
 
@@ -51,7 +52,11 @@ export function executeLocalTool(request) {
         checkFields(args, []);
         result = tools['uuid.v4']();
         break;
-      default: throw new LocalToolError('UNKNOWN_TOOL');
+      default:
+        if (!Object.hasOwn(extendedTools, request.tool)) throw new LocalToolError('UNKNOWN_TOOL');
+        checkFields(args, ['input']);
+        result = extendedTools[request.tool](limitedString(args.input));
+        break;
     }
   } catch (error) {
     if (error instanceof LocalToolError) throw error;
