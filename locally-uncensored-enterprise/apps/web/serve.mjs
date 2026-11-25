@@ -1,6 +1,7 @@
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
-const files={'/':'index.html','/index.html':'index.html','/style.css':'style.css','/app.mjs':'app.mjs','/modules/catalog.mjs':'modules/catalog.mjs','/modules/workspace.mjs':'modules/workspace.mjs','/modules/review-client.mjs':'modules/review-client.mjs','/modules/builder.mjs':'modules/builder.mjs','/modules/codespace-bundle.mjs':'modules/codespace-bundle.mjs','/modules/integration-browser.mjs':'modules/integration-browser.mjs','/modules/catalog-index.mjs':'modules/catalog-index.mjs','/modules/catalog-browser.mjs':'modules/catalog-browser.mjs','/modules/json-tools.mjs':'modules/json-tools.mjs','/modules/pricing.mjs':'modules/pricing.mjs','/modules/converter.mjs':'modules/converter.mjs','/modules/awesome-local-llm.md':'modules/awesome-local-llm.md','/modules/cloud-ui.mjs':'modules/cloud-ui.mjs','/modules/awesome-browser.mjs':'modules/awesome-browser.mjs','/modules/definitions.mjs':'modules/definitions.mjs'};
+import {executeLocalTool} from './devsuite-service.mjs';
+const files={'/':'index.html','/index.html':'index.html','/style.css':'style.css','/app.mjs':'app.mjs','/modules/catalog.mjs':'modules/catalog.mjs','/modules/workspace.mjs':'modules/workspace.mjs','/modules/review-client.mjs':'modules/review-client.mjs','/modules/builder.mjs':'modules/builder.mjs','/modules/codespace-bundle.mjs':'modules/codespace-bundle.mjs','/modules/integration-browser.mjs':'modules/integration-browser.mjs','/modules/catalog-index.mjs':'modules/catalog-index.mjs','/modules/catalog-browser.mjs':'modules/catalog-browser.mjs','/modules/json-tools.mjs':'modules/json-tools.mjs','/modules/pricing.mjs':'modules/pricing.mjs','/modules/converter.mjs':'modules/converter.mjs','/modules/awesome-local-llm.md':'modules/awesome-local-llm.md','/modules/cloud-ui.mjs':'modules/cloud-ui.mjs','/modules/awesome-browser.mjs':'modules/awesome-browser.mjs','/modules/definitions.mjs':'modules/definitions.mjs','/modules/devsuite-browser.mjs':'modules/devsuite-browser.mjs'};
 const port=Number(process.env.WEB_PORT??4173),reviewPort=Number(process.env.REVIEW_PORT??3001),cloudPort=Number(process.env.CLOUD_PORT??3002),auditPort=Number(process.env.AUDIT_PORT??3003);
 if(![port,reviewPort,cloudPort,auditPort].every(p=>Number.isInteger(p)&&p>0&&p<=65535)||new Set([port,reviewPort,cloudPort,auditPort]).size!==4)throw Error('Invalid port configuration');
 const reviewRoutes=new Set(['/api/reviews/get','/api/reviews/submit','/api/reviews/decide']);
@@ -12,6 +13,20 @@ const server=createServer({requestTimeout:15000,headersTimeout:5000,maxHeaderSiz
  try{
   if(req.method==='GET'&&Object.hasOwn(files,req.url)){
    const f=files[req.url];res.setHeader('content-type',f.endsWith('.html')?'text/html; charset=utf-8':f.endsWith('.css')?'text/css; charset=utf-8':f.endsWith('.md')?'text/plain; charset=utf-8':'text/javascript; charset=utf-8');res.end(await readFile(new URL('dist/'+f,import.meta.url)));return;
+  }
+  if(req.url==='/api/local/tools'){
+    if(req.method!=='POST')return fail(405);
+    if(!['127.0.0.1:'+port,'localhost:'+port].includes(req.headers.host))return fail(403);
+    if(!['http://127.0.0.1:'+port,'http://localhost:'+port].includes(req.headers.origin))return fail(403);
+    if(req.headers['content-type']!=='application/json'||req.headers['x-omega-local-tool']!=='1')return fail(403);
+    let size=0;const chunks=[];
+    for await(const chunk of req){size+=chunk.length;if(size>65536)return fail(413);chunks.push(chunk);}
+    let output;
+    try{output=executeLocalTool(JSON.parse(Buffer.concat(chunks).toString('utf8')))}
+    catch{return fail(400)}
+    res.setHeader('content-type','application/json; charset=utf-8');
+    res.end(JSON.stringify(output));
+    return;
   }
   const cloud=cloudRoutes.has(req.url),review=reviewRoutes.has(req.url),audit=auditRoutes.has(req.url);
   if(req.method!=='POST'||(!cloud&&!review&&!audit))return fail(404);
