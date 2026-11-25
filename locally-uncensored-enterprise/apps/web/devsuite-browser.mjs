@@ -21,6 +21,10 @@ const definitions = Object.freeze([
   {id:'text.upper', pl:'Wielkie litery', en:'Uppercase text', input:true},
   {id:'text.lower', pl:'Małe litery', en:'Lowercase text', input:true},
   {id:'ipv4.cidr', pl:'Kalkulator podsieci IPv4', en:'IPv4 subnet calculator', input:true},
+  {id:'number.base', pl:'Konwerter podstaw liczb', en:'Number base converter', input:true},
+  {id:'http.status', pl:'Kody odpowiedzi HTTP', en:'HTTP status codes', input:true},
+  {id:'url.inspect', pl:'Analizator adresów URL', en:'URL inspector', input:true},
+  {id:'curl.build', pl:'Generator poleceń cURL', en:'cURL command builder', input:true},
 ]);
 
 export function mountDevSuite(root, {locale='pl'}={}) {
