@@ -20,7 +20,7 @@ node packages/cli-tool/cli.mjs review-decide UUID DIGEST approve
 ```
 Dla review ustaw OMEGA_REVIEW_URL na zaufany origin backendu i OMEGA_REVIEW_TOKEN w zmiennej środowiskowej bez wypisywania w historii poleceń; po użyciu usuń zmienną. SDK @omega/agent-sdk/reviews po instalacji workspace. Testy: npm run test:ui (wymaga TypeScript w ide-studio); opcjonalny compile-only test deklaracji w test/sdk-types.mts. Pełne pnpm install i testy wszystkich pakietów pozostają niewykonane.
 
-28 kafelków, 14 dostępnych interfejsów i 14 nadal niedostępnych (stan modułów z 2026-11-25). Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
+33 kafelki, 18 dostępnych interfejsów i 15 nadal niedostępnych (stan modułów z 2026-11-25). Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
 
 ## Visual Builder i lokalny Codespace
 Kafelek App Builder: formularz ekranów, tekstów, nagłówków i przycisków, podgląd DOM bez wykonywania kodu; eksport grafu JSON. Kompilacja AST po stronie narzędzia lokalnego: `node ide-studio/compile-app.mjs graph.json` zwraca JSON z poprawnym React/TypeScript i sumą SHA-256. Nie kompiluje jeszcze Android/iOS/desktop ani nie instaluje React Flow.
@@ -58,3 +58,14 @@ Kafelek **Katalog modeli GGUF** obsługuje `POST /api/local/models/inventory` i 
 Serwer ma ograniczenia 3 000 wpisów, głębokość 6, wejście HTTP 512 bajtów i wyjście 1 MiB. Udostępnianie w publicznym Internecie nie jest obsługiwane. Modelowy profil RAM jest heurystyką; nie oznacza zatwierdzenia modelu dla Androida czy rzeczywistego testu jakości PL/EN.
 
 `npm run test:models-http` (w katalogu Enterprise) testuje kontrakt HTTP z kontrolowanym skanerem. Uruchomienie rzeczywistego GGUF na Androidzie i ocena językowa pozostają otwarte.
+
+## PL/EN Evaluation, OTCM/ATM, Compute & Experiment — 2026-11-25
+
+Dodatkowe moduły w launcherze korzystają ze źródeł już istniejących w repozytorium, bez uruchamiania głównej kompilacji:
+
+- **PL/EN Model Evaluation:** `POST /api/local/models/evaluate`. Wymaga ustawienia `OMEGA_MODEL_EVAL_ENDPOINT=http://127.0.0.1:PORT/v1/chat/completions`. Najwyżej 12 przypadków na żądanie, wynik to znormalizowany exact-match dla podanego zbioru; nie jest oceną ogólnej jakości modelu. CLI: `node scripts/model-eval.mjs /path/to/cases.json`.
+- **OTCM/ATM Memory:** `POST /api/local/knowledge/reconcile`. Ephemeral memory, rozpoznawanie sprzeczności, zawsze `NO_CHECKED_PROOF`, `action_executed=false`; w tym etapie nie ma proof checker ani trwałej pamięci.
+- **Offline Inference Policy:** `POST /api/local/compute/plan`. Deklarowana telemetria i inwentarz są niezweryfikowane, brak wykonywania modeli, brak akceptowania grantów, tryb wyłącznie `OFFLINE`, nie ma ruchu chmurowego.
+- **Attention/HAEE Experiment Plan:** `POST /api/local/experiments/plan`. Kompiluje plan bez treningu, bez kluczy podpisu i bez zgody na chmurę; oryginalny `experiment_bridge.py` posiada osobny format podpisanych artefaktów OXA i nadal wymaga uprawnień i sprawdzenia datasetu przed realnym treningiem.
+
+Testy bez builda: `npm run test:model-eval`, `npm run test:knowledge-http`, `npm run test:compute-http`, `npm run test:experiment-http`. Ten zestaw weryfikuje zachowanie adapterów i interfejsów, nie fizyczny GPU, NPU czy pełny Tauri/React E2E.
