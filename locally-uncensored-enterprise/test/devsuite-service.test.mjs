@@ -29,6 +29,12 @@ test('DEV-GATE-04 enforces input size and password parameters', () => {
   assert.match(password,/^[abc]+$/);
 });
 
+test('DEV-GATE-EXT-01 routes extended tools under same strict input policy',()=>{
+ const item=executeLocalTool({tool:'ipv4.cidr',args:{input:'192.168.10.21/24'}});
+ assert.equal(item.result.network,'192.168.10.0');
+ assert.equal(executeLocalTool({tool:'html.escape',args:{input:'<test>'}}).result,'&lt;test&gt;');
+ assert.throws(()=>executeLocalTool({tool:'ipv4.cidr',args:{input:'10.0.0.1/24',algorithm:'sha256'}}),LocalToolError);
+});
 test('DEV-GATE-05 JWT decode never implies verification', () => {
   const x = o=>Buffer.from(JSON.stringify(o)).toString('base64url');
   const token = x({alg:'HS256'})+'.'+x({sub:'user'})+'.sig';
