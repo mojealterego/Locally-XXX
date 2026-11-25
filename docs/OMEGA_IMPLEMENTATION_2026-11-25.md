@@ -99,3 +99,11 @@ Moduł P09/QFV jest włączony do lokalnego interfejsu, ale pełna ścieżka od 
 - `NativeLlamaEngine.kt`: metody `generateStreamBytes` i `generateStreamText` oraz `OmegaUtf8TokenDecoder` z buforowaniem niepełnych znaków, `CodingErrorAction.REPORT` i deterministycznym kończeniem strumienia.
 - `tests/native/OmegaLlamaGenerateTest.cpp` oraz `JniGenerationSmoke.kt`: nowe asercje dla kolejności fragmentów, anulowania callbacka, rzeczywistej granicy JNI i rozcięcia polskiego `ą` między dwoma fragmentami. **Testy natywne: NOT_RUN** zgodnie z zakazem kompilacji aplikacji i binariów w tej fazie.
 - **ENT-54: IMPLEMENTED / PHYSICAL NOT_RUN**, ponieważ brak builda JNI/Android oraz rzeczywistego Tauri→Kotlin IPC i renderowania tokenów w WebView. Nie zaliczać GATE-05/GATE-09.
+
+## Developer Suite — dodatkowe 15 narzędzi offline
+
+Nowy `scripts/devsuite-extended.mjs` zawiera 15 deterministycznych operacji: JSON minify/validate, Base64URL encode/decode, Hex encode/decode, URL encode/decode, HTML escaping, UUID v4 validate, Unix time→UTC, statystyki Unicode/słów/bajtów, upper/lower oraz IPv4 CIDR. Łącznie z siedmioma wcześniejszymi daje to **22 rzeczywiste narzędzia** dostępne poprzez `devsuite-service.mjs`, `devsuite-mcp.mjs` i `devsuite-browser.mjs`.
+
+Test `tests/devsuite-extended.test.mjs`: **6/6 PASS**; dodano też dwie asercje integracyjne dyspozytora i MCP. **Zbiorczy izolowany zestaw: 66/66 PASS, 0 FAIL**, SHA-256 pliku TAP `96f96cfd4d642a481762456ef791d55374087dfe636b910161230b68da79a57c`. Ten wynik nie obejmuje całego checkoutu, browser E2E ani natywnych testów JNI.
+
+DEV-011 nadal OPEN: rzeczywiście aktywnych operacji jest 22, a nie 200+.
