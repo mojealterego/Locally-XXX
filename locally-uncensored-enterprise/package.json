@@ -31,6 +31,7 @@
     "test:devsuite": "node --test test/devsuite-service.test.mjs test/devsuite-http.test.mjs integrations/test/devsuite-mcp.test.mjs",
     "test:studio-http": "node --test test/studio-http.test.mjs",
     "test:media-preview": "node --test test/media-preview-runner.test.mjs test/media-preview-http.test.mjs",
-    "test:models-http": "node --test test/models-http.test.mjs"
+    "test:models-http": "node --test test/models-http.test.mjs",
+    "test:model-eval": "node --test test/model-eval-http.test.mjs"
   }
 }
