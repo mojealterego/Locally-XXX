@@ -75,7 +75,8 @@
     "test:omega-studio-http": "node --test locally-uncensored-enterprise/test/studio-http.test.mjs",
     "test:omega-integration": "node --test overlays/omega-integrations/tests/bridge.test.mjs locally-uncensored-enterprise/test/studio-http.test.mjs",
     "test:omega-media-http": "node --test locally-uncensored-enterprise/test/media-preview-runner.test.mjs locally-uncensored-enterprise/test/media-preview-http.test.mjs",
-    "test:omega-media": "python3 -m unittest discover -s overlays/omega-integrations/tests -p test_media_bridge.py -v"
+    "test:omega-media": "python3 -m unittest discover -s overlays/omega-integrations/tests -p test_media_bridge.py -v",
+    "test:models-http": "node --test locally-uncensored-enterprise/test/models-http.test.mjs"
   },
   "devDependencies": {
     "typescript": "5.8.3"
