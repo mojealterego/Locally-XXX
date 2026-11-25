@@ -20,7 +20,7 @@ node packages/cli-tool/cli.mjs review-decide UUID DIGEST approve
 ```
 Dla review ustaw OMEGA_REVIEW_URL na zaufany origin backendu i OMEGA_REVIEW_TOKEN w zmiennej środowiskowej bez wypisywania w historii poleceń; po użyciu usuń zmienną. SDK @omega/agent-sdk/reviews po instalacji workspace. Testy: npm run test:ui (wymaga TypeScript w ide-studio); opcjonalny compile-only test deklaracji w test/sdk-types.mts. Pełne pnpm install i testy wszystkich pakietów pozostają niewykonane.
 
-22 kafelki, osiem dostępnych interfejsów, 14 pozostaje niedostępnych. Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
+27 kafelków, 13 dostępnych interfejsów i 14 nadal niedostępnych (stan modułów z 2026-11-25). Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
 
 ## Visual Builder i lokalny Codespace
 Kafelek App Builder: formularz ekranów, tekstów, nagłówków i przycisków, podgląd DOM bez wykonywania kodu; eksport grafu JSON. Kompilacja AST po stronie narzędzia lokalnego: `node ide-studio/compile-app.mjs graph.json` zwraca JSON z poprawnym React/TypeScript i sumą SHA-256. Nie kompiluje jeszcze Android/iOS/desktop ani nie instaluje React Flow.
@@ -42,3 +42,11 @@ Kafelek Cloud Gateway jest interfejsem połączenia z lokalnym proxy, nie dowode
 
 ## Awesome Workspace ENT-47/48/49
 Kafelek **Awesome Enterprise** pokazuje 10 ujednoliconych nazw i faktyczny zakres dostępnych kodów. PARTIAL oznacza tylko częściową implementację; nie ma automatycznego wdrożenia ani nowych uprawnień. Moduły CLI: lokalny benchmark Ollama (wyłącznie jawne `--execute YES`) oraz raporty HTML/PDF z Unicode. [Instrukcja](../../README_AWESOME.md) · [dowody](../../../../docs/OMEGA_ENT_AWESOME_EVIDENCE.md). PDF działa w środowisku posiadającym ReportLab i lokalny font TTF, nie przesyła materiałów do chmury. Funkcje benchmarku i eksportu PDF nie mają jeszcze interfejsów webowych.
+
+## Developer Suite, Aether Studio i QFV — przyrost 2026-11-25
+
+- **OMEGA Developer Suite:** 7 lokalnych narzędzi (JSON, Base64, JWT inspect, digest, hasła, UUID) przez launcher oraz `POST /api/local/tools`; narzędzia podłączone także do lokalnego serwera MCP `node integrations/bin/devsuite-mcp.mjs`.
+- **Aether Studio — plan:** lokalny `POST /api/local/studio/plan` korzysta z rzeczywistego `overlays/omega-integrations/bridge.mjs` do kompilacji manifestu planistycznego P10/Aether. Nie uruchamia renderera lub engine.
+- **P09/QFV — CPU preview:** lokalny `POST /api/local/media/preview` uruchamia istniejący `overlays/omega-integrations/media_bridge.py` w ograniczonym podprocesie Python, zwraca wektory referencyjne, nie film ani obraz.
+- Wszystkie nowe lokalne żądania wymagają poprawnego loopback Host, same-origin i niestandardowego nagłówka, mają limity bajtów, nie zapisują historii i blokują podszywanie się pod wykonany build lub render. Nie są to API do udostępniania publicznie.
+- Testy bez builda: `npm run test:devsuite`, `npm run test:studio-http`, `npm run test:media-preview` w katalogu Enterprise. Pełnego E2E, builda i testów produkcyjnych nie uruchamiano; patrz `docs/OMEGA_IMPLEMENTATION_2026-11-25.md` repozytorium.
