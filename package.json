@@ -70,7 +70,7 @@
     "compute:plan": "python3 overlays/omega-integrations/examples/compute_demo.py",
     "knowledge:reconcile": "python3 overlays/omega-integrations/examples/knowledge_demo.py",
     "experiment:plan": "python3 overlays/omega-integrations/examples/experiment_demo.py",
-    "test:devsuite": "node --test tests/devsuite-core.test.mjs locally-uncensored-enterprise/test/devsuite-service.test.mjs locally-uncensored-enterprise/integrations/test/devsuite-mcp.test.mjs",
+    "test:devsuite": "node --test tests/devsuite-core.test.mjs locally-uncensored-enterprise/test/devsuite-service.test.mjs locally-uncensored-enterprise/test/devsuite-http.test.mjs locally-uncensored-enterprise/integrations/test/devsuite-mcp.test.mjs",
     "test:runtime-entry": "node --test tests/runtime-entry.test.mjs"
   },
   "devDependencies": {
