@@ -6,6 +6,21 @@ const definitions = Object.freeze([
   {id:'hash.digest', pl:'Skrót kryptograficzny', en:'Cryptographic digest', input:true},
   {id:'password.generate', pl:'Bezpieczne hasło', en:'Secure password', input:false},
   {id:'uuid.v4', pl:'UUID v4', en:'UUID v4', input:false},
+  {id:'json.minify', pl:'Minimalizacja JSON', en:'Minify JSON', input:true},
+  {id:'json.validate', pl:'Walidacja JSON', en:'Validate JSON', input:true},
+  {id:'base64url.encode', pl:'Kodowanie Base64URL', en:'Encode Base64URL', input:true},
+  {id:'base64url.decode', pl:'Dekodowanie Base64URL', en:'Decode Base64URL', input:true},
+  {id:'hex.encode', pl:'Kodowanie Hex', en:'Encode Hex', input:true},
+  {id:'hex.decode', pl:'Dekodowanie Hex', en:'Decode Hex', input:true},
+  {id:'url.encode', pl:'Kodowanie URL', en:'Encode URL', input:true},
+  {id:'url.decode', pl:'Dekodowanie URL', en:'Decode URL', input:true},
+  {id:'html.escape', pl:'Escapowanie HTML', en:'Escape HTML', input:true},
+  {id:'uuid.validate', pl:'Walidacja UUID v4', en:'Validate UUID v4', input:true},
+  {id:'time.fromUnix', pl:'Znacznik Unix do UTC', en:'Unix timestamp to UTC', input:true},
+  {id:'text.stats', pl:'Statystyki tekstu', en:'Text statistics', input:true},
+  {id:'text.upper', pl:'Wielkie litery', en:'Uppercase text', input:true},
+  {id:'text.lower', pl:'Małe litery', en:'Lowercase text', input:true},
+  {id:'ipv4.cidr', pl:'Kalkulator podsieci IPv4', en:'IPv4 subnet calculator', input:true},
 ]);
 
 export function mountDevSuite(root, {locale='pl'}={}) {
