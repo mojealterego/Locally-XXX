@@ -68,7 +68,7 @@
     "studio:plan": "node overlays/omega-integrations/cli.mjs",
     "media:preview": "python3 overlays/omega-integrations/media_bridge.py",
     "compute:plan": "python3 overlays/omega-integrations/examples/compute_demo.py",
-    "knowledge:reconcile": "python3 overlays/omega-integrations/examples/knowledge_demo.py",
+    "knowledge:reconcile": "python3 overlays/omega-integrations/knowledge_cli.py",
     "experiment:plan": "python3 overlays/omega-integrations/examples/experiment_demo.py",
     "test:devsuite": "node --test tests/devsuite-core.test.mjs locally-uncensored-enterprise/test/devsuite-service.test.mjs locally-uncensored-enterprise/test/devsuite-http.test.mjs locally-uncensored-enterprise/integrations/test/devsuite-mcp.test.mjs",
     "test:runtime-entry": "node --test tests/runtime-entry.test.mjs",
@@ -78,7 +78,8 @@
     "test:omega-media": "python3 -m unittest discover -s overlays/omega-integrations/tests -p test_media_bridge.py -v",
     "test:models-http": "node --test locally-uncensored-enterprise/test/models-http.test.mjs",
     "models:evaluate": "node scripts/model-eval.mjs",
-    "test:model-eval": "node --test tests/model-eval.test.mjs locally-uncensored-enterprise/test/model-eval-http.test.mjs"
+    "test:model-eval": "node --test tests/model-eval.test.mjs locally-uncensored-enterprise/test/model-eval-http.test.mjs",
+    "test:knowledge-http": "node --test locally-uncensored-enterprise/test/knowledge-runner.test.mjs locally-uncensored-enterprise/test/knowledge-http.test.mjs"
   },
   "devDependencies": {
     "typescript": "5.8.3"
