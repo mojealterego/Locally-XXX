@@ -39,8 +39,20 @@ export function mountDevSuite(root, {locale='pl'}={}) {
   }
   element('h2','OMEGA Developer Suite');
   element('p',tr('Narzędzia lokalne. Dane pozostają na urządzeniu. Wyniki JWT nie oznaczają weryfikacji podpisu.','Local tools. Data stays on device. JWT inspection does not verify signatures.'));
+  const search=element('input');search.type='search';search.placeholder=tr('Szukaj narzędzi','Search tools');search.setAttribute('aria-label',search.placeholder);
   const selector=element('select');selector.setAttribute('aria-label',tr('Narzędzie','Tool'));
-  for(const item of definitions){const o=element('option',locale==='pl'?item.pl:item.en,selector);o.value=item.id;}
+  const storageKey='omega.devsuite.favorites.v1';
+  let favorites=new Set();
+  try {const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=new Set(saved.filter(id=>definitions.some(d=>d.id===id)));}catch{}
+  const pin=element('button');pin.type='button';
+  function populate(){
+    const previous=selector.value,q=search.value.trim().toLowerCase();
+    selector.replaceChildren();
+    const matches=definitions.filter(d=>[d.id,d.pl,d.en].some(v=>v.toLowerCase().includes(q))).sort((a,b)=>Number(favorites.has(b.id))-Number(favorites.has(a.id)));
+    for(const item of matches){const o=element('option',(favorites.has(item.id)?'★ ':'')+(locale==='pl'?item.pl:item.en),selector);o.value=item.id;}
+    if(matches.some(d=>d.id===previous))selector.value=previous;
+  }
+  populate();
   const label=element('label',tr('Dane wejściowe','Input'));
   const input=element('textarea',undefined,label);input.maxLength=32768;input.rows=6;input.spellcheck=false;input.autocomplete='off';input.setAttribute('aria-label',tr('Dane narzędzia','Tool input'));
   const advanced=element('div');
@@ -53,14 +65,21 @@ export function mountDevSuite(root, {locale='pl'}={}) {
   const copy=element('button',tr('Kopiuj wynik','Copy result'));copy.type='button';copy.disabled=true;
   let currentResult='';
   function render() {
+    requestController?.abort();requestController=null;
     const id=selector.value;
-    input.parentElement.hidden=!definitions.find(d=>d.id===id).input;
+    const definition=definitions.find(d=>d.id===id);
+    run.disabled=!definition;pin.disabled=!definition;
+    pin.textContent=favorites.has(id)?tr('Odepnij ulubione','Unpin favorite'):tr('Przypnij ulubione','Pin favorite');
+    input.parentElement.hidden=!definition?.input;
     options.hidden=id!=='hash.digest';
     lengthLabel.hidden=id!=='password.generate';
     input.value='';output.textContent='';currentResult='';copy.disabled=true;
   }
   selector.addEventListener('change',render);
+  search.addEventListener('input',()=>{populate();render();});
+  pin.onclick=()=>{const id=selector.value;if(!id)return;if(favorites.has(id))favorites.delete(id);else favorites.add(id);try{localStorage.setItem(storageKey,JSON.stringify([...favorites]));}catch{}populate();render();};
   run.onclick=async()=>{
+    if(!active||!definitions.some(d=>d.id===selector.value))return;
     if(requestController)requestController.abort();
     const controller=new AbortController();requestController=controller;
     run.disabled=true;copy.disabled=true;currentResult='';output.textContent=tr('Przetwarzanie…','Processing…');
