@@ -93,7 +93,7 @@ void LlamaEngine::cancel(int slot) noexcept {
     if (valid_slot(slot)) cancelled_[slot].store(true, std::memory_order_release);
 }
 
-GenerationResult LlamaEngine::generate(int slot, const std::string& prompt, int32_t max_tokens) {
+GenerationResult LlamaEngine::generate(int slot, const std::string& prompt, int32_t max_tokens, const TokenSink& sink) {
     const auto invalid = GenerationResult{ GenerationStatus::InvalidRequest, {}, 0 };
     const auto failed = GenerationResult{ GenerationStatus::BackendError, {}, 0 };
     if (!valid_slot(slot) || prompt.empty() || prompt.size() > kMaxPromptBytes || max_tokens < 1 || max_tokens > 4096)
@@ -158,6 +158,11 @@ GenerationResult LlamaEngine::generate(int slot, const std::string& prompt, int3
         if (piece.size() > kMaxOutputBytes - output.output.size()) return failed;
         output.output += piece;
         ++output.generated_tokens;
+        // Sink is synchronous: the caller owns backpressure and must not re-enter blocking engine methods.
+        if (sink && !sink(piece)) {
+            output.status = GenerationStatus::Cancelled;
+            return output;
+        }
         llama_sampler_accept(sampler.get(), selected);
         if (output.generated_tokens == max_tokens) return output;
         if (position >= model.context_tokens) {
