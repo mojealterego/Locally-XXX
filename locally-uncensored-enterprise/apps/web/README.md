@@ -20,7 +20,7 @@ node packages/cli-tool/cli.mjs review-decide UUID DIGEST approve
 ```
 Dla review ustaw OMEGA_REVIEW_URL na zaufany origin backendu i OMEGA_REVIEW_TOKEN w zmiennej środowiskowej bez wypisywania w historii poleceń; po użyciu usuń zmienną. SDK @omega/agent-sdk/reviews po instalacji workspace. Testy: npm run test:ui (wymaga TypeScript w ide-studio); opcjonalny compile-only test deklaracji w test/sdk-types.mts. Pełne pnpm install i testy wszystkich pakietów pozostają niewykonane.
 
-27 kafelków, 13 dostępnych interfejsów i 14 nadal niedostępnych (stan modułów z 2026-11-25). Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
+28 kafelków, 14 dostępnych interfejsów i 14 nadal niedostępnych (stan modułów z 2026-11-25). Nie jest to gotowy APK/PWA ani pełny React 19 IDE. Szczegóły: docs/OMEGA_ENT_UI_EVIDENCE.md w głównym repozytorium.
 
 ## Visual Builder i lokalny Codespace
 Kafelek App Builder: formularz ekranów, tekstów, nagłówków i przycisków, podgląd DOM bez wykonywania kodu; eksport grafu JSON. Kompilacja AST po stronie narzędzia lokalnego: `node ide-studio/compile-app.mjs graph.json` zwraca JSON z poprawnym React/TypeScript i sumą SHA-256. Nie kompiluje jeszcze Android/iOS/desktop ani nie instaluje React Flow.
@@ -50,3 +50,11 @@ Kafelek **Awesome Enterprise** pokazuje 10 ujednoliconych nazw i faktyczny zakre
 - **P09/QFV — CPU preview:** lokalny `POST /api/local/media/preview` uruchamia istniejący `overlays/omega-integrations/media_bridge.py` w ograniczonym podprocesie Python, zwraca wektory referencyjne, nie film ani obraz.
 - Wszystkie nowe lokalne żądania wymagają poprawnego loopback Host, same-origin i niestandardowego nagłówka, mają limity bajtów, nie zapisują historii i blokują podszywanie się pod wykonany build lub render. Nie są to API do udostępniania publicznie.
 - Testy bez builda: `npm run test:devsuite`, `npm run test:studio-http`, `npm run test:media-preview` w katalogu Enterprise. Pełnego E2E, builda i testów produkcyjnych nie uruchamiano; patrz `docs/OMEGA_IMPLEMENTATION_2026-11-25.md` repozytorium.
+
+## GGUF Model Manager — lokalna inwentaryzacja 2026-11-25
+
+Kafelek **Katalog modeli GGUF** obsługuje `POST /api/local/models/inventory` i wywołuje istniejący `scripts/gguf-inventory.mjs::scanGGUF`. Katalog ustawia operator w środowisku serwera przez `OMEGA_MODEL_DIR`; ścieżki z żądań HTTP są ignorowane. Serwer nie wywołuje downloadera, inferencji ani model serving. Odczytywane są wyłącznie nagłówki GGUF, rozmiary, wersje i szacunkowy budżet pamięci.
+
+Serwer ma ograniczenia 3 000 wpisów, głębokość 6, wejście HTTP 512 bajtów i wyjście 1 MiB. Udostępnianie w publicznym Internecie nie jest obsługiwane. Modelowy profil RAM jest heurystyką; nie oznacza zatwierdzenia modelu dla Androida czy rzeczywistego testu jakości PL/EN.
+
+`npm run test:models-http` (w katalogu Enterprise) testuje kontrakt HTTP z kontrolowanym skanerem. Uruchomienie rzeczywistego GGUF na Androidzie i ocena językowa pozostają otwarte.
