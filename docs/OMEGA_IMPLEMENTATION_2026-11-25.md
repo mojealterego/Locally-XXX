@@ -43,3 +43,11 @@ Zakres: integracja dostępu do weryfikowanego źródła runtime oraz pierwsza rz
 | Ω-INT-001–005, AND-001, ENT-52–54, V4-RAG, V4-VOICE, V4-AST, V4-MODELS, V4-RELEASE | wcześniejszy zakres wciąż częściowy/otwarty; niezaliczony tym przyrostem |
 
 Żadnego GATE-09 nie oznaczono PASS. Nie utworzono gałęzi innych niż `main`, nie wykonano publikacji ani płatnych operacji.
+
+## Ω-INT-001 — rozszerzenie integracji z realnym web runtime
+
+- `apps/web/studio-http.mjs` importuje **istniejący** `compileProductionIntegration` z `overlays/omega-integrations/bridge.mjs` i udostępnia go jako `POST /api/local/studio/plan`. Nie tworzy nowego silnika.
+- `studio-browser.mjs`, wspólny katalog, app router, serwer HTTP i lista zasobów web wskazują ten sam moduł. Dostęp przez nowy kafelek `Aether Studio — plan`.
+- Egzekwowane są: lokalny host i Origin, nagłówek `x-omega-plan: 1`, JSON, limit wejścia 256 KiB, limit wyjścia 1 MiB oraz wyłącznie `PLAN_ONLY_NOT_BUILT` z `engine_adapter=NOT_CONNECTED`.
+- `node --test locally-uncensored-enterprise/test/studio-http.test.mjs`: **4/4 PASS** w izolowanej kopii modułu z kontrolowanym adapterem (rzeczywiste HTTP); sam bridge ma osobne testy w repo, których nie ponowiono w tej sesji.
+- **Łącznie nowych izolowanych testów w tej sesji: 22/22 PASS**. Bez builda, renderowania, fizycznej inferencji ani E2E Tauri/Android. Ω-INT-001 nadal PARTIAL, Ω-INT-002–005 pozostają do podłączenia przez analogiczne, kontrolowane granice.
