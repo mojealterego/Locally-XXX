@@ -1,7 +1,8 @@
 import {tools} from '../../../scripts/devsuite-core.mjs';
 import {extendedTools} from '../../../scripts/devsuite-extended.mjs';
+import {networkTools} from '../../../scripts/devsuite-network.mjs';
 
-const registered = new Set([...Object.keys(tools),...Object.keys(extendedTools)]);
+const registered = new Set([...Object.keys(tools),...Object.keys(extendedTools),...Object.keys(networkTools)]);
 const algorithms = new Set(['sha256', 'sha512', 'sha1', 'md5']);
 const defaultAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
 
@@ -53,9 +54,9 @@ export function executeLocalTool(request) {
         result = tools['uuid.v4']();
         break;
       default:
-        if (!Object.hasOwn(extendedTools, request.tool)) throw new LocalToolError('UNKNOWN_TOOL');
+        if (!Object.hasOwn(extendedTools, request.tool) && !Object.hasOwn(networkTools, request.tool)) throw new LocalToolError('UNKNOWN_TOOL');
         checkFields(args, ['input']);
-        result = extendedTools[request.tool](limitedString(args.input));
+        result = (extendedTools[request.tool] ?? networkTools[request.tool])(limitedString(args.input));
         break;
     }
   } catch (error) {
