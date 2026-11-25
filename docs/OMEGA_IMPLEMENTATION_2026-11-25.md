@@ -76,3 +76,18 @@ Moduł P09/QFV jest włączony do lokalnego interfejsu, ale pełna ścieżka od 
 - `apps/web/knowledge-http.mjs` i `knowledge-browser.mjs` udostępniają ten istniejący most w GUI; lokalny HTTP wymaga loopback Host, Origin i specjalnego nagłówka. Brak wykonania akcji i retencji.
 - Lokalny Node 22.16: `knowledge-runner.test.mjs` **4/4 PASS** (rzeczywisty kontrolowany proces Python, nie pełny OTCM), `knowledge-http.test.mjs` **3/3 PASS** (HTTP z kontrolowanym runnerem).
 - **Łącznie w tej iteracji: 47/47 lokalnych testów izolowanych PASS** (30 wcześniejszych + 3 GGUF + 7 ewaluacji + 7 OTCM/ATM). Nadal nie są to rzeczywiste testy E2E aplikacji Tauri/Android czy produkcyjny benchmark LLM. Globalny GATE-09 **BLOCKED**.
+
+## Ω-INT-003/005 — lokalne dopuszczenie inferencji i eksperymentów
+
+- `overlays/omega-integrations/compute_cli.py` łączy istniejące klasy `mobile/reference/runtime_policy.py` oraz `inference/reference/inference_router.py` przez `compute_bridge.py`. Przyjmuje ściśle walidowaną deklarację modelu, pamięci, termiki i listy lokalnych backendów. Wymusza `OFFLINE`, puste granty, `egress_enabled=False`; zwraca tylko `ROUTE_PLAN_ONLY` lub `DENIED_OR_PAUSED`. Ani telemetria, ani katalog backendów dostarczony przez formularz nie są źródłem autorytatywnym; nie uruchamia to modelu.
+- `overlays/omega-integrations/experiment_cli.py` wywołuje istniejące `experiment_bridge.py::plan_experiment` na kontraktach Attention/HAEE. Wymaga `allow_cloud=False` i `allow_dataset_egress=False`; status to `PLAN_ONLY_NOT_TRAINED`, bez trenera, GPU, podpisu OXA czy autopromocji.
+- Oba moduły mają izolowane procesy Python z ustaloną ścieżką, ograniczeniem rozmiaru, czasu oraz dwoma równoległymi workerami; lokalne API `/api/local/compute/plan`, `/api/local/experiments/plan`; widoki PL/EN i wpisy rejestru launcher.
+- `compute-runner.test.mjs` + `compute-http.test.mjs`: **6/6 PASS**; `experiment-runner.test.mjs` + `experiment-http.test.mjs`: **6/6 PASS**. Kontrolowane fixture Python i realne HTTP loopback, bez fizycznej inferencji i treningu.
+- Wymagania Ω-INT-001–005 mają teraz lokalne ścieżki GUI/API do istniejących silników referencyjnych. Nie jest to pełna integracja z natywnym Tauri, Android JNI, realnym compute, prawami dostępu tenantów, rendererem ani trwałymi usługami; **GATE-09: BLOCKED**.
+
+## Testy zbiorcze — 2026-11-25
+
+- Komenda lokalna Node 22.16.0: `node --test` dla 15 zestawów ze zbioru: devsuite-service, devsuite-http, devsuite MCP, runtime-entry, Studio HTTP, media runner/HTTP, models inventory HTTP, model-eval CLI/HTTP, knowledge runner/HTTP, compute runner/HTTP, experiment runner/HTTP.
+- Wynik: **59 testów PASS, 0 FAIL, 0 skipped**. Lokalny plik TAP: 11 019 bajtów, SHA-256 `b9552a20f3a9489667245f4d4356c4d548cb62aae9d2cdc5da6b05e499008838`.
+- Izolowany test workspace zawierał kontrolowane zastępcze interfejsy upstream, staged-runtime, scanner GGUF i Aether bridge; testy ich adapterów i API nie są testami pełnych zależności. Brak pełnego checkoutu/klastra i buildów, przez co produkcyjne GATE-05/09 nie mogą otrzymać PASS.
+- Tauri/React/Rust, Android APK, kompilacja aplikacji, rzeczywiste GGUF, rzeczywisty trening i rendering: **NOT_RUN** zgodnie z poleceniem operatora. Żaden z nowych lokalnych HTTP endpointów nie może być wystawiony poza loopback jako publiczne API. Brak zmiany polityki dotyczącej tylko gałęzi `main`.
