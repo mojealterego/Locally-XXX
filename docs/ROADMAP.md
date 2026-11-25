@@ -125,3 +125,24 @@ Stan: **IMPLEMENTED + HOST TESTED / PRODUCTION PARTIAL**. `overlays/omega-integr
 ### Ω-INT-005 — Attention/PEFT → HAEE → signed .oxa experiment artifact (2026-11-23)
 
 Stan: **IMPLEMENTED / HOST-TESTED / PRODUCTION PARTIAL**. `overlays/omega-integrations/experiment_bridge.py` wykonuje prawdziwy referencyjny Attention planner, waliduje eksperyment HAEE przez JSON Schema, weryfikuje zgodność tenantów, budżetów i jawnych zezwoleń egress/cloud oraz używa rzeczywistego AETHR OXA1 do podpisania **artefaktu DATA**, nie modelu wykonywalnego. `verify_signed_plan` przyjmuje zewnętrzny klucz Ed25519 i ponownie weryfikuje hash planu. 20 nowych testów RED→GREEN + regresja; **18/18 lokalnych zestawów PASS**, szczegóły `LOCAL_VERIFICATION.json`. CLI `npm run experiment:plan` korzysta z efemerycznego testowego klucza, bez trwałej tożsamości i bez wydania kosztów chmurowych. Wynik: `PLAN_ONLY_NOT_TRAINED`; **nie** wykonano treningu GPU, fine-tuningu, eksperymentów HAEE/DGM, budowy runtime, oceny modeli czy E2E. GATE-09 **BLOCKED**.
+
+## 2026-11-25 — przyrost integracyjny bez kompilacji
+
+**Polityka:** wyłącznie `main`, bez kompilacji finalnej, APK, publikacji i płatnej infrastruktury do dyspozycji operatora. Dowody: [OMEGA_IMPLEMENTATION_2026-11-25.md](OMEGA_IMPLEMENTATION_2026-11-25.md).
+
+| ID | Zmiana kodu w repozytorium | Status i niezamknięte kryterium |
+| --- | --- | --- |
+| RUN-001 | `scripts/runtime-entry.mjs`: wybór przypiętego upstream albo zweryfikowanego staging oraz przekierowanie skryptów `package.json` | IMPLEMENTED PARTIAL; full app build NOT_RUN |
+| Ω-INT-001 | Aether/P10 z istniejącego `bridge.mjs` do lokalnego Enterprise API i PL/EN GUI | IMPLEMENTED PARTIAL; engine adapter niepodłączony |
+| Ω-INT-002 | QFV/P09 CPU reference z istniejącego Python bridge do GUI/API przez bounded subprocess | IMPLEMENTED PARTIAL; render i GPU NOT_RUN |
+| Ω-INT-003 | `compute_cli.py`: offline-only Mobile/Inference Gateway policy + lokalna karta UI | IMPLEMENTED PARTIAL; telemetria i realny backend niezweryfikowane |
+| Ω-INT-004 | `knowledge_cli.py`: OTCM/ATM reconciliation z wyraźnym `NO_CHECKED_PROOF` | IMPLEMENTED PARTIAL; persistence i formal checker OPEN |
+| Ω-INT-005 | `experiment_cli.py`: Attention/HAEE planning bez trenera, klucza i chmury | IMPLEMENTED PARTIAL; trening, podpis i OXA release OPEN |
+| V4-MODELS | GGUF header scanner GUI, lokalny rzeczywisty protokół ewaluacji PL/EN z punktacją exact-match | IMPLEMENTED PARTIAL; rzeczywiste wagi i referencyjny benchmark NOT_RUN |
+| DEV-001–012 | 7 bazowych + 15 rozszerzonych realnych operacji offline w GUI/MCP/local API, razem 22 | IMPLEMENTED PARTIAL; Rust core, 200+, usługi sieciowe i Android adapter OPEN |
+| ENT-54 | JNI native token-by-token byte sink i Kotlin UTF-8 incremental decoder | IMPLEMENTED PARTIAL; testy natywne, Android/Tauri IPC i fizyczna inferencja NOT_RUN |
+| AND-001 / ENT-52–53 | Zachowane istniejące Android ARM64, dual GGUF, memory admission i JNI | PARTIAL; fizyczne ABI i E2E NOT_RUN |
+| V4-RAG, V4-VOICE, V4-AST | Wcześniejsze nakładki pozostają; nie zostały domknięte w tym przyroście | PARTIAL / OPEN |
+| V4-RELEASE / GATE-09 | Nie wykonano builda finalnego ani dystrybucji | **BLOCKED** zgodnie z wstrzymaniem kompilacji |
+
+Lokalna, izolowana macierz testów JS/HTTP/IPC wykonała **59/59 PASS** (adaptery z kontrolowanymi źródłami zależności i odpowiedziami, nie pełny checkout). Dodatkowe 15 narzędzi offline: **6/6 PASS**, dispatcher/MCP rozszerzony: **17/17 PASS** w weryfikacji celowanej. Testy `tests/native` z nowymi asercjami JNI pozostają **NOT_RUN**. Odbioru produkcyjnego z powyższych wyników nie wolno wywodzić.
