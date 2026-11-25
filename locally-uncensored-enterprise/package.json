@@ -33,6 +33,7 @@
     "test:media-preview": "node --test test/media-preview-runner.test.mjs test/media-preview-http.test.mjs",
     "test:models-http": "node --test test/models-http.test.mjs",
     "test:model-eval": "node --test test/model-eval-http.test.mjs",
-    "test:knowledge-http": "node --test test/knowledge-runner.test.mjs test/knowledge-http.test.mjs"
+    "test:knowledge-http": "node --test test/knowledge-runner.test.mjs test/knowledge-http.test.mjs",
+    "test:compute-http": "node --test test/compute-runner.test.mjs test/compute-http.test.mjs"
   }
 }
