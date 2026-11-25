@@ -61,3 +61,18 @@ Zakres: integracja dostępu do weryfikowanego źródła runtime oraz pierwsza rz
 - **Łącznie 30/30 izolowanych testów lokalnych PASS** (DEV HTTP/MCP, RUN routing, Studio HTTP, media runner/HTTP). Pełny checkout repo, Python media E2E, GPU, build React/Tauri, APK i GATE-09: **NOT_RUN / BLOCKED**.
 
 Moduł P09/QFV jest włączony do lokalnego interfejsu, ale pełna ścieżka od źródeł obrazu/wideo przez trwały asset store, renderer, GPU, prawa dostępu i produkcyjny E2E pozostaje otwarta. Powyższe nie zamyka wymagań filmowych ani AAA.
+
+## V4-MODELS — rzeczywiste ścieżki katalogu i ewaluacji PL/EN
+
+- `apps/web/models-http.mjs` uruchamia istniejący `scripts/gguf-inventory.mjs::scanGGUF` dla ścieżki wskazanej przez lokalne `OMEGA_MODEL_DIR`, nie przez użytkownika HTTP; `models-browser.mjs` i katalog Integrated App udostępniają odczyt plików GGUF. **Brak inferencji i oceny tensorów**; wyłącznie nagłówki, rozmiary i heurystyka RAM.
+- `scripts/model-eval.mjs` uruchamia ustrukturyzowane pytania PL/EN na istniejącym lokalnym serwerze OpenAI-compatible `http://127.0.0.1:PORT/v1/chat/completions` z parametrami `temperature=0, stream=false`; akceptuje maksymalnie 64 przypadki w CLI (w UI maksymalnie 12), ma ograniczenia rozmiaru odpowiedzi, timeout per-case i wyłącznie loopback URL. Punktacja: jawnie zadeklarowana znormalizowana zgodność tekstu, bez deklarowania globalnej jakości modelu.
+- `apps/web/model-eval-http.mjs` używa `OMEGA_MODEL_EVAL_ENDPOINT` i ogranicza jednoczesne uruchomienia, rozmiar żądań oraz pochodzenie HTTP. `model-eval-browser.mjs` daje widok PL/EN. Żaden model ani dane nie są automatycznie wysyłane do chmury; w testach użyto lokalnego modelowanego serwera HTTP, **nie prawdziwych wag**.
+- Lokalny Node 22.16: `tests/model-eval.test.mjs` **4/4 PASS** (rzeczywiste loopback HTTP z kontrolowanymi odpowiedziami); `test/model-eval-http.test.mjs` **3/3 PASS**; `test/models-http.test.mjs` **3/3 PASS**.
+
+## Ω-INT-004 — lokalny OTCM/ATM/OmegOS
+
+- `overlays/omega-integrations/knowledge_cli.py` wywołuje istniejący `knowledge_bridge.py::reconcile_as_of` z limitem 64 KiB, pamięcią tylko na czas żądania i dowodem pozostającym `NO_CHECKED_PROOF`.
+- `apps/web/knowledge-runner.mjs` uruchamia jedynie przypięty adapter CLI `python3 -I` (2 równoległe procesy, maksymalnie 10 sekund, limit 1 MiB odpowiedzi, SIGKILL po timeout/cancel).
+- `apps/web/knowledge-http.mjs` i `knowledge-browser.mjs` udostępniają ten istniejący most w GUI; lokalny HTTP wymaga loopback Host, Origin i specjalnego nagłówka. Brak wykonania akcji i retencji.
+- Lokalny Node 22.16: `knowledge-runner.test.mjs` **4/4 PASS** (rzeczywisty kontrolowany proces Python, nie pełny OTCM), `knowledge-http.test.mjs` **3/3 PASS** (HTTP z kontrolowanym runnerem).
+- **Łącznie w tej iteracji: 47/47 lokalnych testów izolowanych PASS** (30 wcześniejszych + 3 GGUF + 7 ewaluacji + 7 OTCM/ATM). Nadal nie są to rzeczywiste testy E2E aplikacji Tauri/Android czy produkcyjny benchmark LLM. Globalny GATE-09 **BLOCKED**.
