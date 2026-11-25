@@ -91,3 +91,11 @@ Moduł P09/QFV jest włączony do lokalnego interfejsu, ale pełna ścieżka od 
 - Wynik: **59 testów PASS, 0 FAIL, 0 skipped**. Lokalny plik TAP: 11 019 bajtów, SHA-256 `b9552a20f3a9489667245f4d4356c4d548cb62aae9d2cdc5da6b05e499008838`.
 - Izolowany test workspace zawierał kontrolowane zastępcze interfejsy upstream, staged-runtime, scanner GGUF i Aether bridge; testy ich adapterów i API nie są testami pełnych zależności. Brak pełnego checkoutu/klastra i buildów, przez co produkcyjne GATE-05/09 nie mogą otrzymać PASS.
 - Tauri/React/Rust, Android APK, kompilacja aplikacji, rzeczywiste GGUF, rzeczywisty trening i rendering: **NOT_RUN** zgodnie z poleceniem operatora. Żaden z nowych lokalnych HTTP endpointów nie może być wystawiony poza loopback jako publiczne API. Brak zmiany polityki dotyczącej tylko gałęzi `main`.
+
+## ENT-54 — surowy streaming JNI i rekonstrukcja UTF-8
+
+- `overlays/android/native/OmegaLlamaEngine.hpp/.cpp`: rozszerzenie istniejącego dekodera llama.cpp o opcjonalną funkcję zwrotną `TokenSink`, dostarczającą rzeczywiste bajty każdego wygenerowanego tokenu; stara `generate()` pozostaje zgodna wstecz. Zwrotny `false` zatrzymuje dekodowanie. Callback jest synchroniczny i nie może wywoływać blokujących funkcji tego samego silnika podczas trzymania mutexu.
+- `OmegaLlamaJni.cpp`: nowy JNI `nativeGenerateStream(..., TokenBytesListener)`, z limitem wejścia 64 KiB, liczby tokenów 4096, kontrolą wyjątków Java i zachowaniem surowych bajtów UTF-8.
+- `NativeLlamaEngine.kt`: metody `generateStreamBytes` i `generateStreamText` oraz `OmegaUtf8TokenDecoder` z buforowaniem niepełnych znaków, `CodingErrorAction.REPORT` i deterministycznym kończeniem strumienia.
+- `tests/native/OmegaLlamaGenerateTest.cpp` oraz `JniGenerationSmoke.kt`: nowe asercje dla kolejności fragmentów, anulowania callbacka, rzeczywistej granicy JNI i rozcięcia polskiego `ą` między dwoma fragmentami. **Testy natywne: NOT_RUN** zgodnie z zakazem kompilacji aplikacji i binariów w tej fazie.
+- **ENT-54: IMPLEMENTED / PHYSICAL NOT_RUN**, ponieważ brak builda JNI/Android oraz rzeczywistego Tauri→Kotlin IPC i renderowania tokenów w WebView. Nie zaliczać GATE-05/GATE-09.
