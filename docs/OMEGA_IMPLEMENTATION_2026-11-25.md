@@ -51,3 +51,13 @@ Zakres: integracja dostępu do weryfikowanego źródła runtime oraz pierwsza rz
 - Egzekwowane są: lokalny host i Origin, nagłówek `x-omega-plan: 1`, JSON, limit wejścia 256 KiB, limit wyjścia 1 MiB oraz wyłącznie `PLAN_ONLY_NOT_BUILT` z `engine_adapter=NOT_CONNECTED`.
 - `node --test locally-uncensored-enterprise/test/studio-http.test.mjs`: **4/4 PASS** w izolowanej kopii modułu z kontrolowanym adapterem (rzeczywiste HTTP); sam bridge ma osobne testy w repo, których nie ponowiono w tej sesji.
 - **Łącznie nowych izolowanych testów w tej sesji: 22/22 PASS**. Bez builda, renderowania, fizycznej inferencji ani E2E Tauri/Android. Ω-INT-001 nadal PARTIAL, Ω-INT-002–005 pozostają do podłączenia przez analogiczne, kontrolowane granice.
+
+## Ω-INT-002 — wykonawcza ścieżka CPU do istniejącego P09/QFV
+
+- `apps/web/media-preview-runner.mjs` uruchamia w izolowanym trybie `python3 -I` wyłącznie przypiętą ścieżkę istniejącego `overlays/omega-integrations/media_bridge.py`; bez shell, bez ścieżki wskazywanej przez żądanie, z ograniczonym środowiskiem procesu.
+- Maksymalnie dwa aktywne podprocesy, czas CPU preview do 10 sekund, limit wejścia 128 KiB, wyjścia 1 MiB, anulowanie z SIGKILL i walidacja schematu rezultatu. Testy `MEDIA-RUN-01–05`: **5/5 PASS**, używają kontrolowanego skryptu Python; nie stanowią fizycznego testu prawdziwego P09/QFV.
+- `apps/web/media-preview-http.mjs` i launcher udostępniają `POST /api/local/media/preview` z loopback host, Origin, tokenem nagłówkowym `x-omega-preview: 1` i kontrolą `CPU_REFERENCE_PREVIEW_NO_VIDEO_RENDER`; testy `MEDIA-HTTP-01–03`: **3/3 PASS** dla realnego HTTP i kontrolowanego runnera.
+- Zmienione pliki: `serve.mjs`, `app.mjs`, `build.mjs`, `packages/shared-ui/catalog.mjs`, skrypty testowe. UI otrzymało osobny kafelek P09/QFV.
+- **Łącznie 30/30 izolowanych testów lokalnych PASS** (DEV HTTP/MCP, RUN routing, Studio HTTP, media runner/HTTP). Pełny checkout repo, Python media E2E, GPU, build React/Tauri, APK i GATE-09: **NOT_RUN / BLOCKED**.
+
+Moduł P09/QFV jest włączony do lokalnego interfejsu, ale pełna ścieżka od źródeł obrazu/wideo przez trwały asset store, renderer, GPU, prawa dostępu i produkcyjny E2E pozostaje otwarta. Powyższe nie zamyka wymagań filmowych ani AAA.
