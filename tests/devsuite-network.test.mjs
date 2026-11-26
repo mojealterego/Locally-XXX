@@ -20,8 +20,19 @@ test('NET-03 URL inspection is parse-only and strips no credentials',()=>{
 });
 test('NET-04 cURL builder escapes shell metacharacters and rejects secrets',()=>{
  const command=createCurl(JSON.stringify({method:'POST',url:'https://example.com/api',headers:{'Content-Type':'application/json'},body:"x'; rm -rf /; echo '"}));
- assert.match(command,/--data-binary/);assert.ok(command.includes("'\\''"));assert.match(command,/-- 'https:\/\/example.com\/api'$/);
+ assert.match(command,/--data-raw/);assert.ok(command.includes("'\\''"));assert.match(command,/-- 'https:\/\/example.com\/api'$/);
  assert.throws(()=>createCurl(JSON.stringify({method:'GET',url:'https://example.com',headers:{Authorization:'Bearer token'}})),TypeError);
  assert.throws(()=>createCurl(JSON.stringify({method:'GET',url:'file:///etc/passwd'})),TypeError);
 });
 test('NET-05 registry and documentation match',()=>assert.deepEqual(Object.keys(networkTools),Object.keys(networkDescriptions)));
+test('NET-06 cURL body beginning with @ remains literal',()=>{
+ const command=createCurl(JSON.stringify({method:'POST',url:'https://example.com/api',body:'@fixture.txt'}));
+ assert.match(command,/--data-raw '@fixture\.txt'/);
+});
+test('NET-07 cURL disables implicit config and URL globbing',()=>{
+ const command=createCurl(JSON.stringify({method:'GET',url:'https://example.com/{a,b}'}));
+ assert.match(command,/^curl --disable --globoff --proto '=http,https' /);
+});
+test('NET-08 cURL rejects unrepresentable NUL body',()=>{
+ assert.throws(()=>createCurl(JSON.stringify({method:'POST',url:'https://example.com/api',body:'a\0b'})),TypeError);
+});

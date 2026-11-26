@@ -146,3 +146,7 @@ Stan: **IMPLEMENTED / HOST-TESTED / PRODUCTION PARTIAL**. `overlays/omega-integr
 | V4-RELEASE / GATE-09 | Nie wykonano builda finalnego ani dystrybucji | **BLOCKED** zgodnie z wstrzymaniem kompilacji |
 
 Lokalna, izolowana macierz testów JS/HTTP/IPC wykonała **59/59 PASS** (adaptery z kontrolowanymi źródłami zależności i odpowiedziami, nie pełny checkout). Dodatkowe 15 narzędzi offline: **6/6 PASS**, dispatcher/MCP rozszerzony: **17/17 PASS** w weryfikacji celowanej. Testy `tests/native` z nowymi asercjami JNI pozostają **NOT_RUN**. Odbioru produkcyjnego z powyższych wyników nie wolno wywodzić.
+
+### 2026-11-26 — DEV cURL literal-body and command safety
+
+DEV remains **IMPLEMENTED PARTIAL**. NET-06..08: RED 3 FAIL / GREEN 8/8 PASS (including 5 existing tests); NET-09 native loopback contract PASS. Generator disables implicit curl configuration and URL globbing, restricts protocols, preserves literal `@` bodies and rejects NUL. Full DevSuite, GUI/MCP regression and global GATE-09 remain OPEN. [Evidence](OMEGA_DEV_CURL_SECURITY_2026-11-26.md).

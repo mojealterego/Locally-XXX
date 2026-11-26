@@ -55,12 +55,12 @@ export function createCurl(input) {
   const quote = s => "'" + s.replaceAll("'", "'\\''") + "'";
   const headers = request.headers??{};
   if(!headers||typeof headers!=='object'||Array.isArray(headers)||Object.getPrototypeOf(headers)!==Object.prototype||Object.keys(headers).length>20)throw new TypeError('Invalid headers');
-  const out=['curl','--request',quote(request.method),'--max-time','15'];
+  const out=['curl','--disable','--globoff','--proto',quote('=http,https'),'--request',quote(request.method),'--max-time','15'];
   for(const [name,value] of Object.entries(headers)) {
     if(!/^[A-Za-z0-9!#$%&'*+.^_`|~-]{1,64}$/.test(name)||typeof value!=='string'||value.length>1024||/[\r\n\u0000]/.test(value)||/^(authorization|cookie|proxy-authorization|x-api-key)$/i.test(name))throw new TypeError('Invalid or secret header');
     out.push('--header',quote(name+': '+value));
   }
-  if(request.body!==undefined){if(typeof request.body!=='string'||request.body.length>4096)throw new TypeError('Invalid body');out.push('--data-binary',quote(request.body));}
+  if(request.body!==undefined){if(typeof request.body!=='string'||request.body.length>4096||request.body.includes('\u0000'))throw new TypeError('Invalid body');out.push('--data-raw',quote(request.body));}
   out.push('--',quote(request.url));
   return out.join(' ');
 }
