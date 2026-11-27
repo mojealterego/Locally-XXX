@@ -189,3 +189,6 @@ Added local MP4 H.264/AAC trim, resize, mute/audio retention and export, fixed F
 
 ### 2026-11-27 — ODYN Ω and Agents Market / signed local catalog
 Shared Ed25519-verified, time-bounded operator-local catalog with strict record schemas, version uniqueness, declared lifecycle/license/artifact hash and price; read-only HTTP and two launcher views (32/33 wired). REG-01..04 native crypto/file/HTTP PASS. No actual artifact/certificate validation, payment, distribution, native agent lifecycle or execution. ENT-24/27 PARTIAL; ENT-25/26/28 remain OPEN. No full build/browser E2E. [Evidence](OMEGA_AGENT_CATALOG_2026-11-27.md).
+
+### 2026-11-27 — Mobile Agent / opt-in host probe
+Wired local web view to existing runtime_control.py android-probe via bounded Python process and same-origin HTTP, operator opt-in and explicit UI approval. ABI and available RAM of server host only, no verified battery/thermal, no workload admission. MOBWEB-01..03 native process/HTTP tests PASS with fixture probe. Launcher 33/33 entries wired in scoped implementations; this is not roadmap completion. No physical Android or full app build. ENT-19 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_MOBILE_HOST_STATUS_2026-11-27.md).
