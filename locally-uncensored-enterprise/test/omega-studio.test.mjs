@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
+import {runOmegaStudio} from '../apps/web/omega-studio-runner.mjs';
+import {handleOmegaStudioHttp} from '../apps/web/omega-studio-http.mjs';
+const dag={operation:'dag',tasks:[{id:'a',capability:'analyze',dependencies:[],cost:2},{id:'b',capability:'verify',dependencies:['a'],cost:3}]};
+const timeline={operation:'timeline',numerator:30000,denominator:1001,frame:1000,sampleRate:48000};
+const tiles={operation:'tiles',width:1024,height:768,tileSize:512,halo:8,ramMiB:4096,reservedMiB:1024,capMiB:32};
+test('OMS-01 real original DAG planning and denial',async()=>{const r=await runOmegaStudio(dag);assert.deepEqual(r.result,{levels:[['a'],['b']],total_cost:5});assert.equal(r.executed,false);for(const bad of [{...dag,tasks:[{...dag.tasks[0],capability:'shell'}]},{...dag,tasks:[{...dag.tasks[0],dependencies:['b']},{...dag.tasks[1]}]},{...dag,allowed:['shell']}])await assert.rejects(runOmegaStudio(bad));});
+test('OMS-02 exact rational time and audio samples',async()=>{const r=await runOmegaStudio(timeline);assert.deepEqual(r.result,{timeNumerator:1001,timeDenominator:30,startSample:1601600,endSample:1603202});await assert.rejects(runOmegaStudio({...timeline,denominator:0}));});
+test('OMS-03 real tile planner, halo and budget',async()=>{const r=await runOmegaStudio(tiles);assert.equal(r.result.count,4);assert.equal(r.result.corePixels,1024*768);assert.ok(r.result.peakBytes<=32*1024*1024);await assert.rejects(runOmegaStudio({...tiles,capMiB:1}));});
+test('OMS-04 HTTP executes original source, same-origin and body gates',async()=>{const s=createServer(async(req,res)=>{try{if(!await handleOmegaStudioHttp(req,res,s.address().port)){res.statusCode=404;res.end()}}catch{res.statusCode=500;res.end()}});try{await new Promise(r=>s.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+s.address().port;const post=(v,origin=base)=>fetch(base+'/api/local/omega-studio/plan',{method:'POST',headers:{origin,'content-type':'application/json','x-omega-studio':'1'},body:JSON.stringify(v)});assert.equal((await post(dag,'https://example.invalid')).status,403);assert.equal((await post({...dag,extra:true})).status,400);assert.equal((await post({text:'x'.repeat(33000)})).status,413);const r=await post(dag);assert.equal(r.status,200);assert.deepEqual((await r.json()).result.levels,[['a'],['b']]);assert.equal((await fetch(base+'/api/local/omega-studio/plan')).status,405)}finally{s.closeAllConnections();if(s.listening)await new Promise(r=>s.close(r))}});

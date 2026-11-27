@@ -112,3 +112,6 @@ Configure OMEGA_AGENT_CATALOG (signed envelope JSON) and OMEGA_AGENT_PUBLIC_KEY 
 
 ## Mobile Agent — host status
 Run web shell on the Android ARM64 host with Python and the existing `getprop`/memory probe available. Set `OMEGA_ANDROID_PROBE=YES` only if the local operator authorizes reading host telemetry. The UI requires explicit confirmation on every request. It returns ABI and available RAM only; not remote phone status, battery/thermal, privilege elevation or workload admission. `node --test test/mobile-status.test.mjs` tests process and HTTP with controlled fixtures. Physical Android validation remains open.
+
+## OMEGA Studio Ultimate — local integrated domain tools
+The launcher uses the original Apache-2.0 Python components from `integrations/omega-studio` via a bounded same-origin local bridge. Requires Python 3.11+; no new package install for these three operations. Supports agent DAG waves/cost, exact rational AV frame/sample calculations, halo-aware image tile planning. Does not execute jobs or render. `node --test test/omega-studio.test.mjs` from Enterprise root. Full Studio runtime and APK integration remain separate.

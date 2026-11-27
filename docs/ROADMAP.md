@@ -192,3 +192,6 @@ Shared Ed25519-verified, time-bounded operator-local catalog with strict record 
 
 ### 2026-11-27 — Mobile Agent / opt-in host probe
 Wired local web view to existing runtime_control.py android-probe via bounded Python process and same-origin HTTP, operator opt-in and explicit UI approval. ABI and available RAM of server host only, no verified battery/thermal, no workload admission. MOBWEB-01..03 native process/HTTP tests PASS with fixture probe. Launcher 33/33 entries wired in scoped implementations; this is not roadmap completion. No physical Android or full app build. ENT-19 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_MOBILE_HOST_STATUS_2026-11-27.md).
+
+### 2026-11-27 — OMEGA Studio Ultimate integration (OMS)
+Imported three original Apache-2.0 domain modules and package initializers from uploaded Omega-Studio-main.zip, pinned upstream 7782aae4c9a59d911bbb56df6fd427979ca39cb9. Added bounded local Python/HTTP adapter and common launcher entry for agent DAG, rational AV timebase, memory-aware tile planning. OMS-01..04 native process/HTTP PASS; 34/34 scoped launcher entries wired in source. Full source transfer and runtime integration (CI/CD, Game Factory, model management, Android, native code, actual render/execution) remain OPEN. No old APK or backup executable imported. [Evidence](OMEGA_STUDIO_INTEGRATION_2026-11-27.md).
