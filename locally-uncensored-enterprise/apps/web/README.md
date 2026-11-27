@@ -85,3 +85,6 @@ Paste or load JSONL, choose evaluation percentage, prepare locally and download 
 
 ## Operations — audit
 Read-only protected event list, paginated by agent ID. Requires configured existing audit service (AUDIT_PORT), OIDC token and policy permission. No credential persistence or event modification. Tests: `node --test test/operations-client.test.mjs test/operations-ledger.test.mjs` from Enterprise root. Live stream and production identity integrations remain separate.
+
+## Local artifact storage
+Single-operator local-only vault. Use an existing owner-private directory (0700) and separate existing 32-byte random key file (0600); configure OMEGA_STORAGE_DIR and OMEGA_STORAGE_KEY_FILE. Preserve the key securely; loss makes files unreadable. Payloads encrypted; names, hashes, sizes visible. Maximum 4 MiB each, 64 MiB logical payloads, 128 records; deduplication preserves first filename. No shared-tenant mode or network exposure. Test: `node --test test/storage.test.mjs` from Enterprise root.

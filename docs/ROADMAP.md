@@ -162,3 +162,6 @@ Integrated existing deterministic dataset preparation into launcher (33 entries,
 
 ### 2026-11-27 — ENT-29 / operations audit UI
 Integrated read-only authenticated audit list UI with existing same-origin proxy. 33 entries, 22 enabled. OPWEB-01..05 + TRWEB-01..04 regression 9/9 PASS; actual HMAC SQLite and HTTP, modelled external IdP/PDP, no UI browser execution. ENT-29 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_ENT29_OPERATIONS_UI_2026-11-27.md).
+
+### 2026-11-27 — local artifact storage / ENT-16, ENT-18
+Added opt-in single-operator loopback file vault with AES-256-GCM payloads, SHA-256 content IDs, immutable deduplication, list, download and confirmed deletion; 4 MiB/file, 64 MiB logical data, 128 entries. 33 catalog entries, 23 wired. STOR-01..04 native SQLite/HTTP PASS. Full web build/browser E2E, tenant-scoped shared storage, key rotation, backup and cloud sync remain OPEN. Metadata is not encrypted; local mode is not enterprise authentication. [Evidence](OMEGA_LOCAL_STORAGE_2026-11-27.md).
