@@ -177,3 +177,6 @@ Fixed reproducible TOCTOU on both command and SMS approval after asynchronous po
 
 ### 2026-11-27 — ENT-22/23 read-only service panels
 Mining telemetry and Twilio owned/available number list wired into launcher (27/33 entries), authenticated through existing OIDC/Permit with explicit read permissions and private operator config. SREAD-01..03, SCFG-01..03 and RACE regression 12/12 PASS on local HTTP and deterministic external-service adapters. No write, purchase, call or SMS routes; no physical provider requests. Full build/browser/live provider and durable command execution OPEN. [Evidence](OMEGA_ENT22_23_READ_UI_2026-11-27.md).
+
+### 2026-11-27 — Game Studio / playable Aether narrative
+Reused existing Aether narrative compiler and transition evaluator by extracting browser-safe modules without changing their bodies. Added bounded scenario contract, text playtest with conditional choices, state effects, endings, reset and JSON scenario/trace export; launcher wiring 28/33 entries. GAME-01..06 native Node PASS; GAME-07 actual isolated Chromium DOM playtest and download PASS. Full existing Aether suite and whole web build not run; AAA engine, 3D assets, game packaging and full launcher E2E remain OPEN. [Evidence](OMEGA_GAME_STUDIO_2026-11-27.md).

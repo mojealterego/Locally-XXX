@@ -97,3 +97,6 @@ Local PCM16 WAV mono/stereo import, trim, gain, peak normalization and export. 3
 
 ## Mining and virtual numbers — read-only
 Set OMEGA_SERVICE_READ_CONFIG to an owner-private (0600) local JSON file outside Git. Its optional `mining` array contains objects with exactly id, tenant (UUID), origin (trusted HTTPS), minWatts, maxWatts and token; optional `phone` object contains accountSid, apiKeySid, apiKeySecret and tenant (UUID). At least one section required. Use existing OMEGA_OIDC_ISSUER/AUDIENCE/CLIENT, OMEGA_PDP_URL and OMEGA_PDP_KEY_FILE (0600). Permit policy requires Agent resources mining-<id>, virtual-number or virtual-number-search with read action and correct tenant. Restart local server after config changes. No state mutations, SMS, call or purchase. Never put config or tokens in Git. Test: `node --test test/service-config.test.mjs test/service-read.test.mjs backend/test/approval-race.test.mjs` from Enterprise root.
+
+## Game Studio — narrative
+Local data-only scenario editor and playable Aether branching text game. Import JSON, validate graph, play choices and effects, restart and export scenario/trace. No asset generation or 3D engine. Run `node --test test/game.test.mjs` and `python test/game-browser-e2e.py` from Enterprise root (Chromium + Python Playwright). Existing Aether APIs remain reexported by its index.
