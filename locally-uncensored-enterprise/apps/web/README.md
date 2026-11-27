@@ -73,3 +73,6 @@ Testy bez builda: `npm run test:model-eval`, `npm run test:knowledge-http`, `npm
 ## Developer Suite — cztery kolejne narzędzia offline
 
 `number.base`, `http.status`, `url.inspect` i `curl.build` są dostępne przez ten sam lokalny dispatcher, MCP i GUI PL/EN. `curl.build` generuje wyłącznie tekst polecenia, nie uruchamia go i nie przyjmuje nagłówków Authorization, Cookie ani X-API-Key. Format konwersji liczbowej: `16:ff->10`. Łączna liczba operacji: **26**, nie 200+. Testy: `node --test tests/devsuite-network.test.mjs` z katalogu głównego. Żaden build aplikacji nie został wykonany.
+
+## PDF Reports (ENT-49)
+Local PDF editor is wired to the existing ReportLab renderer. Install packages/awesome-printer-tools/requirements.txt and a Unicode TTF before use. From Enterprise root: npm run test:pdf. PDF browser E2E and full build remain open.
