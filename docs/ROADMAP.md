@@ -171,3 +171,6 @@ Added offline 8-bit sRGB raster corrections (exposure, contrast, saturation, art
 
 ### 2026-11-27 — Audio Studio / local PCM16 WAV editing
 Added bounded local WAV import, trim, gain, peak normalization and export; wired launcher, build and static allowlist (25/33 entries wired). AUD-01..04 native Node PASS; AUD-05 actual FFmpeg-generated stereo WAV edited by production code and decoded successfully, 48 kHz / 0.100 s. Full browser/launcher/build, STT/TTS, music generation and non-PCM16 codecs remain OPEN. [Evidence](OMEGA_AUDIO_STUDIO_2026-11-27.md).
+
+### 2026-11-27 — ENT-22/23 concurrent approval safety
+Fixed reproducible TOCTOU on both command and SMS approval after asynchronous policy checks. Recheck pending object identity, state, deadline and principal immediately before synchronous reservation; deny duplicate or expired confirmation. MINE-RACE-01..03 and PHONE-RACE-01..03 RED 2/6, GREEN 6/6 PASS (deterministic transport fixtures). No hardware command or SMS sent. Durable cross-process idempotency, live provider, UI and full suite OPEN. [Evidence](OMEGA_ENT22_23_APPROVAL_RACE_2026-11-27.md).
