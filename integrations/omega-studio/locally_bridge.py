@@ -64,6 +64,45 @@ def geometry(v):
             'unit': 'arbitrary_scale', 'measurement_verified': False}
 
 
+def blend(v):
+    exact(v, 'operation,shape,axis,left,right')
+    if type(v['shape']) is not list or len(v['shape']) not in (2, 3):
+        raise ValueError('Invalid shape')
+    shape = [integer(n, 1, 1024) for n in v['shape']]
+    count = math.prod(shape)
+    axis = integer(v['axis'], 0, 1)
+    if count > 1024 or shape[axis] < 2 or (len(shape) == 3 and shape[2] not in (1, 3, 4)):
+        raise ValueError('Invalid overlap')
+    strips = []
+    for name in ('left', 'right'):
+        if type(v[name]) is not list or len(v[name]) != count:
+            raise ValueError('Invalid strip')
+        strips.append([finite(x, -1000000, 1000000) for x in v[name]])
+    import numpy as np
+    from omega_actions.ultimate.c2_blending import c2_crossfade
+    a, b = [np.asarray(s, dtype=np.float64).reshape(shape) for s in strips]
+    pixels = c2_crossfade(a, b, axis=axis)
+    return {'shape': shape, 'axis': axis, 'pixels': pixels.ravel().tolist(),
+            'color_space': 'caller_supplied_linear', 'whole_image_processed': False}
+
+
+def ast_compare(v):
+    exact(v, 'operation,left,right,dimensions')
+    for name in ('left', 'right'):
+        if type(v[name]) is not str or not v[name].strip() or len(v[name].encode('utf-8')) > 12000:
+            raise ValueError('Invalid source')
+    from omega_actions.ultimate.quantum_ast import ASTResonator
+    engine = ASTResonator(integer(v['dimensions'], 8, 4096))
+    try:
+        a, b = engine.embed(v['left']), engine.embed(v['right'])
+    except SyntaxError as exc:
+        raise ValueError('Invalid Python syntax') from exc
+    similarity = engine.similarity(a, b)
+    return {'similarity': similarity, 'projection': engine.project(a, b),
+            'scope': 'classical_cpu_structural_heuristic', 'semantic_equivalence_verified': False,
+            'formal_proof': False}
+
+
 def evaluate(v):
     if type(v) is not dict:
         raise ValueError('Invalid request')
@@ -102,6 +141,10 @@ def evaluate(v):
                   'peakBytes': max(t.working_set_bytes for t in tiles), 'availableBytes': memory.available_bytes}
     elif op == 'geometry':
         result = geometry(v)
+    elif op == 'blend':
+        result = blend(v)
+    elif op == 'ast-compare':
+        result = ast_compare(v)
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}

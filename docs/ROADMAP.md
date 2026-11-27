@@ -198,3 +198,6 @@ Imported three original Apache-2.0 domain modules and package initializers from 
 
 ### 2026-11-27 — OMS GeoDepth geometry integration
 Imported original Apache-2.0 GeoDepth geometry contract from Omega Studio, added bounded camera intrinsics, crop/resize and backprojection operation to existing Python bridge and Studio selector. GEO-01..05 native subprocess tests PASS (including regression of DAG/timebase/tiles). Geometry uses supplied depth with arbitrary scale, not verified measurement or inference. HTTP/GUI/full build not rerun in this increment. [Evidence](OMEGA_STUDIO_GEOMETRY_2026-11-27.md).
+
+### 2026-11-27 — OMS C2/AST
+Original C2 blending and AST Resonator imported; bounded numeric strip blend and structural Python source comparison available through existing Studio API and selector. 7/7 focused Python tests and 1/1 native HTTP test PASS. Optional NumPy pinned for blend. Full-image stitching, semantic verification, browser E2E and full build OPEN. [Evidence](OMEGA_STUDIO_C2_AST_2026-11-27.md).
