@@ -91,3 +91,6 @@ Single-operator local-only vault. Use an existing owner-private directory (0700)
 
 ## Photo Studio — local adjustments
 Offline JPG/PNG/WebP raster input, exposure/contrast/saturation/warmth/monochrome, preview and export. 12 MP and 16 MiB input bounds. 8-bit sRGB output, not RAW/ICC/EXIF-preserving. Tests: `node --test test/photo.test.mjs` and `python test/photo-browser-e2e.py` (Chromium, Python Playwright and Pillow, isolated DOM). Actual PNG E2E verified; advanced editing remains separate.
+
+## Audio Studio — WAV
+Local PCM16 WAV mono/stereo import, trim, gain, peak normalization and export. 32 MiB input, no uploads or original modification. `node --test test/audio.test.mjs` from Enterprise root. No playback UI, speech transcription, synthesis or generation yet.

@@ -168,3 +168,6 @@ Added opt-in single-operator loopback file vault with AES-256-GCM payloads, SHA-
 
 ### 2026-11-27 — local Photo Studio / ENT-12, ENT-18
 Added offline 8-bit sRGB raster corrections (exposure, contrast, saturation, artistic warmth, monochrome), preview/export, raster header preflight; uses existing raster signature module. 33 launcher entries, 24 wired. PHOTO-01..04 native Node PASS, PHOTO-05 isolated real Chromium PNG decode/adjustment/download PASS; storage regression 4/4 PASS. JPEG/WebP header tests only, full launcher E2E/build NOT_RUN, RAW/ICC/16-bit/tiled, advanced editing and AI open. [Evidence](OMEGA_PHOTO_STUDIO_2026-11-27.md).
+
+### 2026-11-27 — Audio Studio / local PCM16 WAV editing
+Added bounded local WAV import, trim, gain, peak normalization and export; wired launcher, build and static allowlist (25/33 entries wired). AUD-01..04 native Node PASS; AUD-05 actual FFmpeg-generated stereo WAV edited by production code and decoded successfully, 48 kHz / 0.100 s. Full browser/launcher/build, STT/TTS, music generation and non-PCM16 codecs remain OPEN. [Evidence](OMEGA_AUDIO_STUDIO_2026-11-27.md).
