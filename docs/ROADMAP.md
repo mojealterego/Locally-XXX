@@ -156,3 +156,6 @@ Added PDF Reports tile, navigation mount, build asset mapping, static allowlist 
 
 ### 2026-11-27 — local text chat / ENT-12/18
 Added bounded multi-turn loopback chat route, session UI and launcher wiring (33 catalog entries, 20 enabled in source). 4 new HTTP/model-fixture tests and 4 model-eval regression tests PASS. Browser syntax PASS; isolated Chromium navigation blocked by environment policy. Full build/model inference NOT_RUN. No streaming, persistent history, RAG, vision, tool calls or resource-broker integration yet. ENT-12/18 remain PARTIAL; GATE-09 OPEN. [Evidence](OMEGA_LOCAL_CHAT_2026-11-27.md).
+
+### 2026-11-27 — ENT-21 / local training dataset UI
+Integrated existing deterministic dataset preparation into launcher (33 entries, 21 enabled); local-only JSONL upload/paste, 5–40% evaluation split, export train/eval/manifest, no execution of training. TRWEB-01..04 native HTTP PASS against exact existing dataset source; UI syntax PASS, full build/browser E2E NOT_RUN. ENT-21 PARTIAL; GATE-09 OPEN. [Evidence](OMEGA_ENT21_TRAINING_UI_2026-11-27.md).

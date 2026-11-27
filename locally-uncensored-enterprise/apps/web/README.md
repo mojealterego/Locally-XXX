@@ -79,3 +79,6 @@ Local PDF editor is wired to the existing ReportLab renderer. Install packages/a
 
 ## Local text chat
 Set `OMEGA_LOCAL_CHAT_ENDPOINT=http://127.0.0.1:8082/v1/chat/completions` to the operator's local server (adjust port). Choose the loaded model in the chat view. No fallback to cloud, no stored history, no streaming. `npm run test:local-chat` from Enterprise root. Backend model must be independently installed and running.
+
+## LLM Training — datasets
+Paste or load JSONL, choose evaluation percentage, prepare locally and download train.jsonl, eval.jsonl and manifest.json. No model execution; input limited to 1 MiB JSON request. Test from Enterprise root: `node --test test/training-http.test.mjs` (also included by test:ui glob). Full training remains separate.
