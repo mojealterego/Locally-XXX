@@ -103,3 +103,6 @@ Local data-only scenario editor and playable Aether branching text game. Import 
 
 ## Image AI — local ComfyUI
 Set OMEGA_COMFY_PORT and OMEGA_COMFY_CHECKPOINT (basename of a compatible installed `.safetensors` checkpoint). Requires trusted locally running ComfyUI and Python 3. Fixed SD checkpoint workflow, PNG export; no arbitrary workflow or cloud fallback. Cancellation stops waiting, not the submitted GPU job. `node --test test/image-http.test.mjs` verifies process/HTTP contracts with fixtures, not actual model inference.
+
+## Video Studio — local MP4
+Install FFmpeg and ffprobe with libx264/AAC support. Local H.264/AAC MP4 import, bounded trim/resize/mute, preview and download; input/output 16 MiB, clip up to 30 seconds. No AI generation or codec sandbox yet; operate on trusted files in local mode. `node --test test/video-http.test.mjs` from Enterprise root requires FFmpeg and is included in the UI test glob. Actual native processing tested, browser playback not tested.

@@ -183,3 +183,6 @@ Reused existing Aether narrative compiler and transition evaluator by extracting
 
 ### 2026-11-27 — Image AI / local ComfyUI bridge
 Added operator-configured fixed SD checkpoint text-to-image workflow, bounded parameters, isolated Python subprocess invoking existing runtime_control.py render, same-origin HTTP, PNG download and SHA-256 verification; launcher 29/33 wired. IMG-01..04 PASS on actual Node/Python process and HTTP boundaries with controlled fixtures. Existing ComfyUI runtime and actual model inference were not executed in this increment; GPU cancellation, GPU admission, browser E2E and complete build remain OPEN. [Evidence](OMEGA_IMAGE_AI_2026-11-27.md).
+
+### 2026-11-27 — Video Studio / native FFmpeg MP4 editing
+Added local MP4 H.264/AAC trim, resize, mute/audio retention and export, fixed FFmpeg/ffprobe arguments with bounded input/output and process deadlines, UI and API. 30/33 launcher entries wired. VID-01..04 PASS incl. actual FFmpeg and HTTP-to-FFmpeg audio-preserving export; IMG-01..04 regression PASS (8/8 combined). Full browser/build/AI video generation, OS decoder sandbox and Android packaging remain OPEN. [Evidence](OMEGA_VIDEO_STUDIO_2026-11-27.md).
