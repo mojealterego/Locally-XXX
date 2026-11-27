@@ -186,3 +186,6 @@ Added operator-configured fixed SD checkpoint text-to-image workflow, bounded pa
 
 ### 2026-11-27 — Video Studio / native FFmpeg MP4 editing
 Added local MP4 H.264/AAC trim, resize, mute/audio retention and export, fixed FFmpeg/ffprobe arguments with bounded input/output and process deadlines, UI and API. 30/33 launcher entries wired. VID-01..04 PASS incl. actual FFmpeg and HTTP-to-FFmpeg audio-preserving export; IMG-01..04 regression PASS (8/8 combined). Full browser/build/AI video generation, OS decoder sandbox and Android packaging remain OPEN. [Evidence](OMEGA_VIDEO_STUDIO_2026-11-27.md).
+
+### 2026-11-27 — ODYN Ω and Agents Market / signed local catalog
+Shared Ed25519-verified, time-bounded operator-local catalog with strict record schemas, version uniqueness, declared lifecycle/license/artifact hash and price; read-only HTTP and two launcher views (32/33 wired). REG-01..04 native crypto/file/HTTP PASS. No actual artifact/certificate validation, payment, distribution, native agent lifecycle or execution. ENT-24/27 PARTIAL; ENT-25/26/28 remain OPEN. No full build/browser E2E. [Evidence](OMEGA_AGENT_CATALOG_2026-11-27.md).
