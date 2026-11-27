@@ -1,6 +1,7 @@
 """Bounded, data-only adapter for the vendored Omega Studio primitives."""
 import json
 import math
+import os
 from dataclasses import asdict
 from pathlib import Path
 import re
@@ -145,6 +146,10 @@ def evaluate(v):
         result = blend(v)
     elif op == 'ast-compare':
         result = ast_compare(v)
+    elif op == 'checkpoint-audit':
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from checkpoint_audit import inspect_checkpoint
+        result = inspect_checkpoint(v, os.environ.get('OMEGA_STUDIO_MODEL_DIR'))
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}
