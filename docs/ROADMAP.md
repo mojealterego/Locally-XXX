@@ -159,3 +159,6 @@ Added bounded multi-turn loopback chat route, session UI and launcher wiring (33
 
 ### 2026-11-27 — ENT-21 / local training dataset UI
 Integrated existing deterministic dataset preparation into launcher (33 entries, 21 enabled); local-only JSONL upload/paste, 5–40% evaluation split, export train/eval/manifest, no execution of training. TRWEB-01..04 native HTTP PASS against exact existing dataset source; UI syntax PASS, full build/browser E2E NOT_RUN. ENT-21 PARTIAL; GATE-09 OPEN. [Evidence](OMEGA_ENT21_TRAINING_UI_2026-11-27.md).
+
+### 2026-11-27 — ENT-29 / operations audit UI
+Integrated read-only authenticated audit list UI with existing same-origin proxy. 33 entries, 22 enabled. OPWEB-01..05 + TRWEB-01..04 regression 9/9 PASS; actual HMAC SQLite and HTTP, modelled external IdP/PDP, no UI browser execution. ENT-29 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_ENT29_OPERATIONS_UI_2026-11-27.md).

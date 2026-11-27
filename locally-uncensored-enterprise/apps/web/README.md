@@ -82,3 +82,6 @@ Set `OMEGA_LOCAL_CHAT_ENDPOINT=http://127.0.0.1:8082/v1/chat/completions` to the
 
 ## LLM Training — datasets
 Paste or load JSONL, choose evaluation percentage, prepare locally and download train.jsonl, eval.jsonl and manifest.json. No model execution; input limited to 1 MiB JSON request. Test from Enterprise root: `node --test test/training-http.test.mjs` (also included by test:ui glob). Full training remains separate.
+
+## Operations — audit
+Read-only protected event list, paginated by agent ID. Requires configured existing audit service (AUDIT_PORT), OIDC token and policy permission. No credential persistence or event modification. Tests: `node --test test/operations-client.test.mjs test/operations-ledger.test.mjs` from Enterprise root. Live stream and production identity integrations remain separate.
