@@ -204,3 +204,6 @@ Original C2 blending and AST Resonator imported; bounded numeric strip blend and
 
 ### 2026-11-27 — OMS checkpoint audit / LoRA
 Imported original Safetensors Guard parser and Pareto LoRA structural audit; POSIX dirfd-based read-only adapter for an operator-controlled model directory, optional SHA-256 and existing Studio HTTP/selector. CKPT-01..06 real filesystem tests, CKPT-07 native HTTP including timeline regression PASS. Header limit 1 MiB/8192 tensors, structural inspection up to 128 GiB, SHA-256 up to 64 MiB; limits not large-model benchmarks. No model load, merge or base compatibility verification. Full build/browser and other platforms OPEN. [Evidence](OMEGA_STUDIO_CHECKPOINT_AUDIT_2026-11-27.md).
+
+### 2026-11-27 — OMS Adaptive CI / CI Singularity
+Imported original CI approval gate and hardened Adaptive CI syntax compiler (`-I -S` to prevent workspace module shadowing). New approved disposable Python source snapshot operation, SHA-256 manifest, local compiler and explicit PASS/FAIL; 16 files/24 KiB, 3s compiler deadline, no source execution. CI-01..05 native Python and CI-06 real HTTP PASS, original module shadowing regression reproduced. Full repo runner, tests/build/deploy orchestration, durable approvals, OS sandbox, full GUI and release OPEN. [Evidence](OMEGA_STUDIO_LOCAL_CI_2026-11-27.md).

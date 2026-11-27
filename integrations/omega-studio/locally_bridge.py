@@ -150,6 +150,10 @@ def evaluate(v):
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from checkpoint_audit import inspect_checkpoint
         result = inspect_checkpoint(v, os.environ.get('OMEGA_STUDIO_MODEL_DIR'))
+    elif op == 'ci-compile':
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from ci_compile_bridge import compile_snapshot
+        result = compile_snapshot(v)
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}
