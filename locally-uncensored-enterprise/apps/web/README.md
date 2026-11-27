@@ -76,3 +76,6 @@ Testy bez builda: `npm run test:model-eval`, `npm run test:knowledge-http`, `npm
 
 ## PDF Reports (ENT-49)
 Local PDF editor is wired to the existing ReportLab renderer. Install packages/awesome-printer-tools/requirements.txt and a Unicode TTF before use. From Enterprise root: npm run test:pdf. PDF browser E2E and full build remain open.
+
+## Local text chat
+Set `OMEGA_LOCAL_CHAT_ENDPOINT=http://127.0.0.1:8082/v1/chat/completions` to the operator's local server (adjust port). Choose the loaded model in the chat view. No fallback to cloud, no stored history, no streaming. `npm run test:local-chat` from Enterprise root. Backend model must be independently installed and running.

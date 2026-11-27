@@ -24,7 +24,7 @@ export function validateEvaluationPlan(plan){
   }
   return {schema_version:plan.schema_version,model:plan.model,cases};
 }
-function validateEndpoint(value){
+export function validateEndpoint(value){
   if(typeof value!=='string')throw Error('INVALID_LOCAL_ENDPOINT');
   let url;try{url=new URL(value)}catch{throw Error('INVALID_LOCAL_ENDPOINT')}
   if(url.protocol!=='http:'||url.hostname!=='127.0.0.1'||url.pathname!=='/v1/chat/completions'||
@@ -32,7 +32,7 @@ function validateEndpoint(value){
     throw Error('INVALID_LOCAL_ENDPOINT');
   return url.toString();
 }
-async function readBounded(response){
+export async function readBounded(response){
   if(!response.headers.get('content-type')?.toLowerCase().startsWith('application/json'))throw Error('INVALID_MODEL_RESPONSE');
   if(!response.body)throw Error('INVALID_MODEL_RESPONSE');
   let n=0;const chunks=[];const reader=response.body.getReader();
