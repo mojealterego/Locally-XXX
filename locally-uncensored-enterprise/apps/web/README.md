@@ -100,3 +100,6 @@ Set OMEGA_SERVICE_READ_CONFIG to an owner-private (0600) local JSON file outside
 
 ## Game Studio — narrative
 Local data-only scenario editor and playable Aether branching text game. Import JSON, validate graph, play choices and effects, restart and export scenario/trace. No asset generation or 3D engine. Run `node --test test/game.test.mjs` and `python test/game-browser-e2e.py` from Enterprise root (Chromium + Python Playwright). Existing Aether APIs remain reexported by its index.
+
+## Image AI — local ComfyUI
+Set OMEGA_COMFY_PORT and OMEGA_COMFY_CHECKPOINT (basename of a compatible installed `.safetensors` checkpoint). Requires trusted locally running ComfyUI and Python 3. Fixed SD checkpoint workflow, PNG export; no arbitrary workflow or cloud fallback. Cancellation stops waiting, not the submitted GPU job. `node --test test/image-http.test.mjs` verifies process/HTTP contracts with fixtures, not actual model inference.
