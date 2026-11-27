@@ -174,3 +174,6 @@ Added bounded local WAV import, trim, gain, peak normalization and export; wired
 
 ### 2026-11-27 — ENT-22/23 concurrent approval safety
 Fixed reproducible TOCTOU on both command and SMS approval after asynchronous policy checks. Recheck pending object identity, state, deadline and principal immediately before synchronous reservation; deny duplicate or expired confirmation. MINE-RACE-01..03 and PHONE-RACE-01..03 RED 2/6, GREEN 6/6 PASS (deterministic transport fixtures). No hardware command or SMS sent. Durable cross-process idempotency, live provider, UI and full suite OPEN. [Evidence](OMEGA_ENT22_23_APPROVAL_RACE_2026-11-27.md).
+
+### 2026-11-27 — ENT-22/23 read-only service panels
+Mining telemetry and Twilio owned/available number list wired into launcher (27/33 entries), authenticated through existing OIDC/Permit with explicit read permissions and private operator config. SREAD-01..03, SCFG-01..03 and RACE regression 12/12 PASS on local HTTP and deterministic external-service adapters. No write, purchase, call or SMS routes; no physical provider requests. Full build/browser/live provider and durable command execution OPEN. [Evidence](OMEGA_ENT22_23_READ_UI_2026-11-27.md).

@@ -94,3 +94,6 @@ Offline JPG/PNG/WebP raster input, exposure/contrast/saturation/warmth/monochrom
 
 ## Audio Studio — WAV
 Local PCM16 WAV mono/stereo import, trim, gain, peak normalization and export. 32 MiB input, no uploads or original modification. `node --test test/audio.test.mjs` from Enterprise root. No playback UI, speech transcription, synthesis or generation yet.
+
+## Mining and virtual numbers — read-only
+Set OMEGA_SERVICE_READ_CONFIG to an owner-private (0600) local JSON file outside Git. Its optional `mining` array contains objects with exactly id, tenant (UUID), origin (trusted HTTPS), minWatts, maxWatts and token; optional `phone` object contains accountSid, apiKeySid, apiKeySecret and tenant (UUID). At least one section required. Use existing OMEGA_OIDC_ISSUER/AUDIENCE/CLIENT, OMEGA_PDP_URL and OMEGA_PDP_KEY_FILE (0600). Permit policy requires Agent resources mining-<id>, virtual-number or virtual-number-search with read action and correct tenant. Restart local server after config changes. No state mutations, SMS, call or purchase. Never put config or tokens in Git. Test: `node --test test/service-config.test.mjs test/service-read.test.mjs backend/test/approval-race.test.mjs` from Enterprise root.
