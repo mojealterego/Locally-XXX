@@ -165,3 +165,6 @@ Integrated read-only authenticated audit list UI with existing same-origin proxy
 
 ### 2026-11-27 — local artifact storage / ENT-16, ENT-18
 Added opt-in single-operator loopback file vault with AES-256-GCM payloads, SHA-256 content IDs, immutable deduplication, list, download and confirmed deletion; 4 MiB/file, 64 MiB logical data, 128 entries. 33 catalog entries, 23 wired. STOR-01..04 native SQLite/HTTP PASS. Full web build/browser E2E, tenant-scoped shared storage, key rotation, backup and cloud sync remain OPEN. Metadata is not encrypted; local mode is not enterprise authentication. [Evidence](OMEGA_LOCAL_STORAGE_2026-11-27.md).
+
+### 2026-11-27 — local Photo Studio / ENT-12, ENT-18
+Added offline 8-bit sRGB raster corrections (exposure, contrast, saturation, artistic warmth, monochrome), preview/export, raster header preflight; uses existing raster signature module. 33 launcher entries, 24 wired. PHOTO-01..04 native Node PASS, PHOTO-05 isolated real Chromium PNG decode/adjustment/download PASS; storage regression 4/4 PASS. JPEG/WebP header tests only, full launcher E2E/build NOT_RUN, RAW/ICC/16-bit/tiled, advanced editing and AI open. [Evidence](OMEGA_PHOTO_STUDIO_2026-11-27.md).

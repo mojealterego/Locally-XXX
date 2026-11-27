@@ -88,3 +88,6 @@ Read-only protected event list, paginated by agent ID. Requires configured exist
 
 ## Local artifact storage
 Single-operator local-only vault. Use an existing owner-private directory (0700) and separate existing 32-byte random key file (0600); configure OMEGA_STORAGE_DIR and OMEGA_STORAGE_KEY_FILE. Preserve the key securely; loss makes files unreadable. Payloads encrypted; names, hashes, sizes visible. Maximum 4 MiB each, 64 MiB logical payloads, 128 records; deduplication preserves first filename. No shared-tenant mode or network exposure. Test: `node --test test/storage.test.mjs` from Enterprise root.
+
+## Photo Studio — local adjustments
+Offline JPG/PNG/WebP raster input, exposure/contrast/saturation/warmth/monochrome, preview and export. 12 MP and 16 MiB input bounds. 8-bit sRGB output, not RAW/ICC/EXIF-preserving. Tests: `node --test test/photo.test.mjs` and `python test/photo-browser-e2e.py` (Chromium, Python Playwright and Pillow, isolated DOM). Actual PNG E2E verified; advanced editing remains separate.
