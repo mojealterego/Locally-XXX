@@ -115,3 +115,6 @@ Run web shell on the Android ARM64 host with Python and the existing `getprop`/m
 
 ## OMEGA Studio Ultimate — local integrated domain tools
 The launcher uses the original Apache-2.0 Python components from `integrations/omega-studio` via a bounded same-origin local bridge. Requires Python 3.11+; no new package install for these three operations. Supports agent DAG waves/cost, exact rational AV frame/sample calculations, halo-aware image tile planning. Does not execute jobs or render. `node --test test/omega-studio.test.mjs` from Enterprise root. Full Studio runtime and APK integration remain separate.
+
+### GeoDepth geometry tool
+Within OMEGA Studio Ultimate, select geometry to calculate camera-space XYZ from supplied depth, calibrated intrinsics and optional crop/resize. `point.kind` is `optical_z` or `ray_range_rho`; `crop` is null or x,y,width,height,outWidth,outHeight. Point coordinates refer to the post-crop image. Results use arbitrary scale and do not establish metric depth, model inference, or measurement. Run `python -m unittest discover -s tests -v` from `integrations/omega-studio`.

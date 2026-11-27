@@ -195,3 +195,6 @@ Wired local web view to existing runtime_control.py android-probe via bounded Py
 
 ### 2026-11-27 — OMEGA Studio Ultimate integration (OMS)
 Imported three original Apache-2.0 domain modules and package initializers from uploaded Omega-Studio-main.zip, pinned upstream 7782aae4c9a59d911bbb56df6fd427979ca39cb9. Added bounded local Python/HTTP adapter and common launcher entry for agent DAG, rational AV timebase, memory-aware tile planning. OMS-01..04 native process/HTTP PASS; 34/34 scoped launcher entries wired in source. Full source transfer and runtime integration (CI/CD, Game Factory, model management, Android, native code, actual render/execution) remain OPEN. No old APK or backup executable imported. [Evidence](OMEGA_STUDIO_INTEGRATION_2026-11-27.md).
+
+### 2026-11-27 — OMS GeoDepth geometry integration
+Imported original Apache-2.0 GeoDepth geometry contract from Omega Studio, added bounded camera intrinsics, crop/resize and backprojection operation to existing Python bridge and Studio selector. GEO-01..05 native subprocess tests PASS (including regression of DAG/timebase/tiles). Geometry uses supplied depth with arbitrary scale, not verified measurement or inference. HTTP/GUI/full build not rerun in this increment. [Evidence](OMEGA_STUDIO_GEOMETRY_2026-11-27.md).

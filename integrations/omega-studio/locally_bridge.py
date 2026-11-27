@@ -1,5 +1,7 @@
 """Bounded, data-only adapter for the vendored Omega Studio primitives."""
 import json
+import math
+from dataclasses import asdict
 from pathlib import Path
 import re
 import sys
@@ -8,6 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / 'backend'))
 from omega_actions.ultimate.agent_dag import Task, validate_plan
 from omega_actions.ultimate.cinematic_timebase import FrameRate
 from omega_actions.ultimate.mobile_tile_planner import MemoryProfile, plan_tiles
+
+from omega_actions.ultimate.geodepth_contract import CameraIntrinsics, DepthDefinition
 
 CAPABILITIES = frozenset(('analyze', 'plan', 'verify', 'report'))
 MIB = 1024 * 1024
@@ -28,6 +32,36 @@ def identifier(value):
     if not isinstance(value, str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]{0,63}', value):
         raise ValueError('Invalid identifier')
     return value
+
+
+def finite(value, low, high):
+    if type(value) not in (int, float) or not low <= value <= high or not math.isfinite(value):
+        raise ValueError('Number out of bounds')
+    return float(value)
+
+
+def geometry(v):
+    exact(v, 'operation,camera,crop,point')
+    c = v['camera']
+    exact(c, 'fx,fy,cx,cy,width,height,skew')
+    camera = CameraIntrinsics(fx=finite(c['fx'], 0.001, 1000000), fy=finite(c['fy'], 0.001, 1000000),
+                              cx=finite(c['cx'], -1000000, 1000000), cy=finite(c['cy'], -1000000, 1000000),
+                              width=integer(c['width'], 1, 32768), height=integer(c['height'], 1, 32768),
+                              skew=finite(c['skew'], -1000000, 1000000))
+    if v['crop'] is not None:
+        r = v['crop']
+        exact(r, 'x,y,width,height,outWidth,outHeight')
+        camera = camera.crop_resize(integer(r['x'], 0, 32767), integer(r['y'], 0, 32767),
+                                    *[integer(r[k], 1, 32768) for k in ('width', 'height', 'outWidth', 'outHeight')])
+    p = v['point']
+    exact(p, 'u,v,depth,kind')
+    kind = DepthDefinition(p['kind'])
+    xyz = camera.backproject(finite(p['u'], 0, camera.width - 1), finite(p['v'], 0, camera.height - 1),
+                             finite(p['depth'], 0.000001, 1000000), kind)
+    if not all(math.isfinite(x) for x in xyz):
+        raise ValueError('Nonfinite projection')
+    return {'camera': asdict(camera), 'xyz': xyz, 'depth_definition': kind.value,
+            'unit': 'arbitrary_scale', 'measurement_verified': False}
 
 
 def evaluate(v):
@@ -66,6 +100,8 @@ def evaluate(v):
                            halo=integer(v['halo'], 0, 128), memory=memory, max_tiles=4096)
         result = {'count': len(tiles), 'corePixels': sum(t.core.width * t.core.height for t in tiles),
                   'peakBytes': max(t.working_set_bytes for t in tiles), 'availableBytes': memory.available_bytes}
+    elif op == 'geometry':
+        result = geometry(v)
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}
