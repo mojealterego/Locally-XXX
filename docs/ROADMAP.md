@@ -210,3 +210,6 @@ Imported original CI approval gate and hardened Adaptive CI syntax compiler (`-I
 
 ### 2026-11-28 — OMS Code Swarm / MCP Registry validation
 Imported original Code Swarm, SwarmCoordinator, syntax repair dependency (not exposed) and MCP Registry from pinned Omega Studio. Fixed valid comments-only AST rejection. Added bounded static analysis and disposable configuration validation through Studio selector and HTTP. SW-01..04/MCP-01..03 Python and SW-MCP-HTTP native PASS (8/8). No source or MCP command execution, live endpoint connection, durable registry, self-repair or security certification. Full build/browser/E2E and GATE-09 OPEN. [Evidence](OMEGA_STUDIO_CODE_MCP_2026-11-28.md).
+
+### 2026-11-28 — OMS Holographic Memory Weaver
+Imported and hardened original block-index and bounded-reader components. Persistent local SQLite index for one operator-configured private memory.bin; verified reads, explicit approval, bounded input, cooperative process lock, no mmap truncation risk in the new reader. MEM-01..07 native file/SQLite PASS. Studio selector/bridge/runner wired in source; HTTP/browser/full build NOT_RUN. All 13 prioritized OMS components now have scoped source integrations, not full functional completion. No virtual RAM, neural memory or authenticated index claim. [Evidence](OMEGA_STUDIO_MEMORY_2026-11-28.md).

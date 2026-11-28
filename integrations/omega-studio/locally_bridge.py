@@ -158,6 +158,10 @@ def evaluate(v):
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from analysis_bridge import analyze, validate_registry
         result = analyze(v) if op == 'code-review' else validate_registry(v)
+    elif op in ('memory-index', 'memory-read'):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from memory_bridge import memory_operation
+        result = memory_operation(v, os.environ.get('OMEGA_STUDIO_MEMORY_DIR'))
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}
