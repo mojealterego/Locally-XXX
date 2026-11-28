@@ -136,3 +136,27 @@ On supported POSIX hosts configure OMEGA_STUDIO_MEMORY_DIR as a canonical absolu
 
 ### Persistent Image AI queue (optional)
 Set OMEGA_IMAGE_QUEUE_DIR to an existing private canonical owner directory (0700), and configure OMEGA_COMFY_PORT / OMEGA_COMFY_CHECKPOINT as before. Requires POSIX and Node 22 with node:sqlite. In Image AI use Enqueue, Refresh, then explicitly Run the oldest queued job; direct render is disabled while the queue is configured. Jobs use UUID idempotency and retain their fixed port/checkpoint basename; an expired 180s wall-clock claim or failed runner is UNKNOWN and blocks later work until manual operator acknowledgement after checking the backend. No automatic resubmission or claim of GPU cancellation. At most 16 records total (including terminal jobs) and 8 MiB per result; no deletion/retention API in this increment. Prompts, results and metadata are plaintext in a private SQLite file. Trust the server UID, directory ancestors, system clock and local ComfyUI. No remote or multi-tenant service. Run `node --test test/image-queue.test.mjs` from Enterprise root. HTTP tests use a deterministic PNG fixture; real GPU and GUI remain unverified.
+
+
+## Media queue (image + video, operator opt-in)
+
+Requires Node >=22 with node:sqlite and a POSIX private directory. From the Enterprise root:
+
+```sh
+mkdir -m 700 "$HOME/omega-media"
+export OMEGA_MEDIA_QUEUE_DIR="$HOME/omega-media"
+unset OMEGA_IMAGE_QUEUE_DIR
+node apps/web/media-admin.mjs worker worker.json
+node apps/web/media-admin.mjs register workflow.json
+node apps/web/media-admin.mjs list
+pnpm run build:web
+pnpm run start:web
+```
+
+Before switching modes, stop all legacy servers, finish or manually reconcile all old RUNNING/UNKNOWN jobs and verify that GPUs are idle. The old image database is preserved but not migrated. Use exactly one database and exclusively dedicated ComfyUI processes, one per physical GPU, bound to distinct loopback ports; do not submit directly or from another scheduler. Worker JSON has exactly `{"id":"gpu0","port":8188,"vram":12000,"enabled":true}`; VRAM is declared MiB, not measured. Reapply the same ID, port and VRAM with enabled:false to drain (no cancellation). Do not alias one GPU across multiple ports. No remote hosts.
+
+For workflow.json, export an actual ComfyUI **API format** graph and wrap it in an object with exactly these fields: id (identifier), kind (image/video), minVram (MiB), promptNode (node ID with literal inputs.text), outputNode (save node ID), outputKey (images/videos/gifs, images only for image), graph (the exported object). Configure the model, negative prompt, seed, resolution and duration inside that graph. Use reviewed, installed, trusted nodes only; arbitrary custom nodes may execute code. A video graph must return exactly one output MP4; image graph exactly one PNG. Registering a changed graph creates an immutable content-addressed version. Registration is local CLI only; the browser changes only the selected node's text input. No credentials in workflow files.
+
+Open Video Studio → AI generation queue; refresh, select workflow, type prompt, enqueue, explicitly run oldest waiting job. To run on another GPU while one request is open, use a separate tab and refresh. Acknowledgement of UNKNOWN is allowed only after checking the associated backend is idle; it does not prove success or cancellation. The application does not interrupt remote execution. 16 retained jobs (no purge yet), 64 workflow versions, 16 workers; max output 32 MiB MP4 or 8 MiB PNG. The media queue's database contains unencrypted prompts, workflow graphs and results. File signature/container structure + SHA-256 checks are not complete decode or semantic validation. This mode disables the direct image renderer; the old Image AI panel remains legacy and the combined queue lives in Video Studio. Full app build, browser E2E and GPU execution are unverified.
+
+Targeted tests: `node --test test/media-queue.test.mjs`.

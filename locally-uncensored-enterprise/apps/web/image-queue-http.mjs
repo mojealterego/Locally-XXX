@@ -1,7 +1,7 @@
 import {ImageQueue} from './image-queue.mjs';
 import {runLocalImage} from './image-runner.mjs';
 let queue;
-const local=()=>{if(!process.env.OMEGA_IMAGE_QUEUE_DIR)return null;if(!queue){queue=new ImageQueue({directory:process.env.OMEGA_IMAGE_QUEUE_DIR});process.once('exit',()=>queue.close())}return queue};
+const local=()=>{if(!process.env.OMEGA_IMAGE_QUEUE_DIR||process.env.OMEGA_MEDIA_QUEUE_DIR)return null;if(!queue){queue=new ImageQueue({directory:process.env.OMEGA_IMAGE_QUEUE_DIR});process.once('exit',()=>queue.close())}return queue};
 const config=()=>process.env.OMEGA_COMFY_PORT&&process.env.OMEGA_COMFY_CHECKPOINT?{port:Number(process.env.OMEGA_COMFY_PORT),checkpoint:process.env.OMEGA_COMFY_CHECKPOINT}:null;
 const routes=new Map(['enqueue','list','run','cancel','acknowledge','result'].map(x=>['/api/local/image/jobs/'+x,x]));
 const exact=(v,k)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).sort().join(',')===k;

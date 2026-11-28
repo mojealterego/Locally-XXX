@@ -1,0 +1,5 @@
+import {MediaQueue} from './media-queue.mjs';
+import {openSync,readSync,closeSync,fstatSync,constants} from 'node:fs';
+const [op,file,...extra]=process.argv.slice(2);
+function readSpec(path){const fd=openSync(path,constants.O_RDONLY|constants.O_NOFOLLOW|constants.O_NONBLOCK);try{const st=fstatSync(fd);if(!st.isFile()||st.size>131072)throw Error();const b=Buffer.alloc(131073);let n=0;while(n<b.length){const k=readSync(fd,b,n,b.length-n,null);if(!k)break;n+=k}if(n>131072)throw Error();return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(b.subarray(0,n)))}finally{closeSync(fd)}}
+let q;try{if(extra.length||!['register','worker','list'].includes(op)||Boolean(file)!==(op!=='list')||process.env.OMEGA_IMAGE_QUEUE_DIR||!process.env.OMEGA_MEDIA_QUEUE_DIR)throw Error();q=new MediaQueue(process.env.OMEGA_MEDIA_QUEUE_DIR);if(op==='register')console.log(JSON.stringify({digest:q.register(readSpec(file))}));else if(op==='worker'){q.worker(readSpec(file));console.log(JSON.stringify(q.list().workers))}else console.log(JSON.stringify(q.list()))}catch{console.error('MEDIA_ADMIN_DENIED');process.exitCode=1}finally{q?.close()}

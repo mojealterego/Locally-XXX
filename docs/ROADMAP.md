@@ -216,3 +216,8 @@ Imported and hardened original block-index and bounded-reader components. Persis
 
 ### 2026-11-28 — persistent local Image AI queue
 Implemented an independent bounded FIFO job lifecycle after reviewing Android-AI-Studio (no clear source license, no copied source). Node SQLite transactions, UUID idempotency, explicit run/cancel/unknown acknowledgement, retained PNG/SHA-256, unknown after failure or expired running claim, same-origin HTTP and Image AI panel. Direct image route denied when queue mode configured. IQ-01..07 PASS (real SQLite/HTTP; controlled renderer fixture). No background worker, actual GPU inference, remote status reconciliation, retention/deletion, encryption, multi-tenant auth, browser E2E or full build. ENT-32/33 and GATE-09 remain OPEN. [Evidence](OMEGA_IMAGE_QUEUE_2026-11-28.md).
+
+
+### 2026-11-28 — unified image/video queue, ComfyUI workflow registry and GPU workers
+
+Added opt-in local SQLite queue with immutable SHA-256 workflow versions, CLI-managed logical GPU workers, declared VRAM best-fit FIFO, durable reservation/fencing and UNKNOWN quarantine. Bounded ComfyUI prompt/history/view adapter and PL/EN Video Studio panel; legacy direct image render disabled in media mode. MQ-01..06 native SQLite and HTTP contract tests 6/6 PASS, CLI persistence smoke PASS. MP4 fixture structural only; actual GPU/model/image execution, full web build/browser E2E, remote reconciliation, migration, retention and tenant isolation OPEN. ENT-32/33 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_MEDIA_QUEUE_2026-11-28.md).
