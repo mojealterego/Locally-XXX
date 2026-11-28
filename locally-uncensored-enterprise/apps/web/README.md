@@ -160,3 +160,23 @@ For workflow.json, export an actual ComfyUI **API format** graph and wrap it in 
 Open Video Studio → AI generation queue; refresh, select workflow, type prompt, enqueue, explicitly run oldest waiting job. To run on another GPU while one request is open, use a separate tab and refresh. Acknowledgement of UNKNOWN is allowed only after checking the associated backend is idle; it does not prove success or cancellation. The application does not interrupt remote execution. 16 retained jobs (no purge yet), 64 workflow versions, 16 workers; max output 32 MiB MP4 or 8 MiB PNG. The media queue's database contains unencrypted prompts, workflow graphs and results. File signature/container structure + SHA-256 checks are not complete decode or semantic validation. This mode disables the direct image renderer; the old Image AI panel remains legacy and the combined queue lives in Video Studio. Full app build, browser E2E and GPU execution are unverified.
 
 Targeted tests: `node --test test/media-queue.test.mjs`.
+
+## Automatic media scheduler and history recovery
+
+With the same private media queue directory and dedicated loopback ComfyUI instances configured as above, run from the Enterprise root:
+
+```sh
+node apps/web/media-scheduler-cli.mjs --approve-all-queued 2
+```
+
+The explicit flag authorizes **all existing and future queued jobs** while the process is running. Start only on a trusted single-operator host; this is not per-job approval. The argument is a per-process parallel limit (1–16), not a global budget. SQLite still enforces one active or unknown job per logical worker across connections. Strict FIFO can block smaller jobs behind a job with no eligible GPU. The process polls the queue every second and does not retry or resubmit failed jobs. SIGINT/SIGTERM stops admissions, aborts local waits, and records uncertain work as UNKNOWN; remote ComfyUI execution may continue. Manual GUI execution remains compatible. Run and supervise the process yourself; it is not started by the web server.
+
+To attempt recovery of one UNKNOWN job (replace JOB_ID with its UUID):
+
+```sh
+node apps/web/media-scheduler-cli.mjs --recover JOB_ID
+```
+
+Recovery performs a single bounded history query and, for a recorded successful completion, fetches and validates the declared output. It uses only GET and never resubmits. Missing, incomplete, failed or unavailable history leaves UNKNOWN unchanged. A competing acknowledgement invalidates the recovery write. Exit 0 indicates recovered, 2 not recovered, 1 a configuration or execution error. This assumes trusted dedicated backend and preserved history; no proof of model execution, cancellation, or hardware identity is supplied.
+
+Targeted regression: `node --test test/media-queue.test.mjs test/media-scheduler.test.mjs`.

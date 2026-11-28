@@ -221,3 +221,8 @@ Implemented an independent bounded FIFO job lifecycle after reviewing Android-AI
 ### 2026-11-28 — unified image/video queue, ComfyUI workflow registry and GPU workers
 
 Added opt-in local SQLite queue with immutable SHA-256 workflow versions, CLI-managed logical GPU workers, declared VRAM best-fit FIFO, durable reservation/fencing and UNKNOWN quarantine. Bounded ComfyUI prompt/history/view adapter and PL/EN Video Studio panel; legacy direct image render disabled in media mode. MQ-01..06 native SQLite and HTTP contract tests 6/6 PASS, CLI persistence smoke PASS. MP4 fixture structural only; actual GPU/model/image execution, full web build/browser E2E, remote reconciliation, migration, retention and tenant isolation OPEN. ENT-32/33 PARTIAL, GATE-09 OPEN. [Evidence](OMEGA_MEDIA_QUEUE_2026-11-28.md).
+
+
+### 2026-11-28 — MEDIA-12 / MEDIA-16: automatic dispatch and read-only history recovery
+
+Added opt-in local scheduler CLI, atomic FIFO claimNext, bounded per-process parallelism, signal shutdown and durable quarantine; GET-only successful-history recovery with transactional state recheck. MS-01..05 and MQ-01..06 regression: 11/11 PASS; CLI startup/SIGTERM smoke PASS. No automatic retries or failed/absent-history release. MEDIA-12 implemented/scoped tested, MEDIA-16 partial; live GPU, full build, browser E2E, telemetry and remaining media milestones OPEN. [Evidence](OMEGA_MEDIA_SCHEDULER_2026-11-28.md). GATE-09 OPEN.
