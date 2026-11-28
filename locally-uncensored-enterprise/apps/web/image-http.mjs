@@ -5,6 +5,7 @@ export async function handleImageHttp(req,res,port,{getConfig=config,runner=runL
  const fail=n=>{if(res.destroyed)return;if(res.headersSent){res.destroy();return}res.statusCode=n;res.setHeader('cache-control','no-store');res.end('Request unavailable')};
  if(req.method!=='POST'){fail(405);return true}
  if(!['127.0.0.1:'+port,'localhost:'+port].includes(req.headers.host)||!['http://127.0.0.1:'+port,'http://localhost:'+port].includes(req.headers.origin)||req.headers['content-type']!=='application/json'||req.headers['x-omega-image']!=='1'){fail(403);return true}
+ if(process.env.OMEGA_IMAGE_QUEUE_DIR){fail(409);return true}
  const c=getConfig();if(!c){fail(503);return true}
  let n=0;const parts=[];for await(const b of req){n+=b.length;if(n>16384){fail(413);return true}parts.push(b)}
  let value;try{value=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(parts)));buildImageWorkflow(value,c)}catch{fail(400);return true}

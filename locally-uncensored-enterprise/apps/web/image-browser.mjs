@@ -1,3 +1,4 @@
+import {mountImageQueue} from './image-queue-browser.mjs';
 /** Local ComfyUI checkpoint workflow; no model downloads or arbitrary node execution. */
 export function mountImageStudio(root,{locale='pl'}={}){
  if(!root||typeof root.append!=='function'||!['pl','en'].includes(locale))throw Error('Invalid image mount');
@@ -7,13 +8,15 @@ export function mountImageStudio(root,{locale='pl'}={}){
  const prompt=el('textarea',undefined,el('label',t('Opis obrazu','Image prompt')));prompt.maxLength=4096;prompt.rows=5;const negative=el('textarea',undefined,el('label',t('Prompt negatywny','Negative prompt')));negative.maxLength=2048;negative.rows=3;
  const fields={};for(const [id,pl,en,min,max,step,initial] of [['width','Szerokość','Width',256,1024,64,512],['height','Wysokość','Height',256,1024,64,512],['steps','Kroki','Steps',1,40,1,20],['seed','Seed','Seed',0,4294967295,1,42]]){const n=el('input',undefined,el('label',t(pl,en)));n.type='number';n.min=String(min);n.max=String(max);n.step=String(step);n.value=String(initial);fields[id]=n}
  const run=el('button',t('Generuj lokalnie','Generate locally')),cancel=el('button',t('Anuluj oczekiwanie','Cancel waiting'));run.type=cancel.type='button';cancel.disabled=true;const status=el('p','');status.setAttribute('role','status');const output=el('div');
+ const getInput=()=>({prompt:prompt.value,negative:negative.value,...Object.fromEntries(Object.entries(fields).map(([key,node])=>[key,node.value.trim()===''?NaN:Number(node.value)]))});
+ const queue=mountImageQueue(el('section'),{locale,getInput});
  function clear(){if(url){URL.revokeObjectURL(url);url=null}output.replaceChildren()}
  function busy(v){run.disabled=v;cancel.disabled=!v;for(const field of [prompt,negative,...Object.values(fields)])field.disabled=v}
  cancel.onclick=()=>{controller?.abort();status.textContent=t('Przerwano oczekiwanie; zadanie może nadal pracować.','Waiting cancelled; backend job may continue.')};
  run.onclick=async()=>{if(!active||controller)return;clear();const c=new AbortController();controller=c;busy(true);status.textContent=t('Oczekiwanie na ComfyUI…','Waiting for ComfyUI…');try{
-  const value={prompt:prompt.value,negative:negative.value,...Object.fromEntries(Object.entries(fields).map(([key,node])=>[key,node.value.trim()===''?NaN:Number(node.value)]))};
-  const r=await fetch('/api/local/image/render',{method:'POST',headers:{'content-type':'application/json','x-omega-image':'1'},body:JSON.stringify(value),credentials:'same-origin',cache:'no-store',redirect:'error',signal:AbortSignal.any([c.signal,AbortSignal.timeout(155000)])});if(r.status===503)throw Error('NOT_CONFIGURED');if(!r.ok||r.headers.get('content-type')!=='image/png')throw Error('IMAGE_FAILED');
+  const value=getInput();
+  const r=await fetch('/api/local/image/render',{method:'POST',headers:{'content-type':'application/json','x-omega-image':'1'},body:JSON.stringify(value),credentials:'same-origin',cache:'no-store',redirect:'error',signal:AbortSignal.any([c.signal,AbortSignal.timeout(155000)])});if(r.status===503)throw Error('NOT_CONFIGURED');if(r.status===409)throw Error('QUEUE_MODE');if(!r.ok||r.headers.get('content-type')!=='image/png')throw Error('IMAGE_FAILED');
   const blob=await r.blob();if(blob.size<33||blob.size>8*1024*1024)throw Error('IMAGE_FAILED');if(!active||controller!==c||c.signal.aborted)return;url=URL.createObjectURL(blob);const img=el('img',undefined,output);img.src=url;img.alt=t('Wynik generowania','Generated result');img.style.maxWidth='100%';const link=el('a',t('Pobierz PNG','Download PNG'),output);link.href=url;link.download='omega-image.png';status.textContent=t('Odebrano obraz z lokalnego backendu.','Received image from local backend.');
- }catch(e){if(active&&controller===c&&!c.signal.aborted)status.textContent=e.message==='NOT_CONFIGURED'?t('Ustaw OMEGA_COMFY_PORT i OMEGA_COMFY_CHECKPOINT na serwerze.','Set OMEGA_COMFY_PORT and OMEGA_COMFY_CHECKPOINT on the server.'):t('Generowanie odrzucone, limit przekroczony lub backend niedostępny.','Generation rejected, limit exceeded or backend unavailable.')}finally{if(controller===c){controller=null;if(active)busy(false)}}};
- return {dispose(){active=false;controller?.abort();clear();prompt.value=negative.value='';busy(true);cancel.disabled=true}};
+ }catch(e){if(active&&controller===c&&!c.signal.aborted)status.textContent=e.message==='NOT_CONFIGURED'?t('Ustaw OMEGA_COMFY_PORT i OMEGA_COMFY_CHECKPOINT na serwerze.','Set OMEGA_COMFY_PORT and OMEGA_COMFY_CHECKPOINT on the server.'):e.message==='QUEUE_MODE'?t('Tryb kolejki aktywny. Użyj panelu kolejki.','Queue mode active. Use the queue panel.'):t('Generowanie odrzucone, limit przekroczony lub backend niedostępny.','Generation rejected, limit exceeded or backend unavailable.')}finally{if(controller===c){controller=null;if(active)busy(false)}}};
+ return {dispose(){active=false;queue.dispose();controller?.abort();clear();prompt.value=negative.value='';busy(true);cancel.disabled=true}};
 }
