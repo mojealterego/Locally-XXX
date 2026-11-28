@@ -207,3 +207,6 @@ Imported original Safetensors Guard parser and Pareto LoRA structural audit; POS
 
 ### 2026-11-27 — OMS Adaptive CI / CI Singularity
 Imported original CI approval gate and hardened Adaptive CI syntax compiler (`-I -S` to prevent workspace module shadowing). New approved disposable Python source snapshot operation, SHA-256 manifest, local compiler and explicit PASS/FAIL; 16 files/24 KiB, 3s compiler deadline, no source execution. CI-01..05 native Python and CI-06 real HTTP PASS, original module shadowing regression reproduced. Full repo runner, tests/build/deploy orchestration, durable approvals, OS sandbox, full GUI and release OPEN. [Evidence](OMEGA_STUDIO_LOCAL_CI_2026-11-27.md).
+
+### 2026-11-28 — OMS Code Swarm / MCP Registry validation
+Imported original Code Swarm, SwarmCoordinator, syntax repair dependency (not exposed) and MCP Registry from pinned Omega Studio. Fixed valid comments-only AST rejection. Added bounded static analysis and disposable configuration validation through Studio selector and HTTP. SW-01..04/MCP-01..03 Python and SW-MCP-HTTP native PASS (8/8). No source or MCP command execution, live endpoint connection, durable registry, self-repair or security certification. Full build/browser/E2E and GATE-09 OPEN. [Evidence](OMEGA_STUDIO_CODE_MCP_2026-11-28.md).

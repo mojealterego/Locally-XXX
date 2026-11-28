@@ -154,6 +154,10 @@ def evaluate(v):
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from ci_compile_bridge import compile_snapshot
         result = compile_snapshot(v)
+    elif op in ('code-review', 'mcp-validate'):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from analysis_bridge import analyze, validate_registry
+        result = analyze(v) if op == 'code-review' else validate_registry(v)
     else:
         raise ValueError('Unknown operation')
     return {'schema': 'omega.studio.bridge.v1', 'operation': op, 'executed': False, 'result': result}
